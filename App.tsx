@@ -9,11 +9,13 @@ import AntIcons from '@expo/vector-icons/AntDesign';
 import {LinearGradient} from 'expo-linear-gradient';
 import fonts from './src/themes/fonts';
 import ClubCard from './src/components/ClubCard';
+import HomeScreen from './src/screens/HomeScreen/HomeScreen';
+
 export default function App() {
   
   return (
     <View style={styles.container}>
-      <ClubCard/>
+      <HomeScreen/>
     </View>
   );
 }
@@ -22,6 +24,5 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
   },
 });
