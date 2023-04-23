@@ -5,17 +5,16 @@ import React, { useState } from 'react';
 import  font from './src/themes/fonts';
 import {Image} from 'expo-image';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { LinearGradient } from 'react-native-linear-gradient';
+import {LinearGradient} from 'expo-linear-gradient';
+import fonts from './src/themes/fonts';
 export default function App() {
 
 
   const images = [
-    "https://picsum.photos/seed/630/3000/2000",
-    "https://picsum.photos/seed/696/3000/2000",
-    "https://picsum.photos/seed/695/3000/2000",
-    "https://picsum.photos/seed/697/3000/2000",
-    "https://picsum.photos/seed/664/3000/2000",
-    "https://picsum.photos/seed/633/3000/2000",
+    "https://picsum.photos/seed/10/3000/2000",
+    "https://picsum.photos/seed/11/3000/2000",
+    "https://picsum.photos/seed/12/3000/2000",
+    "https://picsum.photos/seed/13/3000/2000",
   ];
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const { width } = Dimensions.get('window');
@@ -61,7 +60,16 @@ export default function App() {
             />
           ))}
         </View>
-      
+
+        {/* Attention test */}
+        <LinearGradient
+            end={{x: 0, y: 0.5}}
+            start={{x: 0, y: 1}}
+            colors={['rgba(0,0,0,0.5)', 'transparent']}
+            style={{height: '100%', width: '100%', opacity: 0.8, position: 'absolute', top: 0}}>
+              
+        </LinearGradient>
+          {/* fin du test */}
       </View>
     </View>
   );
@@ -77,7 +85,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backGroundImage: 'linear-gradient(180deg, #000000 0%, rgba(0, 0, 0, 0) 100%)',
+    // backGroundImage: 'linear-gradient(180deg, #555555 0%, rgba(0, 0, 0, 0) 100%)',
     position: 'relative',
   },
 
@@ -86,12 +94,14 @@ const styles = StyleSheet.create({
     height: "100%",
     position: 'absolute',
     left: 0,
+    zIndex: 1,
   },
   rightButton: {
     width: "50%",
     height: "100%",
     position: 'absolute',
     right: 0,
+    zIndex: 1,
   },
   image: {
     flex: 1,
@@ -107,5 +117,6 @@ const styles = StyleSheet.create({
     top: 0,
     paddingHorizontal: 5,
     overflow: 'hidden',
+
   },
 });
