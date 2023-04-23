@@ -1,0 +1,54 @@
+[
+    {
+        "id": "1",
+        "title": "Katar'Art Dojo",
+        "geo_point":"48.828903, 2.334184",
+        "category": "Sport et activités de plein air",
+        "subcategory": "Arts martiaux (karaté, aïkido, etc.)",
+        "object": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic repellendus unde blanditiis. Eos fugiat dolorem ea fugit aut sapiente corrupti autem dolores deleniti architecto, omnis, amet unde dignissimos quam minima?",
+        "images": [
+            "https://picsum.photos/seed/13/3000/2000",
+            "https://picsum.photos/seed/14/3000/2000",
+            "https://picsum.photos/seed/134/3000/2000"
+        ]
+    },
+    {
+        "id": "2",
+        "title": "Association de protection de la nature et de l'environnement",
+        "geo_point":"48.828903, 2.334184",
+        "category": "Environnement, cadre de vie",
+        "subcategory": "Protection de sites naturels",
+        "object": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic repellendus unde blanditiis. Eos fugiat dolorem ea fugit aut sapiente corrupti autem dolores deleniti architecto, omnis, amet unde dignissimos quam minima?",
+        "images": [
+            "https://picsum.photos/seed/15/3000/2000",
+            "https://picsum.photos/seed/16/3000/2000",
+            "https://picsum.photos/seed/16/3000/2000",
+            "https://picsum.photos/seed/11/3000/2000"
+        ]
+    },
+    {
+        "id": "3",
+        "title": "Salésienne Paris 17",
+        "geo_point":"48.828903, 2.334184",
+        "category": "Sport et activités de plein air",
+        "subcategory": "Football (football, futsal)",
+        "object": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic repellendus unde blanditiis. Eos fugiat dolorem ea fugit aut sapiente corrupti autem dolores deleniti architecto, omnis, amet unde dignissimos quam minima?",
+        "images": [
+            "https://picsum.photos/seed/17/3000/2000",
+            "https://picsum.photos/seed/137/3000/2000"
+        ]
+    },
+    {
+        "id": "4",
+        "title": "Les amis du château de Versailles",
+        "geo_point":"48.828903, 2.334184",
+        "category": "Culture, patrimoine",
+        "subcategory": "Protection et valorisation du patrimoine",
+        "object": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic repellendus unde blanditiis. Eos fugiat dolorem ea fugit aut sapiente corrupti autem dolores deleniti architecto, omnis, amet unde dignissimos quam minima?",
+        "images": [
+            "https://picsum.photos/seed/18/3000/2000",
+            "https://picsum.photos/seed/19/3000/2000",
+            "https://picsum.photos/seed/20/3000/2000"
+        ]
+    }
+]
