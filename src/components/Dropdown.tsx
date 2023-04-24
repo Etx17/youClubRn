@@ -9,10 +9,10 @@ interface IDropdownProps {
     style?: any;
     disabled?: boolean;
     onValueChange?: (value: any) => void;
-    value?: String | null;
+    valuecat?: String | null;
 }
 
-const Dropdown = ({style, disabled, onValueChange}: IDropdownProps) => {
+const Dropdown = ({style, disabled, onValueChange, valuecat}: IDropdownProps) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([
@@ -34,8 +34,8 @@ const Dropdown = ({style, disabled, onValueChange}: IDropdownProps) => {
       itemProps={{numberOfLines: 3, style: { fontSize: 12, color: 'black', display: 'flex', flexDirection: 'row', alignItems: 'center'}}}
       setOpen={setOpen}
       setValue={setValue}
-      onChangeValue={(value) => {
-        console.log(value);
+      onChangeValue={(valuecat) => {
+        onValueChange && onValueChange(valuecat);
       }}
       setItems={setItems}
       modalProps={{

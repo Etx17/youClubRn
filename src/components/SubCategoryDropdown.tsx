@@ -6,10 +6,10 @@ interface IDropdownProps {
     style?: any;
     disabled?: boolean;
     onValueChange?: (value: any) => void;
-    value2?: String | null;
+    valuesub?: String | null;
 }
 
-const SubCategoryDropdown = ({style, disabled, onValueChange}: IDropdownProps) => {
+const SubCategoryDropdown = ({style, disabled, onValueChange, valuesub}: IDropdownProps) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([
@@ -17,12 +17,6 @@ const SubCategoryDropdown = ({style, disabled, onValueChange}: IDropdownProps) =
     {label: 'Orange', value: 'orange'}
   ]);
 
-  const handleSubCategoryChange = (value) => {
-    setValue(value);
-    if (onValueChange) {
-      onValueChange(value);
-    }
-  };
   return (
 
     <DropDownPicker
@@ -36,8 +30,8 @@ const SubCategoryDropdown = ({style, disabled, onValueChange}: IDropdownProps) =
       labelProps={{ numberOfLines: 2, style: { fontSize: 16, color: 'black'} }}
       setOpen={setOpen}
       setValue={setValue}
-      onChangeValue={(value) => {
-        console.log(value);
+      onChangeValue={(valuesub) => {
+        onValueChange && onValueChange(valuesub);
       }}
       setItems={setItems}
       modalProps={{

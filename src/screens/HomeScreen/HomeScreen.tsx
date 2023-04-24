@@ -5,15 +5,34 @@ import Dropdown from '../../components/Dropdown';
 import SubCategoryDropdown from '../../components/SubCategoryDropdown';
 
 const HomeScreen = () => {
-  const [dropdownValue1, setDropdownValue1] = useState(null);
-  const [dropdownValue2, setDropdownValue2] = useState(null);
+  const [dropdownValue, setDropdownValue] = useState(null);
+  const [subCategoryDropdownValue, setSubCategoryDropdownValue] = useState(null);
 
+  const handleDropdownValueChange = (valuecat: any) => {
+    setDropdownValue(valuecat);
+    // console.log('Dropdown value:', valueOk);
+  };
+
+  const handleSubCategoryDropdownValueChange = (valuesub: any) => {
+    setSubCategoryDropdownValue(valuesub);
+    // console.log('Dropdown value:', valuesub);
+  };
+
+  console.log(dropdownValue, subCategoryDropdownValue)
 return (
   
   <View style={styles.container }>
     <View style={styles.dropdownContainer}>
-      <Dropdown style={{ flex: 1 }}  />
-      <SubCategoryDropdown style={{ flex: 1 }}  />
+      <Dropdown 
+        style={{ flex: 1 }} 
+        valuecat={dropdownValue}
+        onValueChange={handleDropdownValueChange} 
+      />
+      <SubCategoryDropdown 
+        style={{ flex: 1 }}  
+        valuesub={subCategoryDropdownValue}
+        onValueChange={handleSubCategoryDropdownValueChange} 
+      />
     </View>
     <ClubCard/>
   </View>
