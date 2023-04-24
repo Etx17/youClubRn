@@ -30,7 +30,8 @@ const Dropdown = ({style, disabled, onValueChange, valuecat}: IDropdownProps) =>
       zIndex={2}
       placeholder="Select a category"
       containerStyle={[{ zIndex: 2 }, style]}
-      labelProps={{ numberOfLines: 2, style: { fontSize: 16, color: 'black'} }}
+      ellipsizeMode="tail"
+      labelProps={{ numberOfLines: 1,  style: { fontSize: 16, color: 'black'} }}
       itemProps={{numberOfLines: 3, style: { fontSize: 12, color: 'black', display: 'flex', flexDirection: 'row', alignItems: 'center'}}}
       setOpen={setOpen}
       setValue={setValue}
@@ -51,6 +52,7 @@ const Dropdown = ({style, disabled, onValueChange, valuecat}: IDropdownProps) =>
         borderWidth: 0,
         borderRadius: 5,
         marginVertical: 5,
+        overflow: 'hidden',
       }}
     />
     
