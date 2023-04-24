@@ -1,12 +1,17 @@
 import React, {useState} from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions, Pressable } from 'react-native';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
 import colors from '../themes/colors';
 import {Image} from 'expo-image';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AntIcons from '@expo/vector-icons/AntDesign';
 import fonts from '../themes/fonts';
-const ClubCard = () => {
+
+interface IClubCardProps {
+  zIndex?: number;
+}
+
+const ClubCard = ({ zIndex }: IClubCardProps) => {
 
     const images = [
       "https://picsum.photos/seed/12/3000/2000",
@@ -88,6 +93,7 @@ const styles = StyleSheet.create({
       position: 'relative',
       borderRadius: 10,
       overflow: 'hidden',
+      
     },
     leftButton: {
       width: "50%",

@@ -1,6 +1,7 @@
 import DropDownPicker from 'react-native-dropdown-picker';
 import React, { useState } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, ScrollView } from 'react-native';
+import colors from '../themes/colors';
 
 interface IDropdownProps {
     style?: any;
@@ -18,12 +19,17 @@ const SubCategoryDropdown = ({style, disabled, onValueChange, valuesub}: IDropdo
   ]);
 
   return (
-
+    // <ScrollView nestedScrollEnabled style={{flex: 1}}>
     <DropDownPicker
       open={open}
       value={value}
       items={items}
       zIndex={2}
+      listMode="MODAL"
+      modalProps={{
+        animationType: 'fade', // Change the modal animation type
+        transparent: false, // Make the modal background transparent
+      }}
       placeholder="Select a sub-category"
       disabled={disabled? true : false}
       containerStyle={[{ zIndex: 2 }, style]}
@@ -34,22 +40,19 @@ const SubCategoryDropdown = ({style, disabled, onValueChange, valuesub}: IDropdo
         onValueChange && onValueChange(valuesub);
       }}
       setItems={setItems}
-      modalProps={{
-        animationType: 'fade', // Change the modal animation type
-        transparent: true, // Make the modal background transparent
-      }}
       dropDownContainerStyle={{
         backgroundColor: 'white',
         borderRadius: 5,
       }}
       style={{
-        backgroundColor: 'lightblue',
-        borderWidth: 0,
+        backgroundColor: 'white',
+        borderWidth: 1,
+        borderColor: colors.dark,
         borderRadius: 5,
         marginVertical: 5,
       }}
     />
-    
+    // </ScrollView>
   );
 }
 

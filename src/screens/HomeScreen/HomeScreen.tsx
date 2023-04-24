@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
-import { View, StyleSheet }  from 'react-native';
+import { View, StyleSheet, ScrollView }  from 'react-native';
 import ClubCard from '../../components/ClubCard';
 import Dropdown from '../../components/Dropdown';
 import SubCategoryDropdown from '../../components/SubCategoryDropdown';
+
 
 const HomeScreen = () => {
   const [dropdownValue, setDropdownValue] = useState(null);
@@ -15,11 +16,11 @@ const HomeScreen = () => {
 
   const handleSubCategoryDropdownValueChange = (valuesub: any) => {
     setSubCategoryDropdownValue(valuesub);
-    // console.log('Dropdown value:', valuesub);
+    // console.log('Dropdown value:', valuesub);  
   };
 
   console.log(dropdownValue, subCategoryDropdownValue)
-return (
+return ( 
   
   <View style={styles.container }>
     <View style={styles.dropdownContainer}>
@@ -34,19 +35,20 @@ return (
         onValueChange={handleSubCategoryDropdownValueChange} 
       />
     </View>
-    <ClubCard/>
+    <ClubCard />
   </View>
 
 );}
 const styles = StyleSheet.create({
   container: {
     flex: 1, 
-    padding: 5
+    padding: 5,
   },
   dropdownContainer: {
     zIndex: 3000,
     flexDirection: 'row',
     gap: 5,
+    // zIndex: 3000,
   },
 })
 
