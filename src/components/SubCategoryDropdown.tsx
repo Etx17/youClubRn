@@ -27,7 +27,7 @@ const SubCategoryDropdown = ({style, disabled, onValueChange, valuesub, category
       items={subcategories[categoryName] || []}
       maxHeight={300}
       autoScroll={true}
-      placeholder="Select a category"
+      placeholder="Sous catégorie"
       containerStyle={[style]}
       labelProps={{ numberOfLines: 1,  style: { fontSize: 18, color: 'black'} }}
       setOpen={setOpen}
@@ -44,11 +44,12 @@ const SubCategoryDropdown = ({style, disabled, onValueChange, valuesub, category
         animationType: 'fade', // Change the modal animation type
       }}
       style={{
-        backgroundColor: 'white',
-        borderWidth: 1,
+        backgroundColor: colors.grayLight,
+        borderWidth: 0,
         borderRadius: 5,
         marginVertical: 5,
         overflow: 'hidden',
+        elevation: 4
       }}
       disabledStyle={{
         opacity: 0.5

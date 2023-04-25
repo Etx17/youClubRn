@@ -24,7 +24,7 @@ const HomeScreen = () => {
       
   //   }
   // }, [dropdownValue])
-  
+
   console.log(dropdownValue, subCategoryDropdownValue)
 return ( 
   
@@ -49,13 +49,12 @@ return (
 const styles = StyleSheet.create({
   container: {
     flex: 1, 
-    padding: 5,
+    padding: 8,
   },
   dropdownContainer: {
     zIndex: 3000,
     flexDirection: 'row',
-    gap: 5,
-    // zIndex: 3000,
+    gap: 8,
   },
 })
 

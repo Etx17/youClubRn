@@ -6,6 +6,7 @@ import { ScrollView, Text, View, FlatList  } from 'react-native';
 import colors from '../themes/colors';
 import categories from '../assets/data/categories';
 import { BorderBottomOutlined } from '@ant-design/icons';
+import { LinearGradient } from 'expo-linear-gradient'
 
 interface IDropdownProps {
     style?: any;
@@ -13,6 +14,7 @@ interface IDropdownProps {
     onValueChange?: (value: any) => void;
     valuecat?: String | null;
 }
+const gradientColors = ['#00FF00', '#008000'];
 
 const Dropdown = ({style, disabled, onValueChange, valuecat}: IDropdownProps) => {
   const [open, setOpen] = useState(false);
@@ -23,14 +25,13 @@ const Dropdown = ({style, disabled, onValueChange, valuecat}: IDropdownProps) =>
   // ]);
 
   return (
-
     <DropDownPicker
       open={open}
       value={value}
       items={categories}
       maxHeight={300}
       autoScroll={true}
-      placeholder="Select a category"
+      placeholder="Catégorie"
       containerStyle={[style]}
       labelProps={{ numberOfLines: 1,  style: { fontSize: 18, color: 'black'} }}
       setOpen={setOpen}
@@ -47,11 +48,13 @@ const Dropdown = ({style, disabled, onValueChange, valuecat}: IDropdownProps) =>
         animationType: 'fade', // Change the modal animation type
       }}
       style={{
-        backgroundColor: 'white',
-        borderWidth: 1,
+        backgroundColor: colors.grayLight,
+        borderWidth: 0,
         borderRadius: 5,
         marginVertical: 5,
         overflow: 'hidden',
+        elevation: 8,
+
       }}
       disabledStyle={{
         opacity: 0.5
@@ -60,7 +63,6 @@ const Dropdown = ({style, disabled, onValueChange, valuecat}: IDropdownProps) =>
         fontSize: 16,
       }}
     />
-
   );
 }
 
