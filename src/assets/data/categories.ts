@@ -5,7 +5,7 @@ interface Category {
 
 const categories: Category[] = [
   { label: "🎨 Art et Culture", value: "artistic_activities" },
-  { label: "⚽ Sports et activités de plein air", value: "outdoor_sports" },
+  { label: "⚽ Sports et activités de plein air", value: "sports" },
   { label: "👫 Amicales, groupements affinitaires, groupes d'entraide", value: "community_support" },
   { label: "🎓 Éducation et formation", value: "education_training" },
   { label: "🎉 Clubs de loisirs et de rencontres", value: "clubs_relationships" },
@@ -22,11 +22,11 @@ const categories: Category[] = [
   { label: "🏰 Préservation du patrimoine", value: "heritage_preservation" },
   { label: "🙏 Activités religieuses, spirituelles ou philosophiques", value: "religion_spirituality" },
   { label: "👪 Services familiaux et aux personnes âgées", value: "family_elderly_services" },
-  { label: "🗳️ Activités politiques", value: "politics_government" },
+  { label: "🗳️ Activités politiques", value: "politics_activities" },
   { label: "💭 Clubs et cercles de réflexion", value: "reflection_debate" },
   { label: "🎣 Chasse et pêche", value: "hunting_fishing" },
   { label: "🏥 Services et établissements médico-sociaux", value: "medical_social_care" },
-  { label: "🏠 Logement", value: "housing_realestate" },
+  { label: "🏠 Logement", value: "housing" },
   { label: "🔬 Recherche et innovation", value: "research_innovation" },
   { label: "🎖️ Armée (dont préparation militaire, médailles)", value: "military_defense" },
   { label: "🌍 Tourisme", value: "travel_tourism" },

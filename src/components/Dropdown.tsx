@@ -16,7 +16,7 @@ interface IDropdownProps {
 
 const Dropdown = ({style, disabled, onValueChange, valuecat}: IDropdownProps) => {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("outdoor_sports");
+  const [value, setValue] = useState(null);
   // const [items, setItems] = useState([
   //   { label: "Activités artistiques et culturelles", value: "1", icon:  () => <Text>🎨</Text> },
   //   { label: "Sports, activités de plein air", value: "2", icon: () => <Text>🏃‍♀️</Text>},
@@ -58,10 +58,6 @@ const Dropdown = ({style, disabled, onValueChange, valuecat}: IDropdownProps) =>
       }}
       textStyle={{
         fontSize: 16,
-        // borderColor: colors.light,
-        // borderTopWidth: 1,
-        // borderRadius: 5,
-        
       }}
     />
 
