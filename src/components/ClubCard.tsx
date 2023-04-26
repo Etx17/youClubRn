@@ -7,20 +7,32 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import AntIcons from '@expo/vector-icons/AntDesign';
 import fonts from '../themes/fonts';
 import { useNavigation } from '@react-navigation/native';
+
+interface IClub {
+  id: number;
+  title: string;
+  rna_number: string;
+  geo_point: string;
+  object: string;
+  category: string;
+  subcategory: string;
+  images: [string]
+  actual_zipcode: string;
+}
 interface IClubCardProps {
-  zIndex?: number;
+  data: IClub
 }
 
-const ClubCard = ({ zIndex }: IClubCardProps) => {
-  
+const ClubCard = ({data}: IClubCardProps) => {
+    
     const navigation = useNavigation();
-
-    const images = [
-      "https://picsum.photos/seed/12/3000/2000",
-      "https://picsum.photos/seed/10/3000/2000",
-      "https://picsum.photos/seed/11/3000/2000",
-      "https://picsum.photos/seed/13/3000/2000",
-    ];
+    const {id, title, object, category, subcategory, images, actual_zipcode} = data;
+    // const images = [
+    //   "https://picsum.photos/seed/12/3000/2000",
+    //   "https://picsum.photos/seed/10/3000/2000",
+    //   "https://picsum.photos/seed/11/3000/2000",
+    //   "https://picsum.photos/seed/13/3000/2000",
+    // ];
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const changeImage = (direction: String) => {
       if (direction === 'left') {
@@ -62,8 +74,8 @@ const ClubCard = ({ zIndex }: IClubCardProps) => {
 
         {/* Title and arrow */}
         <View style={styles.titleContainer}>
-          <Text style={styles.title} numberOfLines={2}>Katan'Art Dojo </Text>
-          <Pressable onPress={() => navigation.navigate('ClubDetails', {clubId: 1})}>
+          <Text style={styles.title} numberOfLines={2}>{title}</Text>
+          <Pressable onPress={() => navigation.navigate('ClubDetails', {clubId: id})}>
             <AntIcons name="arrowright" size={40} color={colors.primaryLighter} style={{ textAlign: 'center', textShadowColor: 'rgba(0, 0, 0, 0.30)', textShadowOffset: {width: 1, height: 1}, textShadowRadius: 7  }} />
           </Pressable>
         </View>
@@ -74,11 +86,16 @@ const ClubCard = ({ zIndex }: IClubCardProps) => {
         </Text>
 
         {/* Description */}
-        <Text style={styles.object} numberOfLines={3}>Basée sur la thérapie d'expression, MaîChaî _Ka c'est de la danse, de l'art, de l'écriture, et des coaching aux vibrations du ka, entre langage verbal et non verbal; les femmes investiront du temps pour elles dans le cadre de l'affirmation de soi et la réconciliation du corps</Text>
+        <Text style={styles.object} numberOfLines={3}>{object}</Text>
       </View>
-      <Pressable onPress={() => console.log('clicked liked button')}>
-        <AntIcons name="hearto" size={24} color="white" style={{textAlign: 'center', paddingBottom: 15}} />
-      </Pressable>
+      <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}}>
+        <Pressable onPress={() => console.log('clicked phone button')}>
+          <AntIcons name="phone" size={20} color="white" style={{textAlign: 'center', paddingBottom: 15}} />
+        </Pressable>
+        <Pressable onPress={() => console.log('clicked liked button')}>
+          <AntIcons name="hearto" size={20} color="white" style={{textAlign: 'center', paddingBottom: 15}} />
+        </Pressable>
+      </View>
     </LinearGradient>
   </View>
   )

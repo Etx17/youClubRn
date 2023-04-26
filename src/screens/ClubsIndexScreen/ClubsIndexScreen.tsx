@@ -3,9 +3,10 @@ import { View, StyleSheet, ScrollView, Text }  from 'react-native';
 import ClubCard from '../../components/ClubCard';
 import Dropdown from '../../components/Dropdown';
 import SubCategoryDropdown from '../../components/SubCategoryDropdown';
-
+import clubs from '../../assets/data/clubs.json';
 
 const ClubsIndexScreen = () => {
+  console.log(clubs[0])
   const [dropdownValue, setDropdownValue] = useState("sports");
   const [subCategoryDropdownValue, setSubCategoryDropdownValue] = useState(null);
 
@@ -43,7 +44,7 @@ return (
         categoryName={dropdownValue || ''}
       />
     </View>
-    <ClubCard />
+    <ClubCard data={clubs[1]}/>
   </View>
 
 );}
