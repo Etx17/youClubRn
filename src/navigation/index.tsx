@@ -1,16 +1,15 @@
-import { LinkingOptions, NavigationContainer } from '@react-navigation/native';
-import HomeScreen from '../screens/HomeScreen/HomeScreen'
+import {  NavigationContainer } from '@react-navigation/native';
+
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-// import { Image } from 'react-native';
-// import instalogo from '../assets/images/instalogo.png';
+
 import {BottomTabNavigatorParamsList, RootNavigatorParamsList} from '../types/navigation'
-// import AuthStackNavigator from './AuthStackNavigator';
-// import { useAuthContext } from '../contexts/AuthContext';
+
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-import { View, ActivityIndicator } from 'react-native';
 import BottomTabNavigator from './BottomTabNavigator';
 import ClubDetailsScreen from '../screens/ClubDetailsScreen/ClubDetailsScreen';
+import TopTabNavigator from './TopTabNavigator';
+
 const Tab = createBottomTabNavigator<BottomTabNavigatorParamsList>();
 const Stack = createNativeStackNavigator<RootNavigatorParamsList>();
 const Navigation = () => {

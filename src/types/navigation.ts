@@ -18,6 +18,11 @@ export type BottomTabNavigatorParamsList = {
     MyProfile: undefined
 };
 
+export type TopTabNavigatorParamsList = {
+    Clubs: undefined
+    Activities: undefined
+};
+
 // export type SearchTabTabNavigatorParamsList = {
 //     Users: undefined
 //     Posts: undefined

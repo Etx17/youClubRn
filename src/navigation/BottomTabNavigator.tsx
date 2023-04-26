@@ -6,6 +6,7 @@ import AntIcons from '@expo/vector-icons/AntDesign';
 import LikesScreen from '../screens/LikesScreen/LikesScreen';
 import { Pressable, Alert } from 'react-native';
 import MyProfileScreen from '../screens/MyProfileScreen/MyProfileScreen';
+import TopTabNavigator from './TopTabNavigator';
 
 const Tab = createBottomTabNavigator<BottomTabNavigatorParamsList>();
 
@@ -17,12 +18,9 @@ const BottomTabNavigator = () => {
         }}>
             <Tab.Screen 
                 name="HomeTab" 
-                component={HomeScreen} 
+                component={TopTabNavigator} 
                 options={{
                   headerShown: false,
-                  /* headerStyle: {
-                    height: 30, // Specify the height of your custom header
-                  }, */
                   tabBarIcon: () => 
                       <AntIcons name="home" size={24} color="black"  />
                 }}
