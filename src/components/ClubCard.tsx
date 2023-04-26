@@ -20,7 +20,8 @@ interface IClub {
   actual_zipcode: string;
 }
 interface IClubCardProps {
-  data: IClub
+  data: any
+  locationData: any
 }
 
 const ClubCard = ({data}: IClubCardProps) => {
