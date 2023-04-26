@@ -95,6 +95,8 @@ const styles = StyleSheet.create({
       position: 'relative',
       borderRadius: 10,
       overflow: 'hidden',
+      borderWidth: 0.8,
+      borderColor: 'rgba(0,0,0,0.2)',
       
     },
     leftButton: {
