@@ -15,11 +15,7 @@ interface IDropdownProps {
 const SubCategoryDropdown = ({style, disabled, onValueChange, valuesub, categoryName}: IDropdownProps) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
-  // const [items, setItems] = useState([
-  //   {label: 'Peach', value: 'peach'},
-  //   {label: 'Orange', value: 'orange'}
-  // ]);
-  
+
   return (
     <DropDownPicker
       open={open}

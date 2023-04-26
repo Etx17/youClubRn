@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { View, StyleSheet, ScrollView }  from 'react-native';
+import { View, StyleSheet, ScrollView, Text }  from 'react-native';
 import ClubCard from '../../components/ClubCard';
 import Dropdown from '../../components/Dropdown';
 import SubCategoryDropdown from '../../components/SubCategoryDropdown';
@@ -29,6 +29,7 @@ const HomeScreen = () => {
 return ( 
   
   <View style={styles.container }>
+
     <View style={styles.dropdownContainer}>
       <Dropdown 
         style={{ flex: 1 }} 

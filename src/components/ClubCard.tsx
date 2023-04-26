@@ -6,12 +6,14 @@ import {Image} from 'expo-image';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AntIcons from '@expo/vector-icons/AntDesign';
 import fonts from '../themes/fonts';
-
+import { useNavigation } from '@react-navigation/native';
 interface IClubCardProps {
   zIndex?: number;
 }
 
 const ClubCard = ({ zIndex }: IClubCardProps) => {
+  
+    const navigation = useNavigation();
 
     const images = [
       "https://picsum.photos/seed/12/3000/2000",
@@ -61,7 +63,7 @@ const ClubCard = ({ zIndex }: IClubCardProps) => {
         {/* Title and arrow */}
         <View style={styles.titleContainer}>
           <Text style={styles.title} numberOfLines={2}>Katan'Art Dojo </Text>
-          <Pressable onPress={() => console.log('clicked')}>
+          <Pressable onPress={() => navigation.navigate('ClubDetails', {clubId: 1})}>
             <AntIcons name="arrowright" size={40} color={colors.primaryLighter} style={{ textAlign: 'center', textShadowColor: 'rgba(0, 0, 0, 0.30)', textShadowOffset: {width: 1, height: 1}, textShadowRadius: 7  }} />
           </Pressable>
         </View>
@@ -74,7 +76,7 @@ const ClubCard = ({ zIndex }: IClubCardProps) => {
         {/* Description */}
         <Text style={styles.object} numberOfLines={3}>Basée sur la thérapie d'expression, MaîChaî _Ka c'est de la danse, de l'art, de l'écriture, et des coaching aux vibrations du ka, entre langage verbal et non verbal; les femmes investiront du temps pour elles dans le cadre de l'affirmation de soi et la réconciliation du corps</Text>
       </View>
-      <Pressable onPress={() => console.log('clicked')}>
+      <Pressable onPress={() => console.log('clicked liked button')}>
         <AntIcons name="hearto" size={24} color="white" style={{textAlign: 'center', paddingBottom: 15}} />
       </Pressable>
     </LinearGradient>

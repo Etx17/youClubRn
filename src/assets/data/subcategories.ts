@@ -109,17 +109,17 @@ const subcategories: ISubcategories = {
         { label: "📻 radioamateurs", value: "ham_radio" }
     ],
     "environment_living":[
-        { label: "🛠️ Défense et amélioration du cadre de vie", value: "cadre_de_vie" },
-        { label: "📚 Éducation à l'environnement et au développement durable", value: "environnement" },
-        { label: "🦜 Protection des animaux", value: "protection_animaux" },
-        { label: "🌱 Mouvements écologiques", value: "mouvements_ecologiques" },
-        { label: "🛡️ Comités de défense, de sauvegarde", value: "comites_defense" },
-        { label: "🌲 Protection de sites naturels", value: "protection_sites_naturels" },
-        { label: "🍃 Espaces naturels", value: "espaces_naturels" },
-        { label: "🐘 Préservation de la faune sauvage", value: "preservation_faune" },
-        { label: "⚡ Ressources naturelles", value: "ressources_naturelles" },
-        { label: "🚮 Pollutions, assainissement", value: "pollutions" },
-        { label: "🌼 Préservation de la flore sauvage", value: "preservation_flore" }
+        { label: "🛠️ Defense and improvement of the living environment", value: "living_environment" },
+        { label: "📚 Education on environment and sustainable development", value: "environment_education" },
+        { label: "🦜 Protection of animals", value: "animal_protection" },
+        { label: "🌱 Ecological movements", value: "ecological_movements" },
+        { label: "🛡️ Committees for defense and safeguarding", value: "defense_committees" },
+        { label: "🌲 Protection of natural sites", value: "natural_sites_protection" },
+        { label: "🍃 Natural spaces", value: "natural_spaces" },
+        { label: "🐘 Preservation of wildlife", value: "wildlife_preservation" },
+        { label: "⚡ Natural resources", value: "natural_resources" },
+        { label: "🚮 Pollution and sanitation", value: "pollution" },
+        { label: "🌼 Preservation of wild flora", value: "wild_flora_preservation" }
     ],
     "business_finance":[
         { label: "💼 Association à but commercial, développement économique", value: "commercial_associations" },

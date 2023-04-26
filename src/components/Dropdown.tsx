@@ -18,7 +18,7 @@ const gradientColors = ['#00FF00', '#008000'];
 
 const Dropdown = ({style, disabled, onValueChange, valuecat}: IDropdownProps) => {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
+  const [value, setValue] = useState("sports");
   // const [items, setItems] = useState([
   //   { label: "Activités artistiques et culturelles", value: "1", icon:  () => <Text>🎨</Text> },
   //   { label: "Sports, activités de plein air", value: "2", icon: () => <Text>🏃‍♀️</Text>},
