@@ -6,8 +6,10 @@ import SubCategoryDropdown from '../../components/SubCategoryDropdown';
 import clubs from '../../assets/data/clubs.json';
 import Swiper from 'react-native-deck-swiper';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { StatusBar } from 'expo-status-bar';
 const ClubsIndexScreen = () => {
-  console.log(clubs[0])
+  const [clubsList, setClubsList] = useState(clubs);
+
   const [dropdownValue, setDropdownValue] = useState("sports");
   const [subCategoryDropdownValue, setSubCategoryDropdownValue] = useState(null);
 
@@ -17,6 +19,11 @@ const ClubsIndexScreen = () => {
 
   const handleSubCategoryDropdownValueChange = (valuesub: any) => {
     setSubCategoryDropdownValue(valuesub);
+    console.log(valuesub, 'this is valuesub')
+    
+    const newClubs = clubs.filter((club) => club.subcategory === valuesub);
+    console.log(newClubs, 'this is newClubs')
+    setClubsList(newClubs);
   };
 
   console.log(dropdownValue, subCategoryDropdownValue)
@@ -39,33 +46,37 @@ return (
       </View>
    
       <Swiper
-        cards={clubs}
-        infinite={true}
-        stackSize={3}
+        cards={clubsList}
+        infinite={false}
+        stackSize={5}
+        animateOverlayLabelsOpacity
+        animateCardOpacity
+        key={clubsList.length} // Important for pagination i heard?
+        keyExtractor={card => card.id}
         backgroundColor={'transparent'}
-        
+        cardHorizontalMargin={5}
         renderCard={card => (
-          <View style={{flex: 1}}>
-            <ClubCard
-              data={card}
-              locationData={undefined}
-            />
-          </View>
+        // onSwipedAll={updateCards} useful later for pagination
+          <ClubCard
+            data={card}
+            locationData={undefined}
+            key={card.id}
+          />
         )}
-      />
-      
+      />   
+      <StatusBar style="auto" />
   </View>
 
 );}
 const styles = StyleSheet.create({
   container: {
     flex: 1, 
-    padding: 0,
+    paddingRight: 10
   },
   dropdownContainer: {
-    zIndex: 3000,
+    zIndex: 3000, // Necessary
     flexDirection: 'row',
-    gap: 8,
+    gap: 5,
   },
 })
 

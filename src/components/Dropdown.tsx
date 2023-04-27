@@ -1,12 +1,8 @@
 import DropDownPicker from 'react-native-dropdown-picker';
 import React, { useState } from 'react';
-import AntIcons from '@expo/vector-icons/AntDesign';
-
-import { ScrollView, Text, View, FlatList  } from 'react-native';
 import colors from '../themes/colors';
 import categories from '../assets/data/categories';
-import { BorderBottomOutlined } from '@ant-design/icons';
-import { LinearGradient } from 'expo-linear-gradient'
+
 
 interface IDropdownProps {
     style?: any;
@@ -14,7 +10,7 @@ interface IDropdownProps {
     onValueChange?: (value: any) => void;
     valuecat?: String | null;
 }
-const gradientColors = ['#00FF00', '#008000'];
+
 
 const Dropdown = ({style, disabled, onValueChange, valuecat}: IDropdownProps) => {
   const [open, setOpen] = useState(false);
@@ -33,7 +29,7 @@ const Dropdown = ({style, disabled, onValueChange, valuecat}: IDropdownProps) =>
       autoScroll={true}
       placeholder="Catégorie"
       containerStyle={[style]}
-      labelProps={{ numberOfLines: 1,  style: { fontSize: 18, color: 'black'} }}
+      labelProps={{ numberOfLines: 1,  style: { fontSize: 16, color: colors.dark} }}
       setOpen={setOpen}
       setValue={setValue}
       onChangeValue={(valuecat) => {
@@ -48,12 +44,13 @@ const Dropdown = ({style, disabled, onValueChange, valuecat}: IDropdownProps) =>
         animationType: 'fade', // Change the modal animation type
       }}
       style={{
-        backgroundColor: colors.grayLight,
-        borderWidth: 0,
-        borderRadius: 5,
+        backgroundColor: 'transparent',
+        borderRadius: 50,
         marginVertical: 5,
+        marginHorizontal: 5,
         overflow: 'hidden',
-        elevation: 8,
+        // elevation: 8,
+        borderWidth: 0,
 
       }}
       disabledStyle={{

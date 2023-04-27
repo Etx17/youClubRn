@@ -44,6 +44,7 @@ const ClubCard = ({data}: IClubCardProps) => {
     };
 
   return (
+    <View style={styles.container}>
     <View style={styles.card}>
     <Image style={styles.image} source={{uri: images[currentImageIndex]}} contentFit="cover" transition={0} />
     <View style={styles.indexButtonContainer}>
@@ -76,8 +77,8 @@ const ClubCard = ({data}: IClubCardProps) => {
         {/* Title and arrow */}
         <View style={styles.titleContainer}>
           <Text style={styles.title} numberOfLines={2}>{title}</Text>
-          <Pressable onPress={() => navigation.navigate('ClubDetails', {clubId: id})}>
-            <AntIcons name="arrowright" size={40} color={colors.primaryLighter} style={{ textAlign: 'center', textShadowColor: 'rgba(0, 0, 0, 0.30)', textShadowOffset: {width: 1, height: 1}, textShadowRadius: 7  }} />
+          <Pressable onPress={() => navigation.navigate('ClubDetails', {clubData: data})}>
+            <AntIcons name="arrowright" size={40} color={colors.primaryLight} style={{ textAlign: 'center', textShadowColor: 'rgba(0, 0, 0, 0.30)', textShadowOffset: {width: 1, height: 1}, textShadowRadius: 7  }} />
           </Pressable>
         </View>
 
@@ -99,12 +100,16 @@ const ClubCard = ({data}: IClubCardProps) => {
       </View>
     </LinearGradient>
   </View>
+  </View>
   )
 }
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      padding: 10,
+      maxHeight: "90%",
+      // borderBottomWidth: 0.8,
+      // borderBottomColor: 'lightgrey',
+      borderRadius: 10,
     },
     card: {
       flex: 1,
@@ -113,9 +118,8 @@ const styles = StyleSheet.create({
       position: 'relative',
       borderRadius: 10,
       overflow: 'hidden',
-      borderWidth: 0.8,
-      borderColor: 'rgba(0,0,0,0.2)',
-      
+      maxHeight: "90%",
+      // alignSelf: 'auto',
     },
     leftButton: {
       width: "50%",
@@ -135,6 +139,9 @@ const styles = StyleSheet.create({
       flex: 1,
       width: '100%',
       borderRadius: 10,
+      borderBottomWidth: 0.8,
+      borderBottomColor: 'white',
+      borderStyle: 'solid',
     },
     indexButtonContainer: {
       flexDirection: 'row',
