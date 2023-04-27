@@ -50,6 +50,7 @@ const SubCategoryDropdown = ({style, disabled, onValueChange, valuesub, category
         shadowColor: 'black',
         borderWidth: 0,
         marginHorizontal: 10,
+        maxWidth: "90%"
       }}
       disabledStyle={{
         opacity: 0.5

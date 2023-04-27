@@ -51,6 +51,7 @@ const Dropdown = ({style, disabled, onValueChange, valuecat}: IDropdownProps) =>
         overflow: 'hidden',
         // elevation: 8,
         borderWidth: 0,
+        maxWidth: "90%"
 
       }}
       disabledStyle={{
