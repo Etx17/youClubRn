@@ -10,7 +10,7 @@ import { useNavigation } from '@react-navigation/native';
 
 interface IClub {
   id: number;
-  title: string;
+  titre: string;
   rna_number: string;
   geo_point: string;
   object: string;
@@ -27,13 +27,15 @@ interface IClubCardProps {
 const ClubCard = ({data}: IClubCardProps) => {
     
     const navigation = useNavigation();
-    const {id, title, object, category, subcategory, images, actual_zipcode} = data;
-    // const images = [
-    //   "https://picsum.photos/seed/12/3000/2000",
-    //   "https://picsum.photos/seed/10/3000/2000",
-    //   "https://picsum.photos/seed/11/3000/2000",
-    //   "https://picsum.photos/seed/13/3000/2000",
-    // ];
+    
+    const {titre, rna_number, geo_point, objet,domaine_activite_libelle_categorise, codepostal_actuel} = data?.fields;
+    // console.log( data?.fields);
+    
+    const subCategory = domaine_activite_libelle_categorise.split('/')[1].split('###')[0]
+    const images = [
+      "https://picsum.photos/seed/12/3000/2000",
+      "https://picsum.photos/seed/10/3000/2000",
+    ];
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const changeImage = (direction: String) => {
       if (direction === 'left') {
@@ -42,7 +44,7 @@ const ClubCard = ({data}: IClubCardProps) => {
         setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
       }
     };
-
+    console.log(data?.fields)
   return (
     <View style={styles.container}>
     <View style={styles.card}>
@@ -76,8 +78,8 @@ const ClubCard = ({data}: IClubCardProps) => {
 
         {/* Title and arrow */}
         <View style={styles.titleContainer}>
-          <Text style={styles.title} numberOfLines={2}>{title}</Text>
-          <Pressable onPress={() => navigation.navigate('ClubDetails', {clubData: data})}>
+          <Text style={styles.title} numberOfLines={2}>{ titre ? titre.toUpperCase() : "Nom indéfini"}</Text>
+          <Pressable onPress={() => navigation.navigate('ClubDetails', {clubData: data.fields})}>
             <AntIcons name="arrowright" size={40} color={colors.primaryLight} style={{ textAlign: 'center', textShadowColor: 'rgba(0, 0, 0, 0.30)', textShadowOffset: {width: 1, height: 1}, textShadowRadius: 7  }} />
           </Pressable>
         </View>
@@ -86,9 +88,15 @@ const ClubCard = ({data}: IClubCardProps) => {
         <Text style={{color: 'white'}}>
           <Ionicons name="location-sharp" size={14} color="white" style={styles.locationIcon} /> 1 km
         </Text>
+        
+        <Text style={{color: 'white', borderWidth: 2, borderColor: 'white', padding: 8, paddingHorizontal: 16, marginVertical: 4, borderRadius: 20, backgroundColor: colors.primary, overflow: 'hidden'}}>
+          {subCategory!= "" ? subCategory : 'Autre/Non renseigné'}
+        </Text> 
+        
+        
 
         {/* Description */}
-        <Text style={styles.object} numberOfLines={3}>{object}</Text>
+        <Text style={styles.object} numberOfLines={3}>{objet ? "👀" + objet?.charAt(0).toUpperCase() + objet?.slice(1) : "Cette association n'a pas renseigné de description"}</Text>
       </View>
       <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}}>
         <Pressable onPress={() => console.log('clicked phone button')}>
@@ -182,7 +190,15 @@ const styles = StyleSheet.create({
     object: {
       fontSize: fonts.size.default,
       color: colors.white,
-    }
+    },
+    subCategory: {color: 'white', 
+    borderWidth: 2, 
+    borderColor: 'white', 
+    padding: 8, 
+    paddingHorizontal: 16, 
+    marginVertical: 4, 
+    borderRadius: 20, 
+    backgroundColor: colors.primary, overflow: 'hidden'},
   });
 
 export default ClubCard;
