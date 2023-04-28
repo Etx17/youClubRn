@@ -26,7 +26,6 @@ const ClubsIndexScreen = () => {
       
       const data = await response.json();
       console.log(data.facet_groups[0].facets[0].count, 'There are 5314 associations in the sports category');
-      // console.log(data.records.length, 'this is data');
       console.log(data.records[0].fields.domaine_activite_libelle_categorise.split('/'), 'this is first record data');
       
       // setClubsList(data.records);
