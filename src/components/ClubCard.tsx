@@ -7,6 +7,8 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import AntIcons from '@expo/vector-icons/AntDesign';
 import fonts from '../themes/fonts';
 import { useNavigation } from '@react-navigation/native';
+import categoryImages from '../assets/data/categoryImages';
+
 
 interface IClub {
   id: number;
@@ -27,15 +29,19 @@ interface IClubCardProps {
 const ClubCard = ({data}: IClubCardProps) => {
     
     const navigation = useNavigation();
+    // console.log(categoryImages["Sports, activités de plein air"]);
     
     const {titre, rna_number, geo_point, objet,domaine_activite_libelle_categorise, codepostal_actuel} = data?.fields;
     // console.log( data?.fields);
     
-    const subCategory = domaine_activite_libelle_categorise.split('/')[1].split('###')[0]
-    const randomNumber = Math.floor(Math.random() * 200) + 1;
+    const subCategory = domaine_activite_libelle_categorise.split('/')[1].split('###')[0].charAt(0).toUpperCase() + domaine_activite_libelle_categorise.split('/')[1].split('###')[0].slice(1);
+    // console.log(subCategory, 'this is subCategory')
+    console.log(categoryImages["Sports, activités de plein air"][subCategory], '<= this is the image key');
+    console.log(categoryImages["Sports, activités de plein air"], `<= this is the image key for ${titre}`)
+    const keyword = categoryImages["Sports, activités de plein air"][subCategory];
     const images = [
-      `https://picsum.photos/seed/${randomNumber}/3000/2000`,
-      `https://picsum.photos/seed/${randomNumber + 1}/3000/2000`,
+      `https://source.unsplash.com/random/?${keyword}/3000/2000`,
+      `https://source.unsplash.com/random/?${keyword}`, // Mettre une autre image en mode : Veuillez renseigner votre addresse email pour être informé de l'ouverture des revendications de clubs.
     ];
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const changeImage = (direction: String) => {
@@ -45,7 +51,7 @@ const ClubCard = ({data}: IClubCardProps) => {
         setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
       }
     };
-    console.log(data?.fields)
+    // console.log(data?.fields)
   return (
     <View style={styles.container}>
     <View style={styles.card}>
@@ -90,7 +96,7 @@ const ClubCard = ({data}: IClubCardProps) => {
           <Ionicons name="location-sharp" size={14} color="white" style={styles.locationIcon} /> 1 km
         </Text>
         
-        <Text style={{color: 'white', borderWidth: 2, borderColor: 'white', padding: 8, paddingHorizontal: 16, marginVertical: 4, borderRadius: 20, backgroundColor: colors.primary, overflow: 'hidden'}}>
+        <Text numberOfLines={2} style={{color: 'white', borderWidth: 2, borderColor: 'white', padding: 8, paddingHorizontal: 16, marginVertical: 4, borderRadius: 20, backgroundColor: colors.primary, overflow: 'hidden'}}>
           {subCategory!= "" ? subCategory : 'Autre/Non renseigné'}
         </Text> 
         
@@ -175,7 +181,7 @@ const styles = StyleSheet.create({
       alignItems: 'flex-end'
     },
     title: {
-      fontSize: fonts.size.xxlg,
+      fontSize: fonts.size.xlg,
       fontWeight: fonts.weight.bold,
       color: colors.white,
       textShadowColor: 'rgba(0, 0, 0, 0.30)',
