@@ -32,9 +32,11 @@ const ClubCard = ({data}: IClubCardProps) => {
     // console.log( data?.fields);
     
     const subCategory = domaine_activite_libelle_categorise.split('/')[1].split('###')[0]
+    const randomNumber = Math.floor(Math.random() * 2000) + 1;
     const images = [
-      "https://picsum.photos/seed/12/3000/2000",
-      "https://picsum.photos/seed/10/3000/2000",
+      `https://picsum.photos/seed/${randomNumber}`,
+      `https://picsum.photos/seed/${randomNumber + 1}`,
+      `https://picsum.photos/seed/${randomNumber + 2}`,
     ];
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const changeImage = (direction: String) => {
