@@ -2,28 +2,19 @@ import { StatusBar } from 'expo-status-bar';
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions, Pressable } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import React, { useState } from 'react';
+import React from 'react';
 
-import HomeScreen from './src/screens/HomeScreen/HomeScreen';
-import { NavigationContainer } from '@react-navigation/native';
 import Navigation from './src/navigation';
 import LocationContextProvider from './src/contexts/LocationContext';
 export default function App() {
   
    return (
-    // <NavigationContainer>
-    //   <View style={styles.container}>
-    //     <HomeScreen/>
-    //   </View>
-    // </NavigationContainer>
-    // <View style={styles.container}>
+  // Ne wrapper le location context provider que autour du topTabNavigator là ou j'en ai besoin
        <SafeAreaProvider>
-        <LocationContextProvider>
+        <LocationContextProvider> 
         <Navigation/>
         </LocationContextProvider>
       </SafeAreaProvider>
-    // </View>
-
   );
 }
 
