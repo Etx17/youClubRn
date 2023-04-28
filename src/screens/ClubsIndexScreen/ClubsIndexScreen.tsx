@@ -7,11 +7,14 @@ import clubs from '../../assets/data/clubs.json';
 import Swiper from 'react-native-deck-swiper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
+import { useLocationContext } from '../../contexts/LocationContext';
 const ClubsIndexScreen = () => {
   const [clubsList, setClubsList] = useState(clubs);
+  const {lat, lon} = useLocationContext()
+    console.log(lat, lon, 'Current coordinates');
 
   const [dropdownValue, setDropdownValue] = useState("sports");
-  const [subCategoryDropdownValue, setSubCategoryDropdownValue] = useState(null);
+  const [subCategoryDropdownValue, setSubCategoryDropdownValue] = useState("all");
 
   const handleDropdownValueChange = (valuecat: any) => {
     setDropdownValue(valuecat);

@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import HomeScreen from './src/screens/HomeScreen/HomeScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import Navigation from './src/navigation';
+import LocationContextProvider from './src/contexts/LocationContext';
 export default function App() {
   
    return (
@@ -17,7 +18,9 @@ export default function App() {
     // </NavigationContainer>
     // <View style={styles.container}>
        <SafeAreaProvider>
+        <LocationContextProvider>
         <Navigation/>
+        </LocationContextProvider>
       </SafeAreaProvider>
     // </View>
 

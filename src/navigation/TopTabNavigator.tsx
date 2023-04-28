@@ -1,15 +1,13 @@
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import ClubsIndexScreen from '../screens/ClubsIndexScreen/ClubsIndexScreen';
 import ActivitiesIndexScreen from '../screens/ActivitiesIndexScreen/ActivitiesIndexScreen';
 import { TopTabNavigatorParamsList } from '../types/navigation';
 import colors from '../themes/colors';
+import { useLocationContext } from '../contexts/LocationContext';
 
 
 const Tab = createMaterialTopTabNavigator<TopTabNavigatorParamsList>();
 const TopTabNavigator = () => {
-
-    const insets = useSafeAreaInsets(); //for iphone notch and android cutouts
     
       return (
         <Tab.Navigator screenOptions={{
