@@ -40,284 +40,283 @@
         "Escrime": "fencing",
         "Hockey sur glace, sports de glace": "icehockey"
     },
-    "artistic_activities": [
-        " Chant choral et musique",  
-        " Promotion de l'art et des artistes",  
-        " Théâtre, marionnettes, cirque et spectacles de variété",  
-        " Danse",  
-        " Loisirs scientifiques et techniques",  
-        " Artisanat, travaux manuels, bricolage et expositions",  
-        " Photographie et cinéma",  
-        " Expression écrite, littérature et poésie",  
-        " Arts graphiques, bande dessinée, peinture, sculpture et architecture",  
-        " Folklore",  
-        " Langues, dialectes et patois",  
-        " Bibliothèques, ludothèques, discothèques et vidéothèques",  
-        " Arts de la rue"
-    ],
-    "community_support": [    
-        " Groupements d'entraide et de solidarité",
-        " Amicale de personnes originaires d'un même pays",
-        " Organisation de professions",
-        " Associations de personnes en situation de handicap",
-        " Association du personnel d'une entreprise",
-        " Associations de classe d'âge",
-        " Amicale de personnes originaires d'une même région",
-        "Associations féminines pour l'entraide et la solidarité",
-        "Associations de personnes homosexuelles"
-    ],
-    "education_training": [
-        " Établissement de formation professionnelle, formation continue",
-        "👨 Associations d’étudiants, d’élèves",
-        " Parents d’élèves",
-        " Associations périscolaires, coopération, aide à l’enseignement",
-        " Centre d'enseignement et de formation",
-        " Amicales, associations d’anciens étudiants, d’anciens élèves",
-        " Amicales, personnel d’établissements scolaires ou universitaires",
-        " Études et formations linguistiques",
-        " Organisation, financement de voyages d’études, d’échanges, pour scolaires ou universitaires",
-        "👨 Apprentissage",
-        " Organisme de gestion d’établissement d’enseignement général et technique",
-        "👨 Organisation de professions enseignantes, amicales de personnel",
-        " Promotion de titres, de diplômes",
-        " Œuvres sociales en faveur des élèves, œuvres en faveur pupilles de la nation",
-        " Organisme de gestion d’établissement d’enseignement supérieur",
-        " Maisons familiales rurales"
-    ],
-    "clubs_relationships" : [
-        " échanges locaux, réseaux d'échanges",
-        " activités festives (soirées…)",
-        " relaxation, sophrologie",
-        " centres de loisirs, clubs de loisirs multiples",
-        " bridge, jeux de cartes, échecs, dames, jeux de société...",
-        " gastronomie, œnologie, confréries, gourmets",
-        " animaux familiers, colombophilie, aquariophilie",
-        " jardins ouvriers, floralies",
-        " collectionneurs de véhicules, clubs amateurs de voitures anciennes",
-        " cercles privés, fan-clubs",
-        " élevage canin, clubs de chiens de défense",
-        " clubs de collectionneurs (hors sauvegarde, entretien du patrimoine), philatélie, numismatique",
-        " modélisme",
-        " billard, quilles",
-        " aéroclubs",
-        " radioamateurs"
-    ],
-    "environment_living":[
-        " Defense and improvement of the living environment",
-        " Education on environment and sustainable development",
-        " Protection of animals",
-        " Ecological movements",
-        " Committees for defense and safeguarding",
-        " Protection of natural sites",
-        " Natural spaces",
-        " Preservation of wildlife",
-        " Natural resources",
-        " Pollution and sanitation",
-        " Preservation of wild flora"
-    ],
-    "business_finance":[
-        " Association à but commercial, développement économique",
-        " Amicales de commerçants, organisation de foires",
-        " Groupement d’achats, groupement d’entreprises",
-        " Gestion financière, gestion immobilière",
-        " Cantines, restaurants d’entreprises",
-        " Transports",
-        " Chambres de commerce, chambres économiques",
-        " Caisses de retraite, de prévoyance, de pensions",
-        " Caisses de congés payés, caisses de secours"
-    ],
-    "social_cultural_action":[
-        " Jumelages, échanges culturels",    
-        " Comités des fêtes",    
-        " Clubs du troisième âge",    
-        "🧑 Mouvements éducatifs de jeunesse et d'éducation populaire",
-        " Associations socio-éducatives, scoutisme",    
-        " Maisons de jeunes, foyers, clubs de jeunes",    
-        " Loisirs pour personnes en situation de handicap",    
-        " Majorettes, twirlings, carnavals, défilés",   
-        " Maisons de la culture, office municipal, centres culturels",  
-        " Foyers ruraux",  
-        " Centres aérés, colonies de vacances"
-    ],
-    "charity_volunteering":[
-        " Associations caritatives intervenant au plan international",
-        " Associations caritatives à buts multiples",
-        " Secours en nature, distribution de nourriture et de vêtements",
-        " Secours financiers et autres services aux personnes en difficulté",
-        "👥 Développement du bénévolat"
-    ],
-    "health_wellness":[
-        " Accompagnement, aide aux malades",
-        " Organisation de professions médicales ou paramédicales",
-        " Recherche médicale",
-        " Homéopathie, médecines douces",
-        "🤝 Éducation sanitaire, prévention générale",
-        "💧 Hygiène, diététique",
-        "🩺 Prévention et dépistage de maladies (autres que le sida)",
-        "💊 Associations de personnes malades, ou anciens malades",
-        "🔬 Financement de la recherche médicale",
-        "🛌 Cliniques, centres médicaux, hôpitaux, sanatoriums, établissements de rééducation, maisons de convalescence",
-        "🩺 Dispensaires, soins infirmiers, services paramédicaux, de garde",
-        "❤️ Don de sang, d’organes",
-        "🐱 Médecine animale, vétérinaire",
-        "🧑👨‍🔬 Organisation de congrès médicaux",
-        "🆘 Services médicaux d’urgence",
-        "📦 Gestion de matériel médical",
-        "🧠 Hôpitaux psychiatriques, soins ambulatoires en santé mentale",
-        "💊 Médecine du travail",
-        "🩺 Prévention et dépistage du sida",
-        "🏋️‍♀️ Centres de réadaptation",
-        "🩺 Accueil, information pour contraception et avortement"
-    ],
-    "economy_promotion":[
-        " Associations d'exploitants agricoles, élevage, horticulture, aviculture, apiculture, viticulture, viniculture",
-        " Représentation d’intérêts économiques sectoriels",
-        " Représentation d’intérêts régionaux et locaux",
-        " Groupements professionnels",
-        " Associations pour la représentation d'artisans, de commerçants",
-        " Mouvements de consommateurs",
-        " Associations de défense d'intérêts des retraités ou des personnes âgées",
-        " Association d’intérêts maritimes, marins",
-        " Association de représentation de professions libérales",
-        " Usagers de services publics",
-        " Défense des contribuables",
-        " Groupements de salariés à caractère syndical",
-        " Unions patronales",
-        " Actionnaires, épargnants"
-    ],
-    "social_services":[
-        " Aide aux personnes en danger, solitude, désespoir, soutien psychologique et moral",
-        " Aide et conseils aux familles",
-        " Aide à l’insertion des jeunes",
-        "👨‍👩‍👧 Associations familiales, services sociaux pour les familles",
-        " Aide aux victimes de calamités, de catastrophes naturelles",
-        " Aide aux réfugiés et aux immigrés (hors droits fondamentaux)",
-        " Centres sociaux et socioculturels, foyers de jeunes travailleurs, centres d'études et d'action sociale",
-        " Lutte contre l'illettrisme",
-        " Groupements de chômeurs, aide aux chômeurs",
-        " Foyers socio-éducatifs",
-        " Aide aux victimes de violences faites aux enfants",
-        " Soutien, reclassement des détenus",
-        " Lutte contre diverses formes de violence",
-        " Aide aux victimes de violences conjugales",
-        " Réinsertion des délinquants",
-        " Lutte contre la violence routière",
-        " Lutte contre le surendettement"
-    ],
-    "information_communication":[
-        " Audiovisuel",
-        " Réseaux internet",
-        " Autres supports de communication",
-        " Presse, édition",
-        " Radios privées",
-        " Auditeurs, consommateurs d'outils d'information et de communication",
-        " Professionnels de l'information et de communication"
-    ],
-    "employment_localdev":[
-        " Comités de défense et d'animation de quartier, association locale ou municipale",
-        " Promotion d’initiatives de développement durable",
-        " Groupement d'employeurs",
-        " Aide à la création d’activités économiques individuelles",
-        " Entreprises d'insertion, associations intermédiaires, régies de quartier",
-        " Comité, défense d'un emploi"
-    ],
-    "civil_rights_activism":[
-        " Activités civiques",
-        " Information civique",
-        " Défense des libertés publiques et des droits de l’Homme",
-        "👩🏻 Défense des droits des femmes, condition féminine",
-        " Lutte contre les discriminations",
-        " Défense des droits des personnes étrangères ou immigrées, de personnes réfugiées",
-        " Défense des droits des enfants",
-        " Défense des droits des personnes en situation de handicap",
-        " Défense de la paix",
-        " Association pour la défense de droits de minorités",
-        " Défense des droits des personnes homosexuelles",
-        " Défense des droits des personnes rapatriées"
-
-    ],
-    "heritage_preservation":[
-        " Comités de défense du patrimoine",
-        " Commémorations, entretien de monuments et sites historiques, souvenir militaire",
-        " Associations, sociétés savantes pour des études historiques, histoire du patrimoine",
-        " Musées, collections historiques",
-        " Collections d'objets, de documents, bibliothèques spécialisées pour la sauvegarde et l'entretien du patrimoine",
-        " Sociétés, clubs de généalogie",
-        " Construction de monuments (sauf lieux de culte)"
-    ],
-    "religion_spirituality":[
-    ],
-    "family_elderly_services":[
-        " Crèches, garderies, haltes garderies",
-        "🧑 Aide à domicile",
-        " Foyers pour personnes âgées, maisons de retraite, maisons de retraite médicalisées",
-        " Services aux personnes âgées (téléalarme...)"   
-    ],
-    "politics_activities":[
-        " Soutien et financement de partis et de campagnes électorales",
-        " Action politique locale",
-        " Associations à caractère politique général",
-        " Action politique globale",
-        "🇪 Activités citoyennes européennes"
-    ],
-    "reflection_debate":[
-        " Clubs de réflexion",
-        " Organisation de conférences",
-        " Associations philanthropiques",
-        " Amicales laïques"
-    ],
-    "hunting_fishing":[
-        " Chasse",
-        " Pêche"
-    ],
-    "medical_social_care":[
-        " Accueil et protection de la petite enfance",
-        " Aide sociale aux personnes en situation de handicap",
-        " Établissements, services pour personnes handicapées (y compris les C.A.T)",
-        "🧑 Établissements et services pour adolescents en difficulté",
-        " Prévention et lutte contre l’alcoolisme, la toxicomanie",
-        " Établissements et services pour adultes en difficulté, CHRS (centres d'hébergement et de réadaptation sociale)",
-        " Aide aux accidentés du travail",
-        " Aide aux victimes de maladies professionnelles"
-    ],
-    "housing":[
-        " Associations et comités de locataires, de propriétaires, comités de logement",
-        " Aide au logement",
-        " Réhabilitation et construction de logements"
-    ],
-    "research_innovation":[
-        "🧑 Association de recherches scientifiques, sciences physiques, sciences humaines…",
-        " Autres associations de recherche",
-        " Diffusion de savoirs, sociétés savantes ou académiques",
-        " Recherche sur la culture",
-        " Recherche sur l'éducation et la formation",
-        " Recherche sur la vie sociale et politique",
-        " Recherche sur l'environnement et le climat" 
-    ],
-    "military_defense":[
-        " Anciens combattants",
-        " Associations de militaires, amicales, associations de conscrits"
-    ],
-    "travel_tourism":[
-        " Syndicats d'initiative, offices de tourisme, salons du tourisme",
-        " Auberges de jeunesse, organisation de voyages",
-        " Gîtes ruraux, camping, caravaning, naturisme",
-        " Maisons et villages de vacances" 
-    ],
-    "security_emergencyservices":[
-        " Amicale de sapeurs-pompiers",    
-        " Sauvetage, secourisme, protection civile",  
-        " Prévention, formation, cours de secourisme",  
-        " Sécurité routière",   
-        " Sauvetage en mer",    
-        " Sécurité et sauvetage en montagne"
-    ],
-    "justice": [
-        " Médiation, prévention",
-        " Défense des droits des victimes",
-        "🧑 Contrôle judiciaire, associations de personnels de justice",
-        " Accès aux droits dans les tribunaux, assistance juridique",
-        " Maisons du droit, accès au droit"
-    ]
+    "Culture, pratique d'activités artistiques, culturelles": {
+        "Chant choral et musique": "music",
+        "Promotion de l'art et des artistes": "promotion",
+        "Théâtre, marionnettes, cirque et spectacles de variété": "theater",
+        "Danse": "dance",
+        "Loisirs scientifiques et techniques": "science",
+        "Artisanat, travaux manuels, bricolage et expositions": "crafts",
+        "Photographie et cinéma": "photography",
+        "Expression écrite, littérature et poésie": "literature",
+        "Arts graphiques, bande dessinée, peinture, sculpture et architecture": "art",
+        "Folklore": "folklore",
+        "Langues, dialectes et patois": "language",
+        "Bibliothèques, ludothèques, discothèques et vidéothèques": "library",
+        "Arts de la rue": "streetart"
+    },
+    "Amicales, groupements affinitaires, groupes d'entraide": {
+        "Groupements d'entraide et de solidarité": "support",
+        "Amicale de personnes originaires d'un même pays": "ethnic",
+        "Organisation de professions": "professional",
+        "Associations de personnes en situation de handicap": "disability",
+        "Association du personnel d'une entreprise": "company",
+        "Associations de classe d'âge": "age",
+        "Amicale de personnes originaires d'une même région": "regional",
+        "Associations féminines pour l'entraide et la solidarité": "women",
+        "Associations de personnes homosexuelles": "rainbow"
+    },
+    "Éducation et formation": {
+        "Établissement de formation professionnelle, formation continue": "professional",
+        "Associations d’étudiants, d’élèves": "student",
+        "Parents d’élèves": "parents",
+        "Associations périscolaires, coopération, aide à l’enseignement": "perischool",
+        "Centre d'enseignement et de formation": "center",
+        "Amicales, associations d’anciens étudiants, d’anciens élèves": "alumni",
+        "Amicales, personnel d’établissements scolaires ou universitaires": "staff",
+        "Études et formations linguistiques": "language",
+        "Organisation, financement de voyages d’études, d’échanges, pour scolaires ou universitaires": "travel",
+        "Apprentissage": "apprenticeship",
+        "Organisme de gestion d’établissement d’enseignement général et technique": "technical",
+        "Organisation de professions enseignantes, amicales de personnel": "professional",
+        "Promotion de titres, de diplômes": "promotion",
+        "Œuvres sociales en faveur des élèves, œuvres en faveur pupilles de la nation": "social",
+        "Organisme de gestion d’établissement d’enseignement supérieur": "higher",
+        "Maisons familiales rurales": "rural"
+    },
+    "Clubs de loisirs et de rencontres": {
+        "échanges locaux, réseaux d'échanges": "exchange",
+        "activités festives (soirées…)": "party",
+        "relaxation, sophrologie": "relaxation",
+        "centres de loisirs, clubs de loisirs multiples": "leisure",
+        "bridge, jeux de cartes, échecs, dames, jeux de société...": "games",
+        "gastronomie, œnologie, confréries, gourmets": "food",
+        "animaux familiers, colombophilie, aquariophilie": "pets",
+        "jardins ouvriers, floralies": "gardening",
+        "collectionneurs de véhicules, clubs amateurs de voitures anciennes": "cars",
+        "cercles privés, fan-clubs": "club",
+        "élevage canin, clubs de chiens de défense": "dogs",
+        "clubs de collectionneurs (hors sauvegarde, entretien du patrimoine), philatélie, numismatique": "collectors",
+        "modélisme": "modeling",
+        "billard, quilles": "billiards",
+        "aéroclubs": "aeroclubs",
+        "radioamateurs": "radio"
+    },
+    "Environnement et cadre de vie": {
+        "Defense and improvement of the living environment": "environment",
+        "Education on environment and sustainable development": "education",
+        "Protection of animals": "animals",
+        "Ecological movements": "ecology",
+        "Committees for defense and safeguarding": "safeguarding",
+        "Protection of natural sites": "sites",
+        "Natural spaces": "nature",
+        "Preservation of wildlife": "wildlife",
+        "Natural resources": "resources",
+        "Pollution and sanitation": "pollution",
+        "Preservation of wild flora": "flora"
+    },
+    "Conduite d'activités économiques": {
+        "Association à but commercial, développement économique": "commerce",
+        "Amicales de commerçants, organisation de foires": "tradeshows",
+        "Groupement d’achats, groupement d’entreprises": "purchasing",
+        "Gestion financière, gestion immobilière": "finance",
+        "Cantines, restaurants d’entreprises": "catering",
+        "Transports": "transportation",
+        "Chambres de commerce, chambres économiques": "chambers",
+        "Caisses de retraite, de prévoyance, de pensions": "pensions",
+        "Caisses de congés payés, caisses de secours": "benefits"
+    },
+    "Action socio-culturelle": {
+        "Jumelages, échanges culturels": "cultural exchange",
+        "Comités des fêtes": "festivities",
+        "Clubs du troisième âge": "seniors",
+        "Mouvements éducatifs de jeunesse et d'éducation populaire": "education",
+        "Associations socio-éducatives, scoutisme": "social education",
+        "Maisons de jeunes, foyers, clubs de jeunes": "youth",
+        "Loisirs pour personnes en situation de handicap": "disability leisure",
+        "Majorettes, twirlings, carnavals, défilés": "parades",
+        "Maisons de la culture, office municipal, centres culturels": "culture",
+        "Foyers ruraux": "rural",
+        "Centres aérés, colonies de vacances": "vacation camps"
+    },
+    "Associations caritatives et bénévolat": {
+        "Associations caritatives intervenant au plan international": "global",
+        "Associations caritatives à buts multiples": "charity",
+        "Secours en nature, distribution de nourriture et de vêtements": "relief",
+        "Secours financiers et autres services aux personnes en difficulté": "assistance",
+        "Développement du bénévolat": "volunteering"
+    },
+    "Santé et bien-être": {
+        "Accompagnement, aide aux malades": "support",
+        "Organisation de professions médicales ou paramédicales": "medicine",
+        "Recherche médicale": "research",
+        "Homéopathie, médecines douces": "alternative",
+        "Éducation sanitaire, prévention générale": "prevention",
+        "Hygiène, diététique": "health",
+        "Prévention et dépistage de maladies (autres que le sida)": "screening",
+        "Associations de personnes malades, ou anciens malades": "patients",
+        "Financement de la recherche médicale": "funding",
+        "Cliniques, centres médicaux, hôpitaux, sanatoriums, établissements de rééducation, maisons de convalescence": "clinics",
+        "Dispensaires, soins infirmiers, services paramédicaux, de garde": "nursing",
+        "Don de sang, d’organes": "donation",
+        "Médecine animale, vétérinaire": "veterinary",
+        "Organisation de congrès médicaux": "conferences",
+        "Services médicaux d’urgence": "emergency",
+        "Gestion de matériel médical": "equipment",
+        "Hôpitaux psychiatriques, soins ambulatoires en santé mentale": "mental",
+        "Médecine du travail": "health",
+        "Prévention et dépistage du sida": "aids",
+        "Centres de réadaptation": "rehabilitation",
+        "Accueil, information pour contraception et avortement": "reproductivehealth"
+    },
+    "Représentation et défense d'intérêts économiques": {
+        "Associations d'exploitants agricoles, élevage, horticulture, aviculture, apiculture, viticulture, viniculture": "farming",
+        "Représentation d’intérêts économiques sectoriels": "sector",
+        "Représentation d’intérêts régionaux et locaux": "region",
+        "Groupements professionnels": "professional ",
+        "Associations pour la représentation d'artisans, de commerçants": "artisan",
+        "Mouvements de consommateurs": "consumer",
+        "Associations de défense d'intérêts des retraités ou des personnes âgées": "senior ",
+        "Association d’intérêts maritimes, marins": "maritime",
+        "Association de représentation de professions libérales": "liberal ",
+        "Usagers de services publics": "public ",
+        "Défense des contribuables": "taxpayer",
+        "Groupements de salariés à caractère syndical": "trade",
+        "Unions patronales": "employers",
+        "Actionnaires, épargnants": "stocks"
+        },
+    "Interventions sociales": {
+        "Aide aux personnes en danger, solitude, désespoir, soutien psychologique et moral": "psychological ",
+        "Aide et conseils aux familles": "family ",
+        "Aide à l’insertion des jeunes": "youth ",
+        "Associations familiales, services sociaux pour les familles": "family ",
+        "Aide aux victimes de calamités, de catastrophes naturelles": "disaster ",
+        "Aide aux réfugiés et aux immigrés (hors droits fondamentaux)": "refugee ",
+        "Centres sociaux et socioculturels, foyers de jeunes travailleurs, centres d'études et d'action sociale": "social ",
+        "Lutte contre l'illettrisme": "illiteracy",
+        "Groupements de chômeurs, aide aux chômeurs": "unemployment ",
+        "Foyers socio-éducatifs": " centers",
+        "Aide aux victimes de violences faites aux enfants": "child ",
+        "Soutien, reclassement des détenus": "prisoner ",
+        "Lutte contre diverses formes de violence": "violence",
+        "Aide aux victimes de violences conjugales": "violence",
+        "Réinsertion des délinquants": "offenders",
+        "Lutte contre la violence routière": "safety",
+        "Lutte contre le surendettement": "debt"
+        },
+    "Information et communication": {
+        "Audiovisuel": "media",
+        "Réseaux internet": "internet",
+        "Autres supports de communication": "media",
+        "Presse, édition": "publishing",
+        "Radios privées": "radio",
+        "Auditeurs, consommateurs d'outils d'information et de communication": "consumers",
+        "Professionnels de l'information et de communication": "professionals"
+        },
+    "Aide à l'emploi, développement local": {
+        "Comités de défense et d'animation de quartier, association locale ou municipale": "local",
+        "Promotion d’initiatives de développement durable": "sustainability",
+        "Groupement d'employeurs": "employment",
+        "Aide à la création d’activités économiques individuelles": "entrepreneurship",
+        "Entreprises d'insertion, associations intermédiaires, régies de quartier": "integration",
+        "Comité, défense d'un emploi": "employment"
+        },
+    "Défense de droits fondamentaux et activités civiques": {
+        "Activités civiques": "civic",
+        "Information civique": "information",
+        "Défense des libertés publiques et des droits de l’Homme": "rights",
+        "Défense des droits des femmes, condition féminine": "women",
+        "Lutte contre les discriminations": "equality",
+        "Défense des droits des personnes étrangères ou immigrées, de personnes réfugiées": "refugees",
+        "Défense des droits des enfants": "children",
+        "Défense des droits des personnes en situation de handicap": "disability",
+        "Défense de la paix": "peace",
+        "Association pour la défense de droits de minorités": "minorities",
+        "Défense des droits des personnes homosexuelles": "rainbow",
+        "Défense des droits des personnes rapatriées": "repatriation"
+        },
+    "Préservation du patrimoine": {
+        "Comités de défense du patrimoine": "heritage",
+        "Commémorations, entretien de monuments et sites historiques, souvenir militaire": "history",
+        "Associations, sociétés savantes pour des études historiques, histoire du patrimoine": "historical",
+        "Musées, collections historiques": "museums",
+        "Collections d'objets, de documents, bibliothèques spécialisées pour la sauvegarde et l'entretien du patrimoine": "archives",
+        "Sociétés, clubs de généalogie": "genealogy",
+        "Construction de monuments (sauf lieux de culte)": "monuments"
+        },
+    "Activités religieuses, spirituelles ou philosophiques": {
+        },
+    "Services familiaux et aux personnes âgées": {
+        "Crèches, garderies, haltes garderies": "childcare",
+        "Aide à domicile": "care",
+        "Foyers pour personnes âgées, maisons de retraite, maisons de retraite médicalisées": "retirement",
+        "Services aux personnes âgées (téléalarme...)": "assistance"
+        },
+    "Activités politiques": {
+        "Soutien et financement de partis et de campagnes électorales": "campaigns",
+        "Action politique locale": "politics",
+        "Associations à caractère politique général": "politics",
+        "Action politique globale": "politics",
+        "Activités citoyennes européennes": "politics"
+        },
+    "Clubs et cercles de réflexion": {
+        "Clubs de réflexion": "reflection",
+        "Organisation de conférences": "conferences",
+        "Associations philanthropiques": "philanthropy",
+        "Amicales laïques": "secular clubs"
+        },
+        "Chasse et pêche": {
+        "Chasse": "hunting",
+        "Pêche": "fishing"
+        },
+    "Services et établissements médico-sociaux": {
+        "Accueil et protection de la petite enfance": "child",
+        "Aide sociale aux personnes en situation de handicap": "disability",
+        "Établissements, services pour personnes handicapées (y compris les C.A.T)": "handicap",
+        "Établissements et services pour adolescents en difficulté": "adolescent",
+        "Prévention et lutte contre l’alcoolisme, la toxicomanie": "substance",
+        "Établissements et services pour adultes en difficulté, CHRS (centres d'hébergement et de réadaptation sociale)": "adult services",
+        "Aide aux accidentés du travail": "accident",
+        "Aide aux victimes de maladies professionnelles": "illness"
+        },
+    "Logement": {
+        "Associations et comités de locataires, de propriétaires, comités de logement": "housing",
+        "Aide au logement": "housing",
+        "Réhabilitation et construction de logements": "construction"
+        },
+    "Recherche et innovation": {
+        "Association de recherches scientifiques, sciences physiques, sciences humaines…": "research",
+        "Autres associations de recherche": "research",
+        "Diffusion de savoirs, sociétés savantes ou académiques": "dissemination",
+        "Recherche sur la culture": "culture",
+        "Recherche sur l'éducation et la formation": "education",
+        "Recherche sur la vie sociale et politique": "social",
+        "Recherche sur l'environnement et le climat": "environment"
+        },
+    "Armée (dont préparation militaire, médailles)": {
+        "Anciens combattants": "veterans",
+        "Associations de militaires, amicales, associations de conscrits": "military"
+        },
+    "Tourisme": {
+        "Syndicats d'initiative, offices de tourisme, salons du tourisme": "tourism",
+        "Auberges de jeunesse, organisation de voyages": "travel",
+        "Gîtes ruraux, camping, caravaning, naturisme": "accommodation",
+        "Maisons et villages de vacances": "vacation"
+        },
+    "Sécurité et services de secours": {
+        "Amicale de sapeurs-pompiers": "firefighters",
+        "Sauvetage, secourisme, protection civile": "rescue",
+        "Prévention, formation, cours de secourisme": "prevention",
+        "Sécurité routière": "road",
+        "Sauvetage en mer": "sea",
+        "Sécurité et sauvetage en montagne": "mountain"
+        },
+    "Justice": {
+        "Médiation, prévention": "mediation",
+        "Défense des droits des victimes": "victims",
+        "Contrôle judiciaire, associations de personnels de justice": "justice",
+        "Accès aux droits dans les tribunaux, assistance juridique": "legal",
+        "Maisons du droit, accès au droit": "legal"
+        }
 }  
     
