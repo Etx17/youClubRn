@@ -16,16 +16,17 @@ import axios from 'axios';
 
 const ClubsIndexScreen = () => {
   const [clubs, setClubs] = useState([]);
-  const {lat, lon} = useLocationContext()
-  const [dropdownValue, setDropdownValue] = useState("sports");
+  // const {lat, lon} = useLocationContext()
+  const [subCategoryClubs, setSubCategoryClubs] = useState([]);
+  const [dropdownValue, setDropdownValue] = useState("Sports, activités de plein air");
   const [subCategoryDropdownValue, setSubCategoryDropdownValue] = useState("all");
-  const [index, setIndex] = useState(0);
-  const [cardLength, setCardLength] = useState<number>(clubs.length);
+  // const [index, setIndex] = useState(0);
+  // const [cardLength, setCardLength] = useState<number>(clubs.length);
   const [isFetching, setIsFetching] = useState(false);
 
 
   const fetchData = async () => {
-    const url = `https://journal-officiel-datadila.opendatasoft.com/api/records/1.0/search/?dataset=jo_associations&q=&rows=1000&start=0&sort=dateparution&facet=domaine_activite_categorise&facet=domaine_activite_libelle_categorise&refine.domaine_activite_libelle_categorise=Sports%2C+activit%C3%A9s+de+plein+air&refine.localisation_facette=%C3%8Ele-de-France&exclude.objet=%22%22&exclude.domaine_activite_libelle_categorise=%22%22&`;
+    const url = `https://journal-officiel-datadila.opendatasoft.com/api/records/1.0/search/?dataset=jo_associations&q=&rows=1000&start=0&sort=dateparution&facet=domaine_activite_categorise&facet=domaine_activite_libelle_categorise&refine.domaine_activite_libelle_categorise=${dropdownValue}&refine.localisation_facette=%C3%8Ele-de-France&exclude.objet=%22%22&exclude.domaine_activite_libelle_categorise=%22%22&`;
     const response = await axios.get(url);
     return response.data;
   };
@@ -41,6 +42,7 @@ const ClubsIndexScreen = () => {
           && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0].trim() !== ""
         );
       setClubs(clubsWithObjectAndSubcategory);
+      setSubCategoryClubs(clubsWithObjectAndSubcategory);
       setIsFetching(false);
     };
     fetchClubs();
@@ -52,14 +54,20 @@ const ClubsIndexScreen = () => {
   };
   const handleSubCategoryDropdownValueChange = (valuesub: any) => {
     setSubCategoryDropdownValue(valuesub);
-    // console.log(valuesub, 'this is valuesub')
-    if(clubs){
-      const newClubs = clubs.filter((club) => club?.domaine_activite_libelle_categorise.split('/')[0] === valuesub);
-      setClubs(newClubs);
+    
+    if(clubs.length > 0){
+      console.log(valuesub, 'this is valuesub')
+      // console.log(clubs[0], 'this is clubs[0]')
+      console.log(clubs.length, 'before filter')
+      // console.log(clubs[0].fields.domaine_activite_libelle_categorise.split('/')[0] , "this is the condition")
+      
+      // clubs.map((club) => { console.log(club.fields.domaine_activite_libelle_categorise.split('/')[1] === valuesub) })
+      const newClubs = clubs.filter((club: { fields: { domaine_activite_libelle_categorise: string}}) => club.fields.domaine_activite_libelle_categorise.split('/')[1] === valuesub);
+      setSubCategoryClubs(newClubs);
+      // console.log(newClubs, 'this is newClubs')
     }
-    // console.log(newClubs, 'this is newClubs')
   };
-
+console.log(dropdownValue, subCategoryDropdownValue, 'this is dropdownValue and subCategoryDropdownvalue')
 return ( 
   
   <View style={styles.container}>
@@ -77,15 +85,15 @@ return (
           categoryName={dropdownValue || ''}
         />
       </View>
-    { clubs.length > 0 && 
+    { subCategoryClubs.length > 0 && 
       <Swiper
-        cards={clubs.length > 0 ? clubs : []}
+        cards={subCategoryClubs}
         infinite={false}
-        stackSize={5}
-        cardIndex={index}
+        stackSize={2}
+        // cardIndex={index}
         animateOverlayLabelsOpacity
         animateCardOpacity
-        key={clubs.length } // Important for pagination i heard?
+        key={subCategoryClubs.length } // Important for pagination i heard?
         backgroundColor={'transparent'}
         cardHorizontalMargin={5}
         onSwipedAll={()=>Alert.alert('No more clubs')} //useful later for pagination

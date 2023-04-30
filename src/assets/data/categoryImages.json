@@ -41,32 +41,32 @@
         "Hockey sur glace, sports de glace": "icehockey"
     },
     "Culture, pratique d'activités artistiques, culturelles": {
-        "Chant choral et musique": "music",
+        "Chant choral, musique": "music",
         "Promotion de l'art et des artistes": "promotion",
         "Théâtre, marionnettes, cirque et spectacles de variété": "theater",
         "Danse": "dance",
         "Loisirs scientifiques et techniques": "science",
-        "Artisanat, travaux manuels, bricolage et expositions": "crafts",
-        "Photographie et cinéma": "photography",
-        "Expression écrite, littérature et poésie": "literature",
-        "Arts graphiques, bande dessinée, peinture, sculpture et architecture": "art",
+        "Artisanat, travaux manuels, bricolage, expositions": "crafts",
+        "Photographie, cinéma (dont ciné-clubs)": "photography",
+        "Expression écrite, littérature, poésie": "literature",
+        "Arts graphiques, bande dessinée, peinture, sculpture, architecture": "art",
         "Folklore": "folklore",
-        "Langues, dialectes et patois": "language",
-        "Bibliothèques, ludothèques, discothèques et vidéothèques": "library",
+        "Langues, dialectes, patois": "language",
+        "Bibliothèques, ludothèques, discothèques, vidéothèques": "library",
         "Arts de la rue": "streetart"
     },
-    "Amicales, groupements affinitaires, groupes d'entraide": {
+    "Amicales, groupements affinitaires, groupes d'entraide (hors défense de droits fondamentaux)": {
         "Groupements d'entraide et de solidarité": "support",
-        "Amicale de personnes originaires d'un même pays": "ethnic",
-        "Organisation de professions": "professional",
-        "Associations de personnes en situation de handicap": "disability",
-        "Association du personnel d'une entreprise": "company",
+        "Amicale de personnes originaires d'un même pays (hors défense des droits des étrangers)": "ethnic",
+        "Organisation de professions (hors caractère syndical)": "professional",
+        "Associations de personnes en situation de handicap pour l'entraide et la solidarité (hors défense de droits fondamentaux)": "disability",
+        "Association du personnel d'une entreprise (hors caractère syndical)": "company",
         "Associations de classe d'âge": "age",
         "Amicale de personnes originaires d'une même région": "regional",
-        "Associations féminines pour l'entraide et la solidarité": "women",
-        "Associations de personnes homosexuelles": "rainbow"
+        "Associations féminines pour l'entraide et la solidarité (hors défense de droits fondamentaux)": "women",
+        "Associations de personnes homosexuelles pour l'entraide et la solidarité (hors défense de droits fondamentaux)": "rainbow"
     },
-    "Éducation et formation": {
+    "Éducation formation": {
         "Établissement de formation professionnelle, formation continue": "professional",
         "Associations d’étudiants, d’élèves": "student",
         "Parents d’élèves": "parents",
@@ -84,7 +84,7 @@
         "Organisme de gestion d’établissement d’enseignement supérieur": "higher",
         "Maisons familiales rurales": "rural"
     },
-    "Clubs de loisirs et de rencontres": {
+    "Clubs de loisirs, relations": {
         "échanges locaux, réseaux d'échanges": "exchange",
         "activités festives (soirées…)": "party",
         "relaxation, sophrologie": "relaxation",
@@ -102,18 +102,18 @@
         "aéroclubs": "aeroclubs",
         "radioamateurs": "radio"
     },
-    "Environnement et cadre de vie": {
-        "Defense and improvement of the living environment": "environment",
-        "Education on environment and sustainable development": "education",
-        "Protection of animals": "animals",
-        "Ecological movements": "ecology",
-        "Committees for defense and safeguarding": "safeguarding",
-        "Protection of natural sites": "sites",
-        "Natural spaces": "nature",
-        "Preservation of wildlife": "wildlife",
-        "Natural resources": "resources",
-        "Pollution and sanitation": "pollution",
-        "Preservation of wild flora": "flora"
+    "Environnement, cadre de vie": {
+        "Défense et amélioration du cadre de vie": "environment",
+        "Actions de sensibilisation et d'éducation à l'environnement et au développement durable": "ecology",
+        "Protection des animaux": "animals",
+        "Mouvements écologiques": "ecology",
+        "Comités de défense, de sauvegarde": "safeguarding",
+        "Protection de sites naturels": "sites",
+        "Espaces naturels": "nature",
+        "Préservation de la faune sauvage": "wildlife",
+        "Ressources naturelles": "resources",
+        "Pollutions, assainissement": "pollution",
+        "Préservation de la flore sauvage": "flora"
     },
     "Conduite d'activités économiques": {
         "Association à but commercial, développement économique": "commerce",
@@ -169,7 +169,7 @@
         "Centres de réadaptation": "rehabilitation",
         "Accueil, information pour contraception et avortement": "reproductivehealth"
     },
-    "Représentation et défense d'intérêts économiques": {
+    "Représentation, promotion et défense d'intérêts économiques": {
         "Associations d'exploitants agricoles, élevage, horticulture, aviculture, apiculture, viticulture, viniculture": "farming",
         "Représentation d’intérêts économiques sectoriels": "sector",
         "Représentation d’intérêts régionaux et locaux": "region",
@@ -246,7 +246,7 @@
         },
     "Activités religieuses, spirituelles ou philosophiques": {
         },
-    "Services familiaux et aux personnes âgées": {
+    "Services familiaux, services aux personnes âgées": {
         "Crèches, garderies, haltes garderies": "childcare",
         "Aide à domicile": "care",
         "Foyers pour personnes âgées, maisons de retraite, maisons de retraite médicalisées": "retirement",
@@ -259,13 +259,13 @@
         "Action politique globale": "politics",
         "Activités citoyennes européennes": "politics"
         },
-    "Clubs et cercles de réflexion": {
+    "Clubs, cercles de réflexion": {
         "Clubs de réflexion": "reflection",
         "Organisation de conférences": "conferences",
         "Associations philanthropiques": "philanthropy",
         "Amicales laïques": "secular clubs"
         },
-        "Chasse et pêche": {
+    "Chasse pêche": {
         "Chasse": "hunting",
         "Pêche": "fishing"
         },
@@ -284,7 +284,7 @@
         "Aide au logement": "housing",
         "Réhabilitation et construction de logements": "construction"
         },
-    "Recherche et innovation": {
+    "Recherche": {
         "Association de recherches scientifiques, sciences physiques, sciences humaines…": "research",
         "Autres associations de recherche": "research",
         "Diffusion de savoirs, sociétés savantes ou académiques": "dissemination",
@@ -303,7 +303,7 @@
         "Gîtes ruraux, camping, caravaning, naturisme": "accommodation",
         "Maisons et villages de vacances": "vacation"
         },
-    "Sécurité et services de secours": {
+    "Sécurité, protection civile": {
         "Amicale de sapeurs-pompiers": "firefighters",
         "Sauvetage, secourisme, protection civile": "rescue",
         "Prévention, formation, cours de secourisme": "prevention",

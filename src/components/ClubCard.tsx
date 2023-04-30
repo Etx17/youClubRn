@@ -29,15 +29,10 @@ interface IClubCardProps {
 const ClubCard = ({data}: IClubCardProps) => {
     
     const navigation = useNavigation();
-    // console.log(categoryImages["Sports, activités de plein air"]);
     
     const {titre, rna_number, geo_point, objet,domaine_activite_libelle_categorise, codepostal_actuel} = data?.fields;
-    // console.log( data?.fields);
     
     const subCategory = domaine_activite_libelle_categorise.split('/')[1].split('###')[0].charAt(0).toUpperCase() + domaine_activite_libelle_categorise.split('/')[1].split('###')[0].slice(1);
-    // console.log(subCategory, 'this is subCategory')
-    console.log(categoryImages["Sports, activités de plein air"][subCategory], '<= this is the image key');
-    console.log(categoryImages["Sports, activités de plein air"], `<= this is the image key for ${titre}`)
     const keyword = categoryImages["Sports, activités de plein air"][subCategory];
     const images = [
       `https://source.unsplash.com/random/?${keyword}/3000/2000`,

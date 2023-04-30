@@ -15,12 +15,11 @@ interface IDropdownProps {
 const SubCategoryDropdown = ({style, disabled, onValueChange, valuesub, categoryName}: IDropdownProps) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
-
   return (
     <DropDownPicker
       open={open}
       value={value}
-      items={subcategories[categoryName] || []}
+      items={subcategories[categoryName] ? subcategories[categoryName] : []}
       maxHeight={300}
       autoScroll={true}
       placeholder="Sous catégorie"
