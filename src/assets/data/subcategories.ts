@@ -49,7 +49,7 @@ const subcategories: ISubcategories = {
     "culture, pratiques d'activités artistiques, culturelles": [
         { label: "🎤 Chant choral et musique", value: "Chant choral et musique" },
         { label: "🎨 Promotion de l'art et des artistes", value: "Promotion de l'art et des artistes" },
-        { label: "🎭 Théâtre, marionnettes, cirque et spectacles de variété", value: "Théâtre, marionnettes, cirque et spectacles de variété" },
+        { label: "🎭 Théâtre, marionnettes, cirque et spectacles de variété", value: "théâtre, marionnettes, cirque, spectacles de variété" },
         { label: "💃 Danse", value: "Danse" },
         { label: "🧪 Loisirs scientifiques et techniques", value: "Loisirs scientifiques et techniques" },
         { label: "🧶 Artisanat, travaux manuels, bricolage et expositions", value: "Artisanat, travaux manuels, bricolage et expositions" },

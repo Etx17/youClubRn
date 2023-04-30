@@ -28,9 +28,7 @@ const SubCategoryDropdown = ({style, disabled, onValueChange, valuesub, category
       setOpen={setOpen}
       setValue={setValue}
       onChangeValue={(valuesub) => {
-        if(valuesub !== null) {
-          onValueChange && onValueChange(valuesub);
-        }
+        onValueChange && onValueChange(valuesub);
       }}
       selectedItemContainerStyle={{
         backgroundColor: "lightgrey"
@@ -62,4 +60,4 @@ const SubCategoryDropdown = ({style, disabled, onValueChange, valuesub, category
   );
 }
 
-export default React.memo(SubCategoryDropdown);
+export default SubCategoryDropdown;

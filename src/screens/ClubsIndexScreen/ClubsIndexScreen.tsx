@@ -32,7 +32,7 @@ const ClubsIndexScreen = () => {
       const encodedDropdownValueSpaceIntoPlus = encodedDropdownValue.replace(/%20/g, "+");
       console.log("encodedDropdownValue", encodedDropdownValueSpaceIntoPlus);
       //!work et dohttps://journal-officiel-datadila.opendatasoft.com/api/records/1.0/search/?dataset=jo_associations&q=&rows=11&sort=dateparution&facet=lieu_declaration_facette&facet=domaine_activite_categorise&facet=domaine_activite_libelle_categorise&refine..localisation_facette=%C3%8Ele-de-France&refine.domaine_activite_libelle_categorise=%C3%89ducation+formation&refine.lieu_declaration_facette=Paris
-      const url = `https://journal-officiel-datadila.opendatasoft.com/api/records/1.0/search/?dataset=jo_associations&q=&rows=11&sort=dateparution&facet=lieu_declaration_facette&facet=domaine_activite_categorise&facet=domaine_activite_libelle_categorise&refine.domaine_activite_libelle_categorise=${encodedDropdownValueSpaceIntoPlus}&refine.localisation_facette=%C3%8Ele-de-France&refine.lieu_declaration_facette=Paris`;
+      const url = `https://journal-officiel-datadila.opendatasoft.com/api/records/1.0/search/?dataset=jo_associations&q=&rows=1000&sort=dateparution&facet=lieu_declaration_facette&facet=domaine_activite_categorise&facet=domaine_activite_libelle_categorise&refine.domaine_activite_libelle_categorise=${encodedDropdownValueSpaceIntoPlus}&refine.localisation_facette=%C3%8Ele-de-France&exclude.objet=%22%22&exclude.domaine_activite_libelle_categorise=%22%22&`;
       
      
       //working:   https://journal-officiel-datadila.opendatasoft.com/api/records/1.0/search/?dataset=jo_associations&q=&rows=11&sort=dateparution&facet=lieu_declaration_facette&facet=domaine_activite_categorise&facet=domaine_activite_libelle_categorise&refine.localisation_facette=%C3%8Ele-de-France&refine.domaine_activite_libelle_categorise=%C3%A9ducation+formation&refine.lieu_declaration_facette=Paris
@@ -49,15 +49,17 @@ const ClubsIndexScreen = () => {
   useEffect(() => {
     const fetchClubs = async () => {
       const data = await fetchData();
-      console.log(data.records.length)
-      console.log(data?.records[1].fields.objet, 'this is records[1].titre')
-      const clubsWithObjectAndSubcategory = data?.records.filter(
-        (club: {fields: {objet: string, domaine_activite_libelle_categorise: string}}) => club?.fields?.objet 
-          && club?.fields?.objet.trim() !== "" 
-          && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0] 
-          && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0].trim() !== ""
+      console.log(data?.records.length, 'this is data records length');
+      const clubsWithObjectAndSubcategory = 
+        data?.records.filter(
+          (club: {fields: {objet: any, domaine_activite_libelle_categorise: string}}) => club?.fields?.objet 
+            && club?.fields?.objet.trim() !== "" 
+            && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0] 
+            && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0].trim() !== ""
+        // );
+        // data?.records.filter(club => club.fields.hasOwnProperty('objet') && club.fields.hasOwnProperty('domaine_activite_libelle_categorise') && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0].trim() !== ""
         );
-        console.log(clubsWithObjectAndSubcategory.length, 'this is clubsWithObjectAndSubcategory.length');
+      console.log(clubsWithObjectAndSubcategory.length, 'this is clubsWithObjectAndSubcategory.length after ');
         
       setClubs(clubsWithObjectAndSubcategory);
       setSubCategoryClubs(clubsWithObjectAndSubcategory);
@@ -81,12 +83,12 @@ const ClubsIndexScreen = () => {
       console.log(valuesub, 'this is valuesub')
       // console.log(clubs[0], 'this is clubs[0]')
       console.log(clubs.length, 'before filter')
-      // console.log(clubs[0].fields.domaine_activite_libelle_categorise.split('/')[0] , "this is the condition")
+      console.log(clubs[0].fields.domaine_activite_libelle_categorise.split('/')[1].split("###")[0] , "<= this is the condition to filter by.")
       
       // clubs.map((club) => { console.log(club.fields.domaine_activite_libelle_categorise.split('/')[1] === valuesub) })
-      const newClubs = clubs.filter((club: { fields: { domaine_activite_libelle_categorise: string}}) => club?.fields?.domaine_activite_libelle_categorise.split('/')[1] === valuesub);
+      const newClubs = clubs.filter((club: { fields: { domaine_activite_libelle_categorise: string}}) => club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split("###")[0] === valuesub);
       setSubCategoryClubs(newClubs);
-      // console.log(newClubs, 'this is newClubs')
+      console.log(newClubs.length, 'this is newClubs length')
     }
     }
     
