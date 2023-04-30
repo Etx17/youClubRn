@@ -4,10 +4,10 @@ interface Category {
 }
 
 const categories: Category[] = [
-  { label: "🎨 Culture, pratique d'activités artistiques, culturelles", value: "Culture, pratique d'activités artistiques, culturelles" },
+  { label: "🎨 Culture, pratiques d'activités artistiques, culturelles", value: "culture, pratiques d'activités artistiques, culturelles" },
   { label: "⚽ Sports, activités de plein air", value: "Sports, activités de plein air" },
   { label: "👫 Amicales, groupements affinitaires, groupes d'entraide (hors défense de droits fondamentaux)", value: "Amicales, groupements affinitaires, groupes d'entraide (hors défense de droits fondamentaux)" },
-  { label: "🎓 Éducation formation", value: "Éducation formation" },
+  { label: "🎓 Éducation formation", value: "éducation formation" },
   { label: "🎉 Clubs de loisirs, relations", value: "Clubs de loisirs, relations" },
   { label: "🌳 Environnement, cadre de vie", value: "Environnement, cadre de vie" },
   { label: "💼 Conduite d'activités économiques", value: "Conduite d'activités économiques" },

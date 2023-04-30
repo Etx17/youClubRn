@@ -46,7 +46,7 @@ const subcategories: ISubcategories = {
         { label: "🤺 Escrime", value: "Escrime" },
         { label: "🏒 Hockey sur glace, sports de glace", value: "Hockey sur glace, sports de glace" }
     ],
-    "Culture, pratique d'activités artistiques, culturelles": [
+    "culture, pratiques d'activités artistiques, culturelles": [
         { label: "🎤 Chant choral et musique", value: "Chant choral et musique" },
         { label: "🎨 Promotion de l'art et des artistes", value: "Promotion de l'art et des artistes" },
         { label: "🎭 Théâtre, marionnettes, cirque et spectacles de variété", value: "Théâtre, marionnettes, cirque et spectacles de variété" },
@@ -72,7 +72,7 @@ const subcategories: ISubcategories = {
         { label: "👩 Associations féminines pour l'entraide et la solidarité", value: "Associations féminines pour l'entraide et la solidarité" },
         { label: "🏳️‍🌈 Associations de personnes homosexuelles", value: "Associations de personnes homosexuelles" }
     ],
-    "Éducation formation": [
+    "éducation formation": [
         { label: "🎓 Établissement de formation professionnelle, formation continue", value: "Établissement de formation professionnelle, formation continue" },
         { label: "👨‍🎓 Associations d’étudiants, d’élèves", value: "Associations d’étudiants, d’élèves" },
         { label: "👪 Parents d’élèves", value: "Parents d’élèves" },

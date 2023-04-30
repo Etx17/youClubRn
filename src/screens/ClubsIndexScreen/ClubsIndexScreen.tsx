@@ -26,48 +26,72 @@ const ClubsIndexScreen = () => {
 
 
   const fetchData = async () => {
-    const url = `https://journal-officiel-datadila.opendatasoft.com/api/records/1.0/search/?dataset=jo_associations&q=&rows=1000&start=0&sort=dateparution&facet=domaine_activite_categorise&facet=domaine_activite_libelle_categorise&refine.domaine_activite_libelle_categorise=${dropdownValue}&refine.localisation_facette=%C3%8Ele-de-France&exclude.objet=%22%22&exclude.domaine_activite_libelle_categorise=%22%22&`;
-    const response = await axios.get(url);
-    return response.data;
+    try {
+     
+      const encodedDropdownValue = encodeURIComponent(dropdownValue).replace(/'/g, "%E2%80%99");
+      const encodedDropdownValueSpaceIntoPlus = encodedDropdownValue.replace(/%20/g, "+");
+      console.log("encodedDropdownValue", encodedDropdownValueSpaceIntoPlus);
+      //!work et dohttps://journal-officiel-datadila.opendatasoft.com/api/records/1.0/search/?dataset=jo_associations&q=&rows=11&sort=dateparution&facet=lieu_declaration_facette&facet=domaine_activite_categorise&facet=domaine_activite_libelle_categorise&refine..localisation_facette=%C3%8Ele-de-France&refine.domaine_activite_libelle_categorise=%C3%89ducation+formation&refine.lieu_declaration_facette=Paris
+      const url = `https://journal-officiel-datadila.opendatasoft.com/api/records/1.0/search/?dataset=jo_associations&q=&rows=11&sort=dateparution&facet=lieu_declaration_facette&facet=domaine_activite_categorise&facet=domaine_activite_libelle_categorise&refine.domaine_activite_libelle_categorise=${encodedDropdownValueSpaceIntoPlus}&refine.localisation_facette=%C3%8Ele-de-France&refine.lieu_declaration_facette=Paris`;
+      
+     
+      //working:   https://journal-officiel-datadila.opendatasoft.com/api/records/1.0/search/?dataset=jo_associations&q=&rows=11&sort=dateparution&facet=lieu_declaration_facette&facet=domaine_activite_categorise&facet=domaine_activite_libelle_categorise&refine.localisation_facette=%C3%8Ele-de-France&refine.domaine_activite_libelle_categorise=%C3%A9ducation+formation&refine.lieu_declaration_facette=Paris
+      console.log(url, 'this is url')
+      
+      const response = await axios.get(url);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      throw error;
+    }
   };
-
+ 
   useEffect(() => {
     const fetchClubs = async () => {
-      setIsFetching(true);
       const data = await fetchData();
+      console.log(data.records.length)
+      console.log(data?.records[1].fields.objet, 'this is records[1].titre')
       const clubsWithObjectAndSubcategory = data?.records.filter(
         (club: {fields: {objet: string, domaine_activite_libelle_categorise: string}}) => club?.fields?.objet 
           && club?.fields?.objet.trim() !== "" 
           && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0] 
           && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0].trim() !== ""
         );
+        console.log(clubsWithObjectAndSubcategory.length, 'this is clubsWithObjectAndSubcategory.length');
+        
       setClubs(clubsWithObjectAndSubcategory);
       setSubCategoryClubs(clubsWithObjectAndSubcategory);
-      setIsFetching(false);
     };
     fetchClubs();
-  }, []);
+  }, [dropdownValue]);
 
  
   const handleDropdownValueChange = (valuecat: any) => {
+    console.log(valuecat, 'this is valuecat that is supposed to be selected')
     setDropdownValue(valuecat);
   };
   const handleSubCategoryDropdownValueChange = (valuesub: any) => {
-    setSubCategoryDropdownValue(valuesub);
+    if (valuesub === 'all' || null || undefined) { 
+      return setSubCategoryClubs(clubs);
+    } else {
+      setSubCategoryDropdownValue(valuesub);
     
     if(clubs.length > 0){
+      
       console.log(valuesub, 'this is valuesub')
       // console.log(clubs[0], 'this is clubs[0]')
       console.log(clubs.length, 'before filter')
       // console.log(clubs[0].fields.domaine_activite_libelle_categorise.split('/')[0] , "this is the condition")
       
       // clubs.map((club) => { console.log(club.fields.domaine_activite_libelle_categorise.split('/')[1] === valuesub) })
-      const newClubs = clubs.filter((club: { fields: { domaine_activite_libelle_categorise: string}}) => club.fields.domaine_activite_libelle_categorise.split('/')[1] === valuesub);
+      const newClubs = clubs.filter((club: { fields: { domaine_activite_libelle_categorise: string}}) => club?.fields?.domaine_activite_libelle_categorise.split('/')[1] === valuesub);
       setSubCategoryClubs(newClubs);
       // console.log(newClubs, 'this is newClubs')
     }
+    }
+    
   };
-console.log(dropdownValue, subCategoryDropdownValue, 'this is dropdownValue and subCategoryDropdownvalue')
+// console.log(dropdownValue, subCategoryDropdownValue, 'this is dropdownValue and subCategoryDropdownvalue')
 return ( 
   
   <View style={styles.container}>
