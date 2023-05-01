@@ -28,14 +28,20 @@ const ClubsIndexScreen = () => {
   const fetchData = async () => {
     try {
      
-      const encodedDropdownValue = encodeURIComponent(dropdownValue).replace(/'/g, "%E2%80%99");
+      let encodedDropdownValue
+      console.log(dropdownValue, "dropdownValue")
+      if (dropdownValue === "culture, pratiques d'activités artistiques, culturelles"){
+        encodedDropdownValue = encodeURIComponent(dropdownValue).replace(/'/g, "%E2%80%99");
+      } else {
+        encodedDropdownValue = encodeURIComponent(dropdownValue).replace(/'/g, "%27");
+      }
       const encodedDropdownValueSpaceIntoPlus = encodedDropdownValue.replace(/%20/g, "+");
       console.log("encodedDropdownValue", encodedDropdownValueSpaceIntoPlus);
-      //!work et dohttps://journal-officiel-datadila.opendatasoft.com/api/records/1.0/search/?dataset=jo_associations&q=&rows=11&sort=dateparution&facet=lieu_declaration_facette&facet=domaine_activite_categorise&facet=domaine_activite_libelle_categorise&refine..localisation_facette=%C3%8Ele-de-France&refine.domaine_activite_libelle_categorise=%C3%89ducation+formation&refine.lieu_declaration_facette=Paris
       const url = `https://journal-officiel-datadila.opendatasoft.com/api/records/1.0/search/?dataset=jo_associations&q=&rows=1000&sort=dateparution&facet=lieu_declaration_facette&facet=domaine_activite_categorise&facet=domaine_activite_libelle_categorise&refine.domaine_activite_libelle_categorise=${encodedDropdownValueSpaceIntoPlus}&refine.localisation_facette=%C3%8Ele-de-France&exclude.objet=%22%22&exclude.domaine_activite_libelle_categorise=%22%22&`;
       
+      //!work et dohttps://journal-officiel-datadila.opendatasoft.com/api/records/1.0/search/?dataset=jo_associations&q=&rows=1000&sort=dateparution&facet=lieu_declaration_facette&facet=domaine_activite_categorise&facet=domaine_activite_libelle_categorise&refine.domaine_activite_libelle_categorise=culture%2C+pratiques+dE2%80%99activit%C3%A9s+artistiques%2C+culturelles&refine.localisation_facette=%C3%8Ele-de-France&exclude.objet=%22%22&exclude.domaine_activite_libelle_categorise=%22%22&
+      //working:   https://journal-officiel-datadila.opendatasoft.com/api/records/1.0/search/?dataset=jo_associations&q=&rows=1000&sort=dateparution&facet=lieu_declaration_facette&facet=domaine_activite_categorise&facet=domaine_activite_libelle_categorise&refine.domaine_activite_libelle_categorise=culture%2C+pratiques+d%E2%80%99activit%C3%A9s+artistiques%2C+culturelles
      
-      //working:   https://journal-officiel-datadila.opendatasoft.com/api/records/1.0/search/?dataset=jo_associations&q=&rows=11&sort=dateparution&facet=lieu_declaration_facette&facet=domaine_activite_categorise&facet=domaine_activite_libelle_categorise&refine.localisation_facette=%C3%8Ele-de-France&refine.domaine_activite_libelle_categorise=%C3%A9ducation+formation&refine.lieu_declaration_facette=Paris
       console.log(url, 'this is url')
       
       const response = await axios.get(url);
@@ -85,7 +91,7 @@ const ClubsIndexScreen = () => {
       console.log(clubs.length, 'before filter')
       console.log(clubs[0].fields.domaine_activite_libelle_categorise.split('/')[1].split("###")[0] , "<= this is the condition to filter by.")
       
-      // clubs.map((club) => { console.log(club.fields.domaine_activite_libelle_categorise.split('/')[1] === valuesub) })
+      // clubs.map((club) => { console.log(club.fields.domaine_activite_libelle_categorise.split('/')[1].split("###")[0] , "<= this is the items loggeed at split1 split0.") })
       const newClubs = clubs.filter((club: { fields: { domaine_activite_libelle_categorise: string}}) => club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split("###")[0] === valuesub);
       setSubCategoryClubs(newClubs);
       console.log(newClubs.length, 'this is newClubs length')
