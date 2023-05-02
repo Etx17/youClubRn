@@ -20,7 +20,7 @@ const ClubsIndexScreen = () => {
   const [dropdownValue, setDropdownValue] = useState("Sports, activités de plein air");
   const [subCategoryDropdownValue, setSubCategoryDropdownValue] = useState("all");
   const [isFetching, setIsFetching] = useState(false);
-
+  const {city} = useLocationContext();
 
   const fetchData = async () => {
     try {
@@ -33,8 +33,9 @@ const ClubsIndexScreen = () => {
       }
       const encodedDropdownValueSpaceIntoPlus = encodedDropdownValue.replace(/%20/g, "+");
       console.log("encodedDropdownValue", encodedDropdownValueSpaceIntoPlus);
+      // Avec les assos juste de paris, probleme plantage 'split' of undefined
+      // const url = `https://journal-officiel-datadila.opendatasoft.com/api/records/1.0/search/?dataset=jo_associations&q=&rows=1000&sort=dateparution&facet=lieu_declaration_facette&facet=domaine_activite_categorise&facet=domaine_activite_libelle_categorise&refine.domaine_activite_libelle_categorise=${encodedDropdownValueSpaceIntoPlus}&refine.lieu_declaration_facette=${city}&exclude.objet=%22%22&exclude.domaine_activite_libelle_categorise=%22%22&`;
       const url = `https://journal-officiel-datadila.opendatasoft.com/api/records/1.0/search/?dataset=jo_associations&q=&rows=1000&sort=dateparution&facet=lieu_declaration_facette&facet=domaine_activite_categorise&facet=domaine_activite_libelle_categorise&refine.domaine_activite_libelle_categorise=${encodedDropdownValueSpaceIntoPlus}&refine.localisation_facette=%C3%8Ele-de-France&exclude.objet=%22%22&exclude.domaine_activite_libelle_categorise=%22%22&`;
-      
       const response = await axios.get(url);
       return response.data;
     } catch (error) {

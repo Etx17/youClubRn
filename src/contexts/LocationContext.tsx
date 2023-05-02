@@ -4,6 +4,7 @@ import * as Location from 'expo-location';
 type LocationContextType ={
     lat: number | string ;
     lon: number | string ;
+    city: string | null;
 }
 
 type ILocation ={
@@ -15,7 +16,8 @@ type ILocation ={
 
 export const LocationContext = createContext<LocationContextType>({
     lat: "",
-    lon: ""    
+    lon: "",
+    city: ""    
 })
 
 
@@ -23,7 +25,7 @@ export const LocationContext = createContext<LocationContextType>({
 const LocationContextProvider = ({children}: {children: ReactNode}) => {
     const [location, setLocation] = useState<ILocation>({coords: {}} as ILocation);
     const [errorMsg, setErrorMsg] = useState<string>('');
-
+    const [city, setCity] = useState<string | null>('');
     useEffect(() => {
         (async () => {
         
@@ -33,8 +35,20 @@ const LocationContextProvider = ({children}: {children: ReactNode}) => {
             return;
         }
 
-        let location = await Location.getCurrentPositionAsync({});
-        setLocation(location);
+        let deviceLocation = await Location.getCurrentPositionAsync({});
+        setLocation(deviceLocation);
+        
+        console.log(deviceLocation.coords, 'location from context');
+        const locationObject = {
+            latitude: deviceLocation.coords.latitude,
+            longitude: deviceLocation.coords.longitude
+        }
+        const geocodeData = await Location.reverseGeocodeAsync(locationObject);
+        if (geocodeData && geocodeData.length > 0) {
+        setCity(geocodeData[0]?.city);
+        } else {
+        console.error('Could not geocode city');
+        }
         })();
     }, []);
 
@@ -45,7 +59,7 @@ const LocationContextProvider = ({children}: {children: ReactNode}) => {
         text = JSON.stringify(location);
     }
     return (
-        <LocationContext.Provider value={{lat: location?.coords?.latitude, lon: location?.coords?.longitude }}>
+        <LocationContext.Provider value={{lat: location?.coords?.latitude, lon: location?.coords?.longitude, city: city }}>
             {children}
         </LocationContext.Provider>
     )
