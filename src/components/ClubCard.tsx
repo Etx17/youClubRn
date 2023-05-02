@@ -104,7 +104,7 @@ const ClubCard = ({data}: IClubCardProps) => {
         
 
         {/* Description */}
-        <Text style={styles.object} numberOfLines={3}>{objet ? "👀" + objet?.charAt(0).toUpperCase() + objet?.slice(1) : "Cette association n'a pas renseigné de description"}</Text>
+        <Text style={styles.object} numberOfLines={3}>{objet ? objet?.charAt(0).toUpperCase() + objet?.slice(1) : "Cette association n'a pas renseigné de description"}</Text>
       </View>
       <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}}>
         <Pressable onPress={() => console.log('clicked phone button')}>
@@ -198,15 +198,19 @@ const styles = StyleSheet.create({
     object: {
       fontSize: fonts.size.default,
       color: colors.white,
+      paddingHorizontal: 5,
     },
-    subCategory: {color: 'white', 
-    borderWidth: 2, 
-    borderColor: 'white', 
-    padding: 8, 
-    paddingHorizontal: 16, 
-    marginVertical: 4, 
-    borderRadius: 20, 
-    backgroundColor: colors.primary, overflow: 'hidden'},
+    subCategory: {
+      color: 'white', 
+      borderWidth: 2, 
+      borderColor: 'white', 
+      padding: 8, 
+      paddingHorizontal: 16, 
+      marginVertical: 4, 
+      borderRadius: 20, 
+      backgroundColor: colors.primary,
+      overflow: 'hidden'
+    },
   });
 
 export default ClubCard;
