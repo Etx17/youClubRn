@@ -12,7 +12,7 @@ export default function App() {
   // Ne wrapper le location context provider que autour du topTabNavigator là ou j'en ai besoin
        <SafeAreaProvider>
         <LocationContextProvider> 
-        <Navigation/>
+          <Navigation/>
         </LocationContextProvider>
       </SafeAreaProvider>
   );

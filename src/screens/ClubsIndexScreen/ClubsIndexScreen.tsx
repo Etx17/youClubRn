@@ -16,18 +16,14 @@ import axios from 'axios';
 
 const ClubsIndexScreen = () => {
   const [clubs, setClubs] = useState([]);
-  // const {lat, lon} = useLocationContext()
   const [subCategoryClubs, setSubCategoryClubs] = useState([]);
   const [dropdownValue, setDropdownValue] = useState("Sports, activités de plein air");
   const [subCategoryDropdownValue, setSubCategoryDropdownValue] = useState("all");
-  // const [index, setIndex] = useState(0);
-  // const [cardLength, setCardLength] = useState<number>(clubs.length);
   const [isFetching, setIsFetching] = useState(false);
 
 
   const fetchData = async () => {
     try {
-     
       let encodedDropdownValue
       console.log(dropdownValue, "dropdownValue")
       if (dropdownValue === "culture, pratiques d'activités artistiques, culturelles"){
@@ -38,11 +34,6 @@ const ClubsIndexScreen = () => {
       const encodedDropdownValueSpaceIntoPlus = encodedDropdownValue.replace(/%20/g, "+");
       console.log("encodedDropdownValue", encodedDropdownValueSpaceIntoPlus);
       const url = `https://journal-officiel-datadila.opendatasoft.com/api/records/1.0/search/?dataset=jo_associations&q=&rows=1000&sort=dateparution&facet=lieu_declaration_facette&facet=domaine_activite_categorise&facet=domaine_activite_libelle_categorise&refine.domaine_activite_libelle_categorise=${encodedDropdownValueSpaceIntoPlus}&refine.localisation_facette=%C3%8Ele-de-France&exclude.objet=%22%22&exclude.domaine_activite_libelle_categorise=%22%22&`;
-      
-      //!work et dohttps://journal-officiel-datadila.opendatasoft.com/api/records/1.0/search/?dataset=jo_associations&q=&rows=1000&sort=dateparution&facet=lieu_declaration_facette&facet=domaine_activite_categorise&facet=domaine_activite_libelle_categorise&refine.domaine_activite_libelle_categorise=culture%2C+pratiques+dE2%80%99activit%C3%A9s+artistiques%2C+culturelles&refine.localisation_facette=%C3%8Ele-de-France&exclude.objet=%22%22&exclude.domaine_activite_libelle_categorise=%22%22&
-      //working:   https://journal-officiel-datadila.opendatasoft.com/api/records/1.0/search/?dataset=jo_associations&q=&rows=1000&sort=dateparution&facet=lieu_declaration_facette&facet=domaine_activite_categorise&facet=domaine_activite_libelle_categorise&refine.domaine_activite_libelle_categorise=culture%2C+pratiques+d%E2%80%99activit%C3%A9s+artistiques%2C+culturelles
-     
-      console.log(url, 'this is url')
       
       const response = await axios.get(url);
       return response.data;
@@ -120,7 +111,7 @@ return (
     { subCategoryClubs.length > 0 && 
       <Swiper
         cards={subCategoryClubs}
-        infinite={false}
+        infinite={true}
         stackSize={2}
         // cardIndex={index}
         animateOverlayLabelsOpacity
