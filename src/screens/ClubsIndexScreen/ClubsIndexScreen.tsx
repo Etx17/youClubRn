@@ -16,58 +16,81 @@ import axios from 'axios';
 
 const ClubsIndexScreen = () => {
   const [clubs, setClubs] = useState([]);
-  // const {lat, lon} = useLocationContext()
   const [subCategoryClubs, setSubCategoryClubs] = useState([]);
   const [dropdownValue, setDropdownValue] = useState("Sports, activités de plein air");
   const [subCategoryDropdownValue, setSubCategoryDropdownValue] = useState("all");
-  // const [index, setIndex] = useState(0);
-  // const [cardLength, setCardLength] = useState<number>(clubs.length);
   const [isFetching, setIsFetching] = useState(false);
 
 
   const fetchData = async () => {
-    const url = `https://journal-officiel-datadila.opendatasoft.com/api/records/1.0/search/?dataset=jo_associations&q=&rows=1000&start=0&sort=dateparution&facet=domaine_activite_categorise&facet=domaine_activite_libelle_categorise&refine.domaine_activite_libelle_categorise=${dropdownValue}&refine.localisation_facette=%C3%8Ele-de-France&exclude.objet=%22%22&exclude.domaine_activite_libelle_categorise=%22%22&`;
-    const response = await axios.get(url);
-    return response.data;
+    try {
+      let encodedDropdownValue
+      console.log(dropdownValue, "dropdownValue")
+      if (dropdownValue === "culture, pratiques d'activités artistiques, culturelles"){
+        encodedDropdownValue = encodeURIComponent(dropdownValue).replace(/'/g, "%E2%80%99");
+      } else {
+        encodedDropdownValue = encodeURIComponent(dropdownValue).replace(/'/g, "%27");
+      }
+      const encodedDropdownValueSpaceIntoPlus = encodedDropdownValue.replace(/%20/g, "+");
+      console.log("encodedDropdownValue", encodedDropdownValueSpaceIntoPlus);
+      const url = `https://journal-officiel-datadila.opendatasoft.com/api/records/1.0/search/?dataset=jo_associations&q=&rows=1000&sort=dateparution&facet=lieu_declaration_facette&facet=domaine_activite_categorise&facet=domaine_activite_libelle_categorise&refine.domaine_activite_libelle_categorise=${encodedDropdownValueSpaceIntoPlus}&refine.localisation_facette=%C3%8Ele-de-France&exclude.objet=%22%22&exclude.domaine_activite_libelle_categorise=%22%22&`;
+      
+      const response = await axios.get(url);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      throw error;
+    }
   };
-
+ 
   useEffect(() => {
     const fetchClubs = async () => {
-      setIsFetching(true);
       const data = await fetchData();
-      const clubsWithObjectAndSubcategory = data?.records.filter(
-        (club: {fields: {objet: string, domaine_activite_libelle_categorise: string}}) => club?.fields?.objet 
-          && club?.fields?.objet.trim() !== "" 
-          && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0] 
-          && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0].trim() !== ""
+      console.log(data?.records.length, 'this is data records length');
+      const clubsWithObjectAndSubcategory = 
+        data?.records.filter(
+          (club: {fields: {objet: any, domaine_activite_libelle_categorise: string}}) => club?.fields?.objet 
+            && club?.fields?.objet.trim() !== "" 
+            && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0] 
+            && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0].trim() !== ""
+        // );
+        // data?.records.filter(club => club.fields.hasOwnProperty('objet') && club.fields.hasOwnProperty('domaine_activite_libelle_categorise') && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0].trim() !== ""
         );
+      console.log(clubsWithObjectAndSubcategory.length, 'this is clubsWithObjectAndSubcategory.length after ');
+        
       setClubs(clubsWithObjectAndSubcategory);
       setSubCategoryClubs(clubsWithObjectAndSubcategory);
-      setIsFetching(false);
     };
     fetchClubs();
-  }, []);
+  }, [dropdownValue]);
 
  
   const handleDropdownValueChange = (valuecat: any) => {
+    console.log(valuecat, 'this is valuecat that is supposed to be selected')
     setDropdownValue(valuecat);
   };
   const handleSubCategoryDropdownValueChange = (valuesub: any) => {
-    setSubCategoryDropdownValue(valuesub);
+    if (valuesub === 'all' || null || undefined) { 
+      return setSubCategoryClubs(clubs);
+    } else {
+      setSubCategoryDropdownValue(valuesub);
     
     if(clubs.length > 0){
+      
       console.log(valuesub, 'this is valuesub')
       // console.log(clubs[0], 'this is clubs[0]')
       console.log(clubs.length, 'before filter')
-      // console.log(clubs[0].fields.domaine_activite_libelle_categorise.split('/')[0] , "this is the condition")
+      console.log(clubs[0].fields.domaine_activite_libelle_categorise.split('/')[1].split("###")[0] , "<= this is the condition to filter by.")
       
-      // clubs.map((club) => { console.log(club.fields.domaine_activite_libelle_categorise.split('/')[1] === valuesub) })
-      const newClubs = clubs.filter((club: { fields: { domaine_activite_libelle_categorise: string}}) => club.fields.domaine_activite_libelle_categorise.split('/')[1] === valuesub);
+      // clubs.map((club) => { console.log(club.fields.domaine_activite_libelle_categorise.split('/')[1].split("###")[0] , "<= this is the items loggeed at split1 split0.") })
+      const newClubs = clubs.filter((club: { fields: { domaine_activite_libelle_categorise: string}}) => club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split("###")[0] === valuesub);
       setSubCategoryClubs(newClubs);
-      // console.log(newClubs, 'this is newClubs')
+      console.log(newClubs.length, 'this is newClubs length')
     }
+    }
+    
   };
-console.log(dropdownValue, subCategoryDropdownValue, 'this is dropdownValue and subCategoryDropdownvalue')
+// console.log(dropdownValue, subCategoryDropdownValue, 'this is dropdownValue and subCategoryDropdownvalue')
 return ( 
   
   <View style={styles.container}>
@@ -88,7 +111,7 @@ return (
     { subCategoryClubs.length > 0 && 
       <Swiper
         cards={subCategoryClubs}
-        infinite={false}
+        infinite={true}
         stackSize={2}
         // cardIndex={index}
         animateOverlayLabelsOpacity

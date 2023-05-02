@@ -40,8 +40,8 @@
         "Escrime": "fencing",
         "Hockey sur glace, sports de glace": "icehockey"
     },
-    "Culture, pratique d'activités artistiques, culturelles": {
-        "Chant choral, musique": "music",
+    "culture, pratiques d'activités artistiques, culturelles": {
+        "Chant choral, musique": "choir",
         "Promotion de l'art et des artistes": "promotion",
         "Théâtre, marionnettes, cirque et spectacles de variété": "theater",
         "Danse": "dance",
@@ -55,7 +55,7 @@
         "Bibliothèques, ludothèques, discothèques, vidéothèques": "library",
         "Arts de la rue": "streetart"
     },
-    "Amicales, groupements affinitaires, groupes d'entraide (hors défense de droits fondamentaux)": {
+    "amicales, groupements affinitaires, groupes d'entraide (hors défense de droits fondamentaux": {
         "Groupements d'entraide et de solidarité": "support",
         "Amicale de personnes originaires d'un même pays (hors défense des droits des étrangers)": "ethnic",
         "Organisation de professions (hors caractère syndical)": "professional",
@@ -66,7 +66,7 @@
         "Associations féminines pour l'entraide et la solidarité (hors défense de droits fondamentaux)": "women",
         "Associations de personnes homosexuelles pour l'entraide et la solidarité (hors défense de droits fondamentaux)": "rainbow"
     },
-    "Éducation formation": {
+    "éducation formation": {
         "Établissement de formation professionnelle, formation continue": "professional",
         "Associations d’étudiants, d’élèves": "student",
         "Parents d’élèves": "parents",

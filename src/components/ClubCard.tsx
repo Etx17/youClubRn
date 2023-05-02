@@ -8,7 +8,8 @@ import AntIcons from '@expo/vector-icons/AntDesign';
 import fonts from '../themes/fonts';
 import { useNavigation } from '@react-navigation/native';
 import categoryImages from '../assets/data/categoryImages';
-
+import { useLocationContext } from '../contexts/LocationContext';
+import { getDistance } from '../services/GeoServices';
 
 interface IClub {
   id: number;
@@ -25,10 +26,15 @@ interface IClubCardProps {
   data: any
   locationData: any
 }
-
 const ClubCard = ({data}: IClubCardProps) => {
-    
     const navigation = useNavigation();
+    const {lat, lon} = useLocationContext()
+    // console.log(lat, lon, 'this is lat and lon of user')
+   
+    const clubLat = parseFloat(data.fields.geo_point.split(',')[0])
+    const clubLon = parseFloat(data.fields.geo_point.split(',')[1])
+    const distance = getDistance(lat, lon, clubLat, clubLon )
+    const formattedDistance = distance.toFixed(1).toString() + ' km';
     
     const {titre, rna_number, geo_point, objet,domaine_activite_libelle_categorise, codepostal_actuel} = data?.fields;
     
@@ -88,7 +94,7 @@ const ClubCard = ({data}: IClubCardProps) => {
 
         {/* Localisation */}
         <Text style={{color: 'white'}}>
-          <Ionicons name="location-sharp" size={14} color="white" style={styles.locationIcon} /> 1 km
+          <Ionicons name="location-sharp" size={14} color="white" style={styles.locationIcon} />{formattedDistance}
         </Text>
         
         <Text numberOfLines={2} style={{color: 'white', borderWidth: 2, borderColor: 'white', padding: 8, paddingHorizontal: 16, marginVertical: 4, borderRadius: 20, backgroundColor: colors.primary, overflow: 'hidden'}}>
