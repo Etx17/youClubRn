@@ -83,12 +83,14 @@ const ClubsIndexScreen = () => {
       console.log(valuesub, 'this is valuesub')
       // console.log(clubs[0], 'this is clubs[0]')
       console.log(clubs.length, 'before filter')
-      console.log(clubs[0].fields.domaine_activite_libelle_categorise.split('/')[1].split("###")[0] , "<= this is the condition to filter by.")
+      console.log(clubs[0].fields.domaine_activite_libelle_categorise.split('/')[1].split("###")[0] , "<= this is the subcategory of the first club amongs many.")
+      console.log(clubs[0].fields.domaine_activite_libelle_categorise)
+      console.log(clubs[0].fields.domaine_activite_libelle_categorise.includes(valuesub), "= this is the result of the includes method on the first club amongs many.")
       
       // clubs.map((club) => { console.log(club.fields.domaine_activite_libelle_categorise.split('/')[1].split("###")[0] , "<= this is the items loggeed at split1 split0.") })
       const newClubs = clubs.filter((club: { fields: { domaine_activite_libelle_categorise: string}}) => club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split("###")[0] === valuesub);
       setSubCategoryClubs(newClubs);
-      console.log(newClubs.length, 'this is newClubs length')
+      console.log(newClubs.length, 'after fuktern this is newClubs length')
     }
     }
     

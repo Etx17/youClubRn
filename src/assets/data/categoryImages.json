@@ -18,7 +18,7 @@
         "Danse sportive (danse sportive, hip hop, claquettes)": ["dancing", "hip hop", "tap"],
         "Tennis (tennis, longue paume)": ["tennis", "racquet", "court"],
         "Athlétisme (triathlon, pentathlon, footing, jogging)": ["athletics", "jump", "footing"],
-        "Gestion d'équipements sportifs, organisation de rencontres sportives, organisation de championnats, clubs de supporters": ["stadium", "management", "supporters"],
+        "Gestion d’équipements sportifs, organisation de rencontres sportives, organisation de championnats, clubs de supporters": ["stadium", "management", "supporters"],
         "Basket-ball": ["basketball", "hoops", "court"],
         "Nautisme, glisse sur eau (ski nautique, surf, char à voile)": ["sailing", "water", "surfing"],
         "Voile (voile, dériveur, planche à voile)": ["sailing", "sailboat", "windsurfing"],
@@ -30,7 +30,7 @@
         "Roller, skate": ["skateboard", "rollerblade", "derby"],
         "Tennis de table (tennis de table, ping-pong)": ["tennis", "ping", "paddle"],
         "Golf": ["golf", "putting", "driving range"],
-        "Associations multisports d'entreprise": ["corporate", "sports", "company"],
+        "Associations multisports d’entreprise": ["corporate", "sports", "company"],
         "Volley ball (volley, beach volley)": ["volleyball", "beach volleyball", "spike"],
         "Autres sports collectifs (baseball, hockey sur glace, football américain)": ["team", "baseball", "hockey"],
         "Escalade, montagne (escalade, spéléologie, via ferrata, canyonisme, alpinisme)": ["climbing", "mountain", "canyon"],
@@ -41,7 +41,7 @@
     },
     "Culture, pratiques d’activités artistiques, culturelles": {
         "Chant choral, musique": ["choir", "music", "performance"],
-        "Promotion de l'art et des artistes": ["promotion", "art", "artist"],
+        "Promotion de l’art et des artistes": ["promotion", "art", "artist"],
         "Théâtre, marionnettes, cirque, spectacles de variété": ["theater", "puppetry", "circus"],
         "Danse": ["dance", "salsa", "ballet"],
         "Loisirs scientifiques et techniques": ["science", "technology", "hobby"],
@@ -54,23 +54,23 @@
         "Bibliothèques, ludothèques, discothèques, vidéothèques": ["library", "games", "media"],
         "Arts de la rue": ["artist", "juggler", "performance"]
     },
-    "Amicales, groupements affinitaires, groupes d'entraide (hors défense de droits fondamentaux": {
-        "Groupements d'entraide et de solidarité": "support",
-        "Amicale de personnes originaires d'un même pays (hors défense des droits des étrangers)": "ethnic",
+    "Amicales, groupements affinitaires, groupes d’entraide (hors défense de droits fondamentaux": {
+        "Groupements d’entraide et de solidarité": "support",
+        "Amicale de personnes originaires d’un même pays (hors défense des droits des étrangers)": "ethnic",
         "Organisation de professions (hors caractère syndical)": "professional",
-        "Associations de personnes en situation de handicap pour l'entraide et la solidarité (hors défense de droits fondamentaux)": "disability",
-        "Association du personnel d'une entreprise (hors caractère syndical)": "company",
-        "Associations de classe d'âge": "age",
-        "Amicale de personnes originaires d'une même région": "regional",
-        "Associations féminines pour l'entraide et la solidarité (hors défense de droits fondamentaux)": "women",
-        "Associations de personnes homosexuelles pour l'entraide et la solidarité (hors défense de droits fondamentaux)": "rainbow"
+        "Associations de personnes en situation de handicap pour l’entraide et la solidarité (hors défense de droits fondamentaux)": "disability",
+        "Association du personnel d’une entreprise (hors caractère syndical)": "company",
+        "Associations de classe d’âge": "age",
+        "Amicale de personnes originaires d’une même région": "regional",
+        "Associations féminines pour l’entraide et la solidarité (hors défense de droits fondamentaux)": "women",
+        "Associations de personnes homosexuelles pour l’entraide et la solidarité (hors défense de droits fondamentaux)": "rainbow"
     },
     "Éducation formation": {
         "Établissement de formation professionnelle, formation continue": ["professional", "continuous", "education"],
         "Associations d’étudiants, d’élèves": ["student", "associations", "education"],
         "Parents d’élèves": ["parents", "education", "support"],
         "Associations périscolaires, coopération, aide à l’enseignement": ["perischool", "cooperation", "education"],
-        "Centre d'enseignement et de formation": ["center", "education", "training"],
+        "Centre d’enseignement et de formation": ["center", "education", "training"],
         "Amicales, associations d’anciens étudiants, d’anciens élèves": ["alumni", "associations", "education"],
         "Amicales, personnel d’établissements scolaires ou universitaires": ["staff", "associations", "education"],
         "Études et formations linguistiques": ["language", "education", "linguistics"],
@@ -84,7 +84,7 @@
         "Maisons familiales rurales": ["rural", "education", "support"]
     },
     "Clubs de loisirs, relations": {
-        "Échanges locaux, réseaux d'échanges": ["exchange", "sharing", "community"],
+        "Échanges locaux, réseaux d’échanges": ["exchange", "sharing", "community"],
         "Activités festives (soirées…)": ["parties", "celebration", "entertainment"],
         "Relaxation, sophrologie": ["relaxation", "mindfulness", "meditation"],
         "Centres de loisirs, clubs de loisirs multiples": ["leisure", "recreation", "activities"],
@@ -103,7 +103,7 @@
     },
     "Environnement, cadre de vie": {
         "Défense et amélioration du cadre de vie": ["protection", "renovation", "community"],
-        "Actions de sensibilisation et d'éducation à l'environnement et au développement durable": ["education", "sustainability", "awareness"],
+        "Actions de sensibilisation et d’éducation à l’environnement et au développement durable": ["education", "sustainability", "awareness"],
         "Protection des animaux": ["animals", "wildlife", "preservation"],
         "Mouvements écologiques": ["green", "activism", "advocacy"],
         "Comités de défense, de sauvegarde": ["safeguarding", "conservation", "taskforce"],
@@ -114,7 +114,7 @@
         "Pollutions, assainissement": ["pollution", "sanitation", "waste"],
         "Préservation de la flore sauvage": ["flora", "preservation", "biodiversity"]
     },
-    "Conduite d'activités économiques": {
+    "Conduite d’activités économiques": {
         "Association à but commercial, développement économique": "commerce",
         "Amicales de commerçants, organisation de foires": "tradeshows",
         "Groupement d’achats, groupement d’entreprises": "purchasing",
@@ -129,7 +129,7 @@
         "Jumelages, échanges culturels": "cultural exchange",
         "Comités des fêtes": "festivities",
         "Clubs du troisième âge": "seniors",
-        "Mouvements éducatifs de jeunesse et d'éducation populaire": "education",
+        "Mouvements éducatifs de jeunesse et d’éducation populaire": "education",
         "Associations socio-éducatives, scoutisme": "social education",
         "Maisons de jeunes, foyers, clubs de jeunes": "youth",
         "Loisirs pour personnes en situation de handicap": "disability leisure",
@@ -168,14 +168,14 @@
         "Centres de réadaptation": ["rehabilitation", "therapy", "centers"],
         "Accueil, information pour contraception et avortement": ["reproductive", "health", "planning"]
     },
-    "Représentation, promotion et défense d'intérêts économiques": {
-        "Associations d'exploitants agricoles, élevage, horticulture, aviculture, apiculture, viticulture, viniculture": "farming",
+    "Représentation, promotion et défense d’intérêts économiques": {
+        "Associations d’exploitants agricoles, élevage, horticulture, aviculture, apiculture, viticulture, viniculture": "farming",
         "Représentation d’intérêts économiques sectoriels": "sector",
         "Représentation d’intérêts régionaux et locaux": "region",
         "Groupements professionnels": "professional ",
-        "Associations pour la représentation d'artisans, de commerçants": "artisan",
+        "Associations pour la représentation d’artisans, de commerçants": "artisan",
         "Mouvements de consommateurs": "consumer",
-        "Associations de défense d'intérêts des retraités ou des personnes âgées": "senior ",
+        "Associations de défense d’intérêts des retraités ou des personnes âgées": "senior ",
         "Association d’intérêts maritimes, marins": "maritime",
         "Association de représentation de professions libérales": "liberal ",
         "Usagers de services publics": "public ",
@@ -191,8 +191,8 @@
         "Associations familiales, services sociaux pour les familles": ["family", "services", "support"],
         "Aide aux victimes de calamités, de catastrophes naturelles": ["disaster", "victims", "support"],
         "Aide aux réfugiés et aux immigrés (hors droits fondamentaux)": ["refugee", "immigrant", "support"],
-        "Centres sociaux et socioculturels, foyers de jeunes travailleurs, centres d'études et d'action sociale": ["social", "center", "support"],
-        "Lutte contre l'illettrisme": ["illiteracy", "education", "support"],
+        "Centres sociaux et socioculturels, foyers de jeunes travailleurs, centres d’études et d’action sociale": ["social", "center", "support"],
+        "Lutte contre l’illettrisme": ["illiteracy", "education", "support"],
         "Groupements de chômeurs, aide aux chômeurs": ["unemployment", "support", "jobseeker"],
         "Foyers socio-éducatifs": ["center", "education", "support"],
         "Aide aux victimes de violences faites aux enfants": ["child", "violence", "support"],
@@ -209,16 +209,16 @@
         "Autres supports de communication": "media",
         "Presse, édition": "publishing",
         "Radios privées": "radio",
-        "Auditeurs, consommateurs d'outils d'information et de communication": "consumers",
-        "Professionnels de l'information et de communication": "professionals"
+        "Auditeurs, consommateurs d’outils d’information et de communication": "consumers",
+        "Professionnels de l’information et de communication": "professionals"
         },
-    "Aide à l'emploi, développement local": {
-        "Comités de défense et d'animation de quartier, association locale ou municipale": "local",
+    "Aide à l’emploi, développement local": {
+        "Comités de défense et d’animation de quartier, association locale ou municipale": "local",
         "Promotion d’initiatives de développement durable": "sustainability",
-        "Groupement d'employeurs": "employment",
+        "Groupement d’employeurs": "employment",
         "Aide à la création d’activités économiques individuelles": "entrepreneurship",
-        "Entreprises d'insertion, associations intermédiaires, régies de quartier": "integration",
-        "Comité, défense d'un emploi": "employment"
+        "Entreprises d’insertion, associations intermédiaires, régies de quartier": "integration",
+        "Comité, défense d’un emploi": "employment"
         },
     "Défense de droits fondamentaux et activités civiques": {
         "Activités civiques": "civic",
@@ -239,7 +239,7 @@
         "Commémorations, entretien de monuments et sites historiques, souvenir militaire": "history",
         "Associations, sociétés savantes pour des études historiques, histoire du patrimoine": "historical",
         "Musées, collections historiques": "museums",
-        "Collections d'objets, de documents, bibliothèques spécialisées pour la sauvegarde et l'entretien du patrimoine": "archives",
+        "Collections d’objets, de documents, bibliothèques spécialisées pour la sauvegarde et l’entretien du patrimoine": "archives",
         "Sociétés, clubs de généalogie": "genealogy",
         "Construction de monuments (sauf lieux de culte)": "monuments"
     },
@@ -274,7 +274,7 @@
         "Établissements, services pour personnes handicapées (y compris les C.A.T)": "handicap",
         "Établissements et services pour adolescents en difficulté": "adolescent",
         "Prévention et lutte contre l’alcoolisme, la toxicomanie": "substance",
-        "Établissements et services pour adultes en difficulté, CHRS (centres d'hébergement et de réadaptation sociale)": "adult services",
+        "Établissements et services pour adultes en difficulté, CHRS (centres d’hébergement et de réadaptation sociale)": "adult services",
         "Aide aux accidentés du travail": "accident",
         "Aide aux victimes de maladies professionnelles": "illness"
         },
@@ -288,16 +288,16 @@
         "Autres associations de recherche": "research",
         "Diffusion de savoirs, sociétés savantes ou académiques": "dissemination",
         "Recherche sur la culture": "culture",
-        "Recherche sur l'éducation et la formation": "education",
+        "Recherche sur l’éducation et la formation": "education",
         "Recherche sur la vie sociale et politique": "social",
-        "Recherche sur l'environnement et le climat": "environment"
+        "Recherche sur l’environnement et le climat": "environment"
         },
     "Armée (dont préparation militaire, médailles)": {
         "Anciens combattants": "veterans",
         "Associations de militaires, amicales, associations de conscrits": "military"
         },
     "Tourisme": {
-        "Syndicats d'initiative, offices de tourisme, salons du tourisme": "tourism",
+        "Syndicats d’initiative, offices de tourisme, salons du tourisme": "tourism",
         "Auberges de jeunesse, organisation de voyages": "travel",
         "Gîtes ruraux, camping, caravaning, naturisme": "accommodation",
         "Maisons et villages de vacances": "vacation"

@@ -32,8 +32,8 @@ const ClubCard = ({data}: IClubCardProps) => {
     const {lat, lon} = useLocationContext()
     // console.log(lat, lon, 'this is lat and lon of user')
    
-    const clubLat = parseFloat(data.fields.geo_point.split(',')[0])
-    const clubLon = parseFloat(data.fields.geo_point.split(',')[1])
+    const clubLat = parseFloat(data?.fields?.geo_point.split(',')[0])
+    const clubLon = parseFloat(data?.fields?.geo_point.split(',')[1])
     const distance = getDistance(lat, lon, clubLat, clubLon )
     const formattedDistance = distance.toFixed(1).toString() + ' km';
     const titre = data?.fields?.titre || "Cette association n'a pas renseigné de titre"
@@ -42,12 +42,12 @@ const ClubCard = ({data}: IClubCardProps) => {
     const codepostal_actuel = data?.fields?.codepostal_actuel;
     const subCategory = domaine_activite_libelle_categorise.split('/')[1].split('###')[0].charAt(0).toUpperCase() + domaine_activite_libelle_categorise.split('/')[1].split('###')[0].slice(1)
     const category = domaine_activite_libelle_categorise.split('/')[0].split('###')[0].charAt(0).toUpperCase() + domaine_activite_libelle_categorise.split('/')[0].split('###')[0].slice(1)
-    console.log(titre, ' =>>>> we have a title');
-    console.log(objet, ' =>>>> we have an object')
-    console.log(codepostal_actuel, ' =>>>> we have a code postal');
-    console.log(domaine_activite_libelle_categorise, ' =>>>> we have a category');
-    console.log(category, '=>>>> we have a category name formatted');
-    console.log(subCategory, '=>>>> we have a subcategory');
+    // console.log(titre, ' =>>>> we have a title');
+    // console.log(objet, ' =>>>> we have an object')
+    // console.log(codepostal_actuel, ' =>>>> we have a code postal');
+    // console.log(domaine_activite_libelle_categorise, ' =>>>> we have a category');
+    // console.log(category, '=>>>> we have a category name formatted');
+    // console.log(subCategory, '=>>>> we have a subcategory');
     // console.log(categoryImages[category])
     if (categoryImages[category]) {
     // console.log(categoryImages[category][subCategory] , ' =>>>> we have a category image');
