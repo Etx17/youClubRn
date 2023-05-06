@@ -38,7 +38,7 @@ const LocationContextProvider = ({children}: {children: ReactNode}) => {
         let deviceLocation = await Location.getCurrentPositionAsync({});
         setLocation(deviceLocation);
         
-        console.log(deviceLocation.coords, 'location from context');
+        // console.log(deviceLocation.coords, 'location from context');
         const locationObject = {
             latitude: deviceLocation.coords.latitude,
             longitude: deviceLocation.coords.longitude
