@@ -4,7 +4,7 @@ const size = {
     default: 14,
     md: 16,
     lg: 20,
-    xlg: 24,
+    xlg: 22,
     xxlg: 30,
 }
 

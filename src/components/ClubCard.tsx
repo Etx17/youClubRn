@@ -16,11 +16,12 @@ interface IClub {
   titre: string;
   rna_number: string;
   geo_point: string;
-  object: string;
+  objet: string;
   category: string;
   subcategory: string;
   images: [string]
-  actual_zipcode: string;
+  codepostal_actuel: string;
+  adresse_actuelle: string;
 }
 interface IClubCardProps {
   data: any
@@ -35,15 +36,29 @@ const ClubCard = ({data}: IClubCardProps) => {
     const clubLon = parseFloat(data.fields.geo_point.split(',')[1])
     const distance = getDistance(lat, lon, clubLat, clubLon )
     const formattedDistance = distance.toFixed(1).toString() + ' km';
+    const titre = data?.fields?.titre || "Cette association n'a pas renseigné de titre"
+    const objet = data?.fields?.objet || "Cette association n'a pas renseigné de description";
+    const domaine_activite_libelle_categorise = data?.fields?.domaine_activite_libelle_categorise;
+    const codepostal_actuel = data?.fields?.codepostal_actuel;
+    const subCategory = domaine_activite_libelle_categorise.split('/')[1].split('###')[0].charAt(0).toUpperCase() + domaine_activite_libelle_categorise.split('/')[1].split('###')[0].slice(1)
+    const category = domaine_activite_libelle_categorise.split('/')[0].split('###')[0].charAt(0).toUpperCase() + domaine_activite_libelle_categorise.split('/')[0].split('###')[0].slice(1)
+    console.log(titre, ' =>>>> we have a title');
+    console.log(objet, ' =>>>> we have an object')
+    console.log(codepostal_actuel, ' =>>>> we have a code postal');
+    console.log(domaine_activite_libelle_categorise, ' =>>>> we have a category');
+    console.log(category, '=>>>> we have a category name formatted');
+    console.log(subCategory, '=>>>> we have a subcategory');
+    // console.log(categoryImages[category])
+    if (categoryImages[category]) {
+    // console.log(categoryImages[category][subCategory] , ' =>>>> we have a category image');
+    }
     
-    const {titre, rna_number, geo_point, objet,domaine_activite_libelle_categorise, codepostal_actuel} = data?.fields;
     
-    const subCategory = domaine_activite_libelle_categorise.split('/')[1].split('###')[0].charAt(0).toUpperCase() + domaine_activite_libelle_categorise.split('/')[1].split('###')[0].slice(1);
-    const keyword = categoryImages["Sports, activités de plein air"][subCategory];
     const images = [
-      `https://source.unsplash.com/random/?${keyword}/3000/2000`,
-      `https://source.unsplash.com/random/?${keyword}`, // Mettre une autre image en mode : Veuillez renseigner votre addresse email pour être informé de l'ouverture des revendications de clubs.
-    ];
+    `https://source.unsplash.com/random/?${!!categoryImages[category] ? categoryImages[category][subCategory][0] : 'random'}`,
+    `https://source.unsplash.com/random/?${!!categoryImages[category] ? categoryImages[category][subCategory][1] : 'random'}`,
+    `https://source.unsplash.com/random/?${!!categoryImages[category] ? categoryImages[category][subCategory][2] : 'random'}` // Mettre une autre carte pour renseigner l'email
+  ]
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const changeImage = (direction: String) => {
       if (direction === 'left') {
@@ -86,15 +101,15 @@ const ClubCard = ({data}: IClubCardProps) => {
 
         {/* Title and arrow */}
         <View style={styles.titleContainer}>
-          <Text style={styles.title} numberOfLines={2}>{ titre ? titre.toUpperCase() : "Nom indéfini"}</Text>
-          <Pressable onPress={() => navigation.navigate('ClubDetails', {clubData: data.fields})}>
+          <Text style={styles.title} numberOfLines={3}>{ titre ? titre.toUpperCase() : "Non renseigné"}</Text>
+          <Pressable onPress={() => navigation.navigate('ClubDetails', {clubData: data.fields, images})}>
             <AntIcons name="arrowright" size={40} color={colors.primaryLight} style={{ textAlign: 'center', textShadowColor: 'rgba(0, 0, 0, 0.30)', textShadowOffset: {width: 1, height: 1}, textShadowRadius: 7  }} />
           </Pressable>
         </View>
 
         {/* Localisation */}
         <Text style={{color: 'white'}}>
-          <Ionicons name="location-sharp" size={14} color="white" style={styles.locationIcon} />{formattedDistance}
+          <Ionicons name="location-sharp" size={14} color="white" style={styles.locationIcon} />{formattedDistance ? formattedDistance : 'Non renseigné'}
         </Text>
         
         <Text numberOfLines={2} style={{color: 'white', borderWidth: 2, borderColor: 'white', padding: 8, paddingHorizontal: 16, marginVertical: 4, borderRadius: 20, backgroundColor: colors.primary, overflow: 'hidden'}}>

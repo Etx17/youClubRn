@@ -18,30 +18,41 @@ import colors from '../../themes/colors'
 import { Alert } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
 import { SafeAreaInsetsContext, useSafeAreaInsets } from 'react-native-safe-area-context'
-
+import categoryImages from '../../assets/data/categoryImages';
   
 const ClubDetailsScreen = () => {
   // const {id, title, object, category, subcategory, images, actual_zipcode} = data
   
   const navigation = useNavigation()
   const route = useRoute()
-  console.log(route.params, 'this is route params')
-  const {id, title, object, category, subcategory, images, address, actual_zipcode} = route?.params?.clubData
 
-    
-    const [currentImageIndex, setCurrentImageIndex] = useState(0)
-    
-    const changeImage = (direction: String) => {
-      if (direction === 'left') {
-        setCurrentImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length)
-        
-      } else {
-        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length)
-        
-      }
+  const {id, titre, objet, adresse_actuelle, codepostal_actuel, domaine_activite_libelle_categorise } = route?.params?.clubData
+  const images = route?.params?.images
+  const category = domaine_activite_libelle_categorise.split('/')[0]    
+  const subcategories = domaine_activite_libelle_categorise.split('/')[1].split('###').map!(word => word.charAt(0).toUpperCase() + word.slice(1)).join('  --  ')
+  const formattedObject = objet.split(';').map(sentence => sentence.trim().charAt(0).toUpperCase() + sentence.trim().slice(1)).join('. \n\n')
+  
+  const activities = domaine_activite_libelle_categorise.split('###').map(element => element.split('/')[1])
+  const formattedActivities = activities.map(label => label.charAt(0).toUpperCase() + label.slice(1)).join(' - ')
+  console.log(formattedActivities);
+  
+  
+  console.log(domaine_activite_libelle_categorise)
+
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  
+  const changeImage = (direction: String) => {
+    if (direction === 'left') {
+      setCurrentImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length)
+      
+    } else {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length)
+      
     }
-    const insets = useSafeAreaInsets()
-
+  }
+  const insets = useSafeAreaInsets()
+  // Trim white spaces at beginning and end of each sentence, then Capitalize first letter of each sentence, and join with a dot
+  
   return (
     <ScrollView>
       {/* IMAGE COMPONENT */}
@@ -67,7 +78,7 @@ const ClubDetailsScreen = () => {
 
       {/* Title + button container */}
         <View style={styles.titleContainer}>
-          <Text style={styles.title} numberOfLines={3}>{title}</Text>
+          <Text style={styles.title} numberOfLines={3}>{titre}</Text>
           <Pressable onPress={() => navigation.goBack()} style={{borderRadius: 50}}>
             <Ionicons name="chevron-back-outline" size={40} color="white" style={styles.goBackButton} />
           </Pressable>
@@ -75,15 +86,15 @@ const ClubDetailsScreen = () => {
 
       {/* subtitle container */}
         <View style={styles.subTitle}>
-          <Text  onPress={() => Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${address}`) }>
-            <Ionicons name="location-sharp" size={14} color={colors.primary}  /> {address.substring(0, 15)}...<Text style={{color: colors.info, fontWeight: 'bold'}}>Voir</Text>
+          <Text  onPress={() => Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${adresse_actuelle}`) }>
+            <Ionicons name="location-sharp" size={14} color={colors.primary}  /> {adresse_actuelle.substring(0, 15)}...<Text style={{color: colors.info, fontWeight: 'bold'}}>Voir</Text>
           </Text>
-          <Text> Tarifs: bientôt disponibles </Text>
+          <Text>{codepostal_actuel}</Text>
         </View>
 
-        <Text style={styles.tag}>{subcategory}</Text>
+        <Text style={styles.tag}>{subcategories}</Text>
       {/* Full Description */}
-        <Text style={styles.object}>{object}</Text>
+        <Text style={styles.object}>{formattedObject}</Text>
           <View style={{display: 'flex', justifyContent: 'center', flexDirection: 'row'}}>
           <Text onPress={() => Alert.alert("Bientôt disponible", "Lorsque cette association aura récupéré son profil, elle pourra mettre en place l'inscription")} style={{color: colors.primary, fontWeight: 'bold'}}>M'inscrire</Text>
         </View>

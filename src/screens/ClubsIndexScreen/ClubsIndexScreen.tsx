@@ -118,7 +118,7 @@ return (
         cards={subCategoryClubs}
         infinite={true}
         stackSize={2}
-        // cardIndex={index}
+        cardIndex={35}
         animateOverlayLabelsOpacity
         animateCardOpacity
         key={subCategoryClubs.length } // Important for pagination i heard?
