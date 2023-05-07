@@ -24,7 +24,7 @@ const subcategories: ISubcategories = {
         { label: "💃 Danse sportive (danse sportive, hip hop, claquettes)", value: "Danse sportive (danse sportive, hip hop, claquettes)" },
         { label: "🎾 Tennis (tennis, longue paume)", value: "Tennis (tennis, longue paume)" },
         { label: "🏃 Athlétisme (triathlon, pentathlon, footing, jogging)", value: "Athlétisme (triathlon, pentathlon, footing, jogging)" },
-        { label: "🏟️ Gestion d'équipements sportifs, organisation de rencontres sportives, organisation de championnats, clubs de supporters", value: "gestion d'équipements sportifs, organisation de rencontres sportives, organisation de championnats, clubs de supporters" },
+        { label: "🏟️ Gestion d’équipements sportifs, organisation de rencontres sportives, organisation de championnats, clubs de supporters", value: "gestion d’équipements sportifs, organisation de rencontres sportives, organisation de championnats, clubs de supporters" },
         { label: "🏀 Basket-ball", value: "Basket-ball" },
         { label: "🌊 Nautisme, glisse sur eau (ski nautique, surf, char à voile)", value: "nautisme, glisse sur eau (ski nautique, surf, char à voile)" },
         { label: "⛵ Voile (voile, dériveur, planche à voile)", value: "Voile (voile, dériveur, planche à voile)" },
@@ -37,7 +37,7 @@ const subcategories: ISubcategories = {
         { label: "🛹 Roller, skate", value: "Roller, skate" },
         { label: "🏓 Tennis de table (tennis de table, ping-pong)", value: "Tennis de table (tennis de table, ping-pong)" },
         { label: "⛳ Golf", value: "Golf" },
-        { label: "🏢 Associations multisports d'entreprise", value: "associations multisports d'entreprise" },
+        { label: "🏢 Associations multisports d’entreprise", value: "associations multisports d’entreprise" },
         { label: "🏐 Volley ball (volley, beach volley)", value: "Volley ball (volley, beach volley)" },
         { label: "🏈 Autres sports collectifs (baseball, hockey sur glace, football américain)", value: "Autres sports collectifs (baseball, hockey sur glace, football américain)" },
         { label: "🧗 Escalade, montagne (escalade, spéléologie, via ferrata, canyonisme, alpinisme)", value: "Escalade, montagne (escalade, spéléologie, via ferrata, canyonisme, alpinisme)" },
@@ -46,7 +46,7 @@ const subcategories: ISubcategories = {
         { label: "🤺 Escrime", value: "Escrime" },
         { label: "🏒 Hockey sur glace, sports de glace", value: "hockey sur glace, sports de glace" }
     ],
-    "culture, pratiques d'activités artistiques, culturelles": [
+    "culture, pratiques d’activités artistiques, culturelles": [
         { label: "🎤 Chant choral et musique", value: "chant choral, musique" },
         { label: "🎨 Promotion de l’art et des artistes", value: "promotion de l’art et des artistes" },
         { label: "🎭 Théâtre, marionnettes, cirque, spectacles de variété", value: "théâtre, marionnettes, cirque, spectacles de variété" },
@@ -61,23 +61,23 @@ const subcategories: ISubcategories = {
         { label: "📚 Bibliothèques, ludothèques, discothèques et vidéothèques", value: "bibliothèques, ludothèques, discothèques, vidéothèques" },
         { label: "🎨 Arts de la rue", value: "arts de la rue" }
     ],
-    "amicales, groupements affinitaires, groupements d'entraide (hors défense de droits fondamentaux": [
-        { label: "🤝 Groupements d'entraide et de solidarité", value: "groupements d'entraide et de solidarité" },
-        { label: "🌍 Amicale de personnes originaires d'un même pays", value: "amicale de personnes originaires d'un même pays (hors défense des droits des étrangers)" },
+    "amicales, groupements affinitaires, groupements d’entraide (hors défense de droits fondamentaux": [
+        { label: "🤝 Groupements d’entraide et de solidarité", value: "groupements d’entraide et de solidarité" },
+        { label: "🌍 Amicale de personnes originaires d’un même pays", value: "amicale de personnes originaires d’un même pays (hors défense des droits des étrangers)" },
         { label: "💼 Organisation de professions", value: "organisation de professions (hors caractère syndical)" },
-        { label: "♿ Associations de personnes en situation de handicap", value: "associations de personnes en situation de handicap pour l'entraide et la solidarité (hors défense de droits fondamentaux)" },
-        { label: "👥 Association du personnel d'une entreprise (hors caractère syndical)", value: "association du personnel d'une entreprise (hors caractère syndical)" },
-        { label: "👴 Associations de classe d'âge", value: "associations de classe d'âge" },
-        { label: "🗺️ Amicale de personnes originaires d'une même région", value: "amicale de personnes originaires d'une même région" },
-        { label: "👩 Associations féminines pour l'entraide et la solidarité", value: "associations féminines pour l'entraide et la solidarité (hors défense de droits fondamentaux)" },
-        { label: "🏳️‍🌈 Associations de personnes homosexuelles pour l'entraide et la solidarité (hors défense de droits fondamentaux)", value: "associations de personnes homosexuelles pour l'entraide et la solidarité (hors défense de droits fondamentaux)" }
+        { label: "♿ Associations de personnes en situation de handicap", value: "associations de personnes en situation de handicap pour l’entraide et la solidarité (hors défense de droits fondamentaux)" },
+        { label: "👥 Association du personnel d’une entreprise (hors caractère syndical)", value: "association du personnel d’une entreprise (hors caractère syndical)" },
+        { label: "👴 Associations de classe d’âge", value: "associations de classe d’âge" },
+        { label: "🗺️ Amicale de personnes originaires d’une même région", value: "amicale de personnes originaires d’une même région" },
+        { label: "👩 Associations féminines pour l’entraide et la solidarité", value: "associations féminines pour l’entraide et la solidarité (hors défense de droits fondamentaux)" },
+        { label: "🏳️‍🌈 Associations de personnes homosexuelles pour l’entraide et la solidarité (hors défense de droits fondamentaux)", value: "associations de personnes homosexuelles pour l’entraide et la solidarité (hors défense de droits fondamentaux)" }
     ],
     "éducation formation": [
         { label: "🎓 Établissement de formation professionnelle, formation continue", value: "établissement de formation professionnelle, formation continue" },
         { label: "👨‍🎓 Associations d’étudiants, d’élèves", value: "associations d’étudiants, d’élèves" },
         { label: "👪 Parents d’élèves", value: "parents d’élèves" },
         { label: "🤝 Associations périscolaires, coopération, aide à l’enseignement", value: "associations périscolaires, coopération, aide à l’enseignement" },
-        { label: "🎓 Centre d'enseignement et de formation", value: "centre d'enseignement et de formation" },
+        { label: "🎓 Centre d’enseignement et de formation", value: "centre d’enseignement et de formation" },
         { label: "👴 Amicales, associations d’anciens étudiants, d’anciens élèves", value: "amicales, associations d’anciens étudiants, d’anciens élèves" },
         { label: "🏫 Amicales, personnel d’établissements scolaires ou universitaires", value: "amicales, personnel d’établissements scolaires ou universitaires" },
         { label: "🗣️ Études et formations linguistiques", value: "études et formations linguistiques" },
@@ -91,7 +91,7 @@ const subcategories: ISubcategories = {
         { label: "🏡 Maisons familiales rurales", value: "maisons familiales rurales" }
       ],
     "clubs de loisirs, relations" : [
-        { label: "🤝 échanges locaux, réseaux d'échanges", value: "échanges locaux, réseaux d'échanges" },
+        { label: "🤝 échanges locaux, réseaux d’échanges", value: "échanges locaux, réseaux d’échanges" },
         { label: "🎉 activités festives (soirées…)", value: "activités festives (soirées…)" },
         { label: "🧘 relaxation, sophrologie", value: "relaxation, sophrologie" },
         { label: "🏞️ centres de loisirs, clubs de loisirs multiples", value: "centres de loisirs, clubs de loisirs multiples" },
@@ -110,7 +110,7 @@ const subcategories: ISubcategories = {
     ],
     "Environnement, cadre de vie":[
         { label: "🛠️ Défense et amélioration du cadre de vie", value: "défense et amélioration du cadre de vie" },
-        { label: "📚 Sensibilisation et éducation à l'environnement et au développement durable", value: "actions de sensibilisation et d'éducation à l'environnement et au développement durable" },
+        { label: "📚 Sensibilisation et éducation à l’environnement et au développement durable", value: "actions de sensibilisation et d’éducation à l’environnement et au développement durable" },
         { label: "🦜 Protection des animaux", value: "protection des animaux" },
         { label: "🌱 Mouvements écologiques", value: "mouvements écologiques" },
         { label: "🛡️ Comités de défense et de sauvegarde", value: "comités de défense, de sauvegarde" },
@@ -121,7 +121,7 @@ const subcategories: ISubcategories = {
         { label: "🚮 Pollutions et assainissement", value: "pollutions, assainissement"},
         { label: "🌼 Préservation de la flore sauvage", value: "préservation de la flore sauvage" },
     ],
-    // "Conduite d'activités économiques":[
+    // "Conduite d’activités économiques":[
     //     { label: "💼 Association à but commercial, développement économique", value: "Association à but commercial, développement économique" },
     //     { label: "🏬 Amicales de commerçants, organisation de foires", value: "Amicales de commerçants, organisation de foires" },
     //     { label: "🛍️ Groupement d’achats, groupement d’entreprises", value: "Groupement d’achats, groupement d’entreprises" },
@@ -136,7 +136,7 @@ const subcategories: ISubcategories = {
     //     { label: "🌍 Jumelages, échanges culturels", value: "Jumelages, échanges culturels" },
     //     { label: "🎉 Comités des fêtes", value: "Comités des fêtes" },
     //     { label: "👴 Clubs du troisième âge", value: "Clubs du troisième âge" },
-    //     { label: "🧑‍🎓 Mouvements éducatifs de jeunesse et d'éducation populaire", value: "Mouvements éducatifs de jeunesse et d'éducation populaire" },
+    //     { label: "🧑‍🎓 Mouvements éducatifs de jeunesse et d’éducation populaire", value: "Mouvements éducatifs de jeunesse et d’éducation populaire" },
     //     { label: "🌟 Associations socio-éducatives, scoutisme", value: "Associations socio-éducatives, scoutisme" },
     //     { label: "🏠 Maisons de jeunes, foyers, clubs de jeunes", value: "Maisons de jeunes, foyers, clubs de jeunes" },
     //     { label: "♿️ Loisirs pour personnes en situation de handicap", value: "Loisirs pour personnes en situation de handicap" },
@@ -175,14 +175,14 @@ const subcategories: ISubcategories = {
         { label: "🏋️‍♀️ Centres de réadaptation", value: "centres de réadaptation" },
         { label: "🤰 Accueil, information pour contraception et avortement", value: "accueil, information pour contraception et avortement" }
     ],
-    // "Représentation, promotion et défense d'intérêts économiques":[
-    //     { label: "🌱 Associations d'exploitants agricoles, élevage, horticulture, aviculture, apiculture, viticulture, viniculture", value: "Associations d'exploitants agricoles, élevage, horticulture, aviculture, apiculture, viticulture, viniculture" },
+    // "Représentation, promotion et défense d’intérêts économiques":[
+    //     { label: "🌱 Associations d’exploitants agricoles, élevage, horticulture, aviculture, apiculture, viticulture, viniculture", value: "Associations d’exploitants agricoles, élevage, horticulture, aviculture, apiculture, viticulture, viniculture" },
     //     { label: "💼 Représentation d’intérêts économiques sectoriels", value: "Représentation d’intérêts économiques sectoriels" },
     //     { label: "🗺️ Représentation d’intérêts régionaux et locaux", value: "Représentation d’intérêts régionaux et locaux" },
     //     { label: "👥 Groupements professionnels", value: "Groupements professionnels" },
-    //     { label: "🛍️ Associations pour la représentation d'artisans, de commerçants", value: "Associations pour la représentation d'artisans, de commerçants" },
+    //     { label: "🛍️ Associations pour la représentation d’artisans, de commerçants", value: "Associations pour la représentation d’artisans, de commerçants" },
     //     { label: "🛒 Mouvements de consommateurs", value: "Mouvements de consommateurs" },
-    //     { label: "👵 Associations de défense d'intérêts des retraités ou des personnes âgées", value: "Associations de défense d'intérêts des retraités ou des personnes âgées" },
+    //     { label: "👵 Associations de défense d’intérêts des retraités ou des personnes âgées", value: "Associations de défense d’intérêts des retraités ou des personnes âgées" },
     //     { label: "⚓ Association d’intérêts maritimes, marins", value: "Association d’intérêts maritimes, marins" },
     //     { label: "📚 Association de représentation de professions libérales", value: "Association de représentation de professions libérales" },
     //     { label: "🏢 Usagers de services publics", value: "Usagers de services publics" },
@@ -198,8 +198,8 @@ const subcategories: ISubcategories = {
         { label: "👨‍👩‍👧‍👦 Associations familiales, services sociaux pour les familles", value: "associations familiales, services sociaux pour les familles" },
         { label: "🌊 Aide aux victimes de calamités, de catastrophes naturelles", value: "aide aux victimes de calamités, de catastrophes naturelles" },
         { label: "🌍 Aide aux réfugiés et aux immigrés (hors droits fondamentaux)", value: "aide aux réfugiés et aux immigrés (hors droits fondamentaux)" },
-        { label: "🏫 Centres sociaux et socioculturels, foyers de jeunes travailleurs, centres d'études et d'action sociale", value: "centres sociaux et socioculturels, foyers de jeunes travailleurs, centres d'études et d'action sociale" },
-        { label: "📚 Lutte contre l'illettrisme", value: "lutte contre l'illettrisme" },
+        { label: "🏫 Centres sociaux et socioculturels, foyers de jeunes travailleurs, centres d’études et d’action sociale", value: "centres sociaux et socioculturels, foyers de jeunes travailleurs, centres d’études et d’action sociale" },
+        { label: "📚 Lutte contre l’illettrisme", value: "lutte contre l’illettrisme" },
         { label: "💼 Groupements de chômeurs, aide aux chômeurs", value: "groupements de chômeurs, aide aux chômeurs" },
         { label: "🏠 Foyers socio-éducatifs", value: "foyers socio-éducatifs" },
         { label: "👶 Aide aux victimes de violences faites aux enfants", value: "aide aux victimes de violences faites aux enfants" },
@@ -216,16 +216,16 @@ const subcategories: ISubcategories = {
     //     { label: "📻 Autres supports de communication", value: "Autres supports de communication" },
     //     { label: "📰 Presse, édition", value: "Presse, édition" },
     //     { label: "📻 Radios privées", value: "Radios privées" },
-    //     { label: "👂 Auditeurs, consommateurs d'outils d'information et de communication", value: "Auditeurs, consommateurs d'outils d'information et de communication" },
-    //     { label: "📊 Professionnels de l'information et de communication", value: "Professionnels de l'information et de communication" }
+    //     { label: "👂 Auditeurs, consommateurs d’outils d’information et de communication", value: "Auditeurs, consommateurs d’outils d’information et de communication" },
+    //     { label: "📊 Professionnels de l’information et de communication", value: "Professionnels de l’information et de communication" }
     // ],        
-    // "Aide à l'emploi, développement local, promotion de solidarités économiques, vie locale":[
-    //     { label: "🏠 Comités de défense et d'animation de quartier, association locale ou municipale", value: "Comités de défense et d'animation de quartier, association locale ou municipale" },
+    // "Aide à l’emploi, développement local, promotion de solidarités économiques, vie locale":[
+    //     { label: "🏠 Comités de défense et d’animation de quartier, association locale ou municipale", value: "Comités de défense et d’animation de quartier, association locale ou municipale" },
     //     { label: "🌍 Promotion d’initiatives de développement durable", value: "Promotion d’initiatives de développement durable" },
-    //     { label: "👥 Groupement d'employeurs", value: "Groupement d'employeurs" },
+    //     { label: "👥 Groupement d’employeurs", value: "Groupement d’employeurs" },
     //     { label: "🏭 Aide à la création d’activités économiques individuelles", value: "Aide à la création d’activités économiques individuelles" },
-    //     { label: "🤝 Entreprises d'insertion, associations intermédiaires, régies de quartier", value: "Entreprises d'insertion, associations intermédiaires, régies de quartier" },
-    //     { label: "💼 Comité, défense d'un emploi", value: "Comité, défense d'un emploi" }
+    //     { label: "🤝 Entreprises d’insertion, associations intermédiaires, régies de quartier", value: "Entreprises d’insertion, associations intermédiaires, régies de quartier" },
+    //     { label: "💼 Comité, défense d’un emploi", value: "Comité, défense d’un emploi" }
     // ],
     // "Défense de droits fondamentaux, activités civiques":[
     //     { label: "🗳️ Activités civiques", value: "Activités civiques" },
@@ -246,7 +246,7 @@ const subcategories: ISubcategories = {
     //     { label: "🎖️ Commémorations, entretien de monuments et sites historiques, souvenir militaire", value: "Commémorations, entretien de monuments et sites historiques, souvenir militaire" },
     //     { label: "📚 Associations, sociétés savantes pour des études historiques, histoire du patrimoine", value: "Associations, sociétés savantes pour des études historiques, histoire du patrimoine" },
     //     { label: "🖼️ Musées, collections historiques", value: "Musées, collections historiques" },
-    //     { label: "📚 Collections d'objets, de documents, bibliothèques spécialisées pour la sauvegarde et l'entretien du patrimoine", value: "Collections d'objets, de documents, bibliothèques spécialisées pour la sauvegarde et l'entretien du patrimoine" },
+    //     { label: "📚 Collections d’objets, de documents, bibliothèques spécialisées pour la sauvegarde et l’entretien du patrimoine", value: "Collections d’objets, de documents, bibliothèques spécialisées pour la sauvegarde et l’entretien du patrimoine" },
     //     { label: "📜 Sociétés, clubs de généalogie", value: "Sociétés, clubs de généalogie" },
     //     { label: "🏗️ Construction de monuments (sauf lieux de culte)", value: "Construction de monuments (sauf lieux de culte)" }
     // ],
@@ -281,7 +281,7 @@ const subcategories: ISubcategories = {
         { label: "🏥 Établissements, services pour personnes handicapées (y compris les C.A.T)", value: "Établissements, services pour personnes handicapées (y compris les C.A.T)" },
         { label: "🧑‍🎓 Établissements et services pour adolescents en difficulté", value: "Établissements et services pour adolescents en difficulté" },
         { label: "🚫 Prévention et lutte contre l’alcoolisme, la toxicomanie", value: "Prévention et lutte contre l’alcoolisme, la toxicomanie" },
-        { label: "🏥 Établissements et services pour adultes en difficulté, CHRS (centres d'hébergement et de réadaptation sociale)", value: "Établissements et services pour adultes en difficulté, CHRS (centres d'hébergement et de réadaptation sociale)" },
+        { label: "🏥 Établissements et services pour adultes en difficulté, CHRS (centres d’hébergement et de réadaptation sociale)", value: "Établissements et services pour adultes en difficulté, CHRS (centres d’hébergement et de réadaptation sociale)" },
         { label: "🚑 Aide aux accidentés du travail", value: "Aide aux accidentés du travail" },
         { label: "💼 Aide aux victimes de maladies professionnelles", value: "Aide aux victimes de maladies professionnelles" }
     ],
@@ -295,16 +295,16 @@ const subcategories: ISubcategories = {
         { label: "🔍 Autres associations de recherche", value: "Autres associations de recherche" },
         { label: "📚 Diffusion de savoirs, sociétés savantes ou académiques", value: "Diffusion de savoirs, sociétés savantes ou académiques" },
         { label: "🎭 Recherche sur la culture", value: "Recherche sur la culture" },
-        { label: "🏫 Recherche sur l'éducation et la formation", value: "Recherche sur l'éducation et la formation" },
+        { label: "🏫 Recherche sur l’éducation et la formation", value: "Recherche sur l’éducation et la formation" },
         { label: "🌍 Recherche sur la vie sociale et politique", value: "Recherche sur la vie sociale et politique" },
-        { label: "🌳 Recherche sur l'environnement et le climat", value: "Recherche sur l'environnement et le climat" }    
+        { label: "🌳 Recherche sur l’environnement et le climat", value: "Recherche sur l’environnement et le climat" }    
     ],
     "Armée (dont préparation militaire, médailles)":[
         { label: "🎖️ Anciens combattants", value: "Anciens combattants" },
         { label: "👥 Associations de militaires, amicales, associations de conscrits", value: "Associations de militaires, amicales, associations de conscrits" }
     ],
     "Tourisme":[
-        { label: "🌍 Syndicats d'initiative, offices de tourisme, salons du tourisme", value: "Syndicats d'initiative, offices de tourisme, salons du tourisme" },
+        { label: "🌍 Syndicats d’initiative, offices de tourisme, salons du tourisme", value: "Syndicats d’initiative, offices de tourisme, salons du tourisme" },
         { label: "🏨 Auberges de jeunesse, organisation de voyages", value: "Auberges de jeunesse, organisation de voyages" },
         { label: "🏕️ Gîtes ruraux, camping, caravaning, naturisme", value: "Gîtes ruraux, camping, caravaning, naturisme" },
         { label: "🌴 Maisons et villages de vacances", value: "Maisons et villages de vacances" }

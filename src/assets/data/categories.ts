@@ -4,7 +4,7 @@ interface Category {
 }
 
 const categories: Category[] = [
-  { label: "🎨 Culture, pratiques d'activités artistiques, culturelles", value: "culture, pratiques d'activités artistiques, culturelles" },
+  { label: "🎨 Culture, pratiques d’activités artistiques, culturelles", value: "culture, pratiques d’activités artistiques, culturelles" },
   { label: "⚽ Sports, activités de plein air", value: "Sports, activités de plein air" },
   { label: "🎉 Clubs de loisirs, relations", value: "clubs de loisirs, relations" },
   { label: "🌳 Environnement, cadre de vie", value: "Environnement, cadre de vie" },
@@ -12,12 +12,12 @@ const categories: Category[] = [
   { label: "💊 Santé", value: "santé" },
   { label: "🎓 Éducation formation", value: "éducation formation" },
   // { label: "📣 Action socio-culturelle", value: "action socio-culturelle" },
-  // { label: "👫 Amicales, groupements affinitaires, groupes d'entraide", value: "amicales, groupements affinitaires, groupements d'entraide (hors défense de droits fondamentaux" },
-  // { label: "💼 Conduite d'activités économiques", value: "Conduite d'activités économiques" },
-  // { label: "📈 Représentation, promotion et défense d'intérêts économiques", value: "Représentation, promotion et défense d'intérêts économiques" },
+  // { label: "👫 Amicales, groupements affinitaires, groupes d’entraide", value: "amicales, groupements affinitaires, groupements d’entraide (hors défense de droits fondamentaux" },
+  // { label: "💼 Conduite d’activités économiques", value: "Conduite d’activités économiques" },
+  // { label: "📈 Représentation, promotion et défense d’intérêts économiques", value: "Représentation, promotion et défense d’intérêts économiques" },
   { label: "🏘️ Interventions sociales", value: "interventions sociales" },
   // { label: "💬 Information communication", value: "Information communication" },
-  // { label: "🌻 Aide à l'emploi, développement local, promotion de solidarités économiques, vie locale ", value: "Aide à l'emploi, développement local, promotion de solidarités économiques, vie locale" },
+  // { label: "🌻 Aide à l’emploi, développement local, promotion de solidarités économiques, vie locale ", value: "Aide à l’emploi, développement local, promotion de solidarités économiques, vie locale" },
   // { label: "🗽 Défense de droits fondamentaux, activités civiques", value: "Défense de droits fondamentaux, activités civiques" },
   // { label: "🏰 Préservation du patrimoine", value: "Préservation du patrimoine" },
   { label: "🙏 Activités religieuses, spirituelles ou philosophiques", value: "activités religieuses, spirituelles ou philosophiques" },

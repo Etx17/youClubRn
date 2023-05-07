@@ -25,39 +25,39 @@ interface IClub {
 }
 interface IClubCardProps {
   data: any
-  locationData: any
 }
 const ClubCard = ({data}: IClubCardProps) => {
     const navigation = useNavigation();
     const {lat, lon} = useLocationContext()
     // console.log(lat, lon, 'this is lat and lon of user')
-   
-    const clubLat = parseFloat(data?.fields?.geo_point.split(',')[0])
-    const clubLon = parseFloat(data?.fields?.geo_point.split(',')[1])
+    // console.log(data, "this is data fields")
+    const clubLat = parseFloat(data?.fields?.geo_point?.split(',')[0])
+    const clubLon = parseFloat(data?.fields?.geo_point?.split(',')[1])
     const distance = getDistance(lat, lon, clubLat, clubLon )
     const formattedDistance = distance.toFixed(1).toString() + ' km';
     const titre = data?.fields?.titre || "Cette association n'a pas renseigné de titre"
     const objet = data?.fields?.objet || "Cette association n'a pas renseigné de description";
     const domaine_activite_libelle_categorise = data?.fields?.domaine_activite_libelle_categorise;
     const codepostal_actuel = data?.fields?.codepostal_actuel;
-    const subCategory = domaine_activite_libelle_categorise.split('/')[1].split('###')[0].charAt(0).toUpperCase() + domaine_activite_libelle_categorise.split('/')[1].split('###')[0].slice(1)
-    const category = domaine_activite_libelle_categorise.split('/')[0].split('###')[0].charAt(0).toUpperCase() + domaine_activite_libelle_categorise.split('/')[0].split('###')[0].slice(1)
+    // console.log(domaine_activite_libelle_categorise, 'data.fields.domaine_activite_libelle_categorise before split')
+    const subCategory = domaine_activite_libelle_categorise ? domaine_activite_libelle_categorise.split('/')[1].split('###')[0].charAt(0).toUpperCase() + domaine_activite_libelle_categorise.split('/')[1].split('###')[0].slice(1) : 'Autre/Non renseigné';
+    const category = domaine_activite_libelle_categorise ? domaine_activite_libelle_categorise.split('/')[0].split('###')[0].charAt(0).toUpperCase() + domaine_activite_libelle_categorise.split('/')[0].split('###')[0].slice(1) : 'Autre/Non renseigné';
     // console.log(titre, ' =>>>> we have a title');
     // console.log(objet, ' =>>>> we have an object')
     // console.log(codepostal_actuel, ' =>>>> we have a code postal');
     // console.log(domaine_activite_libelle_categorise, ' =>>>> we have a category');
     // console.log(category, '=>>>> we have a category name formatted');
     // console.log(subCategory, '=>>>> we have a subcategory');
-    // console.log(categoryImages[category])
+    console.log(categoryImages[category])
     if (categoryImages[category]) {
-    // console.log(categoryImages[category][subCategory] , ' =>>>> we have a category image');
+    console.log(categoryImages[category][subCategory] , ' =>>>> we have a category image');
     }
     
     
     const images = [
-    `https://source.unsplash.com/random/?${!!categoryImages[category] ? categoryImages[category][subCategory][0] : 'random'}`,
-    `https://source.unsplash.com/random/?${!!categoryImages[category] ? categoryImages[category][subCategory][1] : 'random'}`,
-    `https://source.unsplash.com/random/?${!!categoryImages[category] ? categoryImages[category][subCategory][2] : 'random'}` // Mettre une autre carte pour renseigner l'email
+    `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subCategory][0] : 'random'}`,
+    `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subCategory][1] : 'random'}`,
+    `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subCategory][2] : 'random'}` // Mettre une autre carte pour renseigner l'email
   ]
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const changeImage = (direction: String) => {

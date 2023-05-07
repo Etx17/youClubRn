@@ -79,19 +79,21 @@ const ClubsIndexScreen = () => {
       setSubCategoryDropdownValue(valuesub);
     
     if(clubs.length > 0){
-      
-      console.log(valuesub, 'this is valuesub')
+      console.log('welcome in handle subcategory dropdown value change')
+      console.log(valuesub, ' <== this is valuesub')
       // console.log(clubs[0], 'this is clubs[0]')
       console.log(clubs.length, 'before filter')
-      console.log(clubs[0].fields.domaine_activite_libelle_categorise.split('/')[1].split("###")[0] , "<= this is the subcategory of the first club amongs many.")
-      console.log(clubs[0].fields.domaine_activite_libelle_categorise)
-      console.log(clubs[0].fields.domaine_activite_libelle_categorise.includes(valuesub), "= this is the result of the includes method on the first club amongs many.")
       
-      // clubs.map((club) => { console.log(club.fields.domaine_activite_libelle_categorise.split('/')[1].split("###")[0] , "<= this is the items loggeed at split1 split0.") })
+      // console.log(clubs[0].fields.domaine_activite_libelle_categorise)
+      // console.log(clubs[0].fields.domaine_activite_libelle_categorise.includes(valuesub), "= this is the result of the includes method on the first club amongs many.")
+      // console.log(clubs[0].fields.domaine_activite_libelle_categorise, 'first club')// clubs.map((club) => { console.log(club.fields.domaine_activite_libelle_categorise.split('/')[1].split("###")[0] , "<= this is the items loggeed at split1 split0.") })
       const newClubs = clubs.filter((club: { fields: { domaine_activite_libelle_categorise: string}}) => club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split("###")[0] === valuesub);
       setSubCategoryClubs(newClubs);
-      console.log(newClubs.length, 'after fuktern this is newClubs length')
-    }
+      console.log(newClubs.length, '<= AFTER FILTER LENGTH')
+      // console.log(newClubs[0].fields, "this is first newClub fields")
+      } else {
+        setIsFetching(false)
+      }
     }
     
   };
@@ -120,24 +122,28 @@ return (
         cards={subCategoryClubs}
         infinite={true}
         stackSize={2}
-        cardIndex={35}
+        cardIndex={0}
         animateOverlayLabelsOpacity
         animateCardOpacity
         key={subCategoryClubs.length } // Important for pagination i heard?
         backgroundColor={'transparent'}
         cardHorizontalMargin={5}
         onSwipedAll={()=>Alert.alert('No more clubs')} //useful later for pagination
-        renderCard={(card, cardIndex) => (
+        renderCard={(card, cardIndex) => 
+          (
           <ClubCard
             data={card}
-            locationData={undefined}
           />
         )}
       />   
-      ) : (
+      ) :  (
         <View>
-        <ActivityIndicator size="large" color="#0000ff" />
-        <Text>Récupération des associations et clubs autour de vous ...</Text>
+        
+        { city ? (
+          <Text>Aucun club trouvé.</Text>
+        ) : (
+          <ActivityIndicator size="large" color="#0000ff" />
+        )}
         </View>
       )
     } 
