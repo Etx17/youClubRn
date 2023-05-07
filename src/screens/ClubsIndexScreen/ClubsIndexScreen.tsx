@@ -69,7 +69,7 @@ const ClubsIndexScreen = () => {
 
  
   const handleDropdownValueChange = (valuecat: any) => {
-    console.log(valuecat, 'this is valuecat that is supposed to be selected')
+    // console.log(valuecat, 'this is valuecat that is supposed to be selected')
     setDropdownValue(valuecat);
   };
   const handleSubCategoryDropdownValueChange = (valuesub: any) => {
@@ -79,10 +79,10 @@ const ClubsIndexScreen = () => {
       setSubCategoryDropdownValue(valuesub);
     
     if(clubs.length > 0){
-      console.log('welcome in handle subcategory dropdown value change')
-      console.log(valuesub, ' <== this is valuesub')
+      // console.log('welcome in handle subcategory dropdown value change')
+      // console.log(valuesub, ' <== this is valuesub')
       // console.log(clubs[0], 'this is clubs[0]')
-      console.log(clubs.length, 'before filter')
+      // console.log(clubs.length, 'before filter')
       
       // console.log(clubs[0].fields.domaine_activite_libelle_categorise)
       // console.log(clubs[0].fields.domaine_activite_libelle_categorise.includes(valuesub), "= this is the result of the includes method on the first club amongs many.")
@@ -116,7 +116,9 @@ return (
         />
       </View>
     { isFetching ? (
+      <View style={styles.loading}>
         <ActivityIndicator size="large" color="#0000ff" />
+      </View>
       ) : subCategoryClubs.length > 0 ? (
       <Swiper
         cards={subCategoryClubs}
@@ -137,10 +139,10 @@ return (
         )}
       />   
       ) :  (
-        <View>
+        <View style={styles.loading}>
         
         { city ? (
-          <Text>Aucun club trouvé.</Text>
+          <Text >Aucun club trouvé.</Text>
         ) : (
           <ActivityIndicator size="large" color="#0000ff" />
         )}
@@ -161,6 +163,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 5,
   },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+
+  }
 })
 
 

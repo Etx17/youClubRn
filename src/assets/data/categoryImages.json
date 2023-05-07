@@ -34,6 +34,7 @@
         "Volley ball (volley, beach volley)": ["volleyball", "beach volleyball", "spike"],
         "Autres sports collectifs (baseball, hockey sur glace, football américain)": ["team", "baseball", "hockey"],
         "Escalade, montagne (escalade, spéléologie, via ferrata, canyonisme, alpinisme)": ["climbing", "mountain", "canyon"],
+        "Sports aériens (avion, planeur, ULM, parachutisme)": ["parachute", "boeing", "aircraft"],
         "Musculation (culturisme, musculation)": ["bodybuilding", "weightlifting", "fitness"],
         "Aviron, canoë kayak (aviron, rafting, canoë kayak, joutes)": ["rowing", "canoeing", "rafting"],
         "Escrime": ["fencing", "sword", "foil"],

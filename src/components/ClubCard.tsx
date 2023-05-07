@@ -58,7 +58,7 @@ const ClubCard = ({data}: IClubCardProps) => {
     `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subCategory][0] : 'random'}`,
     `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subCategory][1] : 'random'}`,
     `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subCategory][2] : 'random'}` // Mettre une autre carte pour renseigner l'email
-  ]
+  ];
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const changeImage = (direction: String) => {
       if (direction === 'left') {

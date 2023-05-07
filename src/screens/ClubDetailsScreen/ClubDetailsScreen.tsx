@@ -87,7 +87,7 @@ const ClubDetailsScreen = () => {
       {/* subtitle container */}
         <View style={styles.subTitle}>
           <Text  onPress={() => Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${adresse_actuelle}`) }>
-            <Ionicons name="location-sharp" size={14} color={colors.primary}  /> {adresse_actuelle.substring(0, 15)}...<Text style={{color: colors.info, fontWeight: 'bold'}}>Voir</Text>
+            <Ionicons name="location-sharp" size={14} color={colors.primary}  /> {adresse_actuelle.substring(0, 30)}...<Text style={{color: colors.info, fontWeight: 'bold'}}>Voir</Text>
           </Text>
           <Text>{codepostal_actuel}</Text>
         </View>
