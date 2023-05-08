@@ -80,17 +80,17 @@ const ClubsIndexScreen = () => {
     
     if(clubs.length > 0){
       // console.log('welcome in handle subcategory dropdown value change')
-      // console.log(valuesub, ' <== this is valuesub')
+      console.log(valuesub, ' <== this is valuesub')
       // console.log(clubs[0], 'this is clubs[0]')
-      // console.log(clubs.length, 'before filter')
+      console.log(clubs.length, 'before filter')
       
-      // console.log(clubs[0].fields.domaine_activite_libelle_categorise)
+     
       // console.log(clubs[0].fields.domaine_activite_libelle_categorise.includes(valuesub), "= this is the result of the includes method on the first club amongs many.")
       // console.log(clubs[0].fields.domaine_activite_libelle_categorise, 'first club')// clubs.map((club) => { console.log(club.fields.domaine_activite_libelle_categorise.split('/')[1].split("###")[0] , "<= this is the items loggeed at split1 split0.") })
       const newClubs = clubs.filter((club: { fields: { domaine_activite_libelle_categorise: string}}) => club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split("###")[0] === valuesub);
       setSubCategoryClubs(newClubs);
-      console.log(newClubs.length, '<= AFTER FILTER LENGTH')
-      // console.log(newClubs[0].fields, "this is first newClub fields")
+      // console.log(newClubs.length, '<= AFTER FILTER LENGTH')
+      // console.log(newClubs[0].fields.objet, "this is first newClub fields object")
       } else {
         setIsFetching(false)
       }
@@ -123,7 +123,7 @@ return (
       <Swiper
         cards={subCategoryClubs}
         infinite={true}
-        stackSize={2}
+        stackSize={1}
         cardIndex={0}
         animateOverlayLabelsOpacity
         animateCardOpacity

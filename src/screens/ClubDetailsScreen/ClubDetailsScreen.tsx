@@ -78,7 +78,7 @@ const ClubDetailsScreen = () => {
 
       {/* Title + button container */}
         <View style={styles.titleContainer}>
-          <Text style={styles.title} numberOfLines={3}>{titre}</Text>
+          <Text style={styles.title} numberOfLines={3}>{titre ? titre : 'Erreur lors de la récupération du titre'}</Text>
           <Pressable onPress={() => navigation.goBack()} style={{borderRadius: 50}}>
             <Ionicons name="chevron-back-outline" size={40} color="white" style={styles.goBackButton} />
           </Pressable>

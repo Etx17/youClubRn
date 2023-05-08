@@ -85,7 +85,7 @@
         "Maisons familiales rurales": ["rural", "education", "support"]
     },
     "Clubs de loisirs, relations": {
-        "Échanges locaux, réseaux d’échanges": ["exchange", "sharing", "community"],
+        "Échanges locaux, réseaux d'échanges": ["exchange", "sharing", "community"],
         "Activités festives (soirées…)": ["parties", "celebration", "entertainment"],
         "Relaxation, sophrologie": ["relaxation", "mindfulness", "meditation"],
         "Centres de loisirs, clubs de loisirs multiples": ["leisure", "recreation", "activities"],
@@ -186,18 +186,18 @@
         "Actionnaires, épargnants": "stocks"
     },
     "Interventions sociales": {
-        "Aide aux personnes en danger, solitude, désespoir, soutien psychologique et moral": ["psychological", "support", "loneliness"],
-        "Aide et conseils aux familles": ["family", "counseling", "support"],
-        "Aide à l’insertion des jeunes": ["youth", "insertion", "support"],
+        "Aide aux personnes en danger, solitude, désespoir, soutien psychologique et moral": ["psychological", "danger", "loneliness"],
+        "Aide et conseils aux familles": ["family", "counseling", "help"],
+        "Aide à l’insertion des jeunes": ["youth", "inclusion", "young"],
         "Associations familiales, services sociaux pour les familles": ["family", "services", "support"],
         "Aide aux victimes de calamités, de catastrophes naturelles": ["disaster", "victims", "support"],
         "Aide aux réfugiés et aux immigrés (hors droits fondamentaux)": ["refugee", "immigrant", "support"],
         "Centres sociaux et socioculturels, foyers de jeunes travailleurs, centres d’études et d’action sociale": ["social", "center", "support"],
         "Lutte contre l’illettrisme": ["illiteracy", "education", "support"],
-        "Groupements de chômeurs, aide aux chômeurs": ["unemployment", "support", "jobseeker"],
-        "Foyers socio-éducatifs": ["center", "education", "support"],
+        "Groupements de chômeurs, aide aux chômeurs": ["jobless", "unemployment", "layoffs"],
+        "Foyers socio-éducatifs": ["center", "education", "penitentiary"],
         "Aide aux victimes de violences faites aux enfants": ["child", "violence", "support"],
-        "Soutien, reclassement des détenus": ["prisoner", "rehabilitation", "support"],
+        "Soutien, reclassement des détenus": ["prison", "incarceration", "guards"],
         "Lutte contre diverses formes de violence": ["violence", "prevention", "support"],
         "Aide aux victimes de violences conjugales": ["violence", "support", "domestic"],
         "Réinsertion des délinquants": ["offenders", "rehabilitation", "support"],
@@ -254,7 +254,7 @@
     },
     "Activités politiques": {
         "Soutien et financement de partis et de campagnes électorales": ["elections", "funding", "politics"],
-        "Action politique locale": ["local", "politics", "action"],
+        "Action politique locale": ["president", "political", "demonstration"],
         "Associations à caractère politique général": ["general", "politics", "association"],
         "Action politique globale": ["global", "politics", "action"],
         "Activités citoyennes européennes": ["european", "citizenship", "activities"]
