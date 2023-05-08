@@ -35,8 +35,9 @@ const ClubsIndexScreen = () => {
       console.log("encodedDropdownValue", encodedDropdownValueSpaceIntoPlus);
       // Avec les assos juste de paris, probleme plantage 'split' of undefined
       // const url = `https://journal-officiel-datadila.opendatasoft.com/api/records/1.0/search/?dataset=jo_associations&q=&rows=1000&sort=dateparution&facet=lieu_declaration_facette&facet=domaine_activite_categorise&facet=domaine_activite_libelle_categorise&refine.domaine_activite_libelle_categorise=${encodedDropdownValueSpaceIntoPlus}&refine.lieu_declaration_facette=${city}&exclude.objet=%22%22&exclude.domaine_activite_libelle_categorise=%22%22&`;
-      const url = `https://journal-officiel-datadila.opendatasoft.com/api/records/1.0/search/?dataset=jo_associations&q=&rows=2000&sort=dateparution&facet=lieu_declaration_facette&facet=domaine_activite_categorise&facet=domaine_activite_libelle_categorise&refine.domaine_activite_libelle_categorise=${encodedDropdownValueSpaceIntoPlus}&refine.localisation_facette=%C3%8Ele-de-France%2F${city === "Mountain View" ? "Paris" : city}&exclude.objet=%22%22&exclude.domaine_activite_libelle_categorise=%22%22&`;
+      const url = `https://journal-officiel-datadila.opendatasoft.com/api/records/1.0/search/?dataset=jo_associations&q=&rows=4000&sort=dateparution&facet=lieu_declaration_facette&facet=domaine_activite_categorise&facet=domaine_activite_libelle_categorise&refine.domaine_activite_libelle_categorise=${encodedDropdownValueSpaceIntoPlus}&refine.localisation_facette=%C3%8Ele-de-France%2F${city === "Mountain View" ? "Paris" : city}&exclude.objet=%22%22&exclude.domaine_activite_libelle_categorise=%22%22&`;
       const response = await axios.get(url);
+      console.log(url, 'this is url')
       return response.data;
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -89,7 +90,7 @@ const ClubsIndexScreen = () => {
       // console.log(clubs[0].fields.domaine_activite_libelle_categorise, 'first club')// clubs.map((club) => { console.log(club.fields.domaine_activite_libelle_categorise.split('/')[1].split("###")[0] , "<= this is the items loggeed at split1 split0.") })
       const newClubs = clubs.filter((club: { fields: { domaine_activite_libelle_categorise: string}}) => club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split("###")[0] === valuesub);
       setSubCategoryClubs(newClubs);
-      // console.log(newClubs.length, '<= AFTER FILTER LENGTH')
+      console.log(newClubs.length, '<= AFTER FILTER LENGTH')
       // console.log(newClubs[0].fields.objet, "this is first newClub fields object")
       } else {
         setIsFetching(false)
