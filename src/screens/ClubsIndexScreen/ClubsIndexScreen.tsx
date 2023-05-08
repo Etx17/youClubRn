@@ -124,7 +124,7 @@ return (
       <Swiper
         cards={subCategoryClubs}
         infinite={true}
-        stackSize={1}
+        stackSize={2}
         cardIndex={0}
         animateOverlayLabelsOpacity
         animateCardOpacity
