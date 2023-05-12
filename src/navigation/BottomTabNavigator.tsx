@@ -17,6 +17,7 @@ const BottomTabNavigator = () => {
             screenOptions={{
                 tabBarShowLabel: false, 
                 tabBarActiveTintColor: colors.dark,
+                tabBarInactiveTintColor: colors.grayDarkest,
             }}
         >
             <Tab.Screen 
@@ -27,8 +28,8 @@ const BottomTabNavigator = () => {
                   headerStyle: {
                     backgroundColor: colors.white,
                   },
-                  tabBarIcon: () => 
-                      <AntIcons name="home" size={24} color="black"  />
+                  tabBarIcon: ({color}) => 
+                      <AntIcons name="home" size={24} color={color}  />
                 }}
              />
              
@@ -37,7 +38,7 @@ const BottomTabNavigator = () => {
                 component={LikesTopTabNavigator} 
                 options={{
                   headerShown: false,
-                  tabBarIcon: () => <AntIcons name="hearto" size={24} color="lightgrey"  />,
+                  tabBarIcon: ({color}) => <AntIcons name="hearto" size={24} color={color}  />,
                 }}
             />
 
@@ -46,7 +47,7 @@ const BottomTabNavigator = () => {
                 component={MyProfileScreen} 
                 options={{
                   headerShown: false,
-                  tabBarIcon: () => <AntIcons name="user" size={24} color="lightgrey"  />,
+                  tabBarIcon: ({color}) => <AntIcons name="user" size={24} color={color}  />,
                   tabBarButton: (props) => ( <Pressable {...props} onPress={() => { Alert.alert('Bientôt disponible') }} style={props.style} /> ),
                 }}
             />

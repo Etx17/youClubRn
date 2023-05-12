@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useCallback, useEffect, useState} from 'react';
 import { View, StyleSheet, ScrollView, Text, FlatList, ActivityIndicator }  from 'react-native';
 import ClubCard from '../../components/ClubCard';
 import Dropdown from '../../components/Dropdown';
@@ -11,6 +11,7 @@ import { useLocationContext } from '../../contexts/LocationContext';
 import { Alert } from 'react-native';
 import { useQuery } from 'react-query';
 import axios from 'axios';
+import { useFocusEffect } from '@react-navigation/native';
 
 
 
@@ -45,7 +46,8 @@ const ClubsIndexScreen = () => {
     }
   };
  
-  useEffect(() => {
+  useFocusEffect(
+  useCallback(() => {
     const fetchClubs = async () => {
       setIsFetching(true);
       const data = await fetchData();
@@ -66,7 +68,9 @@ const ClubsIndexScreen = () => {
       setSubCategoryClubs(clubsWithObjectAndSubcategory);
     };
     fetchClubs();
-  }, [dropdownValue, city]);
+    return () => {}; // ajout usefocuseffect
+  }, [dropdownValue, city])
+  );
 
  
   const handleDropdownValueChange = (valuecat: any) => {
