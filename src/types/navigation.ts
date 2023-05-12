@@ -23,6 +23,11 @@ export type TopTabNavigatorParamsList = {
     Activities: undefined
 };
 
+export type LikesTopTabNavigatorParamsList = {
+    Clubs: undefined
+    Activities: undefined
+};
+
 // export type SearchTabTabNavigatorParamsList = {
 //     Users: undefined
 //     Posts: undefined

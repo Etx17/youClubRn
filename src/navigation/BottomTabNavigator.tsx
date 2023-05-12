@@ -7,9 +7,10 @@ import LikesScreen from '../screens/LikesScreen/LikesScreen';
 import { Pressable, Alert } from 'react-native';
 import MyProfileScreen from '../screens/MyProfileScreen/MyProfileScreen';
 import TopTabNavigator from './TopTabNavigator';
+import { useNavigation } from '@react-navigation/native';
+import LikesTopTabNavigator from './LikesTopTabNavigator';
 
 const Tab = createBottomTabNavigator<BottomTabNavigatorParamsList>();
-
 const BottomTabNavigator = () => {
     return (
         <Tab.Navigator 
@@ -33,11 +34,10 @@ const BottomTabNavigator = () => {
              
             <Tab.Screen 
                 name="Likes" 
-                component={LikesScreen} 
+                component={LikesTopTabNavigator} 
                 options={{
                   headerShown: false,
                   tabBarIcon: () => <AntIcons name="hearto" size={24} color="lightgrey"  />,
-                  tabBarButton: (props) => ( <Pressable {...props} onPress={() => { Alert.alert('Bientôt disponible') }} style={props.style} /> ),
                 }}
             />
 

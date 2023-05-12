@@ -74,14 +74,14 @@ const ClubCard = ({data}: IClubCardProps) => {
           let likedClubs = await AsyncStorage.getItem('likedClubs');
           likedClubs = likedClubs == null ? [] : JSON.parse(likedClubs);
 
-          const index = likedClubs.findIndex(club => club.id === data.fields.id);
+          const index = likedClubs?.findIndex(club => club.fields.id === data.fields.id);
           if(index !== -1) {
               // If club is already liked, unlike it
               likedClubs?.splice(index, 1);
               setIsLiked(false);  // Update the state
           } else {
               // Else like the club
-              likedClubs?.push(data.fields);
+              likedClubs?.push(data);
               setIsLiked(true);  // Update the state
           }
 
@@ -96,7 +96,7 @@ const ClubCard = ({data}: IClubCardProps) => {
           try {
               let likedClubs = await AsyncStorage.getItem('likedClubs');
               likedClubs = likedClubs == null ? [] : JSON.parse(likedClubs);
-              const index = likedClubs?.findIndex(club => club.id === data.fields.id);
+              const index = likedClubs?.findIndex(club => club.fields.id === data.fields.id);
               setIsLiked(index !== -1); // If index is not found, its value is -1, so the club is not liked since it would be false
           } catch (error) {
               console.error(error);
@@ -163,7 +163,7 @@ const ClubCard = ({data}: IClubCardProps) => {
           <AntIcons name="phone" size={20} color="white" style={{textAlign: 'center', paddingBottom: 15}} />
         </Pressable>
         <Pressable onPress={handleLike}>
-          <AntIcons name={isLiked ? "heart" : "hearto"} size={20} color="white" style={{textAlign: 'center', paddingBottom: 15}} />
+          <AntIcons name={isLiked ? "heart" : "hearto"} size={20} color={isLiked ? colors.danger : "white"} style={{textAlign: 'center', paddingBottom: 15}} />
         </Pressable>
       </View>
     </LinearGradient>

@@ -19,7 +19,7 @@ const colors = {
     success: '#28A745',
     info: '#17A2B8',
     warning: '#FFC107',
-    danger: '#DC3545',
+    danger: '#c46766',
     light: '#F8F9FA',
     dark: '#343A40',
     text: '#212529',
