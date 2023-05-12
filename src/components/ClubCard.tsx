@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import colors from '../themes/colors';
@@ -10,6 +10,7 @@ import { useNavigation } from '@react-navigation/native';
 import categoryImages from '../assets/data/categoryImages';
 import { useLocationContext } from '../contexts/LocationContext';
 import { getDistance } from '../services/GeoServices';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface IClub {
   id: number;
@@ -27,6 +28,7 @@ interface IClubCardProps {
   data: any
 }
 const ClubCard = ({data}: IClubCardProps) => {
+    const [isLiked, setIsLiked] = useState(false);
     const navigation = useNavigation();
     const {lat, lon} = useLocationContext()
     // console.log(lat, lon, 'this is lat and lon of user')
@@ -66,7 +68,43 @@ const ClubCard = ({data}: IClubCardProps) => {
         setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
       }
     };
-    // console.log(data?.fields)
+
+    const handleLike = async () => {
+      try {
+          let likedClubs = await AsyncStorage.getItem('likedClubs');
+          likedClubs = likedClubs == null ? [] : JSON.parse(likedClubs);
+
+          const index = likedClubs.findIndex(club => club.id === data.fields.id);
+          if(index !== -1) {
+              // If club is already liked, unlike it
+              likedClubs?.splice(index, 1);
+              setIsLiked(false);  // Update the state
+          } else {
+              // Else like the club
+              likedClubs?.push(data.fields);
+              setIsLiked(true);  // Update the state
+          }
+
+          await AsyncStorage.setItem('likedClubs', JSON.stringify(likedClubs));
+      } catch (error) {
+          console.error(error);
+      }
+    }
+    useEffect(() => {
+      // Check if the club is already liked when the component mounts
+      const checkIfLiked = async () => {
+          try {
+              let likedClubs = await AsyncStorage.getItem('likedClubs');
+              likedClubs = likedClubs == null ? [] : JSON.parse(likedClubs);
+              const index = likedClubs?.findIndex(club => club.id === data.fields.id);
+              setIsLiked(index !== -1); // If index is not found, its value is -1, so the club is not liked since it would be false
+          } catch (error) {
+              console.error(error);
+          }
+      };
+      checkIfLiked();
+  }, []);
+
   return (
     <View style={styles.container}>
     <View style={styles.card}>
@@ -124,8 +162,8 @@ const ClubCard = ({data}: IClubCardProps) => {
         <Pressable onPress={() => console.log('clicked phone button')}>
           <AntIcons name="phone" size={20} color="white" style={{textAlign: 'center', paddingBottom: 15}} />
         </Pressable>
-        <Pressable onPress={() => console.log('clicked liked button')}>
-          <AntIcons name="hearto" size={20} color="white" style={{textAlign: 'center', paddingBottom: 15}} />
+        <Pressable onPress={handleLike}>
+          <AntIcons name={isLiked ? "heart" : "hearto"} size={20} color="white" style={{textAlign: 'center', paddingBottom: 15}} />
         </Pressable>
       </View>
     </LinearGradient>
