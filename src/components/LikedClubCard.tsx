@@ -5,6 +5,7 @@ import {Image} from 'expo-image';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AntIcons from '@expo/vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
+import { Entypo } from '@expo/vector-icons'; 
 import colors from '../themes/colors';
 const LikedClubCard = ({ club, onUnLike }: any) => {
     const domaine_activite_libelle_categorise = club?.fields?.domaine_activite_libelle_categorise;
@@ -23,26 +24,22 @@ const LikedClubCard = ({ club, onUnLike }: any) => {
               <Text style={styles.title}>{club?.fields?.titre}</Text>
               <Text style={styles.category}>{category}</Text>
               <Text style={styles.subcategory}>{subCategory}</Text>
-              
-              <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}}>
-                <Pressable onPress={() =>  Alert.alert('Bientôt disponible') }>
-                  {/* //  navigation.navigate('ClubDetails', {clubData: data.fields, images}) */}
-                
-                  <AntIcons name="arrowright" size={40} color={colors.primaryLighter} style={{ textAlign: 'center', textShadowColor: 'rgba(0, 0, 0, 0.30)', textShadowOffset: {width: 1, height: 1}, textShadowRadius: 7  }} />
-                </Pressable>
+
+              <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+                {/* <View/> */}
 
                 <Pressable onPress={() =>  Alert.alert('Bientôt disponible') }>
                   {/* //  navigation.navigate('ClubDetails', {clubData: data.fields, images}) */}
                 
-                  <AntIcons name="arrowright" size={40} color={colors.primaryLighter} style={{ textAlign: 'center', textShadowColor: 'rgba(0, 0, 0, 0.30)', textShadowOffset: {width: 1, height: 1}, textShadowRadius: 7  }} />
+                  <Entypo name="cross" size={40} color="black" style={{ textAlign: 'center', textShadowColor: 'rgba(0, 0, 0, 0.30)', textShadowOffset: {width: 2, height: 1}, textShadowRadius: 7  }} />
                 </Pressable>
-
-
                 <Pressable onPress={() =>  Alert.alert('Bientôt disponible') }>
                   {/* //  navigation.navigate('ClubDetails', {clubData: data.fields, images}) */}
                 
-                  <AntIcons name="arrowright" size={40} color={colors.primaryLighter} style={{ textAlign: 'center', textShadowColor: 'rgba(0, 0, 0, 0.30)', textShadowOffset: {width: 1, height: 1}, textShadowRadius: 7  }} />
+                  <AntIcons name="arrowright" size={40} color={'black'} style={{ textAlign: 'center', textShadowColor: 'rgba(0, 0, 0, 0.30)', textShadowOffset: {width: 1, height: 1}, textShadowRadius: 7  }} />
                 </Pressable>
+
+
               </View>
           </View>
          
@@ -68,7 +65,8 @@ const styles = StyleSheet.create({
     },
     textContainer: {
       flex: 1,
-      marginLeft: 10,
+      // marginHorizontal: 10,
+      padding: 8,
       justifyContent: 'space-around',
     },
     title: {
