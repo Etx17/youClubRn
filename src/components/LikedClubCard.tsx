@@ -56,12 +56,15 @@ const styles = StyleSheet.create({
       flexDirection: 'row', 
       maxWidth: '100%',
       justifyContent: 'space-between',
-      margin: 5,
+      marginHorizontal: 5,
+      marginVertical: 2.5,
       borderRadius: 10,
     },
     image: {
-      width: '40%',
+      height: '100%',
       aspectRatio: 1,
+      borderTopLeftRadius: 8,
+      borderBottomLeftRadius: 8,
     },
     textContainer: {
       flex: 1,

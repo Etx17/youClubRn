@@ -131,7 +131,7 @@ const ClubCard = ({data, index}: IClubCardProps) => {
         <View style={styles.titleContainer}>
           <Text style={styles.title} numberOfLines={3}>{ titre ? titre.toUpperCase() : otherTitle }</Text>
           <Pressable onPress={() => navigation.navigate('ClubDetails', {clubData: data.fields, images})}>
-            <AntIcons name="arrowright" size={40} color={colors.primaryLighter} style={{ textAlign: 'center', textShadowColor: 'rgba(0, 0, 0, 0.30)', textShadowOffset: {width: 1, height: 1}, textShadowRadius: 7  }} />
+            <AntIcons name="arrowright" size={40} color='yellow' style={{ textAlign: 'center', textShadowColor: 'rgba(0, 0, 0, 0.30)', textShadowOffset: {width: 1, height: 1}, textShadowRadius: 7  }} />
           </Pressable>
         </View>
 
@@ -140,7 +140,7 @@ const ClubCard = ({data, index}: IClubCardProps) => {
           <Ionicons name="location-sharp" size={14} color="white" style={styles.locationIcon} />{formattedDistance ? formattedDistance : 'Non renseigné'}
         </Text>
         
-        <Text numberOfLines={2} style={{color: 'black', borderWidth: 1, borderColor: 'black', padding: 8, paddingHorizontal: 16, marginVertical: 4, borderRadius: 20, backgroundColor: 'yellow', overflow: 'hidden'}}>
+        <Text numberOfLines={2} style={{color: 'black', borderWidth: 1, borderColor: 'black', padding: 8, paddingHorizontal: 16, marginVertical: 4, borderRadius: 20, opacity: 0.8, backgroundColor: 'yellow', overflow: 'hidden'}}>
           {subCategory!= "" ? subCategory : 'Autre/Non renseigné'}
         </Text> 
         
@@ -154,7 +154,7 @@ const ClubCard = ({data, index}: IClubCardProps) => {
           <AntDesign name="phone" size={20} color="white" style={{textAlign: 'center', paddingBottom: 15}} />
         </Pressable> */}
         <Pressable onPress={handleLike}>
-          <AntIcons name={isLiked ? "heart" : "hearto"} size={20} color={isLiked ? colors.danger : "white"} style={{textAlign: 'center', paddingBottom: 15}} />
+          <AntIcons name={isLiked ? "heart" : "hearto"} size={20} color="yellow" style={{textAlign: 'center', paddingBottom: 15}} />
         </Pressable>
       </View>
     </LinearGradient>
