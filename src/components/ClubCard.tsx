@@ -11,6 +11,8 @@ import categoryImages from '../assets/data/categoryImages';
 import { useLocationContext } from '../contexts/LocationContext';
 import { getDistance } from '../services/GeoServices';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { RollbackOutlined } from '@ant-design/icons';
+import { AntDesign } from '@expo/vector-icons';
 
 interface IClub {
   id: number;
@@ -27,7 +29,7 @@ interface IClub {
 interface IClubCardProps {
   data: any
 }
-const ClubCard = ({data}: IClubCardProps) => {
+const ClubCard = ({data, index}: IClubCardProps) => {
     const [isLiked, setIsLiked] = useState(false);
     const navigation = useNavigation();
     const {lat, lon} = useLocationContext()
@@ -41,24 +43,13 @@ const ClubCard = ({data}: IClubCardProps) => {
     const objet = data?.fields?.objet || "Cette association n'a pas renseigné de description";
     const domaine_activite_libelle_categorise = data?.fields?.domaine_activite_libelle_categorise;
     const codepostal_actuel = data?.fields?.codepostal_actuel;
-    // console.log(domaine_activite_libelle_categorise, 'data.fields.domaine_activite_libelle_categorise before split')
     const subCategory = domaine_activite_libelle_categorise ? domaine_activite_libelle_categorise.split('/')[1].split('###')[0].charAt(0).toUpperCase() + domaine_activite_libelle_categorise.split('/')[1].split('###')[0].slice(1) : 'Autre/Non renseigné';
     const category = domaine_activite_libelle_categorise ? domaine_activite_libelle_categorise.split('/')[0].split('###')[0].charAt(0).toUpperCase() + domaine_activite_libelle_categorise.split('/')[0].split('###')[0].slice(1) : 'Autre/Non renseigné';
-    // console.log(data?.fields, 'we dont have fields');
-    // console.log(objet, ' =>>>> we have an object')
-    // console.log(codepostal_actuel, ' =>>>> we have a code postal');
-    // console.log(domaine_activite_libelle_categorise, ' =>>>> we have a category');
-    // console.log(category, '=>>>> we have a category name formatted');
-    // console.log(subCategory, '=>>>> we have a subcategory');
-    // console.log(categoryImages[category])
-    if (categoryImages[category]) {
-    // console.log(categoryImages[category][subCategory] , ' =>>>> we have a category image');
-    }
     
     const images = [
-    `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subCategory][0] : 'random'}`,
-    `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subCategory][1] : 'random'}`,
-    `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subCategory][2] : 'random'}` // Mettre une autre carte pour renseigner l'email
+    `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subCategory][0] : 'random'}/300/200`,
+    `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subCategory][1] : 'random'}/300/200`,
+    // `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subCategory][2] : 'random'}` // Mettre une autre carte pour renseigner l'email
   ];
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const changeImage = (direction: String) => {
@@ -140,7 +131,7 @@ const ClubCard = ({data}: IClubCardProps) => {
         <View style={styles.titleContainer}>
           <Text style={styles.title} numberOfLines={3}>{ titre ? titre.toUpperCase() : otherTitle }</Text>
           <Pressable onPress={() => navigation.navigate('ClubDetails', {clubData: data.fields, images})}>
-            <AntIcons name="arrowright" size={40} color={colors.primaryLight} style={{ textAlign: 'center', textShadowColor: 'rgba(0, 0, 0, 0.30)', textShadowOffset: {width: 1, height: 1}, textShadowRadius: 7  }} />
+            <AntIcons name="arrowright" size={40} color={colors.primaryLighter} style={{ textAlign: 'center', textShadowColor: 'rgba(0, 0, 0, 0.30)', textShadowOffset: {width: 1, height: 1}, textShadowRadius: 7  }} />
           </Pressable>
         </View>
 
@@ -149,7 +140,7 @@ const ClubCard = ({data}: IClubCardProps) => {
           <Ionicons name="location-sharp" size={14} color="white" style={styles.locationIcon} />{formattedDistance ? formattedDistance : 'Non renseigné'}
         </Text>
         
-        <Text numberOfLines={2} style={{color: 'white', borderWidth: 2, borderColor: 'white', padding: 8, paddingHorizontal: 16, marginVertical: 4, borderRadius: 20, backgroundColor: colors.primary, overflow: 'hidden'}}>
+        <Text numberOfLines={2} style={{color: 'black', borderWidth: 1, borderColor: 'black', padding: 8, paddingHorizontal: 16, marginVertical: 4, borderRadius: 20, backgroundColor: 'yellow', overflow: 'hidden'}}>
           {subCategory!= "" ? subCategory : 'Autre/Non renseigné'}
         </Text> 
         
@@ -159,9 +150,9 @@ const ClubCard = ({data}: IClubCardProps) => {
         <Text style={styles.object} numberOfLines={3}>{objet ? objet?.charAt(0).toUpperCase() + objet?.slice(1) : "Cette association n'a pas renseigné de description"}</Text>
       </View>
       <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}}>
-        <Pressable onPress={() => console.log('clicked phone button')}>
-          <AntIcons name="phone" size={20} color="white" style={{textAlign: 'center', paddingBottom: 15}} />
-        </Pressable>
+        {/* <Pressable onPress={() => console.log('clicked phone button')}>
+          <AntDesign name="phone" size={20} color="white" style={{textAlign: 'center', paddingBottom: 15}} />
+        </Pressable> */}
         <Pressable onPress={handleLike}>
           <AntIcons name={isLiked ? "heart" : "hearto"} size={20} color={isLiked ? colors.danger : "white"} style={{textAlign: 'center', paddingBottom: 15}} />
         </Pressable>

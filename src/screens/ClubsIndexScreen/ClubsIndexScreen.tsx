@@ -22,6 +22,7 @@ const ClubsIndexScreen = () => {
   const [subCategoryDropdownValue, setSubCategoryDropdownValue] = useState("all");
   const [isFetching, setIsFetching] = useState(false);
   const {city} = useLocationContext();
+  // const [cardIndex, setCardIndex] = useState(0);
   console.log(city, 'this is city on mounting club index screen')
   const fetchData = async () => {
     try {
@@ -34,9 +35,7 @@ const ClubsIndexScreen = () => {
       }
       const encodedDropdownValueSpaceIntoPlus = encodedDropdownValue.replace(/%20/g, "+");
       console.log("encodedDropdownValue", encodedDropdownValueSpaceIntoPlus);
-      // Avec les assos juste de paris, probleme plantage 'split' of undefined
-      // const url = `https://journal-officiel-datadila.opendatasoft.com/api/records/1.0/search/?dataset=jo_associations&q=&rows=1000&sort=dateparution&facet=lieu_declaration_facette&facet=domaine_activite_categorise&facet=domaine_activite_libelle_categorise&refine.domaine_activite_libelle_categorise=${encodedDropdownValueSpaceIntoPlus}&refine.lieu_declaration_facette=${city}&exclude.objet=%22%22&exclude.domaine_activite_libelle_categorise=%22%22&`;
-      const url = `https://journal-officiel-datadila.opendatasoft.com/api/records/1.0/search/?dataset=jo_associations&q=&rows=4000&sort=dateparution&facet=lieu_declaration_facette&facet=domaine_activite_categorise&facet=domaine_activite_libelle_categorise&refine.domaine_activite_libelle_categorise=${encodedDropdownValueSpaceIntoPlus}&refine.localisation_facette=%C3%8Ele-de-France%2F${city === "Mountain View" ? "Paris" : city}&exclude.objet=%22%22&exclude.domaine_activite_libelle_categorise=%22%22&`;
+      const url = `https://journal-officiel-datadila.opendatasoft.com/api/records/1.0/search/?dataset=jo_associations&q=&rows=2000&sort=dateparution&facet=lieu_declaration_facette&facet=domaine_activite_categorise&facet=domaine_activite_libelle_categorise&refine.domaine_activite_libelle_categorise=${encodedDropdownValueSpaceIntoPlus}&refine.localisation_facette=%C3%8Ele-de-France%2F${city === "Mountain View" ? "Paris" : city}&exclude.objet=%22%22&exclude.domaine_activite_libelle_categorise=%22%22&`;
       const response = await axios.get(url);
       console.log(url, 'this is url')
       return response.data;
@@ -46,31 +45,57 @@ const ClubsIndexScreen = () => {
     }
   };
  
-  useFocusEffect(
-  useCallback(() => {
-    const fetchClubs = async () => {
-      setIsFetching(true);
-      const data = await fetchData();
-      console.log(data?.records.length, 'this is data records length');
-      const clubsWithObjectAndSubcategory = 
-        data?.records.filter(
-          (club: {fields: {objet: any, domaine_activite_libelle_categorise: string}}) => club?.fields?.objet 
-            && club?.fields?.objet.trim() !== "" 
-            && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0] 
-            && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0].trim() !== ""
-        // );
-        // data?.records.filter(club => club.fields.hasOwnProperty('objet') && club.fields.hasOwnProperty('domaine_activite_libelle_categorise') && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0].trim() !== ""
-        );
-      console.log(clubsWithObjectAndSubcategory.length, 'this is clubsWithObjectAndSubcategory.length after ');
+  // useFocusEffect(
+  // useCallback(() => {
+  //   const fetchClubs = async () => {
+  //     setIsFetching(true);
+  //     const data = await fetchData();
+  //     console.log(data?.records.length, 'this is data records length');
+  //     const clubsWithObjectAndSubcategory = 
+  //       data?.records.filter(
+  //         (club: {fields: {objet: any, domaine_activite_libelle_categorise: string}}) => club?.fields?.objet 
+  //           && club?.fields?.objet.trim() !== "" 
+  //           && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0] 
+  //           && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0].trim() !== ""
+  //       // );
+  //       // data?.records.filter(club => club.fields.hasOwnProperty('objet') && club.fields.hasOwnProperty('domaine_activite_libelle_categorise') && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0].trim() !== ""
+  //       );
+  //     console.log(clubsWithObjectAndSubcategory.length, 'this is clubsWithObjectAndSubcategory.length after ');
         
-      setIsFetching(false);
-      setClubs(clubsWithObjectAndSubcategory);
-      setSubCategoryClubs(clubsWithObjectAndSubcategory);
-    };
-    fetchClubs();
-    return () => {}; // ajout usefocuseffect
-  }, [dropdownValue, city])
-  );
+  //     setIsFetching(false);
+  //     setClubs(clubsWithObjectAndSubcategory);
+  //     setSubCategoryClubs(clubsWithObjectAndSubcategory);
+  //   };
+  //   fetchClubs();
+  //   return () => {}; // ajout usefocuseffect
+  // }, [dropdownValue, city])
+  // );
+
+  
+    useEffect(() => {
+      const fetchClubs = async () => {
+        setIsFetching(true);
+        const data = await fetchData();
+        console.log(data?.records.length, 'this is data records length');
+        const clubsWithObjectAndSubcategory = 
+          data?.records.filter(
+            (club: {fields: {objet: any, domaine_activite_libelle_categorise: string}}) => club?.fields?.objet 
+              && club?.fields?.objet.trim() !== "" 
+              && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0] 
+              && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0].trim() !== ""
+          // );
+          // data?.records.filter(club => club.fields.hasOwnProperty('objet') && club.fields.hasOwnProperty('domaine_activite_libelle_categorise') && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0].trim() !== ""
+          );
+        console.log(clubsWithObjectAndSubcategory.length, 'this is clubsWithObjectAndSubcategory.length after ');
+          
+        setIsFetching(false);
+        setClubs(clubsWithObjectAndSubcategory);
+        setSubCategoryClubs(clubsWithObjectAndSubcategory);
+      };
+      fetchClubs();
+
+    }, [dropdownValue, city])
+  
 
  
   const handleDropdownValueChange = (valuecat: any) => {
