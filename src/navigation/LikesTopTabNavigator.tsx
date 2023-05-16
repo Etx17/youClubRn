@@ -6,6 +6,7 @@ import colors from '../themes/colors';
 import { useLocationContext } from '../contexts/LocationContext';
 import LikedActivitiesIndexScreen from '../screens/LikedActivitesIndexScreen/LikedActivitiesIndexScreen';
 import LikedClubsIndexScreen from '../screens/LikedClubsIndexScreen/LikedClubsIndexScreen';
+import LikedClubsNavigator from './LikedClubsNavigator';
 
 const Tab = createMaterialTopTabNavigator<LikesTopTabNavigatorParamsList>();
 const LikesTopTabNavigator = () => {
@@ -18,7 +19,8 @@ const LikesTopTabNavigator = () => {
         }}>
           <Tab.Screen 
             name="Clubs" 
-            component={LikedClubsIndexScreen} 
+            // component={LikedClubsIndexScreen} 
+            component={LikedClubsNavigator} 
             options={{ swipeEnabled: false, }}
           />
           <Tab.Screen 

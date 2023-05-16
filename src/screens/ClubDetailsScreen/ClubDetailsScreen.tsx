@@ -19,12 +19,14 @@ import { Alert } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
 import { SafeAreaInsetsContext, useSafeAreaInsets } from 'react-native-safe-area-context'
 import categoryImages from '../../assets/data/categoryImages';
-  
+
 const ClubDetailsScreen = () => {
   // const {id, title, object, category, subcategory, images, actual_zipcode} = data
   
   const navigation = useNavigation()
   const route = useRoute()
+  const darkTheme = route?.params?.darkTheme
+  console.log(darkTheme, 'this is darkTheme');
 
   const {id, titre, objet, adresse_actuelle, codepostal_actuel, domaine_activite_libelle_categorise } = route?.params?.clubData
   const images = route?.params?.images
@@ -114,8 +116,10 @@ const ClubDetailsScreen = () => {
 
         
       </View>
+      
+      {/*  Si prop darkTheme est passée, color du gradient reste comme déja c'est. Sinon, status bar style auto et gradient transparent transparent */}
       <LinearGradient
-        colors={['black', 'transparent']}
+        colors={[darkTheme === true ? colors.dark : 'transparent', 'transparent']}
         style={{ 
           position: 'absolute',
           left: 0,
@@ -124,7 +128,7 @@ const ClubDetailsScreen = () => {
           height: 120,
         }}
       />
-      <StatusBar style="light" />
+      <StatusBar style={darkTheme === true ? "light" : 'auto'} />
     </ScrollView>
   )
 }

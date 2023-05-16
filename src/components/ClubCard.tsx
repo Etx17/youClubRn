@@ -29,7 +29,7 @@ interface IClub {
 interface IClubCardProps {
   data: any
 }
-const ClubCard = ({data, index}: IClubCardProps) => {
+const ClubCard = ({data}: IClubCardProps) => {
     const [isLiked, setIsLiked] = useState(false);
     const navigation = useNavigation();
     const {lat, lon} = useLocationContext()
@@ -130,7 +130,7 @@ const ClubCard = ({data, index}: IClubCardProps) => {
         {/* Title and arrow */}
         <View style={styles.titleContainer}>
           <Text style={styles.title} numberOfLines={3}>{ titre ? titre.toUpperCase() : otherTitle }</Text>
-          <Pressable onPress={() => navigation.navigate('ClubDetails', {clubData: data.fields, images})}>
+          <Pressable onPress={() => navigation.navigate('ClubDetails', {clubData: data.fields, images, darkTheme: true})}>
             <AntIcons name="arrowright" size={40} color='yellow' style={{ textAlign: 'center', textShadowColor: 'rgba(0, 0, 0, 0.30)', textShadowOffset: {width: 1, height: 1}, textShadowRadius: 7  }} />
           </Pressable>
         </View>

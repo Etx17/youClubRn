@@ -12,14 +12,16 @@ const LikedClubCard = ({ club, onUnLike }: any) => {
     const subCategory = domaine_activite_libelle_categorise ? domaine_activite_libelle_categorise.split('/')[1].split('###')[0].charAt(0).toUpperCase() + domaine_activite_libelle_categorise.split('/')[1].split('###')[0].slice(1) : 'Autre/Non renseigné';
     const category = domaine_activite_libelle_categorise ? domaine_activite_libelle_categorise.split('/')[0].split('###')[0].charAt(0).toUpperCase() + domaine_activite_libelle_categorise.split('/')[0].split('###')[0].slice(1) : 'Autre/Non renseigné';
     // console.log(categoryImages[category][subCategory], ' <= LIke : this is the image supposed keyword')
-    const image = 
-      `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subCategory] : 'random'}/400/300`
-    ;
+    const images = [
+      `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subCategory] : 'random'}/400/300`,
+      `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subCategory] : 'random'}/400/300`,
+      `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subCategory] : 'random'}/400/300`,
+    ];
     const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
-        <Image source={{uri: image}} style={styles.image}/>
+        <Image source={{uri: images[0]}} style={styles.image}/>
         {/* <View style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}> */}
           <View style={styles.textContainer}>
               <Text style={styles.title}>{club?.fields?.titre}</Text>
@@ -34,7 +36,8 @@ const LikedClubCard = ({ club, onUnLike }: any) => {
                 
                   <Entypo name="cross" size={40} color="black" style={{ textAlign: 'center', textShadowColor: 'rgba(0, 0, 0, 0.30)', textShadowOffset: {width: 2, height: 1}, textShadowRadius: 7  }} />
                 </Pressable>
-                <Pressable onPress={() =>  Alert.alert('Bientôt disponible') }>
+                
+                <Pressable onPress={() => navigation.navigate('ClubDetails', {clubData: club.fields, images, darkTheme: false})}>
                   {/* //  navigation.navigate('ClubDetails', {clubData: data.fields, images}) */}
                 
                   <AntIcons name="arrowright" size={40} color={'black'} style={{ textAlign: 'center', textShadowColor: 'rgba(0, 0, 0, 0.30)', textShadowOffset: {width: 1, height: 1}, textShadowRadius: 7  }} />
