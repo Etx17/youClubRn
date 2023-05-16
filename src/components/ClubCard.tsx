@@ -137,10 +137,10 @@ const ClubCard = ({data}: IClubCardProps) => {
 
         {/* Localisation */}
         <Text style={{color: 'white'}}>
-          <Ionicons name="location-sharp" size={14} color="white" style={styles.locationIcon} />{formattedDistance ? formattedDistance : 'Non renseigné'}
+          <Ionicons name="location-sharp" size={14} color="yellow" style={styles.locationIcon} /> {formattedDistance ? formattedDistance : 'Non renseigné'} - {codepostal_actuel}
         </Text>
         
-        <Text numberOfLines={2} style={{color: 'white', borderWidth: 1, borderColor: 'grey', padding: 8, paddingHorizontal: 16, marginVertical: 4, borderRadius: 20, backgroundColor: colors.dark, overflow: 'hidden'}}>
+        <Text numberOfLines={1} style={{color: 'white', borderWidth: 1, borderColor: 'grey', padding: 4, paddingHorizontal: 10, marginVertical: 4, borderRadius: 14, backgroundColor: 'black', overflow: 'hidden'}}>
           {subCategory!= "" ? subCategory : 'Autre/Non renseigné'}
         </Text> 
         
