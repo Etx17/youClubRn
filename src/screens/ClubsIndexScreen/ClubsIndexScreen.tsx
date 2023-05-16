@@ -45,56 +45,56 @@ const ClubsIndexScreen = () => {
     }
   };
  
-  // useFocusEffect(
-  // useCallback(() => {
-  //   const fetchClubs = async () => {
-  //     setIsFetching(true);
-  //     const data = await fetchData();
-  //     console.log(data?.records.length, 'this is data records length');
-  //     const clubsWithObjectAndSubcategory = 
-  //       data?.records.filter(
-  //         (club: {fields: {objet: any, domaine_activite_libelle_categorise: string}}) => club?.fields?.objet 
-  //           && club?.fields?.objet.trim() !== "" 
-  //           && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0] 
-  //           && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0].trim() !== ""
-  //       // );
-  //       // data?.records.filter(club => club.fields.hasOwnProperty('objet') && club.fields.hasOwnProperty('domaine_activite_libelle_categorise') && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0].trim() !== ""
-  //       );
-  //     console.log(clubsWithObjectAndSubcategory.length, 'this is clubsWithObjectAndSubcategory.length after ');
+  useFocusEffect(
+  useCallback(() => {
+    const fetchClubs = async () => {
+      setIsFetching(true);
+      const data = await fetchData();
+      console.log(data?.records.length, 'this is data records length');
+      const clubsWithObjectAndSubcategory = 
+        data?.records.filter(
+          (club: {fields: {objet: any, domaine_activite_libelle_categorise: string}}) => club?.fields?.objet 
+            && club?.fields?.objet.trim() !== "" 
+            && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0] 
+            && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0].trim() !== ""
+        // );
+        // data?.records.filter(club => club.fields.hasOwnProperty('objet') && club.fields.hasOwnProperty('domaine_activite_libelle_categorise') && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0].trim() !== ""
+        );
+      console.log(clubsWithObjectAndSubcategory.length, 'this is clubsWithObjectAndSubcategory.length after ');
         
-  //     setIsFetching(false);
-  //     setClubs(clubsWithObjectAndSubcategory);
-  //     setSubCategoryClubs(clubsWithObjectAndSubcategory);
-  //   };
-  //   fetchClubs();
-  //   return () => {}; // ajout usefocuseffect
-  // }, [dropdownValue, city])
-  // );
+      setIsFetching(false);
+      setClubs(clubsWithObjectAndSubcategory);
+      setSubCategoryClubs(clubsWithObjectAndSubcategory);
+    };
+    fetchClubs();
+    return () => {}; // ajout usefocuseffect
+  }, [dropdownValue, city])
+  );
 
   
-    useEffect(() => {
-      const fetchClubs = async () => {
-        setIsFetching(true);
-        const data = await fetchData();
-        console.log(data?.records.length, 'this is data records length');
-        const clubsWithObjectAndSubcategory = 
-          data?.records.filter(
-            (club: {fields: {objet: any, domaine_activite_libelle_categorise: string}}) => club?.fields?.objet 
-              && club?.fields?.objet.trim() !== "" 
-              && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0] 
-              && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0].trim() !== ""
-          // );
-          // data?.records.filter(club => club.fields.hasOwnProperty('objet') && club.fields.hasOwnProperty('domaine_activite_libelle_categorise') && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0].trim() !== ""
-          );
-        console.log(clubsWithObjectAndSubcategory.length, 'this is clubsWithObjectAndSubcategory.length after ');
+    // useEffect(() => {
+    //   const fetchClubs = async () => {
+    //     setIsFetching(true);
+    //     const data = await fetchData();
+    //     console.log(data?.records.length, 'this is data records length');
+    //     const clubsWithObjectAndSubcategory = 
+    //       data?.records.filter(
+    //         (club: {fields: {objet: any, domaine_activite_libelle_categorise: string}}) => club?.fields?.objet 
+    //           && club?.fields?.objet.trim() !== "" 
+    //           && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0] 
+    //           && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0].trim() !== ""
+    //       // );
+    //       // data?.records.filter(club => club.fields.hasOwnProperty('objet') && club.fields.hasOwnProperty('domaine_activite_libelle_categorise') && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0].trim() !== ""
+    //       );
+    //     console.log(clubsWithObjectAndSubcategory.length, 'this is clubsWithObjectAndSubcategory.length after ');
           
-        setIsFetching(false);
-        setClubs(clubsWithObjectAndSubcategory);
-        setSubCategoryClubs(clubsWithObjectAndSubcategory);
-      };
-      fetchClubs();
+    //     setIsFetching(false);
+    //     setClubs(clubsWithObjectAndSubcategory);
+    //     setSubCategoryClubs(clubsWithObjectAndSubcategory);
+    //   };
+    //   fetchClubs();
 
-    }, [dropdownValue, city])
+    // }, [dropdownValue, city])
   
 
  

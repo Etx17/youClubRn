@@ -42,13 +42,13 @@ useFocusEffect(
     }, [])
   );
 
-  const handleUnLike = async (clubId) => {
-    try {
+  const handleUnLike = async (clubId: string) => {
+    try {      
       let clubs = await AsyncStorage.getItem('likedClubs');
       clubs = clubs == null ? [] : JSON.parse(clubs);
-      const index = clubs.findIndex(club => club.id === clubId);
+      const index = clubs?.findIndex(club => club.fields.id === clubId);
       if (index !== -1) {
-        clubs.splice(index, 1);
+        clubs?.splice(index, 1);
         await AsyncStorage.setItem('likedClubs', JSON.stringify(clubs));
         setLikedClubs(clubs);
       }

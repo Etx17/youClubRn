@@ -13,22 +13,23 @@ const LikedClubCard = ({ club, onUnLike }: any) => {
     const category = domaine_activite_libelle_categorise ? domaine_activite_libelle_categorise.split('/')[0].split('###')[0].charAt(0).toUpperCase() + domaine_activite_libelle_categorise.split('/')[0].split('###')[0].slice(1) : 'Autre/Non renseigné';
     // console.log(categoryImages[category][subCategory], ' <= LIke : this is the image supposed keyword')
     const image = 
-      `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subCategory] : 'random'}`
+      `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subCategory] : 'random'}/400/300`
     ;
     const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
         <Image source={{uri: image}} style={styles.image}/>
         {/* <View style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}> */}
           <View style={styles.textContainer}>
               <Text style={styles.title}>{club?.fields?.titre}</Text>
-              <Text style={styles.category}>{category}</Text>
+              <Text style={styles.category} numberOfLines={2}>{category}</Text>
               <Text style={styles.subcategory}>{subCategory}</Text>
 
               <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
                 {/* <View/> */}
 
-                <Pressable onPress={() =>  Alert.alert('Bientôt disponible') }>
+                <Pressable onPress={()  => onUnLike(club?.fields?.id) }>
                   {/* //  navigation.navigate('ClubDetails', {clubData: data.fields, images}) */}
                 
                   <Entypo name="cross" size={40} color="black" style={{ textAlign: 'center', textShadowColor: 'rgba(0, 0, 0, 0.30)', textShadowOffset: {width: 2, height: 1}, textShadowRadius: 7  }} />

@@ -140,7 +140,7 @@ const ClubCard = ({data, index}: IClubCardProps) => {
           <Ionicons name="location-sharp" size={14} color="white" style={styles.locationIcon} />{formattedDistance ? formattedDistance : 'Non renseigné'}
         </Text>
         
-        <Text numberOfLines={2} style={{color: 'black', borderWidth: 1, borderColor: 'black', padding: 8, paddingHorizontal: 16, marginVertical: 4, borderRadius: 20, opacity: 0.8, backgroundColor: 'yellow', overflow: 'hidden'}}>
+        <Text numberOfLines={2} style={{color: 'white', borderWidth: 1, borderColor: 'grey', padding: 8, paddingHorizontal: 16, marginVertical: 4, borderRadius: 20, backgroundColor: 'black', overflow: 'hidden'}}>
           {subCategory!= "" ? subCategory : 'Autre/Non renseigné'}
         </Text> 
         
@@ -154,7 +154,7 @@ const ClubCard = ({data, index}: IClubCardProps) => {
           <AntDesign name="phone" size={20} color="white" style={{textAlign: 'center', paddingBottom: 15}} />
         </Pressable> */}
         <Pressable onPress={handleLike}>
-          <AntIcons name={isLiked ? "heart" : "hearto"} size={20} color="yellow" style={{textAlign: 'center', paddingBottom: 15}} />
+          <AntIcons name={isLiked ? "heart" : "hearto"} size={25} color="yellow" style={{textAlign: 'center', paddingBottom: 15}} />
         </Pressable>
       </View>
     </LinearGradient>

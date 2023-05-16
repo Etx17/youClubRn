@@ -12,8 +12,8 @@ const TopTabNavigator = () => {
       return (
         <Tab.Navigator screenOptions={{
           tabBarStyle: {marginTop: -20, backgroundColor: colors.white, height: 40, position: 'relative', top: 2}, 
-          tabBarIndicatorStyle: {backgroundColor:colors.dark},
-          tabBarLabelStyle: {color: colors.dark},
+          tabBarIndicatorStyle: {backgroundColor: colors.dark, height: 3},
+          tabBarLabelStyle: {color: colors.dark, fontSize: 15},
         }}>
           <Tab.Screen 
             name="Clubs" 
