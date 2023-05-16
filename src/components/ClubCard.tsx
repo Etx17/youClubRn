@@ -140,7 +140,7 @@ const ClubCard = ({data, index}: IClubCardProps) => {
           <Ionicons name="location-sharp" size={14} color="white" style={styles.locationIcon} />{formattedDistance ? formattedDistance : 'Non renseigné'}
         </Text>
         
-        <Text numberOfLines={2} style={{color: 'white', borderWidth: 1, borderColor: 'grey', padding: 8, paddingHorizontal: 16, marginVertical: 4, borderRadius: 20, backgroundColor: 'black', overflow: 'hidden'}}>
+        <Text numberOfLines={2} style={{color: 'white', borderWidth: 1, borderColor: 'grey', padding: 8, paddingHorizontal: 16, marginVertical: 4, borderRadius: 20, backgroundColor: colors.dark, overflow: 'hidden'}}>
           {subCategory!= "" ? subCategory : 'Autre/Non renseigné'}
         </Text> 
         

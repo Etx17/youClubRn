@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {BottomTabNavigatorParamsList, RootNavigatorParamsList} from '../types/navigation'
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-
+import { SafeAreaView } from 'react-native';
 import BottomTabNavigator from './BottomTabNavigator';
 import ClubDetailsScreen from '../screens/ClubDetailsScreen/ClubDetailsScreen';
 import TopTabNavigator from './TopTabNavigator';
@@ -27,13 +27,14 @@ const Stack = createNativeStackNavigator<RootNavigatorParamsList>()
 
 const CustomHeaderDetails = ({title, navigation}: ICustomHeaderProps) => {
     return (
-      <View style={styles.header}>
-        
-        {/* <Ionicons name="arrow" size={30} color={colors.dark} /> */}
-        <Ionicons name="chevron-back-outline" size={30} color={colors.primary} onPress={()=>navigation.goBack()} />
-        <Text style={styles.title}>{title}</Text>
+        <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={styles.customHeader}>
+
+      <View style={styles.header}>        
+        <Ionicons name="chevron-back-outline" size={30} color='yellow' onPress={()=>navigation.goBack()} />
+        <Text style={{fontSize: 20, color: colors.grayDarkest,}}>{title}</Text>
         <Text>        </Text>
       </View>
+        </LinearGradient>
     )
 }
 const CustomHeader = () => {
@@ -76,7 +77,8 @@ const Navigation = () => {
                           name="ClubDetails"
                         //   options={{ headerTitle: 'Ecologie', headerTitleAlign: 'center' }}
                             options={{
-                                header: ({ navigation }) => <CustomHeaderDetails title="Profil" navigation={navigation} />,
+                                headerShown: false,
+                                // header: ({ navigation }) => <CustomHeaderDetails title="Profil" navigation={navigation} />,
                             }}
                           component={ClubDetailsScreen}
                       />
@@ -96,9 +98,13 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: colors.white,
-        marginTop: Platform.OS === 'ios' ? 30 : 15,
+        marginTop: Platform.OS === 'ios' ? 25 : 15,
         paddingHorizontal: 10,
         height: 50,
+    },
+    customHeader: {
+        flex: 1,
+        // alignSelf: 'stretch',
     },
     title: {
         fontSize: 20,
