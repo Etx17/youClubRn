@@ -29,15 +29,22 @@ const Dropdown = ({style, disabled, onValueChange, valuecat}: IDropdownProps) =>
       autoScroll={true}
       placeholder="Catégorie"
       containerStyle={[style]}
-      labelProps={{ numberOfLines: 1,  style: { fontSize: 16, color: colors.dark} }}
+      labelProps={{ numberOfLines: 1,  style: { fontSize: 13, color: colors.dark, textTransform: 'uppercase', maxWidth: "80%", backgroundColor: colors.primaryLight, overflow: "hidden", borderRadius: 20, padding: 10},  }}
       setOpen={setOpen}
       setValue={setValue}
       onChangeValue={(valuecat) => {
         onValueChange && onValueChange(valuecat);
       }}
       selectedItemContainerStyle={{
-        backgroundColor: "yellow"
-     }}
+        backgroundColor: colors.primaryLight,
+        flexGrow: 1,
+        height: 50
+      }}
+      listItemContainerStyle={{
+        backgroundColor: 'colors.gray',
+        height: 50,
+        paddingHorizontal: 10,
+      }}
       // setItems={setItems} pourra servir pour les sous catégories en fonction de la catégorie
       listMode="MODAL"
       modalProps={{
@@ -47,27 +54,29 @@ const Dropdown = ({style, disabled, onValueChange, valuecat}: IDropdownProps) =>
         backgroundColor: 'transparent',
         borderRadius: 50,
         marginVertical: 5,
-        marginHorizontal: 5,
+        marginLeft: 0,
         overflow: 'hidden',
-        // elevation: 8,
-        maxWidth: "90%",
-        borderWidth: 0
+        maxWidth: "100%",
+        borderWidth: 0,
       }}
       disabledStyle={{
         opacity: 0.5
       }}
       textStyle={{
-        fontSize: 16,
+        fontSize: 18,
+        fontWeight: "light",
+        color: 'black',
       }}
       showArrowIcon={true}
       arrowIconStyle={{
-        tintColor: 'black',
-        width: 30,
+        tintColor: colors.dark,
+        width: 20,
         height: 30,
       }}
-      // ArrowUpIconComponent={({style}) => <MyArrowUpIcon style={style} />}
-      // ArrowDownIconComponent={({style}) => <MyArrowDownIcon style={style} />}
-
+      itemSeparator={true}
+      itemSeparatorStyle={{
+        backgroundColor: colors.grayDark,
+      }}
     />
   );
 }

@@ -20,11 +20,11 @@ const SubCategoryDropdown = ({style, disabled, onValueChange, valuesub, category
       open={open}
       value={value}
       items={subcategories[categoryName] ? subcategories[categoryName] : []}
-      maxHeight={300}
+      // maxHeight={300}
       autoScroll={true}
       placeholder="Sous catégorie"
       containerStyle={[style]}
-      labelProps={{ numberOfLines: 1,  style: { fontSize: 14, color: colors.dark, textTransform: 'uppercase',},  }}
+      labelProps={{ numberOfLines: 1,  style: { fontSize: 13, color: colors.dark, textTransform: 'uppercase', maxWidth: "80%", backgroundColor: colors.primaryLight, overflow: "hidden", borderRadius: 20, padding: 10},  }}
       setOpen={setOpen}
       setValue={setValue}
       onChangeValue={(valuesub) => {
@@ -37,15 +37,14 @@ const SubCategoryDropdown = ({style, disabled, onValueChange, valuesub, category
       }}
       style={{
         // backgroundColor: 'transparent',
-        backgroundColor: colors.grayDark,
+        backgroundColor: 'transparent',
         borderRadius: 50,
         marginVertical: 5,
         overflow: 'hidden',
         shadowOffset: { width: 0, height: 2 },
         shadowColor: 'black',
         borderWidth: 0,
-        marginHorizontal: 10,
-        maxWidth: "90%"
+        maxWidth: "100%",
       }}
       disabledStyle={{
         opacity: 0.5
@@ -54,7 +53,6 @@ const SubCategoryDropdown = ({style, disabled, onValueChange, valuesub, category
         fontSize: 20,
         fontWeight: "light",
         color: 'black',
-        // textTransform: 'uppercase',
       }}
       showArrowIcon={true}
       arrowIconStyle={{
@@ -64,24 +62,16 @@ const SubCategoryDropdown = ({style, disabled, onValueChange, valuesub, category
       }}
       itemSeparator={true}
       itemSeparatorStyle={{
-        backgroundColor: 'black',
-        // paddingVertical: 8,
-
+        backgroundColor: colors.grayDark,
       }}
-      // selectedItemLabelStyle={{
-      //   fontWeight: "bold"
-      // }}
       selectedItemContainerStyle={{
-        backgroundColor: "yellow",
-        flexGrow: 1,
-        height: 100
+        backgroundColor: colors.primaryLight,
+        height: 50
       }}
       listItemContainerStyle={{
-        backgroundColor: 'colors.gray',
-        height: 100,
+        height: 50,
       }}
     />
-    // </ScrollView>
   );
 }
 

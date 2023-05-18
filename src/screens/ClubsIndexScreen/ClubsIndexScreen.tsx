@@ -44,24 +44,24 @@ const ClubsIndexScreen = () => {
       throw error;
     }
   };
- 
+
   // useFocusEffect(
   // useCallback(() => {
   //   const fetchClubs = async () => {
   //     setIsFetching(true);
   //     const data = await fetchData();
   //     console.log(data?.records.length, 'this is data records length');
-  //     const clubsWithObjectAndSubcategory = 
+  //     const clubsWithObjectAndSubcategory =
   //       data?.records.filter(
-  //         (club: {fields: {objet: any, domaine_activite_libelle_categorise: string}}) => club?.fields?.objet 
-  //           && club?.fields?.objet.trim() !== "" 
-  //           && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0] 
+  //         (club: {fields: {objet: any, domaine_activite_libelle_categorise: string}}) => club?.fields?.objet
+  //           && club?.fields?.objet.trim() !== ""
+  //           && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0]
   //           && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0].trim() !== ""
   //       // );
   //       // data?.records.filter(club => club.fields.hasOwnProperty('objet') && club.fields.hasOwnProperty('domaine_activite_libelle_categorise') && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0].trim() !== ""
   //       );
   //     console.log(clubsWithObjectAndSubcategory.length, 'this is clubsWithObjectAndSubcategory.length after ');
-        
+
   //     setIsFetching(false);
   //     setClubs(clubsWithObjectAndSubcategory);
   //     setSubCategoryClubs(clubsWithObjectAndSubcategory);
@@ -71,23 +71,23 @@ const ClubsIndexScreen = () => {
   // }, [dropdownValue, city])
   // );
 
-  
+
     useEffect(() => {
       const fetchClubs = async () => {
         setIsFetching(true);
         const data = await fetchData();
         console.log(data?.records.length, 'this is data records length');
-        const clubsWithObjectAndSubcategory = 
+        const clubsWithObjectAndSubcategory =
           data?.records.filter(
-            (club: {fields: {objet: any, domaine_activite_libelle_categorise: string}}) => club?.fields?.objet 
-              && club?.fields?.objet.trim() !== "" 
-              && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0] 
+            (club: {fields: {objet: any, domaine_activite_libelle_categorise: string}}) => club?.fields?.objet
+              && club?.fields?.objet.trim() !== ""
+              && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0]
               && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0].trim() !== ""
           // );
           // data?.records.filter(club => club.fields.hasOwnProperty('objet') && club.fields.hasOwnProperty('domaine_activite_libelle_categorise') && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0].trim() !== ""
           );
         console.log(clubsWithObjectAndSubcategory.length, 'this is clubsWithObjectAndSubcategory.length after ');
-          
+
         setIsFetching(false);
         setClubs(clubsWithObjectAndSubcategory);
         setSubCategoryClubs(clubsWithObjectAndSubcategory);
@@ -95,19 +95,19 @@ const ClubsIndexScreen = () => {
       fetchClubs();
 
     }, [dropdownValue, city])
-  
 
- 
+
+
   const handleDropdownValueChange = (valuecat: any) => {
     // console.log(valuecat, 'this is valuecat that is supposed to be selected')
     setDropdownValue(valuecat);
   };
   const handleSubCategoryDropdownValueChange = (valuesub: any) => {
-    if (valuesub === 'all' || null || undefined) { 
+    if (valuesub === 'all' || null || undefined) {
       return setSubCategoryClubs(clubs);
     } else {
       setSubCategoryDropdownValue(valuesub);
-    
+
     if(clubs.length > 0){
       // console.log('welcome in handle subcategory dropdown value change')
       console.log(valuesub, ' <== this is valuesub')
@@ -123,23 +123,23 @@ const ClubsIndexScreen = () => {
         setIsFetching(false)
       }
     }
-    
+
   };
 // console.log(dropdownValue, subCategoryDropdownValue, 'this is dropdownValue and subCategoryDropdownvalue')
-return ( 
-  
+return (
+
   <View style={styles.container}>
 
       <View style={styles.dropdownContainer}>
-        <Dropdown 
-          style={{ flex: 1 }} 
+        <Dropdown
+          style={{ flex: 1 }}
           valuecat={dropdownValue}
-          onValueChange={handleDropdownValueChange} 
+          onValueChange={handleDropdownValueChange}
         />
-        <SubCategoryDropdown 
-          style={{ flex: 1 }}  
+        <SubCategoryDropdown
+          style={{ flex: 1 }}
           valuesub={subCategoryDropdownValue}
-          onValueChange={handleSubCategoryDropdownValueChange} 
+          onValueChange={handleSubCategoryDropdownValueChange}
           categoryName={dropdownValue || ''}
         />
       </View>
@@ -159,16 +159,16 @@ return (
         backgroundColor={'transparent'}
         cardHorizontalMargin={5}
         onSwipedAll={()=>Alert.alert('No more clubs')} //useful later for pagination
-        renderCard={(card, cardIndex) => 
+        renderCard={(card, cardIndex) =>
           (
           <ClubCard
             data={card}
           />
         )}
-      />   
+      />
       ) :  (
         <View style={styles.loading}>
-        
+
         { city ? (
           <Text >Aucun club trouvé.</Text>
         ) : (
@@ -176,20 +176,21 @@ return (
         )}
         </View>
       )
-    } 
+    }
       <StatusBar style="auto" />
   </View>
 
 );}
 const styles = StyleSheet.create({
   container: {
-    flex: 1, 
+    flex: 1,
     paddingRight: 10
   },
   dropdownContainer: {
     zIndex: 3000, // Necessary
     flexDirection: 'row',
-    gap: 5,
+    gap: 0,
+    marginTop: 1.5,
   },
   loading: {
     flex: 1,

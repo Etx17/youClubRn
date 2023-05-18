@@ -45,7 +45,7 @@ const ClubCard = ({data}: IClubCardProps) => {
     const codepostal_actuel = data?.fields?.codepostal_actuel;
     const subCategory = domaine_activite_libelle_categorise ? domaine_activite_libelle_categorise.split('/')[1].split('###')[0].charAt(0).toUpperCase() + domaine_activite_libelle_categorise.split('/')[1].split('###')[0].slice(1) : 'Autre/Non renseigné';
     const category = domaine_activite_libelle_categorise ? domaine_activite_libelle_categorise.split('/')[0].split('###')[0].charAt(0).toUpperCase() + domaine_activite_libelle_categorise.split('/')[0].split('###')[0].slice(1) : 'Autre/Non renseigné';
-    
+
     const images = [
     `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subCategory][0] : 'random'}/300/200`,
     `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subCategory][1] : 'random'}/300/200`,
@@ -121,7 +121,7 @@ const ClubCard = ({data}: IClubCardProps) => {
     </View>
 
     <LinearGradient end={{x: 0, y: 0.4}} start={{x: 0, y: 1}} colors={['rgba(0,0,0,4)','transparent']} style={{height: '100%', width: '100%', opacity: 1, position: 'absolute', bottom: 0}} >
-    
+
       {/* Informations */}
       <View style={styles.informationsContainer}>
         <Pressable style={styles.leftButton} onPress={() => changeImage('left')}/>
@@ -131,20 +131,20 @@ const ClubCard = ({data}: IClubCardProps) => {
         <View style={styles.titleContainer}>
           <Text style={styles.title} numberOfLines={3}>{ titre ? titre.toUpperCase() : otherTitle }</Text>
           <Pressable onPress={() => navigation.navigate('ClubDetails', {clubData: data.fields, images, darkTheme: true})}>
-            <AntIcons name="arrowright" size={40} color='yellow' style={{ textAlign: 'center', textShadowColor: 'rgba(0, 0, 0, 0.30)', textShadowOffset: {width: 1, height: 1}, textShadowRadius: 7  }} />
+            <AntIcons name="arrowright" size={40} color={colors.primary} style={{ textAlign: 'center', textShadowColor: 'rgba(0, 0, 0, 0.30)', textShadowOffset: {width: 1, height: 1}, textShadowRadius: 7  }} />
           </Pressable>
         </View>
 
         {/* Localisation */}
         <Text style={{color: 'white'}}>
-          <Ionicons name="location-sharp" size={14} color="yellow" style={styles.locationIcon} /> {formattedDistance ? formattedDistance : 'Non renseigné'} - {codepostal_actuel}
+          <Ionicons name="location-sharp" size={14} color={colors.primary} style={styles.locationIcon} /> {formattedDistance ? formattedDistance : 'Non renseigné'} - {codepostal_actuel}
         </Text>
-        
+
         <Text numberOfLines={1} style={{color: 'white', borderWidth: 1, borderColor: 'grey', padding: 4, paddingHorizontal: 10, marginVertical: 4, borderRadius: 14, backgroundColor: 'black', overflow: 'hidden'}}>
           {subCategory!= "" ? subCategory : 'Autre/Non renseigné'}
-        </Text> 
-        
-        
+        </Text>
+
+
 
         {/* Description */}
         <Text style={styles.object} numberOfLines={3}>{objet ? objet?.charAt(0).toUpperCase() + objet?.slice(1) : "Cette association n'a pas renseigné de description"}</Text>
@@ -154,7 +154,7 @@ const ClubCard = ({data}: IClubCardProps) => {
           <AntDesign name="phone" size={20} color="white" style={{textAlign: 'center', paddingBottom: 15}} />
         </Pressable> */}
         <Pressable onPress={handleLike}>
-          <AntIcons name={isLiked ? "heart" : "hearto"} size={25} color="yellow" style={{textAlign: 'center', paddingBottom: 15}} />
+          <AntIcons name={isLiked ? "heart" : "hearto"} size={25} color={colors.primary} style={{textAlign: 'center', paddingBottom: 15}} />
         </Pressable>
       </View>
     </LinearGradient>
@@ -212,16 +212,16 @@ const styles = StyleSheet.create({
       overflow: 'hidden',
     },
     informationsContainer: {
-      flex: 1, 
-      justifyContent: 'flex-end', 
+      flex: 1,
+      justifyContent: 'flex-end',
       alignItems: 'flex-start',
       padding: 15
     },
     titleContainer: {
-      display: 'flex', 
-      width: '100%', 
-      flexDirection: 'row', 
-      justifyContent: 'space-between', 
+      display: 'flex',
+      width: '100%',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
       alignItems: 'flex-end'
     },
     title: {
@@ -234,9 +234,9 @@ const styles = StyleSheet.create({
       width: '80%',
     },
     locationIcon: {
-      textAlign: 'center', 
-      textShadowColor: 'rgba(0, 0, 0, 0.30)', 
-      textShadowOffset: {width: 1, height: 1}, 
+      textAlign: 'center',
+      textShadowColor: 'rgba(0, 0, 0, 0.30)',
+      textShadowOffset: {width: 1, height: 1},
       textShadowRadius: 7},
     object: {
       fontSize: fonts.size.default,
@@ -244,13 +244,13 @@ const styles = StyleSheet.create({
       paddingHorizontal: 5,
     },
     subCategory: {
-      color: 'white', 
-      borderWidth: 2, 
-      borderColor: 'white', 
-      padding: 8, 
-      paddingHorizontal: 16, 
-      marginVertical: 4, 
-      borderRadius: 20, 
+      color: 'white',
+      borderWidth: 2,
+      borderColor: 'white',
+      padding: 8,
+      paddingHorizontal: 16,
+      marginVertical: 4,
+      borderRadius: 20,
       backgroundColor: colors.primary,
       overflow: 'hidden'
     },

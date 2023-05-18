@@ -22,39 +22,39 @@ import categoryImages from '../../assets/data/categoryImages';
 
 const ClubDetailsScreen = () => {
   // const {id, title, object, category, subcategory, images, actual_zipcode} = data
-  
+
   const navigation = useNavigation()
   const route = useRoute()
   const darkTheme = route?.params?.darkTheme
-  
+
   const {id, titre, objet, adresse_actuelle, codepostal_actuel, domaine_activite_libelle_categorise } = route?.params?.clubData
   const images = route?.params?.images
   console.log(images, 'this is images');
-  const category = domaine_activite_libelle_categorise.split('/')[0]    
+  const category = domaine_activite_libelle_categorise.split('/')[0]
   const subcategories = domaine_activite_libelle_categorise.split('/')[1].split('###').map!(word => word.charAt(0).toUpperCase() + word.slice(1)).join('  --  ')
   const formattedObject = objet.split(';').map(sentence => sentence.trim().charAt(0).toUpperCase() + sentence.trim().slice(1)).join('. \n\n')
-  
+
   const activities = domaine_activite_libelle_categorise.split('###').map(element => element.split('/')[1])
   const formattedActivities = activities.map(label => label.charAt(0).toUpperCase() + label.slice(1)).join(' - ')
   console.log(formattedActivities);
-  
-  
+
+
   console.log(domaine_activite_libelle_categorise)
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
-  
+
   const changeImage = (direction: String) => {
     if (direction === 'left') {
       setCurrentImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length)
-      
+
     } else {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length)
-      
+
     }
   }
   const insets = useSafeAreaInsets()
   // Trim white spaces at beginning and end of each sentence, then Capitalize first letter of each sentence, and join with a dot
-  
+
   return (
     <ScrollView>
       {/* IMAGE COMPONENT */}
@@ -92,7 +92,7 @@ const ClubDetailsScreen = () => {
       {/* subtitle container */}
         <View style={styles.subTitle}>
           <Text style={{color: 'white'}} onPress={() => Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${adresse_actuelle}`) }>
-            <Ionicons name="location-sharp" size={14} color='yellow'  /> {adresse_actuelle.substring(0, 30)}...<Text style={{color: colors.info, fontWeight: 'bold'}}>Voir</Text>
+            <Ionicons name="location-sharp" size={14} color={colors.primary}  /> {adresse_actuelle.substring(0, 30)}...<Text style={{color: colors.info, fontWeight: 'bold'}}>Voir</Text>
           </Text>
           <Text  style={{color: 'white'}}>{codepostal_actuel}</Text>
         </View>
@@ -116,13 +116,13 @@ Linking.openURL('mailto:youclubdev@gmail.com?subject=%5BDemande%20de%20v%C3%A9ri
           <Text onPress={() => Alert.alert("Bientôt disponible", "Lorsque cette association aura récupéré son profil, elle pourra mettre en place l'inscription")} style={styles.signUpButton}>M'inscrire</Text>
         </View>
 
-        
+
       </View>
-      
+
       {/*  Si prop darkTheme est passée, color du gradient reste comme déja c'est. Sinon, status bar style auto et gradient transparent transparent */}
       <LinearGradient
         colors={[darkTheme === true ? colors.dark : 'transparent', 'transparent']}
-        style={{ 
+        style={{
           position: 'absolute',
           left: 0,
           right: 0,
@@ -155,8 +155,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   informationsContainer: {
-    flex: 1, 
-    justifyContent: 'flex-end', 
+    flex: 1,
+    justifyContent: 'flex-end',
     alignItems: 'flex-start',
   },
   leftButton: {
@@ -184,10 +184,10 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   goBackButton: {
-    backgroundColor: 'yellow', 
-    borderRadius: buttonWidth/2, 
-    width: buttonWidth, 
-    borderColor: 'black', 
+    backgroundColor: colors.primary,
+    borderRadius: buttonWidth/2,
+    width: buttonWidth,
+    borderColor: 'black',
     borderWidth: 1,
     overflow: 'hidden',
     elevation: 8,
@@ -212,17 +212,17 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    
+
   },
   object: {
-    fontSize: 14, 
+    fontSize: 14,
     color: colors.grayDarkest,
     paddingVertical: 10,
   },
   subCategoryTag:{
     marginVertical: 0,
     fontSize: 14,
-    color: 'yellow',
+    color: colors.primary,
     paddingVertical: 4,
     alignSelf: 'flex-start',
     overflow: 'hidden',
@@ -240,13 +240,13 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     borderColor: 'grey',
     borderWidth: 1,
-    backgroundColor: 'yellow',
+    backgroundColor: colors.primary,
     width: "auto",
     marginHorizontal: 4,
   },
   signUpButton: {
     // Sticky button at the bottom of the screen
-    backgroundColor: 'yellow',
+    backgroundColor: colors.primary,
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 20,
@@ -261,7 +261,7 @@ const styles = StyleSheet.create({
     position: 'absolute',  // To overlap the button on the image
     top: 70,  // Adjust this value to move the button vertically
     left: 10,  // Adjust this value to move the button horizontally
-    backgroundColor: 'yellow',  // Background color of the button
+    backgroundColor: colors.primary,  // Background color of the button
     borderRadius: 25,  // To make the button rounded
     padding: 10,  // Padding around the text inside the button
     zIndex: 2,  // To make sure the button is above the image

@@ -22,15 +22,15 @@ interface ICustomHeaderProps {
     navigation: any;
 }
 
-// const insets = useSafeAreaInsets(); 
+// const insets = useSafeAreaInsets();
 const Stack = createNativeStackNavigator<RootNavigatorParamsList>()
 
 const CustomHeaderDetails = ({title, navigation}: ICustomHeaderProps) => {
     return (
         <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={styles.customHeader}>
 
-      <View style={styles.header}>        
-        <Ionicons name="chevron-back-outline" size={30} color='yellow' onPress={()=>navigation.goBack()} />
+      <View style={styles.header}>
+        <Ionicons name="chevron-back-outline" size={30} color={colors.primaryLight} onPress={()=>navigation.goBack()} />
         <Text style={{fontSize: 20, color: colors.grayDarkest,}}>{title}</Text>
         <Text>        </Text>
       </View>
@@ -57,16 +57,16 @@ const Navigation = () => {
             <Stack.Navigator screenOptions={{headerShown: true}} >
 
                 {/* {!user ? (
-                    <Stack.Screen 
-                        name="Auth" 
-                        component={AuthStackNavigator} 
-                        options={{headerShown: false}} 
+                    <Stack.Screen
+                        name="Auth"
+                        component={AuthStackNavigator}
+                        options={{headerShown: false}}
                     />
                 ) : ( */}
                     <>
-                      <Stack.Screen 
-                          name="Home" 
-                          component={BottomTabNavigator} 
+                      <Stack.Screen
+                          name="Home"
+                          component={BottomTabNavigator}
                           options={{
                             header: () => <CustomHeader />,
                             // headerTitle: () => <Ionicons name="leaf" size={32} color="green" />,
@@ -82,12 +82,12 @@ const Navigation = () => {
                             }}
                           component={ClubDetailsScreen}
                       />
-                      
+
                     </>
 
                 {/* )} */}
 
-                
+
             </Stack.Navigator>
         </NavigationContainer>
         )
