@@ -11,7 +11,6 @@ const LikedClubCard = ({ club, onUnLike }: any) => {
     const domaine_activite_libelle_categorise = club?.fields?.domaine_activite_libelle_categorise;
     const subCategory = domaine_activite_libelle_categorise ? domaine_activite_libelle_categorise.split('/')[1].split('###')[0].charAt(0).toUpperCase() + domaine_activite_libelle_categorise.split('/')[1].split('###')[0].slice(1) : 'Autre/Non renseigné';
     const category = domaine_activite_libelle_categorise ? domaine_activite_libelle_categorise.split('/')[0].split('###')[0].charAt(0).toUpperCase() + domaine_activite_libelle_categorise.split('/')[0].split('###')[0].slice(1) : 'Autre/Non renseigné';
-    // console.log(categoryImages[category][subCategory], ' <= LIke : this is the image supposed keyword')
     const images = [
       `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subCategory] : 'random'}/400/300`,
       `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subCategory] : 'random'}/400/300`,
@@ -31,15 +30,29 @@ const LikedClubCard = ({ club, onUnLike }: any) => {
               <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
                 {/* <View/> */}
 
-                <Pressable onPress={()  => onUnLike(club?.fields?.id) }>
-                  {/* //  navigation.navigate('ClubDetails', {clubData: data.fields, images}) */}
-
+                {/* <Pressable onPress={()  => onUnLike(club?.fields?.id) }> */}
+                <Pressable
+  onPress={() =>
+    Alert.alert(
+      "Supprimer",
+      "Voulez vous vraiment supprimer ce club de vos favoris?",
+      [
+        {
+          text: "Annuler",
+          style: "cancel",
+        },
+        {
+          text: "Yes",
+          onPress: () => onUnLike(club?.fields?.id),
+        },
+      ]
+    )
+  }
+>
                   <Entypo name="cross" size={40} color={colors.grayDarkest} style={{ textAlign: 'center'  }} />
                 </Pressable>
 
                 <Pressable onPress={() => navigation.navigate('ClubDetails', {clubData: club.fields, images, darkTheme: false})}>
-                  {/* //  navigation.navigate('ClubDetails', {clubData: data.fields, images}) */}
-
                   <AntIcons name="arrowright" size={40} color={colors.dark} style={{ textAlign: 'center'  }} />
                 </Pressable>
 

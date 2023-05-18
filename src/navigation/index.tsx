@@ -43,8 +43,7 @@ const CustomHeaderDetails = ({title, navigation}: ICustomHeaderProps) => {
 const CustomHeader = () => {
     return (
       <View style={styles.header}>
-        <Pressable><Ionicons name="location-sharp" size={24} color="black" /></Pressable>
-        {/* <Text style={styles.logo}>YOUCLUB.</Text> */}
+        <Pressable><Ionicons name="location-sharp" size={24} color="transparent" /></Pressable>
         <Image source={require('../assets/images/logoyouclub.png')} style={{width: 130, height: 30}} />
         <Pressable><Ionicons name="menu" size={30} color="black" /></Pressable>
       </View>
@@ -75,16 +74,13 @@ const Navigation = () => {
                           component={BottomTabNavigator}
                           options={{
                             header: () => <CustomHeader />,
-                            // headerTitle: () => <Ionicons name="leaf" size={32} color="green" />,
                             headerTitleAlign: 'center',
                           }}
                       />
                       <Stack.Screen
                           name="ClubDetails"
-                        //   options={{ headerTitle: 'Ecologie', headerTitleAlign: 'center' }}
                             options={{
                                 headerShown: false,
-                                // header: ({ navigation }) => <CustomHeaderDetails title="Profil" navigation={navigation} />,
                             }}
                           component={ClubDetailsScreen}
                       />
