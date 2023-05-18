@@ -29,7 +29,7 @@ const Dropdown = ({style, disabled, onValueChange, valuecat}: IDropdownProps) =>
       autoScroll={true}
       placeholder="Catégorie"
       containerStyle={[style]}
-      labelProps={{ numberOfLines: 1,  style: { fontSize: 13, color: colors.dark, textTransform: 'uppercase', maxWidth: "80%", backgroundColor: colors.primaryLight, overflow: "hidden", borderRadius: 20, padding: 10},  }}
+      labelProps={{ numberOfLines: 1,  style: { fontSize: 13, color: colors.dark, textTransform: 'uppercase', maxWidth: "80%", minWidth: "80%", backgroundColor: colors.primaryLight, overflow: "hidden", borderRadius: 20, padding: 10},  }}
       setOpen={setOpen}
       setValue={setValue}
       onChangeValue={(valuecat) => {

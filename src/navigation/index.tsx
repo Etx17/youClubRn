@@ -17,6 +17,9 @@ import AntIcons from '@expo/vector-icons/AntDesign';
 import { Image } from 'expo-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
+import * as Linking from 'expo-linking';
+
+const prefix = Linking.createURL('/');
 interface ICustomHeaderProps {
     title: string;
     navigation: any;
@@ -49,11 +52,14 @@ const CustomHeader = () => {
 }
 
 const Navigation = () => {
+    const linking = {
+      prefixes: [prefix],
+    };
     // const {user} = useAuthContext();
 
     // if(user === undefined) {
         return(
-            <NavigationContainer >
+            <NavigationContainer linking={linking} fallback={<Text>Loading...</Text>}>
             <Stack.Navigator screenOptions={{headerShown: true}} >
 
                 {/* {!user ? (
