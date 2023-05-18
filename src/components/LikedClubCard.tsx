@@ -5,7 +5,7 @@ import {Image} from 'expo-image';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AntIcons from '@expo/vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
-import { Entypo } from '@expo/vector-icons'; 
+import { Entypo } from '@expo/vector-icons';
 import colors from '../themes/colors';
 const LikedClubCard = ({ club, onUnLike }: any) => {
     const domaine_activite_libelle_categorise = club?.fields?.domaine_activite_libelle_categorise;
@@ -24,7 +24,7 @@ const LikedClubCard = ({ club, onUnLike }: any) => {
         <Image source={{uri: images[0]}} style={styles.image}/>
         {/* <View style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}> */}
           <View style={styles.textContainer}>
-              <Text style={styles.title}>{club?.fields?.titre}</Text>
+              <Text numberOfLines={2} style={styles.title}>{club?.fields?.titre}</Text>
               <Text style={styles.category} numberOfLines={2}>{category}</Text>
               <Text style={styles.subcategory}>{subCategory}</Text>
 
@@ -33,20 +33,20 @@ const LikedClubCard = ({ club, onUnLike }: any) => {
 
                 <Pressable onPress={()  => onUnLike(club?.fields?.id) }>
                   {/* //  navigation.navigate('ClubDetails', {clubData: data.fields, images}) */}
-                
-                  <Entypo name="cross" size={40} color="black" style={{ textAlign: 'center', textShadowColor: 'rgba(0, 0, 0, 0.30)', textShadowOffset: {width: 2, height: 1}, textShadowRadius: 7  }} />
+
+                  <Entypo name="cross" size={40} color={colors.grayDarkest} style={{ textAlign: 'center'  }} />
                 </Pressable>
-                
+
                 <Pressable onPress={() => navigation.navigate('ClubDetails', {clubData: club.fields, images, darkTheme: false})}>
                   {/* //  navigation.navigate('ClubDetails', {clubData: data.fields, images}) */}
-                
-                  <AntIcons name="arrowright" size={40} color={'black'} style={{ textAlign: 'center', textShadowColor: 'rgba(0, 0, 0, 0.30)', textShadowOffset: {width: 1, height: 1}, textShadowRadius: 7  }} />
+
+                  <AntIcons name="arrowright" size={40} color={colors.dark} style={{ textAlign: 'center'  }} />
                 </Pressable>
 
 
               </View>
           </View>
-         
+
         {/* </View> */}
         {/* <Button title="Unlike" onPress={() => onUnLike(club.id)} /> */}
    </View>
@@ -54,10 +54,10 @@ const LikedClubCard = ({ club, onUnLike }: any) => {
 }
 const styles = StyleSheet.create({
     container: {
-      flex: 1, 
-      borderWidth: 2, 
-      backgroundColor: 'yellow', 
-      flexDirection: 'row', 
+      flex: 1,
+      borderWidth: 1.3,
+      backgroundColor: colors.primary,
+      flexDirection: 'row',
       maxWidth: '100%',
       justifyContent: 'space-between',
       marginHorizontal: 5,
@@ -79,13 +79,13 @@ const styles = StyleSheet.create({
     title: {
       fontSize: 18,
       fontWeight: 'bold',
-      // maxWidth: '60%',
+      color: colors.dark
     },
     category: {
-      fontSize: 16,
+      fontSize: 14,
     },
     subcategory: {
-      fontSize: 14,
+      fontSize: 12,
     },
   });
 export default LikedClubCard

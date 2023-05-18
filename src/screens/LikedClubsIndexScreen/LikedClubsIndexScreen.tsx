@@ -43,7 +43,7 @@ useFocusEffect(
   );
 
   const handleUnLike = async (clubId: string) => {
-    try {      
+    try {
       let clubs = await AsyncStorage.getItem('likedClubs');
       clubs = clubs == null ? [] : JSON.parse(clubs);
       const index = clubs?.findIndex(club => club.fields.id === clubId);
@@ -69,7 +69,7 @@ useFocusEffect(
 console.log(likedClubs.length, 'this is liked clubs length')
   return (
     <View style={styles.container}>
-        <Text style={styles.headerTitle}>VOS <Text style={{color: colors.primary}}>CLUBS</Text> FAVORIS</Text>
+        <Text style={styles.headerTitle}>VOS CLUBS FAVORIS</Text>
         <View style={{ height: '90%', width: Dimensions.get("screen").width }}>
           <FlashList
             data={likedClubs}
@@ -79,7 +79,7 @@ console.log(likedClubs.length, 'this is liked clubs length')
             estimatedItemSize={20}
           />
         </View>
-    
+
     </View>
   )
 }
