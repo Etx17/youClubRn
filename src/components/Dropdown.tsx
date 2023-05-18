@@ -36,7 +36,7 @@ const Dropdown = ({style, disabled, onValueChange, valuecat}: IDropdownProps) =>
         onValueChange && onValueChange(valuecat);
       }}
       selectedItemContainerStyle={{
-        backgroundColor: "lightgrey"
+        backgroundColor: "yellow"
      }}
       // setItems={setItems} pourra servir pour les sous catégories en fonction de la catégorie
       listMode="MODAL"
@@ -50,9 +50,8 @@ const Dropdown = ({style, disabled, onValueChange, valuecat}: IDropdownProps) =>
         marginHorizontal: 5,
         overflow: 'hidden',
         // elevation: 8,
-        borderWidth: 0,
-        maxWidth: "90%"
-
+        maxWidth: "90%",
+        borderWidth: 0
       }}
       disabledStyle={{
         opacity: 0.5
@@ -60,6 +59,15 @@ const Dropdown = ({style, disabled, onValueChange, valuecat}: IDropdownProps) =>
       textStyle={{
         fontSize: 16,
       }}
+      showArrowIcon={true}
+      arrowIconStyle={{
+        tintColor: 'black',
+        width: 30,
+        height: 30,
+      }}
+      // ArrowUpIconComponent={({style}) => <MyArrowUpIcon style={style} />}
+      // ArrowDownIconComponent={({style}) => <MyArrowDownIcon style={style} />}
+
     />
   );
 }

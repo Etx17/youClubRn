@@ -24,14 +24,11 @@ const SubCategoryDropdown = ({style, disabled, onValueChange, valuesub, category
       autoScroll={true}
       placeholder="Sous catégorie"
       containerStyle={[style]}
-      labelProps={{ numberOfLines: 1,  style: { fontSize: 16, color: colors.dark} }}
+      labelProps={{ numberOfLines: 1,  style: { fontSize: 14, color: colors.dark, textTransform: 'uppercase',},  }}
       setOpen={setOpen}
       setValue={setValue}
       onChangeValue={(valuesub) => {
         onValueChange && onValueChange(valuesub);
-      }}
-      selectedItemContainerStyle={{
-        backgroundColor: "lightgrey"
       }}
       // setItems={setItems} pourra servir pour les sous catégories en fonction de la catégorie
       listMode="MODAL"
@@ -39,7 +36,8 @@ const SubCategoryDropdown = ({style, disabled, onValueChange, valuesub, category
         animationType: 'fade', // Change the modal animation type
       }}
       style={{
-        backgroundColor: 'transparent',
+        // backgroundColor: 'transparent',
+        backgroundColor: colors.grayDark,
         borderRadius: 50,
         marginVertical: 5,
         overflow: 'hidden',
@@ -53,7 +51,34 @@ const SubCategoryDropdown = ({style, disabled, onValueChange, valuesub, category
         opacity: 0.5
       }}
       textStyle={{
-        fontSize: 16,
+        fontSize: 20,
+        fontWeight: "light",
+        color: 'black',
+        // textTransform: 'uppercase',
+      }}
+      showArrowIcon={true}
+      arrowIconStyle={{
+        tintColor: colors.dark,
+        width: 20,
+        height: 30,
+      }}
+      itemSeparator={true}
+      itemSeparatorStyle={{
+        backgroundColor: 'black',
+        // paddingVertical: 8,
+
+      }}
+      // selectedItemLabelStyle={{
+      //   fontWeight: "bold"
+      // }}
+      selectedItemContainerStyle={{
+        backgroundColor: "yellow",
+        flexGrow: 1,
+        height: 100
+      }}
+      listItemContainerStyle={{
+        backgroundColor: 'colors.gray',
+        height: 100,
       }}
     />
     // </ScrollView>
