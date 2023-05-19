@@ -32,23 +32,23 @@ const LikedClubCard = ({ club, onUnLike }: any) => {
 
                 {/* <Pressable onPress={()  => onUnLike(club?.fields?.id) }> */}
                 <Pressable
-  onPress={() =>
-    Alert.alert(
-      "Supprimer",
-      "Voulez vous vraiment supprimer ce club de vos favoris?",
-      [
-        {
-          text: "Annuler",
-          style: "cancel",
-        },
-        {
-          text: "Yes",
-          onPress: () => onUnLike(club?.fields?.id),
-        },
-      ]
-    )
-  }
->
+                  onPress={() =>
+                    Alert.alert(
+                      "Supprimer",
+                      "Voulez vous vraiment supprimer ce club de vos favoris?",
+                      [
+                        {
+                          text: "Annuler",
+                          style: "cancel",
+                        },
+                        {
+                          text: "Oui",
+                          onPress: () => onUnLike(club?.fields?.id),
+                        },
+                      ]
+                    )
+                  }
+                >
                   <Entypo name="cross" size={40} color={colors.grayDarkest} style={{ textAlign: 'center'  }} />
                 </Pressable>
 
