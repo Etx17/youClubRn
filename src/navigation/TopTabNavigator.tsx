@@ -3,7 +3,6 @@ import ClubsIndexScreen from '../screens/ClubsIndexScreen/ClubsIndexScreen';
 import ActivitiesIndexScreen from '../screens/ActivitiesIndexScreen/ActivitiesIndexScreen';
 import { TopTabNavigatorParamsList } from '../types/navigation';
 import colors from '../themes/colors';
-import { useLocationContext } from '../contexts/LocationContext';
 
 
 const Tab = createMaterialTopTabNavigator<TopTabNavigatorParamsList>();

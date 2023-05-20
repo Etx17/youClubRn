@@ -1,13 +1,10 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import colors from '../themes/colors';
 import {BottomTabNavigatorParamsList} from "../types/navigation"
-import HomeScreen from '../screens/HomeScreen/HomeScreen';
 import AntIcons from '@expo/vector-icons/AntDesign';
-import LikesScreen from '../screens/LikesScreen/LikesScreen';
 import { Pressable, Alert } from 'react-native';
 import MyProfileScreen from '../screens/MyProfileScreen/MyProfileScreen';
 import TopTabNavigator from './TopTabNavigator';
-import { useNavigation } from '@react-navigation/native';
 import LikesTopTabNavigator from './LikesTopTabNavigator';
 
 const Tab = createBottomTabNavigator<BottomTabNavigatorParamsList>();

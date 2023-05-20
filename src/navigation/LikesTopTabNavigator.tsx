@@ -1,11 +1,7 @@
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import ClubsIndexScreen from '../screens/ClubsIndexScreen/ClubsIndexScreen';
-import ActivitiesIndexScreen from '../screens/ActivitiesIndexScreen/ActivitiesIndexScreen';
 import { LikesTopTabNavigatorParamsList } from '../types/navigation';
 import colors from '../themes/colors';
-import { useLocationContext } from '../contexts/LocationContext';
 import LikedActivitiesIndexScreen from '../screens/LikedActivitesIndexScreen/LikedActivitiesIndexScreen';
-import LikedClubsIndexScreen from '../screens/LikedClubsIndexScreen/LikedClubsIndexScreen';
 import LikedClubsNavigator from './LikedClubsNavigator';
 
 const Tab = createMaterialTopTabNavigator<LikesTopTabNavigatorParamsList>();
@@ -19,7 +15,6 @@ const LikesTopTabNavigator = () => {
         }}>
           <Tab.Screen 
             name="Clubs" 
-            // component={LikedClubsIndexScreen} 
             component={LikedClubsNavigator} 
             options={{ swipeEnabled: false, }}
           />

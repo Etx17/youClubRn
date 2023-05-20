@@ -1,45 +1,18 @@
 import {  NavigationContainer } from '@react-navigation/native';
-
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-import {BottomTabNavigatorParamsList, RootNavigatorParamsList} from '../types/navigation'
-
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import { SafeAreaView } from 'react-native';
+import { RootNavigatorParamsList} from '../types/navigation'
 import BottomTabNavigator from './BottomTabNavigator';
 import ClubDetailsScreen from '../screens/ClubDetailsScreen/ClubDetailsScreen';
-import TopTabNavigator from './TopTabNavigator';
 import colors from '../themes/colors';
-import { StatusBar } from 'expo-status-bar';
 import { Pressable, StyleSheet, Text, View, Platform } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import AntIcons from '@expo/vector-icons/AntDesign';
 import { Image } from 'expo-image';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { LinearGradient } from 'expo-linear-gradient';
 import * as Linking from 'expo-linking';
 
 const prefix = Linking.createURL('/');
-interface ICustomHeaderProps {
-    title: string;
-    navigation: any;
-}
 
-// const insets = useSafeAreaInsets();
-const Stack = createNativeStackNavigator<RootNavigatorParamsList>()
+const Stack = createNativeStackNavigator<RootNavigatorParamsList>();
 
-const CustomHeaderDetails = ({title, navigation}: ICustomHeaderProps) => {
-    return (
-        <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={styles.customHeader}>
-
-      <View style={styles.header}>
-        <Ionicons name="chevron-back-outline" size={30} color={colors.primaryLight} onPress={()=>navigation.goBack()} />
-        <Text style={{fontSize: 20, color: colors.grayDarkest,}}>{title}</Text>
-        <Text>        </Text>
-      </View>
-        </LinearGradient>
-    )
-}
 const CustomHeader = () => {
     return (
       <View style={styles.header}>
@@ -79,9 +52,7 @@ const Navigation = () => {
                       />
                       <Stack.Screen
                           name="ClubDetails"
-                            options={{
-                                headerShown: false,
-                            }}
+                          options={{ headerShown: false, }}
                           component={ClubDetailsScreen}
                       />
 
@@ -104,10 +75,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         height: 50,
     },
-    customHeader: {
-        flex: 1,
-        // alignSelf: 'stretch',
-    },
     title: {
         fontSize: 20,
         color: colors.dark,
@@ -118,15 +85,6 @@ const styles = StyleSheet.create({
        fontWeight: 'bold',
        letterSpacing: -2,
     },
-    // gradientText: {
-    //     fontSize: 30,
-    //     fontWeight: 'bold',
-    //     letterSpacing: -2,
-    //     color: '#fff',
-    //     WebkitMaskImage: 'linear-gradient(to right, #f00, #0f0, #00f)',
-    //     maskImage: 'linear-gradient(to right, #f00, #0f0, #00f)',
-    //   },
 })
-
 
 export default Navigation;
