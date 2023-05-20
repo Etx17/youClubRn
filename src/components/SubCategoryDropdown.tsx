@@ -72,13 +72,12 @@ const styles = StyleSheet.create({
     fontSize: 13, 
     color: colors.dark, 
     textTransform: 'uppercase', 
-    // maxWidth: "80%", 
-    // minWidth: "80%", 
     width: "80%",
     backgroundColor: colors.primaryLight, 
     overflow: "hidden", 
     borderRadius: 20, 
     padding: 10,
+    paddingLeft: 12,
   },
 })
 export default SubCategoryDropdown;

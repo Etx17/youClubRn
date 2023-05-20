@@ -79,13 +79,13 @@ const styles = StyleSheet.create({
   label: { 
     fontSize: 13, color: colors.dark, 
     textTransform: 'uppercase', 
-    // maxWidth: "80%", 
-    // minWidth: "80%", 
+    marginLeft: 8,
     width: "80%",
     backgroundColor: colors.primaryLight, 
     overflow: "hidden", 
     borderRadius: 20, 
     padding: 10,
+    paddingLeft: 12,
   },
 })
 

@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { createContext,  ReactNode, useState, SetStateAction, useEffect } from "react";
 import * as Location from 'expo-location';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 type LocationContextType ={
     lat: number | string ;
     lon: number | string ;
@@ -38,16 +39,30 @@ const LocationContextProvider = ({children}: {children: ReactNode}) => {
         let deviceLocation = await Location.getCurrentPositionAsync({});
         setLocation(deviceLocation);
         
-        // console.log(deviceLocation.coords, 'location from context');
         const locationObject = {
             latitude: deviceLocation.coords.latitude,
             longitude: deviceLocation.coords.longitude
         }
+
+        const storedCity = await AsyncStorage.getItem('lastGeocodedCity');
+        const storedLocation = JSON.parse(await AsyncStorage.getItem('lastLocation') || 'null');
+
+        if (storedCity && storedLocation) {
+            const { latitude: storedLatitude, longitude: storedLongitude } = storedLocation;
+            if (storedLatitude === locationObject.latitude && storedLongitude === locationObject.longitude) {
+                setCity(storedCity);
+            return;
+            }
+        }
+
         const geocodeData = await Location.reverseGeocodeAsync(locationObject);
         if (geocodeData && geocodeData.length > 0) {
-        setCity(geocodeData[0]?.city);
+            const currentCity = geocodeData[0].city;
+            setCity(currentCity);
+            AsyncStorage.setItem('lastGeocodedCity', currentCity);
+            AsyncStorage.setItem('lastLocation', JSON.stringify(locationObject));
         } else {
-        console.error('Could not geocode city');
+            console.error('Could not geocode city');
         }
         })();
     }, []);
