@@ -1,9 +1,8 @@
 import DropDownPicker from 'react-native-dropdown-picker';
 import React, { useState } from 'react';
-import { Text, View, ScrollView } from 'react-native';
 import colors from '../themes/colors';
 import subcategories from '../assets/data/subcategories';
-import categories from '../assets/data/categories'
+import { StyleSheet } from 'react-native';
 interface IDropdownProps {
     style?: any;
     disabled?: boolean;
@@ -20,23 +19,18 @@ const SubCategoryDropdown = ({style, disabled, onValueChange, valuesub, category
       open={open}
       value={value}
       items={subcategories[categoryName] ? subcategories[categoryName] : []}
-      // maxHeight={300}
       autoScroll={true}
       placeholder="Sous catégorie"
       containerStyle={[style]}
-      labelProps={{ numberOfLines: 1,  style: { fontSize: 13, color: colors.dark, textTransform: 'uppercase', maxWidth: "80%", minWidth: "80%", backgroundColor: colors.primaryLight, overflow: "hidden", borderRadius: 20, padding: 10},  }}
+      labelProps={{ numberOfLines: 1,  style: styles.label,  }}
       setOpen={setOpen}
       setValue={setValue}
       onChangeValue={(valuesub) => {
         onValueChange && onValueChange(valuesub);
       }}
-      // setItems={setItems} pourra servir pour les sous catégories en fonction de la catégorie
       listMode="MODAL"
-      modalProps={{
-        animationType: 'fade', // Change the modal animation type
-      }}
+      modalProps={{ animationType: 'fade', }}
       style={{
-        // backgroundColor: 'transparent',
         backgroundColor: 'transparent',
         borderRadius: 50,
         marginVertical: 5,
@@ -51,7 +45,6 @@ const SubCategoryDropdown = ({style, disabled, onValueChange, valuesub, category
       }}
       textStyle={{
         fontSize: 20,
-        fontWeight: "light",
         color: 'black',
       }}
       showArrowIcon={true}
@@ -74,5 +67,18 @@ const SubCategoryDropdown = ({style, disabled, onValueChange, valuesub, category
     />
   );
 }
-
+const styles = StyleSheet.create({
+  label: { 
+    fontSize: 13, 
+    color: colors.dark, 
+    textTransform: 'uppercase', 
+    // maxWidth: "80%", 
+    // minWidth: "80%", 
+    width: "80%",
+    backgroundColor: colors.primaryLight, 
+    overflow: "hidden", 
+    borderRadius: 20, 
+    padding: 10,
+  },
+})
 export default SubCategoryDropdown;

@@ -2,6 +2,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import React, { useState } from 'react';
 import colors from '../themes/colors';
 import categories from '../assets/data/categories';
+import { StyleSheet } from 'react-native';
 
 
 interface IDropdownProps {
@@ -29,7 +30,7 @@ const Dropdown = ({style, disabled, onValueChange, valuecat}: IDropdownProps) =>
       autoScroll={true}
       placeholder="Catégorie"
       containerStyle={[style]}
-      labelProps={{ numberOfLines: 1,  style: { fontSize: 13, color: colors.dark, textTransform: 'uppercase', maxWidth: "80%", minWidth: "80%", backgroundColor: colors.primaryLight, overflow: "hidden", borderRadius: 20, padding: 10},  }}
+      labelProps={{ numberOfLines: 1, style: styles.label }}
       setOpen={setOpen}
       setValue={setValue}
       onChangeValue={(valuecat) => {
@@ -45,11 +46,8 @@ const Dropdown = ({style, disabled, onValueChange, valuecat}: IDropdownProps) =>
         height: 50,
         paddingHorizontal: 10,
       }}
-      // setItems={setItems} pourra servir pour les sous catégories en fonction de la catégorie
       listMode="MODAL"
-      modalProps={{
-        animationType: 'fade', // Change the modal animation type
-      }}
+      modalProps={{ animationType: 'fade' }}
       style={{
         backgroundColor: 'transparent',
         borderRadius: 50,
@@ -59,12 +57,9 @@ const Dropdown = ({style, disabled, onValueChange, valuecat}: IDropdownProps) =>
         maxWidth: "100%",
         borderWidth: 0,
       }}
-      disabledStyle={{
-        opacity: 0.5
-      }}
+      disabledStyle={{ opacity: 0.5 }}
       textStyle={{
         fontSize: 18,
-        fontWeight: "light",
         color: 'black',
       }}
       showArrowIcon={true}
@@ -80,5 +75,18 @@ const Dropdown = ({style, disabled, onValueChange, valuecat}: IDropdownProps) =>
     />
   );
 }
+const styles = StyleSheet.create({
+  label: { 
+    fontSize: 13, color: colors.dark, 
+    textTransform: 'uppercase', 
+    // maxWidth: "80%", 
+    // minWidth: "80%", 
+    width: "80%",
+    backgroundColor: colors.primaryLight, 
+    overflow: "hidden", 
+    borderRadius: 20, 
+    padding: 10,
+  },
+})
 
 export default Dropdown;
