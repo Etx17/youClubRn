@@ -49,4 +49,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TitleSection;
+export default TitleSection;  

@@ -42,6 +42,10 @@ const ClubCard = ({data}: IClubCardProps) => {
     `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subCategory][1] : 'random'}/300/200`,
   ];
 
+  const navigateToClubDetails = () => {
+    navigation.navigate('ClubDetails', {clubData: data.fields, images, darkTheme: true});
+  }
+
     const changeImage = (direction: String) => {
       if (direction === 'left') {
         setCurrentImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
@@ -102,9 +106,15 @@ const ClubCard = ({data}: IClubCardProps) => {
         <View style={styles.informationsContainer}>
           <Pressable style={styles.leftButton} onPress={() => changeImage('left')}/>
           <Pressable style={styles.rightButton} onPress={() => changeImage('right')}/>
-          <View style={styles.titleContainer}>
-            <Text style={styles.title} numberOfLines={3}>{ titre ? titre.toUpperCase() : "Non renseigné" }</Text>
-            <Pressable onPress={() => navigation.navigate('ClubDetails', {clubData: data.fields, images, darkTheme: true})}>
+          <View style={styles.titleContainer} >
+            <Text 
+              style={styles.title} 
+              numberOfLines={3} 
+              onPress={navigateToClubDetails}
+            >
+              { titre ? titre.toUpperCase() : "Non renseigné" }
+            </Text>
+            <Pressable onPress={navigateToClubDetails}>
               <Ionicons name="md-information-circle-sharp" size={36} color={colors.primary} style={styles.profileIcon} />
             </Pressable>
           </View>
@@ -113,11 +123,21 @@ const ClubCard = ({data}: IClubCardProps) => {
             <Ionicons name="location-sharp" size={14} color={colors.primary} style={styles.locationIcon} /> {formattedDistance ? formattedDistance : 'Non renseigné'} - {codepostal_actuel}
           </Text>
 
-          <Text numberOfLines={1} style={styles.subCategoryText}>
+          <Text 
+            numberOfLines={1} 
+            style={styles.subCategoryText}
+            onPress={navigateToClubDetails}
+          >
             {subCategory!= "" ? subCategory : 'Autre/Non renseigné'}
           </Text>
 
-          <Text style={styles.object} numberOfLines={3}>{objet ? objet?.charAt(0).toUpperCase() + objet?.slice(1) : "Cette association n'a pas renseigné de description"}</Text>
+          <Text 
+            style={styles.object} 
+            numberOfLines={3}
+            onPress={navigateToClubDetails}
+          >
+            {objet ? objet?.charAt(0).toUpperCase() + objet?.slice(1) : "Cette association n'a pas renseigné de description"}
+          </Text>
         </View>
 
         {/* Like button */}
@@ -126,6 +146,7 @@ const ClubCard = ({data}: IClubCardProps) => {
             <AntIcons name={isLiked ? "heart" : "hearto"} size={25} color={colors.primary} style={{textAlign: 'center', paddingBottom: 15}} />
           </Pressable>
         </View>
+        <Text style={{color: colors.dark, position: 'absolute', bottom: 15, right: 15, fontSize: 12}} onPress={navigateToClubDetails}>Non revendiqué</Text>
 
       </LinearGradient>
     </View>

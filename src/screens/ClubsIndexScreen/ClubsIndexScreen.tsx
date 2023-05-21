@@ -3,102 +3,82 @@ import { View, StyleSheet, Text, ActivityIndicator }  from 'react-native';
 import ClubCard from '../../components/ClubCard';
 import Dropdown from '../../components/Dropdown';
 import SubCategoryDropdown from '../../components/SubCategoryDropdown';
-
 import Swiper from 'react-native-deck-swiper';
-
 import { StatusBar } from 'expo-status-bar';
 import { useLocationContext } from '../../contexts/LocationContext';
 import { Alert } from 'react-native';
-
 import axios from 'axios';
 
+interface IClub {
+  fields: {
+    objet: string;
+    domaine_activite_libelle_categorise: string;
+  }
+}
 
+interface Data {
+  records: IClub[];
+}
 
+const BASE_URL = 'https://journal-officiel-datadila.opendatasoft.com/api/records/1.0/search/?dataset=jo_associations&q=&rows=2000&sort=dateparution&facet=lieu_declaration_facette&facet=domaine_activite_categorise&facet=domaine_activite_libelle_categorise';
+
+const fetchData = async (dropdownValue: string, city: string) => {
+  try {
+    let encodedDropdownValue = encodeURIComponent(dropdownValue).replace(/'/g, dropdownValue === "culture, pratiques d'activités artistiques, culturelles" ? "%E2%80%99" : "%27");
+    const encodedDropdownValueSpaceIntoPlus = encodedDropdownValue.replace(/%20/g, "+");
+    const url = `${BASE_URL}&refine.domaine_activite_libelle_categorise=${encodedDropdownValueSpaceIntoPlus}&refine.localisation_facette=%C3%8Ele-de-France%2F${city === "Mountain View" ? "Paris" : city}&exclude.objet=%22%22&exclude.domaine_activite_libelle_categorise=%22%22&`;
+    const response = await axios.get(url);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    throw error;
+  }
+};
+
+const filterClubs = (data: Data): IClub[] => {
+  return data?.records.filter(club => {
+    const { objet, domaine_activite_libelle_categorise } = club?.fields || {};
+    const [subCategory] = domaine_activite_libelle_categorise?.split('/')[1]?.split('###') || [];
+    return objet?.trim() && subCategory?.trim();
+  });
+};
 
 const ClubsIndexScreen = () => {
-  const [clubs, setClubs] = useState([]);
-  const [subCategoryClubs, setSubCategoryClubs] = useState([]);
+  const [clubs, setClubs] = useState<IClub[]>([]);
+  const [subCategoryClubs, setSubCategoryClubs] = useState<IClub[]>([]);
   const [dropdownValue, setDropdownValue] = useState("Sports, activités de plein air");
   const [subCategoryDropdownValue, setSubCategoryDropdownValue] = useState("all");
   const [isFetching, setIsFetching] = useState(false);
   const {city} = useLocationContext();
-  const fetchData = async () => {
-    try {
-      let encodedDropdownValue
-      console.log(dropdownValue, "dropdownValue")
-      if (dropdownValue === "culture, pratiques d'activités artistiques, culturelles"){
-        encodedDropdownValue = encodeURIComponent(dropdownValue).replace(/'/g, "%E2%80%99");
-      } else {
-        encodedDropdownValue = encodeURIComponent(dropdownValue).replace(/'/g, "%27");
-      }
-      const encodedDropdownValueSpaceIntoPlus = encodedDropdownValue.replace(/%20/g, "+");
-      console.log("encodedDropdownValue", encodedDropdownValueSpaceIntoPlus);
-      const url = `https://journal-officiel-datadila.opendatasoft.com/api/records/1.0/search/?dataset=jo_associations&q=&rows=2000&sort=dateparution&facet=lieu_declaration_facette&facet=domaine_activite_categorise&facet=domaine_activite_libelle_categorise&refine.domaine_activite_libelle_categorise=${encodedDropdownValueSpaceIntoPlus}&refine.localisation_facette=%C3%8Ele-de-France%2F${city === "Mountain View" ? "Paris" : city}&exclude.objet=%22%22&exclude.domaine_activite_libelle_categorise=%22%22&`;
-      const response = await axios.get(url);
-      return response.data;
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      throw error;
-    }
-  };
 
   useEffect(() => {
-
-    const fetchClubs = async () => {
-      if (isFetching) {
-        console.log('Already fetching clubs so it had to RETURN')
-        return; 
-      }
-
-      if (!city) {
-        console.log('city is falsy so it had to RETURN')
-        setIsFetching(false);
-        return;
-      }
-
+    if (!isFetching && city) {
       setIsFetching(true);
-      try {
-        const data = await fetchData();
-        console.log(data?.records.length, 'this is data records length');
-
-        const clubsWithObjectAndSubcategory =
-          data?.records.filter(
-            (club: {fields: {objet: any, domaine_activite_libelle_categorise: string}}) => club?.fields?.objet
-              && club?.fields?.objet.trim() !== ""
-              && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0]
-              && club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split('###')[0].trim() !== ""
-          );
-        console.log(clubsWithObjectAndSubcategory.length, 'this is clubsWithObjectAndSubcategory.length after ');
-        setClubs(clubsWithObjectAndSubcategory);
-        setSubCategoryClubs(clubsWithObjectAndSubcategory);
-      
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
+      fetchData(dropdownValue, city).then(data => {
+        const filteredClubs = filterClubs(data);
+        setClubs(filteredClubs);
+        setSubCategoryClubs(filteredClubs);
         setIsFetching(false);
-      }
-    };
-    fetchClubs();
+      }).catch(error => {
+        console.error('Error fetching data:', error);
+        setIsFetching(false);
+        Alert.alert('Error fetching data');
+      });
+    }
+  }, [dropdownValue, city]);
 
-  }, [dropdownValue, city])
-
-  const handleDropdownValueChange = (valuecat: any) => {
+  const handleDropdownValueChange = (valuecat: string) => {
     setDropdownValue(valuecat);
   };
-  const handleSubCategoryDropdownValueChange = (valuesub: any) => {
-    if (valuesub === 'all' || null || undefined) {
+
+  const handleSubCategoryDropdownValueChange = (valuesub: string) => {
+    if (valuesub === 'all' || !valuesub) {
       return setSubCategoryClubs(clubs);
     } else {
       setSubCategoryDropdownValue(valuesub);
-
-    if(clubs.length > 0){
-      const newClubs = clubs.filter((club: { fields: { domaine_activite_libelle_categorise: string}}) => club?.fields?.domaine_activite_libelle_categorise.split('/')[1].split("###")[0] === valuesub);
+      const newClubs = clubs.filter((club) => club?.fields?.domaine_activite_libelle_categorise.split('/')[1]?.split("###")[0] === valuesub);
       setSubCategoryClubs(newClubs);
-      } else {
-        setIsFetching(false)
-      }
     }
-
   };
 return (
 
@@ -129,10 +109,10 @@ return (
         cardIndex={0}
         animateOverlayLabelsOpacity
         animateCardOpacity
-        key={subCategoryClubs.length } // Important for pagination i heard?
+        key={subCategoryClubs.length } 
         backgroundColor={'transparent'}
         cardHorizontalMargin={5}
-        onSwipedAll={()=>Alert.alert('No more clubs')} //useful later for pagination
+        onSwipedAll={()=>Alert.alert('No more clubs')}
         renderCard={(card, cardIndex) =>
           (
           <ClubCard
@@ -170,7 +150,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-
   }
 })
 
