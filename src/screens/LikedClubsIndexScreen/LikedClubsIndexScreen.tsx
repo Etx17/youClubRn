@@ -1,47 +1,55 @@
 import { View, Text,StyleSheet, Dimensions } from 'react-native'
-import React, { useState} from 'react'
+import React, { useCallback, useState} from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
 import { FlashList } from "@shopify/flash-list";
 import LikedClubCard from '../../components/LikedClubCard';
 
-const LikedClubsIndexScreen = () => {
-  const [likedClubs, setLikedClubs] = useState([])
-useFocusEffect(
-    React.useCallback(() => {
-      const getLikedClubs = async () => {
-        try {
-          let data = await AsyncStorage.getItem('likedClubs');
-          data = data == null ? [] : JSON.parse(data);
-          setLikedClubs(data)
-        } catch (e) {
-          console.log(e)
-        }
-      }
-      getLikedClubs();
-    }, [])
-  );
+type Club = {
+  fields: {
+    id: string;
+    titre: string;
+    domaine_activite_libelle_categorise: string;
+    objet?: string;
+  };
+};
 
-  const handleUnLike = async (clubId: string) => {
-    try {
-      let clubs = await AsyncStorage.getItem('likedClubs');
-      clubs = clubs == null ? [] : JSON.parse(clubs);
-      const index = clubs?.findIndex(club => club.fields.id === clubId);
-      if (index !== -1) {
-        clubs?.splice(index, 1);
-        await AsyncStorage.setItem('likedClubs', JSON.stringify(clubs));
-        setLikedClubs(clubs);
+const parseClubs = (clubs: string | null):  Club[] => clubs == null ? [] : JSON.parse(clubs);
+
+const LikedClubsIndexScreen = () => {
+  const [likedClubs, setLikedClubs] = useState<Club[] | null>([]);
+  useFocusEffect(
+      React.useCallback(() => {
+        const getLikedClubs = async () => {
+          try {
+            let data = await AsyncStorage.getItem('likedClubs');
+            data = data == null ? [] as Club[] : JSON.parse(data);
+            setLikedClubs(data)
+          } catch (e) {
+            console.log(e)
+          }
+        }
+        getLikedClubs();
+      }, [])
+    );
+
+    const handleUnLike = useCallback(async (clubId: string) => {
+      try {
+        const clubs = parseClubs(await AsyncStorage.getItem('likedClubs'));
+        const index = clubs.findIndex((club: { fields: { id: string | number}}) => club.fields.id === clubId);
+        
+        const newClubs = [...clubs.slice(0, index), ...clubs.slice(index + 1)];
+        await AsyncStorage.setItem('likedClubs', JSON.stringify(newClubs));
+        setLikedClubs(newClubs);
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
-    }
-  }
+    }, []);
 
   return (
     <View style={styles.container}>
         <Text style={styles.headerTitle}>VOS CLUBS FAVORIS</Text>
-        <View style={{ height: '90%', width: Dimensions.get("screen").width,
- }}>
+        <View style={{ height: '90%', width: Dimensions.get("screen").width }}>
           <FlashList
             data={likedClubs}
             keyExtractor={(item: any) => item?.fields?.id.toString()}
