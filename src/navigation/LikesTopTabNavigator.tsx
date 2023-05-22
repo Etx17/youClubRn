@@ -19,9 +19,9 @@ const LikesTopTabNavigator = () => {
             options={{ swipeEnabled: false, }}
           />
           <Tab.Screen 
-            name="Activities" 
+            name="Activités" 
             component={LikedActivitiesIndexScreen} 
-            options={{ swipeEnabled: false, }}
+            options={{ swipeEnabled: false }}
           />
         </Tab.Navigator>
       );

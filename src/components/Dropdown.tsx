@@ -28,7 +28,7 @@ const Dropdown = ({style, disabled, onValueChange, valuecat}: IDropdownProps) =>
       items={categories}
       maxHeight={300}
       autoScroll={true}
-      placeholder="Catégories"
+      placeholder="Catégories (12)"
       containerStyle={[style]}
       labelProps={{ numberOfLines: 1, style: styles.label }}
       setOpen={setOpen}
