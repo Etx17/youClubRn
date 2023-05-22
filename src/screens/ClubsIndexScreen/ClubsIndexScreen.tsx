@@ -52,6 +52,9 @@ const ClubsIndexScreen = () => {
   const {city} = useLocationContext();
 
   useEffect(() => {
+    console.log('Fetching data...');
+    const startTime = new Date().getTime();
+
     if (!isFetching && city) {
       setIsFetching(true);
       fetchData(dropdownValue, city).then(data => {
@@ -59,12 +62,19 @@ const ClubsIndexScreen = () => {
         setClubs(filteredClubs);
         setSubCategoryClubs(filteredClubs);
         setIsFetching(false);
+
+        const endTime = new Date().getTime();
+        const elapsedTime = endTime - startTime;
+        console.log('Fetched data in', elapsedTime, 'milliseconds');
+        
       }).catch(error => {
         console.error('Error fetching data:', error);
         setIsFetching(false);
         Alert.alert('Error fetching data');
       });
     }
+    console.log('Fetched data in time');
+    
   }, [dropdownValue, city]);
 
   const handleDropdownValueChange = (valuecat: string) => {

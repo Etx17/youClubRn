@@ -27,45 +27,59 @@ const LocationContextProvider = ({children}: {children: ReactNode}) => {
     const [location, setLocation] = useState<ILocation>({coords: {}} as ILocation);
     const [errorMsg, setErrorMsg] = useState<string>('');
     const [city, setCity] = useState<string | null>('');
+    const EXPIRATION_TIME = 15 * 24 * 60 * 60 * 1000; // 15 days in milliseconds
+
     useEffect(() => {
         (async () => {
-        
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
+          let { status } = await Location.requestForegroundPermissionsAsync();
+          if (status !== 'granted') {
             setErrorMsg('Permission to access location was denied');
             return;
-        }
-
-        let deviceLocation = await Location.getCurrentPositionAsync({});
-        setLocation(deviceLocation);
-        
-        const locationObject = {
+          }
+      
+          console.log('Getting storedLocation from storage?');
+          const storedLocation = JSON.parse(await AsyncStorage.getItem('lastLocation') || 'null');
+          console.log('Got storedLocation from storage: ', storedLocation);
+      
+          console.log('Getting city from storage?');
+          const storedCity = await AsyncStorage.getItem('lastGeocodedCity');
+          console.log('Got city from storage: ', storedCity);
+      
+          if (storedLocation && storedCity) {
+            const storedTimestamp = JSON.parse(await AsyncStorage.getItem('lastLocationTimestamp') || 'null');
+            const currentTime = new Date().getTime();
+      
+            // Check if the stored data is within the expiration time
+            if (storedTimestamp && currentTime - storedTimestamp <= EXPIRATION_TIME) {
+                console.log('Using stored location as it is within the expiration time for again : number of seconds: ', (currentTime - storedTimestamp) / 1000 );
+              setLocation({ coords: storedLocation });
+              setCity(storedCity);
+              return;
+            }
+          }
+      
+          console.log('Getting current position...');
+          let deviceLocation = await Location.getCurrentPositionAsync({});
+          const locationObject = {
             latitude: deviceLocation.coords.latitude,
             longitude: deviceLocation.coords.longitude
-        }
-
-        const storedCity = await AsyncStorage.getItem('lastGeocodedCity');
-        const storedLocation = JSON.parse(await AsyncStorage.getItem('lastLocation') || 'null');
-
-        if (storedCity && storedLocation) {
-            const { latitude: storedLatitude, longitude: storedLongitude } = storedLocation;
-            if (storedLatitude === locationObject.latitude && storedLongitude === locationObject.longitude) {
-                setCity(storedCity);
-            return;
-            }
-        }
-
-        const geocodeData = await Location.reverseGeocodeAsync(locationObject);
-        if (geocodeData && geocodeData.length > 0) {
+          };
+          setLocation(deviceLocation);
+          console.log('Got current position');
+      
+          console.log('Reverse geocoding...');
+          const geocodeData = await Location.reverseGeocodeAsync(locationObject);
+          if (geocodeData && geocodeData.length > 0) {
             const currentCity = geocodeData[0].city;
             setCity(currentCity);
             AsyncStorage.setItem('lastGeocodedCity', currentCity);
             AsyncStorage.setItem('lastLocation', JSON.stringify(locationObject));
-        } else {
+            AsyncStorage.setItem('lastLocationTimestamp', JSON.stringify(new Date().getTime()));
+          } else {
             console.error('Could not geocode city');
-        }
+          }
         })();
-    }, []);
+      }, []);
 
     let text = 'Waiting..';
     if (errorMsg) {
