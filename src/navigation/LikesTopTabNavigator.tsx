@@ -11,7 +11,7 @@ const LikesTopTabNavigator = () => {
         <Tab.Navigator screenOptions={{
           tabBarStyle: {marginTop: -20, backgroundColor: colors.white, height: 40, position: 'relative', top: 2}, 
           tabBarIndicatorStyle: {backgroundColor:colors.dark},
-          tabBarLabelStyle: {color: colors.dark},
+          tabBarLabelStyle: {color: colors.dark, fontSize: 15, letterSpacing: 2},
         }}>
           <Tab.Screen 
             name="Clubs" 
