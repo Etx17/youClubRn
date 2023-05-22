@@ -22,11 +22,12 @@ interface Data {
 
 const BASE_URL = 'https://journal-officiel-datadila.opendatasoft.com/api/records/1.0/search/?dataset=jo_associations&q=&rows=2000&sort=dateparution&facet=lieu_declaration_facette&facet=domaine_activite_categorise&facet=domaine_activite_libelle_categorise';
 
-const fetchData = async (dropdownValue: string, city: string) => {
+const fetchData = async (dropdownValue: string, city: string, region: string, subRegion: string) => {
   try {
     let encodedDropdownValue = encodeURIComponent(dropdownValue).replace(/'/g, dropdownValue === "culture, pratiques d'activités artistiques, culturelles" ? "%E2%80%99" : "%27");
     const encodedDropdownValueSpaceIntoPlus = encodedDropdownValue.replace(/%20/g, "+");
-    const url = `${BASE_URL}&refine.domaine_activite_libelle_categorise=${encodedDropdownValueSpaceIntoPlus}&refine.localisation_facette=%C3%8Ele-de-France%2F${city === "Mountain View" ? "Paris" : city}&exclude.objet=%22%22&exclude.domaine_activite_libelle_categorise=%22%22&`;
+    const [encodedRegion, encodedSubRegion] = [encodeURIComponent(region), encodeURIComponent(subRegion)];
+    const url = `${BASE_URL}&refine.domaine_activite_libelle_categorise=${encodedDropdownValueSpaceIntoPlus}&refine.localisation_facette=${region === "California" ? "%C3%8Ele-de-France" : encodedRegion }%2F${encodedSubRegion === "Santa%20Clara%20County" ? "Paris" : encodedSubRegion}&exclude.objet=%22%22&exclude.domaine_activite_libelle_categorise=%22%22&`;
     const response = await axios.get(url);
     return response.data;
   } catch (error) {
@@ -50,14 +51,16 @@ const ClubsIndexScreen = () => {
   const [subCategoryDropdownValue, setSubCategoryDropdownValue] = useState("all");
   const [isFetching, setIsFetching] = useState(false);
   const {city} = useLocationContext();
+  const {region} = useLocationContext();
+  const {subRegion} = useLocationContext();
 
   useEffect(() => {
     console.log('Fetching data...');
     const startTime = new Date().getTime();
 
-    if (!isFetching && city) {
+    if (!isFetching && city && region && subRegion) {
       setIsFetching(true);
-      fetchData(dropdownValue, city).then(data => {
+      fetchData(dropdownValue, city, region, subRegion).then(data => {
         const filteredClubs = filterClubs(data);
         setClubs(filteredClubs);
         setSubCategoryClubs(filteredClubs);
@@ -75,7 +78,7 @@ const ClubsIndexScreen = () => {
     }
     console.log('Fetched data in time');
     
-  }, [dropdownValue, city]);
+  }, [dropdownValue, city, region, subRegion]);
 
   const handleDropdownValueChange = (valuecat: string) => {
     setDropdownValue(valuecat);
