@@ -12,7 +12,7 @@ const colors = {
     primaryLight: '#ffffed',
     primaryLighter: '#B2F1C7',
     primaryLightest: '#E5F7ED',
-    secondary: '#6C757D',
+    secondary: '#F5D908',
     secondaryLight: '#A2AAB2',
     secondaryLighter: '#D6DBDF',
     secondaryLightest: '#E9ECEF',
@@ -25,6 +25,14 @@ const colors = {
     text: '#212529',
     textMuted: '#6C757D',
     textLight: '#F8F9FA',
+    violet: '#8A2BE2',
+    violetLighter: '#9370DB',
+    violetLightest: '#BA55D3',
+    violetDarker: '#9400D3',
+    violetLight: '#E6E6FA',
+    violetStronger: '#8B008B',
+    violetStrong: '#9932CC',
+
 }
 
 export default colors;

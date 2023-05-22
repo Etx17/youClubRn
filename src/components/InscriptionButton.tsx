@@ -9,8 +9,8 @@ interface InscriptionButtonProps {
 const InscriptionButton = ({ onPress }: InscriptionButtonProps) => {
     return (
         <View style={styles.container}>
-            <Pressable onPress={onPress} style={styles.signUpButton}>
-                <Text>M'inscrire</Text>
+            <Pressable onPress={onPress} style={styles.signUpButtonDisabled}>
+                <Text style={{color: colors.black}}>M'inscrire</Text>
             </Pressable>
         </View>
     );
@@ -28,6 +28,18 @@ const InscriptionButton = ({ onPress }: InscriptionButtonProps) => {
       paddingVertical: 10,
       paddingHorizontal: 20,
       color: 'black',
+      fontWeight: 'bold',
+      fontSize: 16,
+      marginVertical: 10,
+      overflow: 'hidden',
+      elevation: 8,
+    },
+    signUpButtonDisabled: {
+      backgroundColor: colors.dark,
+      borderRadius: 10,
+      paddingVertical: 10,
+      paddingHorizontal: 20,
+      color: colors.grayLight,
       fontWeight: 'bold',
       fontSize: 16,
       marginVertical: 10,

@@ -5,14 +5,12 @@ import colors from '../themes/colors';
 import {Image} from 'expo-image';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AntIcons from '@expo/vector-icons/AntDesign';
-import { Entypo } from '@expo/vector-icons'; 
 import fonts from '../themes/fonts';
 import { useNavigation } from '@react-navigation/native';
 import categoryImages from '../assets/data/categoryImages';
 import { useLocationContext } from '../contexts/LocationContext';
 import { getDistance } from '../services/GeoServices';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 interface IClub {
   fields: {
@@ -85,7 +83,7 @@ const ClubCard = ({data}: IClubCardProps) => {
       };
       checkIfLiked();
     }, []);
-
+    
   return (
     <View style={styles.container}>
       <View style={styles.card}>
@@ -123,6 +121,7 @@ const ClubCard = ({data}: IClubCardProps) => {
             <Ionicons name="location-sharp" size={14} color={colors.primary} style={styles.locationIcon} /> {formattedDistance ? formattedDistance : 'Non renseigné'} - {codepostal_actuel}
           </Text>
 
+          <LinearGradient end={{x: 0.3, y: 0.4}} start={{x: 0.8, y: 0.9}} colors={['#000000', '#222222']} style={styles.tagGradient}>
           <Text 
             numberOfLines={1} 
             style={styles.subCategoryText}
@@ -130,6 +129,7 @@ const ClubCard = ({data}: IClubCardProps) => {
           >
             {subCategory!= "" ? subCategory : 'Autre/Non renseigné'}
           </Text>
+          </LinearGradient>
 
           <Text 
             style={styles.object} 
@@ -153,6 +153,7 @@ const ClubCard = ({data}: IClubCardProps) => {
   </View>
   )
 }
+
 const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -215,7 +216,7 @@ const styles = StyleSheet.create({
     title: {
       fontSize: fonts.size.xlg,
       fontWeight: fonts.weight.bold as 'normal' | 'bold' | '100' | '200' | '300' | '400' | '500' | '600' | '700' | '800' | '900',
-      color: colors.white,
+      color: 'white',
       textShadowColor: 'rgba(0, 0, 0, 0.30)',
       textShadowOffset: {width: 2, height: 3},
       textShadowRadius: 7,
@@ -245,21 +246,24 @@ const styles = StyleSheet.create({
     },
     subCategoryText: {
       color: 'white', 
-      borderWidth: 1, 
-      borderColor: 'grey', 
-      padding: 4, 
       paddingHorizontal: 10, 
       marginVertical: 4, 
       borderRadius: 14, 
-      backgroundColor: 'black', 
-      overflow: 'hidden'
+      backgroundColor: 'transparent', 
+      overflow: 'hidden',
     },
     profileIcon: {
       textAlign: 'center', 
       textShadowColor: 'rgba(30, 30, 50, 0.99)', 
       textShadowOffset: {width: 0.5, height: 0.5}, 
       textShadowRadius: 5,
-    }
+    },
+    tagGradient: {
+      borderRadius: 14, 
+      borderWidth: 1,
+      borderColor: "#555555", 
+      marginVertical: 5
+    },
   });
 
 export default ClubCard;
