@@ -12,7 +12,7 @@ const colors = {
     primaryLight: '#ffffed',
     primaryLighter: '#B2F1C7',
     primaryLightest: '#E5F7ED',
-    secondary: '#F5D908',
+    secondary: '#f7f376',
     secondaryLight: '#A2AAB2',
     secondaryLighter: '#D6DBDF',
     secondaryLightest: '#E9ECEF',
