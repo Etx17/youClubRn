@@ -89,7 +89,10 @@ const ClubsIndexScreen = () => {
       return setSubCategoryClubs(clubs);
     } else {
       setSubCategoryDropdownValue(valuesub);
+      console.log('valuesub', valuesub);
+      console.log('clubs.length before filter =>', clubs.length);
       const newClubs = clubs.filter((club) => club?.fields?.domaine_activite_libelle_categorise.split('/')[1]?.split("###")[0] === valuesub);
+      console.log('newclubs.length after filter =>', newClubs.length);
       setSubCategoryClubs(newClubs);
     }
   };

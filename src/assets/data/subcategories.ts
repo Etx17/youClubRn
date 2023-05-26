@@ -6,7 +6,7 @@ interface ISubcategories {
   }
 const subcategories: ISubcategories = {
     "Sports, activités de plein air": [
-        { label: "🏎️ Sports mécaniques (sport automobile, moto, trial)", value: "Sports mécaniques (sport automobile, moto, trial)" },
+        // { label: "🏎️ Sports mécaniques (sport automobile, moto, trial)", value: "Sports mécaniques (sport automobile, moto, trial)" },
         { label: "⚽ Football (football, futsal)", value: "Football (football, futsal)" },
         { label: "🤸 Gymnastique (gymnastique, gymnastique d’entretien, éducation physique, yoga), aérobic", value: "Gymnastique (gymnastique, gymnastique d’entretien, éducation physique, yoga), aérobic" },
         { label: "🥋 Autres arts martiaux (karaté, aïkido, taekwondo)", value: "Autres arts martiaux (karaté, aïkido, taekwondo)" },
@@ -290,14 +290,14 @@ const subcategories: ISubcategories = {
         { label: "🏠 Aide au logement", value: "Aide au logement" },
         { label: "🚧 Réhabilitation et construction de logements", value: "Réhabilitation et construction de logements" }
     ],
-    "Recherche":[
-        { label: "🧑‍🔬 Association de recherches scientifiques, sciences physiques, sciences humaines…", value: "Association de recherches scientifiques, sciences physiques, sciences humaines…" },
-        { label: "🔍 Autres associations de recherche", value: "Autres associations de recherche" },
-        { label: "📚 Diffusion de savoirs, sociétés savantes ou académiques", value: "Diffusion de savoirs, sociétés savantes ou académiques" },
-        { label: "🎭 Recherche sur la culture", value: "Recherche sur la culture" },
-        { label: "🏫 Recherche sur l’éducation et la formation", value: "Recherche sur l’éducation et la formation" },
-        { label: "🌍 Recherche sur la vie sociale et politique", value: "Recherche sur la vie sociale et politique" },
-        { label: "🌳 Recherche sur l’environnement et le climat", value: "Recherche sur l’environnement et le climat" }    
+    "recherche":[
+        { label: "🧑‍🔬 Association de recherches scientifiques, sciences physiques, sciences humaines…", value: "association de recherches scientifiques, sciences physiques, sciences humaines…" },
+        { label: "🔍 Autres associations de recherche", value: "autres associations de recherche" },
+        { label: "📚 Diffusion de savoirs, sociétés savantes ou académiques", value: "diffusion de savoirs, sociétés savantes ou académiques" },
+        { label: "🎭 Recherche sur la culture", value: "recherche sur la culture" },
+        { label: "🏫 Recherche sur l'éducation et la formation", value: "recherche sur l'éducation et la formation" },
+        { label: "🌍 Recherche sur la vie sociale et politique", value: "recherche sur la vie sociale et politique" },
+        { label: "🌳 Recherche sur l'environnement et le climat", value: "recherche sur l'environnement et le climat" }    
     ],
     "Armée (dont préparation militaire, médailles)":[
         { label: "🎖️ Anciens combattants", value: "Anciens combattants" },

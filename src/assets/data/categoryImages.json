@@ -285,13 +285,13 @@
         "Réhabilitation et construction de logements": "construction"
         },
     "Recherche": {
-        "Association de recherches scientifiques, sciences physiques, sciences humaines…": "research",
-        "Autres associations de recherche": "research",
-        "Diffusion de savoirs, sociétés savantes ou académiques": "dissemination",
-        "Recherche sur la culture": "culture",
-        "Recherche sur l’éducation et la formation": "education",
-        "Recherche sur la vie sociale et politique": "social",
-        "Recherche sur l’environnement et le climat": "environment"
+        "Association de recherches scientifiques, sciences physiques, sciences humaines…": ["science", "physics", "research"],
+        "Autres associations de recherche": ["research", "physics", "science"],
+        "Diffusion de savoirs, sociétés savantes ou académiques": ["academy", "physics", "research"],
+        "Recherche sur la culture": ["culture", "research", "research"],
+        "Recherche sur l'éducation et la formation": ["education", "research", "research"],
+        "Recherche sur la vie sociale et politique": ["politics", "research", "research"],
+        "Recherche sur l'environnement et le climat": ["climat", "environment", "research"]
         },
     "Armée (dont préparation militaire, médailles)": {
         "Anciens combattants": "veterans",
