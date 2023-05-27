@@ -25,12 +25,12 @@ const BASE_URL = 'https://journal-officiel-datadila.opendatasoft.com/api/records
 const fetchData = async (dropdownValue: string, city: string, region: string, subregion: string) => {
 
   console.log(region, subregion, 'this are region and subregion');
-  
+
   try {
     let encodedDropdownValue = encodeURIComponent(dropdownValue).replace(/'/g, dropdownValue === "culture, pratiques d'activités artistiques, culturelles" ? "%E2%80%99" : "%27");
     const encodedDropdownValueSpaceIntoPlus = encodedDropdownValue.replace(/%20/g, "+");
     const [encodedRegion, encodedSubregion] = [encodeURIComponent(region), encodeURIComponent(subregion)];
-    const url = `${BASE_URL}&refine.domaine_activite_libelle_categorise=${encodedDropdownValueSpaceIntoPlus}&refine.localisation_facette=${region === "California" ? "%C3%8Ele-de-France" : encodedRegion }%2F${encodedSubregion === "Santa%20Clara%20County" ? "Paris" : encodedSubregion}&exclude.objet=%22%22&exclude.domaine_activite_libelle_categorise=%22%22&`;
+    const url = `${BASE_URL}&refine.domaine_activite_libelle_categorise=${encodedDropdownValueSpaceIntoPlus}&refine.localisation_facette=${(region === "California" || region === "CA") ? "%C3%8Ele-de-France" : encodedRegion }%2F${(encodedSubregion === "Santa%20Clara%20County" || encodedSubregion === "San%20Francisco") ? "Paris" : encodedSubregion}&exclude.objet=%22%22&exclude.domaine_activite_libelle_categorise=%22%22&`;
     const response = await axios.get(url);
     return response.data;
   } catch (error) {
@@ -49,7 +49,7 @@ const filterClubs = (data: Data): IClub[] => {
 
 
 const ClubsIndexScreen = () => {
-  
+
   // Je dois recharger la page lorsque j'obtiens l'autorisation d'utiliser données de géolocalisation
   const [clubs, setClubs] = useState<IClub[]>([]);
   const [subCategoryClubs, setSubCategoryClubs] = useState<IClub[]>([]);
@@ -76,7 +76,7 @@ const ClubsIndexScreen = () => {
         const endTime = new Date().getTime();
         const elapsedTime = endTime - startTime;
         console.log('Fetched data in', elapsedTime, 'milliseconds');
-        
+
       }).catch(error => {
         console.error('Error fetching data:', error);
         setIsFetching(false);
@@ -84,7 +84,7 @@ const ClubsIndexScreen = () => {
       });
     }
     console.log('Fetched data for', city, region, subregion);
-    
+
   }, [allowLocation, dropdownValue, region, subregion]);
 
   const handleDropdownValueChange = (valuecat: string) => {
@@ -132,7 +132,7 @@ return (
         cardIndex={0}
         animateOverlayLabelsOpacity
         animateCardOpacity
-        key={subCategoryClubs.length } 
+        key={subCategoryClubs.length }
         backgroundColor={'transparent'}
         cardHorizontalMargin={5}
         onSwipedAll={()=>Alert.alert('No more clubs')}

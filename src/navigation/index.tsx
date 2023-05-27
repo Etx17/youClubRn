@@ -17,7 +17,7 @@ const CustomHeader = () => {
     return (
       <View style={styles.header}>
         {/* <Pressable><Ionicons name="location-sharp" size={24} color="transparent" /></Pressable> */}
-        <Image source={require('../assets/images/logoyouclub.png')} style={{width: 130, height: 30}} />
+        <Image source={require('../assets/images/logoyouclub.png')} style={{width: 100, height: 25}} />
         <Pressable><Ionicons name="menu" size={30} color="black" /></Pressable>
       </View>
     )
