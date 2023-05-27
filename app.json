@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "youClubFrontend",
-    "slug": "youClubFrontend",
+    "name": "youclub",
+    "slug": "youclub",
     "scheme": "youclub",
     "version": "1.0.0",
     "orientation": "portrait",

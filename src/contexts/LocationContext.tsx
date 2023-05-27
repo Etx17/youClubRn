@@ -7,7 +7,8 @@ type LocationContextType ={
     lon: number | string ;
     city: string | null;
     region: string | null;
-    subRegion: string | null;
+    subregion: string | null;
+    allowLocation: boolean;
 }
 
 type ILocation ={
@@ -22,8 +23,8 @@ export const LocationContext = createContext<LocationContextType>({
     lon: "",
     city: "",
     region: "",
-    subRegion: "",
-
+    subregion: "",
+    allowLocation: false,
 })
 
 
@@ -33,8 +34,9 @@ const LocationContextProvider = ({children}: {children: ReactNode}) => {
     const [errorMsg, setErrorMsg] = useState<string>('');
     const [city, setCity] = useState<string | null>('');
     const [region, setRegion] = useState<string | null>('');
-    const [subRegion, setSubRegion] = useState<string | null>('');
+    const [subregion, setSubregion] = useState<string | null>('');
     const EXPIRATION_TIME = 15 * 24 * 60 * 60 * 1000; // 15 days in milliseconds
+    const [allowLocation, setAllowLocation] = useState<boolean>(false);
 
     useEffect(() => {
         (async () => {
@@ -42,6 +44,9 @@ const LocationContextProvider = ({children}: {children: ReactNode}) => {
           if (status !== 'granted') {
             setErrorMsg('Permission to access location was denied');
             return;
+          } 
+          if (status === 'granted' && !allowLocation) {
+            setAllowLocation(true);
           }
       
           const storedLocation = JSON.parse(await AsyncStorage.getItem('lastLocation') || 'null');
@@ -50,9 +55,9 @@ const LocationContextProvider = ({children}: {children: ReactNode}) => {
 
           const storedRegion = await AsyncStorage.getItem('lastGeocodedRegion');
 
-          const storedSubRegion = await AsyncStorage.getItem('lastGeocodedSubRegion');
+          const storedSubregion = await AsyncStorage.getItem('lastGeocodedSubregion');
       
-          if (storedLocation && storedCity && storedRegion && storedSubRegion) {
+          if (storedLocation && storedCity && storedRegion && storedSubregion) {
             const storedTimestamp = JSON.parse(await AsyncStorage.getItem('lastLocationTimestamp') || 'null');
             const currentTime = new Date().getTime();
       
@@ -62,17 +67,22 @@ const LocationContextProvider = ({children}: {children: ReactNode}) => {
               setLocation({ coords: storedLocation });
               setCity(storedCity);
               setRegion(storedRegion);
-              setSubRegion(storedSubRegion);
+              setSubregion(storedSubregion);
               return; 
             }
           }
       
           console.log('Getting current position as storage info about location was not complete...');
-          let deviceLocation = await Location.getCurrentPositionAsync({});
+          let deviceLocation = await Location.getLastKnownPositionAsync({}); // Use getLastKnownPositionAsync()
+          if (!deviceLocation) {
+            console.log('Last known position not available, getting current position...');
+            deviceLocation = await Location.getCurrentPositionAsync({});
+          }
           const locationObject = {
             latitude: deviceLocation.coords.latitude,
             longitude: deviceLocation.coords.longitude
           };
+          console.log(locationObject, 'got a locationObject')
           setLocation(deviceLocation);
 
           const geocodeData = await Location.reverseGeocodeAsync(locationObject);
@@ -80,17 +90,18 @@ const LocationContextProvider = ({children}: {children: ReactNode}) => {
             console.log(geocodeData, 'geocodeData')
             const currentCity = geocodeData[0].city;
             const currentRegion = geocodeData[0].region;
-            const currentSubRegion = geocodeData[0].subregion;
+            const currentSubregion = geocodeData[0].subregion;
             setCity(currentCity);
             setRegion(currentRegion);
+            setSubregion(currentSubregion);
             if (currentRegion !== null) {
             AsyncStorage.setItem('lastGeocodedRegion', currentRegion);
             }
             if (currentCity !== null){
             AsyncStorage.setItem('lastGeocodedCity', currentCity);
             }
-            if (currentSubRegion !== null){
-                AsyncStorage.setItem('lastGeocodedSubRegion', currentSubRegion);
+            if (currentSubregion !== null){
+                AsyncStorage.setItem('lastGeocodedSubregion', currentSubregion);
             }
             AsyncStorage.setItem('lastLocation', JSON.stringify(locationObject));
             AsyncStorage.setItem('lastLocationTimestamp', JSON.stringify(new Date().getTime()));
@@ -107,7 +118,7 @@ const LocationContextProvider = ({children}: {children: ReactNode}) => {
         text = JSON.stringify(location);
     }
     return (
-        <LocationContext.Provider value={{lat: location?.coords?.latitude, lon: location?.coords?.longitude, city: city, region: region, subRegion: subRegion }}>
+        <LocationContext.Provider value={{lat: location?.coords?.latitude, lon: location?.coords?.longitude, city: city, region: region, subregion: subregion, allowLocation: allowLocation }}>
             {children}
         </LocationContext.Provider>
     )
