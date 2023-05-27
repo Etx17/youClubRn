@@ -16,7 +16,7 @@ const Stack = createNativeStackNavigator<RootNavigatorParamsList>();
 const CustomHeader = () => {
     return (
       <View style={styles.header}>
-        <Pressable><Ionicons name="location-sharp" size={24} color="transparent" /></Pressable>
+        {/* <Pressable><Ionicons name="location-sharp" size={24} color="transparent" /></Pressable> */}
         <Image source={require('../assets/images/logoyouclub.png')} style={{width: 130, height: 30}} />
         <Pressable><Ionicons name="menu" size={30} color="black" /></Pressable>
       </View>
