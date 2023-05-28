@@ -1,8 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions, Pressable } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import React from 'react';
-
+import React from 'react'
 import Navigation from './src/navigation';
 import LocationContextProvider from './src/contexts/LocationContext';
 export default function App() {

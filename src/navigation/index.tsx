@@ -8,6 +8,7 @@ import { Pressable, StyleSheet, Text, View, Platform } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Image } from 'expo-image';
 import * as Linking from 'expo-linking';
+import React from 'react'
 
 const prefix = Linking.createURL('/');
 
