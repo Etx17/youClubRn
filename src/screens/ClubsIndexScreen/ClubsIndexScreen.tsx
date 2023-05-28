@@ -9,6 +9,7 @@ import { useLocationContext } from '../../contexts/LocationContext';
 import { Alert } from 'react-native';
 import axios from 'axios';
 import { Pressable } from 'react-native';
+import colors from '../../themes/colors';
 
 interface IClub {
   fields: {
@@ -196,7 +197,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    backgroundColor: 'black',
+    backgroundColor: colors.primary,
     borderRadius: 5,
   },
   reloadButtonText: {
