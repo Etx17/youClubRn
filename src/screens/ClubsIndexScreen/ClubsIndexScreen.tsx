@@ -26,13 +26,13 @@ const BASE_URL = 'https://journal-officiel-datadila.opendatasoft.com/api/records
 
 const fetchData = async (dropdownValue: string, city: string, region: string, subregion: string, reload: boolean) => {
 
-  console.log(region, subregion, 'this are region and subregion');
+  console.log(region, subregion, city, '<= this are region subregion and city');
 
   try {
     let encodedDropdownValue = encodeURIComponent(dropdownValue).replace(/'/g, dropdownValue === "culture, pratiques d'activités artistiques, culturelles" ? "%E2%80%99" : "%27");
     const encodedDropdownValueSpaceIntoPlus = encodedDropdownValue.replace(/%20/g, "+");
-    const [encodedRegion, encodedSubregion] = [encodeURIComponent(region), encodeURIComponent(subregion)];
-    const url = `${BASE_URL}&refine.domaine_activite_libelle_categorise=${encodedDropdownValueSpaceIntoPlus}&refine.localisation_facette=${(region === "California" || region === "CA") ? "%C3%8Ele-de-France" : encodedRegion }%2F${(encodedSubregion === "Santa%20Clara%20County" || encodedSubregion === "San%20Francisco%20County") ? "Paris" : encodedSubregion}&exclude.objet=%22%22&exclude.domaine_activite_libelle_categorise=%22%22&`;
+    const [encodedRegion, encodedCity] = [encodeURIComponent(region), encodeURIComponent(city)];
+    const url = `${BASE_URL}&refine.domaine_activite_libelle_categorise=${encodedDropdownValueSpaceIntoPlus}&refine.localisation_facette=${(region === "California" || region === "CA") ? "%C3%8Ele-de-France" : encodedRegion }%2F${(encodedCity === "Santa%20Clara" || encodedCity === "San%20Francisco") ? "Paris" : encodedCity}&exclude.objet=%22%22&exclude.domaine_activite_libelle_categorise=%22%22&`;
     const response = await axios.get(url);
     return response.data;
   } catch (error) {
