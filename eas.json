@@ -13,6 +13,12 @@
     "production": {}
   },
   "submit": {
-    "production": {}
+    "production": {
+      "ios": {
+        "ascAppId": "6449648873",
+        "appleId": "etiennededianous@gmail.com",
+        "appleTeamId": "NZP8R5JL5T"
+      }
+    }
   }
 }
