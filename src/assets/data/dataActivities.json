@@ -1,0 +1,98 @@
+[
+    {
+        "id": "1",
+        "title": "Karaté",
+        "clubId":"2",
+        "clubName": "Katan'art",
+        "geo_point": "48.853260, 2.348832",
+        "category": "Sport et activités de plein air",
+        "address": "19 rue Nollet",
+        "actual_zipcode":"75017",
+        "free_trial": "true",
+        "is_looking_for_volunteer": "false",
+        "subcategories": "Autres arts martiaux (karaté, aïkido, taekwondo)",
+        "recurrence": "weekly",
+        "subscription_link": "https://www.katanart.com/",
+        "short_description": "Le Karaté est un art martial japonais qui se pratique à mains nues. Il est basé sur des techniques de frappe avec les mains, les pieds, les coudes et les genoux. Le Karaté est un sport de combat qui permet de développer la confiance en soi, la concentration, la maîtrise de soi et la discipline. Il permet également de développer la souplesse, la coordination et la force physique. Le Karaté est un sport de combat qui permet de développer la confiance en soi, la concentration, la maîtrise de soi et la discipline. Il permet également de développer la souplesse, la coordination et la force physique.",
+        "full_description": "Lorem ipsum et quit dit ignitum abracadare constatum seignat est. Jac",
+        "images": [
+            "https://source.unsplash.com/random/?karate/300x100/",
+            "https://source.unsplash.com/random/?boxing/300x100/"
+        ],
+        "activity_price_recurrence": "semester",
+        "group_categories": [
+            {
+                "id": "gc1",
+                "name": "Enfants",
+                "min_age": 6,
+                "max_age": 12,
+                "annual_price": 150,
+                "price_per_session": "sans",
+                "sessions_per_week": 2,
+                "different_address_of_session": "19 rue Nollet",
+                "planning": [
+                    {
+                        "day": "Lundi",
+                        "start_time": "18h00",
+                        "end_time": "19h00"
+                    },
+                    {
+                        "day": "Mercredi",
+                        "start_time": "18h00",
+                        "end_time": "19h00"
+                    }
+                ]
+            },
+           {
+                "id": "gc2",
+                "name": "Ados",
+                "min_age": 13,
+                "max_age": 17,
+                "annual_price": 200,
+                "price_per_session": "sans",
+                "sessions_per_week": 2,
+                "different_address_of_session": "19 rue Nollet (optional)",
+                "different_zipcode_of_session": "75017",
+                "different_city_of_session": "Paris",
+                "planning": [
+                    {
+                        "day": "Lundi",
+                        "start_time": "19h00",
+                        "end_time": "20h00"
+                    },
+                    {
+                        "day": "Mercredi",
+                        "start_time": "19h00",
+                        "end_time": "20h00"
+                    }
+                ]
+            },
+            {
+                "id": "gc3",
+                "name": "Adultes débutants",
+                "min_age": 18,
+                "max_age": 99,
+                "annual_price": 500,
+                "price_per_session": "sans",
+                "sessions_per_week": 2,
+                "different_address_of_session": "19 rue Nollet",
+                "different_zipcode_of_session": "75017",
+                "different_city_of_session": "Paris",
+               
+                "planning": [
+                    {
+                        "day": "Lundi",
+                        "start_time": "20h00",
+                        "end_time": "21h00"
+                    },
+                    {
+                        "day": "Mercredi",
+                        "start_time": "20h00",
+                        "end_time": "21h00"
+                    }
+                ]
+            }
+        ]
+    }
+
+]

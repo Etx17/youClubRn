@@ -16,7 +16,12 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.etx17.youclub"
+      "bundleIdentifier": "com.etx17.youclub",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Youclub a besoin d'utiliser vos données de géolocalisation afin de pouvoir calculer la distance entre vous et les activités ou les clubs.",
+        "NSLocationAlwaysUsageDescription": "Youclub a besoin d'utiliser vos données de géolocalisation afin de pouvoir calculer la distance entre vous et les activités ou les clubs.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Youclub a besoin d'utiliser vos données de géolocalisation afin de pouvoir calculer la distance entre vous et les activités ou les clubs."
+      }
     },
     "android": {
       "adaptiveIcon": {

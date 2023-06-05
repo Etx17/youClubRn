@@ -32,7 +32,7 @@ const fetchData = async (dropdownValue: string, city: string, region: string, su
     let encodedDropdownValue = encodeURIComponent(dropdownValue).replace(/'/g, dropdownValue === "culture, pratiques d'activités artistiques, culturelles" ? "%E2%80%99" : "%27");
     const encodedDropdownValueSpaceIntoPlus = encodedDropdownValue.replace(/%20/g, "+");
     const [encodedRegion, encodedCity] = [encodeURIComponent(region), encodeURIComponent(city)];
-    const url = `${BASE_URL}&refine.domaine_activite_libelle_categorise=${encodedDropdownValueSpaceIntoPlus}&refine.localisation_facette=${(region === "California" || region === "CA") ? "%C3%8Ele-de-France" : encodedRegion }%2F${(encodedCity === "Santa%20Clara" || encodedCity === "San%20Francisco") ? "Paris" : encodedCity}&exclude.objet=%22%22&exclude.domaine_activite_libelle_categorise=%22%22&`;
+    const url = `${BASE_URL}&refine.domaine_activite_libelle_categorise=${encodedDropdownValueSpaceIntoPlus}&refine.localisation_facette=${(region === "California" || region === "CA") ? "%C3%8Ele-de-France" : encodedRegion }%2F${(encodedCity === "Mountain%20View" || encodedCity === "San%20Francisco") ? "Paris" : encodedCity}&exclude.objet=%22%22&exclude.domaine_activite_libelle_categorise=%22%22&`;
     const response = await axios.get(url);
     return response.data;
   } catch (error) {
@@ -61,15 +61,11 @@ const ClubsIndexScreen = () => {
   const { city, region, subregion, allowLocation } = useLocationContext();
   const [reload, setReload] = useState(false);
 
-  console.log('city in clubIndexScreen =>', city  );
-  console.log('region in clubIndexScreen =>', region  );
-  console.log('subregion in clubIndexScreen =>', subregion  );
-  console.log('allowLocation in clubIndexScreen =>', allowLocation)
   useEffect(() => {
     console.log('Fetching data...');
     const startTime = new Date().getTime();
 
-    if ((!isFetching && city && region && subregion && allowLocation) || reload) {
+    if ((!isFetching && city && region && subregion) || reload) {
       setReload(false);
       setIsFetching(true);
       fetchData(dropdownValue, city, region, subregion, reload).then(data => {
@@ -89,6 +85,11 @@ const ClubsIndexScreen = () => {
       });
     }
     console.log('Fetched data for', city, region, subregion);
+    if(!allowLocation){
+    Alert.alert(
+      'Localisation par défaut activée',
+      'Vous pourrez changer votre localisation dans la prochaine version de l\'application',
+    )}
 
   }, [allowLocation, dropdownValue, region, subregion, reload]);
 

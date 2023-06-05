@@ -2,10 +2,9 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import colors from '../themes/colors';
 import {BottomTabNavigatorParamsList} from "../types/navigation"
 import AntIcons from '@expo/vector-icons/AntDesign';
-import { Pressable, Alert } from 'react-native';
-import MyProfileScreen from '../screens/MyProfileScreen/MyProfileScreen';
 import TopTabNavigator from './TopTabNavigator';
 import LikesTopTabNavigator from './LikesTopTabNavigator';
+import React from 'react';
 
 const Tab = createBottomTabNavigator<BottomTabNavigatorParamsList>();
 const BottomTabNavigator = () => {
@@ -39,7 +38,7 @@ const BottomTabNavigator = () => {
                 }}
             />
 
-            <Tab.Screen 
+            {/* <Tab.Screen 
                 name="MyProfile" 
                 component={MyProfileScreen} 
                 options={{
@@ -47,7 +46,7 @@ const BottomTabNavigator = () => {
                   tabBarIcon: ({color}) => <AntIcons name="user" size={24} color={color}  />,
                   tabBarButton: (props) => ( <Pressable {...props} onPress={() => { Alert.alert('Bientôt disponible') }} style={props.style} /> ),
                 }}
-            />
+            /> */}
 
         </Tab.Navigator>
     );
