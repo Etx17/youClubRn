@@ -87,7 +87,7 @@ const ClubsIndexScreen = () => {
     console.log('Fetched data for', city, region, subregion);
     if(!allowLocation){
     Alert.alert(
-      'Localisation par défaut activée',
+      'Localisation par défaut (Paris) activée',
       'Vous pourrez changer votre localisation dans la prochaine version de l\'application',
     )}
 
