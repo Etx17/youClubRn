@@ -29,7 +29,11 @@ const activityCard = ({data}: IActivityCardProps) => {
   const formattedDistance = distance.toFixed(1).toString() + ' km';
  
   const category =  data?.category || 'Autre/Non renseigné';
+  // console.log(category, ' <= category')
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const subcategories = data?.subcategories?.split('###')[0] || 'Autre/Non renseigné';
+  // console.log(subcategories, ' <= subcategories')
+  // console.log( categoryImages[category][subcategories][0], ' <= categoryImages[category][subcategories][0]')
   const images = [
     `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subcategories][0] : 'random'}/300/200`,
     `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subcategories][1] : 'random'}/300/200`,
@@ -114,9 +118,15 @@ const activityCard = ({data}: IActivityCardProps) => {
             </Pressable>
           </View>
 
+          <View style={{width: "100%", display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+          <Text style={{color: 'white'}}>
+          par { data?.clubName }
+          </Text>
           <Text style={{color: 'white'}}>
             <Ionicons name="location-sharp" size={14} color={colors.primary} style={styles.locationIcon} /> {formattedDistance ? formattedDistance : 'Non renseigné'} - {data?.actual_zipcode}
           </Text>
+
+          </View>
 
           <LinearGradient end={{x: 0.3, y: 0.4}} start={{x: 0.8, y: 0.9}} colors={['#000000', '#222222']} style={styles.tagGradient}>
 
@@ -149,8 +159,10 @@ const activityCard = ({data}: IActivityCardProps) => {
           </Pressable>
         </View>
         <Text style={{color: colors.dark, position: 'absolute', bottom: 15, left: 20, fontSize: 12}} onPress={navigateToactivityDetails}>Essai gratuit</Text>
-        <Text style={{color: colors.primary, position: 'absolute', bottom: 15, right: 20, fontSize: 12}} onPress={navigateToactivityDetails}><Ionicons name="checkmark-circle-outline" color={colors.primary} size={20}/> Essai gratuit</Text>
-
+        
+        <View style={{display: 'flex', flexDirection: 'row',}}>
+          <Text style={{color: colors.primary, position: 'absolute', bottom: 15, right: 20, fontSize: 12}} onPress={navigateToactivityDetails}><Ionicons name="checkmark-circle-outline" color={colors.primary} size={13}> Essai gratuit</Ionicons></Text>
+        </View>
       </LinearGradient>
     </View>
   </View>
@@ -217,7 +229,7 @@ const styles = StyleSheet.create({
       alignItems: 'flex-end'
     },
     title: {
-      fontSize: fonts.size.xlg,
+      fontSize: fonts.size.xxlg,
       fontWeight: fonts.weight.bold as 'normal' | 'bold' | '100' | '200' | '300' | '400' | '500' | '600' | '700' | '800' | '900',
       color: 'white',
       textShadowColor: 'rgba(0, 0, 0, 0.30)',

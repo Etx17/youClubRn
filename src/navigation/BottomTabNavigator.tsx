@@ -5,10 +5,12 @@ import AntIcons from '@expo/vector-icons/AntDesign';
 import TopTabNavigator from './TopTabNavigator';
 import LikesTopTabNavigator from './LikesTopTabNavigator';
 import React from 'react';
+import { Text, View } from 'react-native';
 
 const Tab = createBottomTabNavigator<BottomTabNavigatorParamsList>();
 const BottomTabNavigator = () => {
     return (
+        
         <Tab.Navigator 
             screenOptions={{
                 tabBarShowLabel: false, 

@@ -5,7 +5,7 @@
         "clubId":"2",
         "clubName": "Katan'art",
         "geo_point": "48.853260, 2.348832",
-        "category": "Sport et activités de plein air",
+        "category": "Sports, activités de plein air",
         "address": "19 rue Nollet",
         "actual_zipcode":"75017",
         "free_trial": "true",
@@ -16,8 +16,8 @@
         "short_description": "Le Karaté est un art martial japonais qui se pratique à mains nues. Il est basé sur des techniques de frappe avec les mains, les pieds, les coudes et les genoux. Le Karaté est un sport de combat qui permet de développer la confiance en soi, la concentration, la maîtrise de soi et la discipline. Il permet également de développer la souplesse, la coordination et la force physique. Le Karaté est un sport de combat qui permet de développer la confiance en soi, la concentration, la maîtrise de soi et la discipline. Il permet également de développer la souplesse, la coordination et la force physique.",
         "full_description": "Lorem ipsum et quit dit ignitum abracadare constatum seignat est. Jac",
         "images": [
-            "https://source.unsplash.com/random/?karate/300x100/",
-            "https://source.unsplash.com/random/?boxing/300x100/"
+            "https://source.unsplash.com/random/?karate",
+            "https://source.unsplash.com/random/?boxing"
         ],
         "activity_price_recurrence": "semester",
         "group_categories": [

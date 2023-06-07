@@ -85,11 +85,11 @@ const ClubsIndexScreen = () => {
       });
     }
     console.log('Fetched data for', city, region, subregion);
-    if(!allowLocation){
-    Alert.alert(
-      'Localisation par défaut (Paris) activée',
-      'Vous pourrez changer votre localisation dans la prochaine version de l\'application',
-    )}
+    // if(!allowLocation){
+    // Alert.alert(
+    //   'Localisation par défaut (Paris) activée',
+    //   'Vous pourrez changer votre localisation dans la prochaine version de l\'application',
+    // )}
 
   }, [allowLocation, dropdownValue, region, subregion, reload]);
 
