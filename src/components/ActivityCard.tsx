@@ -41,8 +41,8 @@ const activityCard = ({data}: IActivityCardProps) => {
   console.log(data, 'this is data in activityCard')
 
   const navigateToactivityDetails = () => {
-    // navigation.navigate('activityDetails', {activityData: data.fields, images, darkTheme: true});
-    Alert.alert('Désolé, cette fonctionnalité n\'est pas encore disponible')
+    navigation.navigate('ActivityDetails', {activityData: data, images, darkTheme: true});
+    // Alert.alert('Désolé, cette fonctionnalité n\'est pas encore disponible')
   }
 
     const changeImage = (direction: String) => {
@@ -119,8 +119,8 @@ const activityCard = ({data}: IActivityCardProps) => {
           </View>
 
           <View style={{width: "100%", display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-          <Text style={{color: 'white'}}>
-          par { data?.clubName }
+          <Text style={{color: colors.grayDarkest}}>
+          par { data?.club_name.substring(0, 30) }{data?.club_name.length > 30 ? '...' : ''}
           </Text>
           <Text style={{color: 'white'}}>
             <Ionicons name="location-sharp" size={14} color={colors.primary} style={styles.locationIcon} /> {formattedDistance ? formattedDistance : 'Non renseigné'} - {data?.actual_zipcode}
@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
     },
     object: {
       fontSize: fonts.size.default,
-      color: colors.white,
+      color: colors.grayDarkest,
       paddingHorizontal: 5,
     },
     subCategory: {

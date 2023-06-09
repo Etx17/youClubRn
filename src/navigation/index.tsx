@@ -9,6 +9,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { Image } from 'expo-image';
 import * as Linking from 'expo-linking';
 import React from 'react'
+import ActivityDetailsScreen from '../screens/ActivityDetailsScreen/ActivityDetailsScreen';
 
 const prefix = Linking.createURL('/');
 
@@ -55,6 +56,11 @@ const Navigation = () => {
                           name="ClubDetails"
                           options={{ headerShown: false, }}
                           component={ClubDetailsScreen}
+                      />
+                      <Stack.Screen
+                          name="ActivityDetails"
+                          options={{ headerShown: false, }}
+                          component={ActivityDetailsScreen}
                       />
 
                     </>

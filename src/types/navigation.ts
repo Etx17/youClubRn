@@ -1,6 +1,7 @@
 export type RootNavigatorParamsList = {
     Home: undefined;
     ClubDetails: { clubId: string };
+    ActivityDetails: { activityId: string };
 }
 
 export type BottomTabNavigatorParamsList = {

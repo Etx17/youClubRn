@@ -25,10 +25,8 @@ const ActivitiesIndexScreen = () => {
   const { city, region, subregion, allowLocation } = useLocationContext();
   const [reload, setReload] = useState(false);
   useEffect(() => {
-    if (dataActivities.length > 0) {
-      // console.log(activities[0], '<= this is activities[0]')
-    }
     setActivities(dataActivities)
+    setSubCategoryActivities(activities)
 
   }, [allowLocation, dropdownValue, region, subregion, reload]);
 
@@ -42,7 +40,8 @@ const ActivitiesIndexScreen = () => {
     } else {
       setSubCategoryDropdownValue(valuesub);
       console.log('valuesub', valuesub);
-      console.log('activities.length before filter =>', activities.length);
+      console.log('activities.length before filter =>', activities
+      );
       // Check if subcategories of a club include valuesub
       const newActivities = activities.filter((activity) => activity?.subcategories?.includes(valuesub));
       console.log('newactivities.length after filter =>', newActivities.length);
