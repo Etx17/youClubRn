@@ -30,19 +30,17 @@ const Navigation = () => {
       prefixes: [prefix],
     };
     // const {user} = useAuthContext();
+    // const user = {
+    //     role: "user",
+    //     id: 1
+    // }
+    const user = false
 
-    // if(user === undefined) {
         return(
             <NavigationContainer linking={linking} fallback={<Text>Loading...</Text>}>
             <Stack.Navigator screenOptions={{headerShown: true}} >
 
-                {/* {!user ? (
-                    <Stack.Screen
-                        name="Auth"
-                        component={AuthStackNavigator}
-                        options={{headerShown: false}}
-                    />
-                ) : ( */}
+                {!user || user.role === "user" ? (
                     <>
                       <Stack.Screen
                           name="Home"
@@ -64,8 +62,20 @@ const Navigation = () => {
                       />
 
                     </>
-
-                {/* )} */}
+                   
+                ) : (
+                    user.role === "club" && (
+                        <Stack.Screen
+                            name="ClubHome"
+                            component={ClubBottomTabNavigator}
+                            options={{
+                            header: () => <CustomHeader />,
+                            headerTitleAlign: 'center',
+                            }}
+                        />
+                    )
+                    
+                )}
 
 
             </Stack.Navigator>

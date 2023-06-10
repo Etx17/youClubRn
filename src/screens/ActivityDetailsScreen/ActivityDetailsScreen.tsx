@@ -46,7 +46,7 @@ interface ActivityDetailsParams {
   type ActivityDetailsRoute = RouteProp<Record<string, ActivityDetailsParams>, string>;
 const ActivityDetailsScreen = () => {
     // const { role } = useUserContext();
-    const role = 'owner' // mocking role
+    const role = 'club' // mocking role
     const navigation = useNavigation()
     const route = useRoute<ActivityDetailsRoute>();
     const { title, address, actual_zipcode, full_description, club_name, sub_groups } = route?.params?.activityData
