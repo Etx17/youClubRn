@@ -9,9 +9,15 @@ interface TitleSectionProps {
 }
 
 const TitleSection = ({ title, onBackPress }:TitleSectionProps) => {
+  const role = 'owner' // mocking role
   return (
     <View style={styles.container}>
-      <Text style={styles.title} numberOfLines={3}>{title ? title : 'Erreur lors de la récupération du titre'}</Text>
+        <Text style={styles.title} numberOfLines={3}> {title ? title : 'Erreur lors de la récupération du titre'}  </Text> 
+        {role === 'owner' && (
+          <Pressable onPress={() => {}} style={{marginLeft: 10}}>
+            <Ionicons name="create-outline" size={25} color={colors.primary} />
+          </Pressable>
+        )}
       <Pressable onPress={onBackPress} style={styles.goBackButtonContainer}>
         <Ionicons name="chevron-back-outline" size={40} color="black" style={styles.goBackButton} />
       </Pressable>

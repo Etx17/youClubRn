@@ -5,6 +5,7 @@ const MyProfileScreen = () => {
   return (
     <View>
       <Text>MyProfileScreen</Text>
+      <Text></Text>
     </View>
   )
 }

@@ -45,11 +45,12 @@ interface ActivityDetailsParams {
   
   type ActivityDetailsRoute = RouteProp<Record<string, ActivityDetailsParams>, string>;
 const ActivityDetailsScreen = () => {
+    // const { role } = useUserContext();
+    const role = 'owner' // mocking role
     const navigation = useNavigation()
     const route = useRoute<ActivityDetailsRoute>();
     const { title, address, actual_zipcode, full_description, club_name, sub_groups } = route?.params?.activityData
     const {images, darkTheme} = route?.params
-    // console.log(route?.params.activityData);
     const scrollViewRef = useRef<ScrollView>(null);  
     const [currentImageIndex, setCurrentImageIndex] = useState(0)
   

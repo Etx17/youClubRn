@@ -1,7 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import colors from '../themes/colors';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { LinearGradient } from 'expo-linear-gradient';
+import { Alert } from 'react-native';
 
 interface SubGroupsProps {
   subGroups: string[];
@@ -9,6 +11,7 @@ interface SubGroupsProps {
 }
 // For now activities are just strings, but they are meant to be objects with a name and an id
 const SubGroupsSection = ({ subGroups}:SubGroupsProps) => {
+  const role = 'owner' // mocking role
   return (
     <View>
       <Text style={{ color: colors.grayDark, fontWeight: 'bold', marginTop: 10 }}>Sous-groupes:</Text>
@@ -20,6 +23,12 @@ const SubGroupsSection = ({ subGroups}:SubGroupsProps) => {
               </Text>
             </LinearGradient>
         ))}
+        {role === 'owner' && (
+          <Pressable onPress={() => Alert.alert("Redirigera vers CreateSubGroupScreen en passant l'id de l'activité parente")} style={styles.addActivityButton}>
+              <Text style={{fontSize: 24, color: colors.primary,}}> + </Text>
+          </Pressable>
+        )}
+
       </View>
     </View>
   );
@@ -39,6 +48,21 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     backgroundColor: colors.primary,
     width: "auto",
+    marginHorizontal: 4,
+  },
+  addActivityButton: {
+    marginTop: 10,
+    fontSize: 24,
+    paddingVertical: 0,
+    alignSelf: 'flex-start',
+    paddingHorizontal: 10,
+    alignItems: 'center',
+    borderRadius: 14,
+    overflow: 'hidden',
+    borderColor: colors.primary,
+    borderWidth: 1,
+    // backgroundColor: colors.primary,
+    width: "100%",
     marginHorizontal: 4,
   },
 });

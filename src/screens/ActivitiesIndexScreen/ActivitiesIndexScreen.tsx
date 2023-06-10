@@ -15,8 +15,8 @@ const BASE_URL = "future url de mon api"
 const fetchData = async () => {};
 
 const ActivitiesIndexScreen = () => {
-
- 
+  // const { role } = useUserContext();
+  
   const [activities, setActivities] = useState<[]>([]);
   const [subCategoryActivities, setSubCategoryActivities] = useState<[]>([]);
   const [dropdownValue, setDropdownValue] = useState("Sports, activités de plein air");
