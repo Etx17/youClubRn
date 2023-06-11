@@ -11,6 +11,7 @@ import * as Linking from 'expo-linking';
 import React from 'react'
 import ActivityDetailsScreen from '../screens/ActivityDetailsScreen/ActivityDetailsScreen';
 import ClubBottomTabNavigator from './ClubBottomTabNavigator';
+import { useAuthContext } from '../contexts/AuthContext';
 
 const prefix = Linking.createURL('/');
 
@@ -30,12 +31,12 @@ const Navigation = () => {
     const linking = {
       prefixes: [prefix],
     };
-    // const {user} = useAuthContext();
+    const {user} = useAuthContext();
     // const user = {
     //     role: "club",
     //     id: 1
     // }
-    const user = false
+    // const user = false
 
         return(
             <NavigationContainer linking={linking} fallback={<Text>Loading...</Text>}>

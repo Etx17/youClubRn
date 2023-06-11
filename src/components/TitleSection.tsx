@@ -9,8 +9,8 @@ interface TitleSectionProps {
 }
 
 const TitleSection = ({ title, onButtonPress }:TitleSectionProps) => {
-  // const role = 'club' // mocking role
-  const role = false 
+  const role = 'club' // mocking role
+  // const role = false 
   return (
     <View style={styles.container}>
         <Text style={styles.title} numberOfLines={3}> {title ? title : 'Erreur lors de la récupération du titre'}  </Text> 

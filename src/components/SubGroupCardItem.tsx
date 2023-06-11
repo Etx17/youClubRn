@@ -5,14 +5,11 @@ import AddressDetails from "./AddressDetails";
 
 
 const SubGroupCardItem = (subgroup) => {
-  // console.log(Object.keys(subgroup.subgroup.schedule), 'this is object keys')
-    // console.log(subgroup.subgroup.name, 'this is subgroup from component')
     return (
       <View style={{marginVertical: 10, padding: 10, borderWidth: 1, borderColor: 'gray', borderRadius: 10, backgroundColor: colors.text }}>
         <Text style={styles.subCategoryTag}>{subgroup.subgroup.name}</Text>
         <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: "100%"}}>
           <Text style={styles.object}>{subgroup.subgroup.price}€/{subgroup.subgroup.reccurence} </Text>
-          {/* <Text style={styles.object}>{subgroup.subgroup.address}</Text> */}
           <AddressDetails address={subgroup.subgroup.address} postalCode={subgroup.subgroup.postal_code}/>
         </View>
         <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -24,7 +21,6 @@ const SubGroupCardItem = (subgroup) => {
 
         <Text style={{color: colors.grayDarkest, margin: 5}}>{subgroup.subgroup.short_description}</Text>
         <View style={{flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'flex-start', flexWrap: 'wrap'}}>
-          
         {
           Object.keys(subgroup.subgroup.schedule)
           .filter(day => day !== 'id' && day !== 'sub_group_id')
