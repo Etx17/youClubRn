@@ -4,7 +4,7 @@ import colors from '../themes/colors';
 import { LinearGradient } from 'expo-linear-gradient';
 
 interface ActivitiesSectionProps {
-  activities: string[];
+  activities: [];
 }
 // For now activities are just strings, but they are meant to be objects with a name and an id
 const ActivitiesSection = ({ activities }:ActivitiesSectionProps) => {

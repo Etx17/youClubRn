@@ -5,7 +5,8 @@ import AddressDetails from "./AddressDetails";
 
 
 const SubGroupCardItem = (subgroup) => {
-    console.log(subgroup.subgroup.name, 'this is subgroup from component')
+  // console.log(Object.keys(subgroup.subgroup.schedule), 'this is object keys')
+    // console.log(subgroup.subgroup.name, 'this is subgroup from component')
     return (
       <View style={{marginVertical: 10, padding: 10, borderWidth: 1, borderColor: 'gray', borderRadius: 10, backgroundColor: colors.text }}>
         <Text style={styles.subCategoryTag}>{subgroup.subgroup.name}</Text>
@@ -24,16 +25,20 @@ const SubGroupCardItem = (subgroup) => {
         <Text style={{color: colors.grayDarkest, margin: 5}}>{subgroup.subgroup.short_description}</Text>
         <View style={{flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'flex-start', flexWrap: 'wrap'}}>
           
-          {
-            Object.keys(subgroup.subgroup.schedule).map((day, index) => (
-              <View key={index} style={{ margin: 5, borderRadius: 14, borderTopWidth: 1, borderTopColor: '#666666', borderLeftWidth: 2, borderLeftColor: "#333333" ,padding: 10, backgroundColor: "#333339" }}>
-                <Text style={styles.dayLabel}>{day}</Text>
-                {subgroup.subgroup.schedule[day].map((time, index) => (
-                  <Text key={index} style={styles.timespan}>{time}</Text>
-                ))}
-              </View>
-            ))
-          }
+        {
+          Object.keys(subgroup.subgroup.schedule)
+          .filter(day => day !== 'id' && day !== 'sub_group_id')
+          .map((day, index) => (
+            <View key={index} style={{ margin: 5, borderRadius: 14, borderTopWidth: 1, borderTopColor: '#666666', borderLeftWidth: 2, borderLeftColor: "#333333" ,padding: 10, backgroundColor: "#333339" }}>
+              <Text style={styles.dayLabel}>{day}</Text>
+              {subgroup.subgroup.schedule[day].map((time, index) => (
+                <Text key={index} style={styles.timespan}>{time}</Text>
+              ))}
+            </View>
+          ))
+        }
+
+      
 
         </View>
         

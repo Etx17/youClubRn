@@ -28,6 +28,7 @@
                 "type": "course",
                 "short_description": "Pour les bambins incontrolables qui pourront se défouler ici.",
                 "schedule": {
+                    "id": "sc11",
                     "lundi": ["11:00-12:30"],
                     "mardi": ["11:00-12:30", "12:30-14:00"],
                     "jeudi": ["11:00-12:30"],
@@ -43,6 +44,7 @@
                 "type": "course",
                 "short_description": "Vos pré-ados vous fatiguent avec leur crises? Venez les déposer ici, ça file droit.",
                 "schedule": {
+                    "id": "sc12",
                     "lundi": ["11:00-12:30", "12:30-14:00", "15:00-16:30", "18:30 - 20:00", "20:00 - 21:30"],
                     "mardi": ["11:00-12:30", "12:30-14:00", "15:00-16:30", "18:30 - 20:00", "20:00 - 21:30"]
                 },
@@ -56,6 +58,7 @@
                 "type": "course",
                 "short_description": "Pour les ados qui ont besoin de se défouler et de se canaliser.", 
                 "schedule": {
+                    "id": "sc13",
                     "lundi": ["11:00-12:30", "12:30-14:00", "15:00-16:30", "18:30 - 20:00", "20:00 - 21:30"],
                     "mardi": ["11:00-12:30", "12:30-14:00", "15:00-16:30", "18:30 - 20:00", "20:00 - 21:30"]
                 },
@@ -69,6 +72,7 @@
                 "type": "course",
                 "short_description": "Pour adultes célibataires ou non, qui sait vous ferez peut être une prise de judo à votre future femme",
                 "schedule": {
+                    "id": "sc14",
                     "lundi": ["11:00-12:30", "12:30-14:00", "15:00-16:30", "18:30 - 20:00", "20:00 - 21:30"]
                 },
                 "price": "400", 
@@ -81,6 +85,7 @@
                 "type": "course",
                 "short_description": "Pour les élèves qui ont assimilé les bases et sont prêts à avancer dans la pratique du yoga.",
                 "schedule": {
+                    "id": "sc15",
                     "lundi": ["11:00-12:30", "12:30-14:00", "15:00-16:30", "18:30 - 20:00", "20:00 - 21:30"],
                     "mardi": ["11:00-12:30", "12:30-14:00", "15:00-16:30", "18:30 - 20:00", "20:00 - 21:30"],
                     "vendredi": ["11:00-12:30", "12:30-14:00", "15:00-16:30", "18:30 - 20:00", "20:00 - 21:30"],
@@ -123,6 +128,7 @@
                 "reccurence": "à la carte",
                 "short_description": "Pour les élèves qui ont assimilé les bases et sont prêts à avancer dans la pratique du yoga.",
                 "schedule": {
+                    "id": "sc1",
                     "lundi": ["11:00-12:30", "12:30-14:00", "15:00-16:30", "18:30 - 20:00", "20:00 - 21:30"],
                     "mardi": ["11:00-12:30", "12:30-14:00", "15:00-16:30", "18:30 - 20:00", "20:00 - 21:30"],
                     "mercredi": ["11:00-12:30", "12:30-14:00", "15:00-16:30", "18:30 - 20:00", "20:00 - 21:30"],
@@ -141,6 +147,7 @@
                 "reccurence": "",
                 "short_description": "Pratique très douce pour les personnes âgées ou ayant des problèmes de santé",
                 "schedule": {
+                    "id": "sc2",
                     "lundi": ["11:00-12:30"],
                     "mercredi": ["18:30 - 20:00"],
                     "jeudi": ["18:30 - 20:00"],
@@ -157,6 +164,7 @@
                 "type": "course",
                 "short_description": "Pour aller plus loin dans les postures et apprendre de nouvelles variations.",
                 "schedule": {
+                    "id": "sc3",
                     "lundi": ["17:00-18:30"]
                 }
             },
@@ -169,6 +177,7 @@
                 "type": "course",
                 "short_description": "Pour les ad:érents uniquement",
                 "schedule": {
+                    "id": "sc4",
                     "mercredi": ["20:00-21:30"],
                     "samedi": ["18:00-20:00"],
                     "dimanche": ["18:00-20:00"]
@@ -183,6 +192,7 @@
                 "type": "course",
                 "short_description": "Pour les élèves qui ont assimilé les bases et sont prêts à avancer dans la pratique du yoga d’une courte méditation à la fin du cours.",
                 "schedule": {
+                    "id": "sc5",
                     "jeudi": ["18:30-20:00"]
                 }
             },
@@ -195,7 +205,9 @@
                 "reccurence": "",
                 "short_description": "Pour les élèves qui ont assimilé les bases et sont prêts à avancer dans la pratique du yoga d’une courte méditation à la fin du cours.",
                 "schedule": {
+                    "id": "sc6",
                     "jeudi": ["18:30-20:00"]
+
                 }
             },
             { 
@@ -246,6 +258,7 @@
                 "type": "cours collectif",
                 "short_description": "Le cours gratuit ne s'addresse qu'aux débutant, sans expérience. Il est obligatoire de s'inscrire ou de réserver.",
                 "schedule": {
+                    "id": "sc7",
                     "lundi": ["19:00-19:30"],
                     "mardi": ["20:00 - 21:30"]
                 }
@@ -259,6 +272,7 @@
                 "type": "cours collectif",
                 "short_description": "Vous avez entre 5 et 15 cours, ou 2 mois de cours et pratique régulière",
                 "schedule": {
+                    "id": "sc8",
                     "lundi": ["19:30-20:00"],
                     "mardi": ["20:30 - 21:30"],
                     "samedi": ["15:00 - 16:00"]
@@ -273,6 +287,7 @@
                 "type": "cours collectif",
                 "short_description": "Vous avez entre 15 et 30 cours, ou 3 mois de cours et pratique régulière",
                 "schedule": {
+                    "id": "sc9",
                     "lundi": ["20:00-21:30"],
                     "mardi": ["19:30 - 20:30"],
                     "samedi": ["16:00 - 17:00"]
@@ -287,6 +302,7 @@
                 "type": "cours collectif",
                 "short_description": "Vous avez plus de 30 cours, ou 3 mois de cours et pratique régulière",
                 "schedule": {
+                    "id": "sc10",
                     "lundi": ["20:00-21:30"],
                     "mardi": ["19:30 - 20:30"],
                     "samedi": ["16:00 - 17:00"]
@@ -294,6 +310,90 @@
             }
             
         ]
-    }   
+    },
+    {
+        "id": "4",
+        "title": "Bachata",
+        "clubId":"3",
+        "club_name": "Dancenter",
+        "geo_point": "48.853260, 2.348832",
+        "category": "Culture, pratiques d’activités artistiques, culturelles",
+        "address": "19 rue Nollet",
+        "actual_zipcode":"75017",
+        "free_trial": "true",
+        "is_looking_for_volunteer": "false",
+        "subcategories": "Danse",
+        "recurrence": "à la carte",
+        "subscription_link": "https://www.katanart.com/",
+        "short_description": "Enfin un cours de bachata traditionnel près de chez moi",
+        "full_description": "La bachata chez Dancenter, c'est comme la coriandre dans un sandwich. On adore ou on déteste. Chez Dancenter, vous pouvez essayer nos cours de salsa gratuitement. Nous enseignons d'autres danses, venez voir sur le profil de notre club!",
+        "images": [
+            "https://source.unsplash.com/random/?karate",
+            "https://source.unsplash.com/random/?boxing"
+        ],
+        "activity_price_recurrence": "semester",
+        "sub_groups": [
+            { 
+                "id": "sg1", 
+                "address": "4 rue du General Foy, 75017", 
+                "name": "Découverte", 
+                "price": "Gratuit", 
+                "reccurence": "",
+                "type": "cours collectif",
+                "short_description": "Le cours gratuit ne s'addresse qu'aux débutant, sans expérience. Il est obligatoire de s'inscrire ou de réserver.",
+                "schedule": {
+                    "id": "sc7",
+                    "lundi": ["19:00-19:30"],
+                    "mardi": ["20:00 - 21:30"]
+                }
+            },
+            { 
+                "id": "sg2", 
+                "address": "4 rue du General Foy, 75017", 
+                "name": "Initiation", 
+                "price": "20e", 
+                "reccurence": "cours",
+                "type": "cours collectif",
+                "short_description": "Vous avez entre 5 et 15 cours, ou 2 mois de cours et pratique régulière",
+                "schedule": {
+                    "id": "sc8",
+                    "lundi": ["19:30-20:00"],
+                    "mardi": ["20:30 - 21:30"],
+                    "samedi": ["15:00 - 16:00"]
+                }
+            },
+            { 
+                "id": "sg3", 
+                "address": "4 rue du General Foy, 75017", 
+                "name": "Intermédiaire", 
+                "price": "20e", 
+                "reccurence": "cours",
+                "type": "cours collectif",
+                "short_description": "Vous avez entre 15 et 30 cours, ou 3 mois de cours et pratique régulière",
+                "schedule": {
+                    "id": "sc9",
+                    "lundi": ["20:00-21:30"],
+                    "mardi": ["19:30 - 20:30"],
+                    "samedi": ["16:00 - 17:00"]
+                }
+            },
+            { 
+                "id": "sg5", 
+                "address": "4 rue du General Foy, 75017", 
+                "name": "Avancé", 
+                "price": "20e", 
+                "reccurence": "cours",
+                "type": "cours collectif",
+                "short_description": "Vous avez plus de 30 cours, ou 3 mois de cours et pratique régulière",
+                "schedule": {
+                    "id": "sc10",
+                    "lundi": ["20:00-21:30"],
+                    "mardi": ["19:30 - 20:30"],
+                    "samedi": ["16:00 - 17:00"]
+                }
+            }
+            
+        ]
+    }  
 
 ]

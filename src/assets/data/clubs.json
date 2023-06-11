@@ -1,102 +1,206 @@
 [
     {
-        "id": "c1",
-        "title": "Katan'Art Dojo",
+        "id": "1",
+        "title": "Dancenter",
         "rna_number":"W752269012",
         "geo_point": "48.853260, 2.348832",
-        "category": "Sport et activités de plein air",
+        "category": "Culture, pratiques d’activités artistiques, culturelles",
         "address": "4 rue de la Paix",
         "actual_zipcode":"75017",
-        "subcategory": "martial_arts",
-        "siteweb": "https://www.katanart.com/",
+        "subcategory": "Danse",
+        "siteweb": "https://dancenter.com/",
         "object": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic repellendus unde blanditiis. Eos fugiat dolorem ea fugit aut sapiente corrupti autem dolores deleniti architecto, omnis, amet unde dignissimos quam minima?",
         "images": [
-            "https://source.unsplash.com/random/?boxing/300x100/"
-        ]
-    },
-    {
-        "id": "c2",
-        "title": "Association de protection de la nature et de l'environnement",
-        "rna_number":"W751249012",
-        "geo_point": "48.864765, 2.322665",
-        "category": "Environnement, cadre de vie",
-        "address": "4 rue de la Paix",
-        "actual_zipcode":"75017",
-        "subcategory": "Protection de sites naturels",
-        "siteweb": "https://www.katanart.com/",
-        "object": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic repellendus unde blanditiis. Eos fugiat dolorem ea fugit aut sapiente corrupti autem dolores deleniti architecto, omnis, amet unde dignissimos quam minima?",
-        "images": [
-            "https://source.unsplash.com/random/?nature/300x100/",
-            "https://source.unsplash.com/random/?forest/300x100/",
-            "https://source.unsplash.com/random/?animals/300x100/"
-        ]
-    },
-    {
-        "id": "c3",
-        "title": "Salésienne Paris 17",
-        "rna_number":"W751269012",
-        "geo_point": "48.881186, 2.284374",
-        "category": "Sport et activités de plein air",
-        "address": "4 rue de la Paix",
-        "actual_zipcode":"75017",
-        "siteweb": "https://www.katanart.com/",
-        "subcategory": "Football (football, futsal)",
-        "object": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic repellendus unde blanditiis. Eos fugiat dolorem ea fugit aut sapiente corrupti autem dolores deleniti architecto, omnis, amet unde dignissimos quam minima?",
-        "images": [
-            "https://source.unsplash.com/random/?football/300x100/",
-            "https://source.unsplash.com/random/?football/10x100/"
-        ]
-    },
-    {
-        "id": "c4",
-        "title": "Les amis du château de Versailles",
-        "rna_number":"W751263012",
-        "geo_point": "48.858947, 2.294822",
-        "siteweb": "https://www.katanart.com/",
-        "address": "4 rue de la Paix",
-        "category": "Culture, patrimoine",
-        "actual_zipcode":"75017",
-        "subcategory": "Protection et valorisation du patrimoine",
-        "object": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic repellendus unde blanditiis. Eos fugiat dolorem ea fugit aut sapiente corrupti autem dolores deleniti architecto, omnis, amet unde dignissimos quam minima?",
-        "images": [
-            "https://source.unsplash.com/random/?castle",
-            "https://source.unsplash.com/random/?museum",
-            "https://source.unsplash.com/random/?cathedrale"
-        ]
-    },
-    {
-        "id": "c5",
-        "title": "Les amis du château de Paris",
-        "rna_number":"W751363012",
-        "geo_point": "48.858947, 2.294822",
-        "category": "Culture, patrimoine",
-        "siteweb": "https://www.katanart.com/",
-        "address": "4 rue de la Paix",
-        "actual_zipcode":"75017",
-        "subcategory": "Protection et valorisation du patrimoine",
-        "object": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic repellendus unde blanditiis. Eos fugiat dolorem ea fugit aut sapiente corrupti autem dolores deleniti architecto, omnis, amet unde dignissimos quam minima?",
-        "images": [
-            "https://source.unsplash.com/random/?castle",
-            "https://source.unsplash.com/random/?museum",
-            "https://source.unsplash.com/random/?cathedrale"
-        ]
-    },
-    {
-        "id": "c6",
-        "title": "Les amis du château de Paris",
-        "rna_number":"W751363012",
-        "geo_point": "48.858947, 2.294822",
-        "category": "Culture, patrimoine",
-        "siteweb": "https://www.katanart.com/",
-        "actual_zipcode":"75017",
-        "address": "4 rue de la Paix",
-        "subcategory": "martial_arts",
-        "subcategory_number": "11150",
-        "object": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic repellendus unde blanditiis. Eos fugiat dolorem ea fugit aut sapiente corrupti autem dolores deleniti architecto, omnis, amet unde dignissimos quam minima?",
-        "images": [
-            "https://source.unsplash.com/random/?ring",
-            "https://source.unsplash.com/random/?judo",
-            "https://source.unsplash.com/random/?karate"
+            "https://source.unsplash.com/random/?dance/300x100/",
+            "https://source.unsplash.com/random/?dance/300x100/"
+        ],
+        "objet": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic repellendus unde blanditiis. Eos fugiat dolorem ea fugit aut sapiente corrupti autem dolores deleniti architecto, omnis, amet unde dignissimos quam minima?",
+        "activities": 
+        [
+            {
+                "id": "3",
+                "title": "Salsa",
+                "clubId":"3",
+                "club_name": "Dancenter",
+                "geo_point": "48.853260, 2.348832",
+                "category": "Culture, pratiques d’activités artistiques, culturelles",
+                "address": "19 rue Nollet",
+                "actual_zipcode":"75017",
+                "free_trial": "true",
+                "is_looking_for_volunteer": "false",
+                "subcategories": "Danse",
+                "recurrence": "à la carte",
+                "subscription_link": "https://www.katanart.com/",
+                "short_description": "Enfin un cours de salsa traditionnel près de chez moi",
+                "full_description": "La salsa chez Dancenter, c'est comme la coriandre dans un sandwich. On adore ou on déteste. Chez Dancenter, vous pouvez essayer nos cours de salsa gratuitement. Nous enseignons d'autres danses, venez voir sur le profil de notre club!",
+                "images": [
+                    "https://source.unsplash.com/random/?karate",
+                    "https://source.unsplash.com/random/?boxing"
+                ],
+                "activity_price_recurrence": "semester",
+                "sub_groups": [
+                    { 
+                        "id": "sg1", 
+                        "address": "4 rue du General Foy, 75017", 
+                        "name": "Découverte", 
+                        "price": "Gratuit", 
+                        "activity_id": "3",
+                        "reccurence": "",
+                        "type": "cours collectif",
+                        "short_description": "Le cours gratuit ne s'addresse qu'aux débutant, sans expérience. Il est obligatoire de s'inscrire ou de réserver.",
+                        "schedule": {
+                            "sub_group_id": "sg1",
+                            "id": "sc7",
+                            "lundi": ["19:00-19:30"],
+                            "mardi": ["20:00 - 21:30"]
+                        }
+                    },
+                    { 
+                        "id": "sg2", 
+                        "address": "4 rue du General Foy, 75017", 
+                        "name": "Initiation", 
+                        "price": "20e", 
+                        "activity_id": "3",
+                        "reccurence": "cours",
+                        "type": "cours collectif",
+                        "short_description": "Vous avez entre 5 et 15 cours, ou 2 mois de cours et pratique régulière",
+                        "schedule": {
+                            "sub_group_id": "sg1",
+                            "id": "sc8",
+                            "lundi": ["19:30-20:00"],
+                            "mardi": ["20:30 - 21:30"],
+                            "samedi": ["15:00 - 16:00"]
+                        }
+                    },
+                    { 
+                        "id": "sg3", 
+                        "address": "4 rue du General Foy, 75017", 
+                        "name": "Intermédiaire", 
+                        "price": "20e", 
+                        "activity_id": "3",
+                        "reccurence": "cours",
+                        "type": "cours collectif",
+                        "short_description": "Vous avez entre 15 et 30 cours, ou 3 mois de cours et pratique régulière",
+                        "schedule": {
+                            "sub_group_id": "sg1",
+                            "id": "sc9",
+                            "lundi": ["20:00-21:30"],
+                            "mardi": ["19:30 - 20:30"],
+                            "samedi": ["16:00 - 17:00"]
+                        }
+                    },
+                    { 
+                        "id": "sg5", 
+                        "address": "4 rue du General Foy, 75017", 
+                        "name": "Avancé", 
+                        "price": "20e", 
+                        "activity_id": "3",
+                        "reccurence": "cours",
+                        "type": "cours collectif",
+                        "short_description": "Vous avez plus de 30 cours, ou 3 mois de cours et pratique régulière",
+                        "schedule": {
+                            "sub_group_id": "sg1",
+                            "id": "sc10",
+                            "lundi": ["20:00-21:30"],
+                            "mardi": ["19:30 - 20:30"],
+                            "samedi": ["16:00 - 17:00"]
+                        }
+                    }
+                    
+                ]
+            },
+            {
+                "id": "4",
+                "title": "Bachata",
+                "clubId":"3",
+                "club_name": "Dancenter",
+                "geo_point": "48.853260, 2.348832",
+                "category": "Culture, pratiques d’activités artistiques, culturelles",
+                "address": "19 rue Nollet",
+                "actual_zipcode":"75017",
+                "free_trial": "true",
+                "is_looking_for_volunteer": "false",
+                "subcategories": "Danse",
+                "recurrence": "à la carte",
+                "subscription_link": "https://www.katanart.com/",
+                "short_description": "Enfin un cours de bachata traditionnel près de chez moi",
+                "full_description": "La bachata chez Dancenter, c'est comme la coriandre dans un sandwich. On adore ou on déteste. Chez Dancenter, vous pouvez essayer nos cours de salsa gratuitement. Nous enseignons d'autres danses, venez voir sur le profil de notre club!",
+                "images": [
+                    "https://source.unsplash.com/random/?karate",
+                    "https://source.unsplash.com/random/?boxing"
+                ],
+                "activity_price_recurrence": "semester",
+                "sub_groups": [
+                    { 
+                        "id": "sg1", 
+                        "address": "4 rue du General Foy, 75017", 
+                        "name": "Découverte", 
+                        "price": "Gratuit", 
+                        "activity_id": "3",
+                        "reccurence": "",
+                        "type": "cours collectif",
+                        "short_description": "Le cours gratuit ne s'addresse qu'aux débutant, sans expérience. Il est obligatoire de s'inscrire ou de réserver.",
+                        "schedule": {
+                            "sub_group_id": "sg1",
+                            "id": "sc7",
+                            "lundi": ["19:00-19:30"],
+                            "mardi": ["20:00 - 21:30"]
+                        }
+                    },
+                    { 
+                        "id": "sg2", 
+                        "address": "4 rue du General Foy, 75017", 
+                        "name": "Initiation", 
+                        "price": "20e", 
+                        "activity_id": "3",
+                        "reccurence": "cours",
+                        "type": "cours collectif",
+                        "short_description": "Vous avez entre 5 et 15 cours, ou 2 mois de cours et pratique régulière",
+                        "schedule": {
+                            "sub_group_id": "sg1",
+                            "id": "sc8",
+                            "lundi": ["19:30-20:00"],
+                            "mardi": ["20:30 - 21:30"],
+                            "samedi": ["15:00 - 16:00"]
+                        }
+                    },
+                    { 
+                        "id": "sg3", 
+                        "address": "4 rue du General Foy, 75017", 
+                        "name": "Intermédiaire", 
+                        "price": "20e", 
+                        "activity_id": "3",
+                        "reccurence": "cours",
+                        "type": "cours collectif",
+                        "short_description": "Vous avez entre 15 et 30 cours, ou 3 mois de cours et pratique régulière",
+                        "schedule": {
+                            "sub_group_id": "sg1",
+                            "id": "sc9",
+                            "lundi": ["20:00-21:30"],
+                            "mardi": ["19:30 - 20:30"],
+                            "samedi": ["16:00 - 17:00"]
+                        }
+                    },
+                    { 
+                        "id": "sg5", 
+                        "address": "4 rue du General Foy, 75017", 
+                        "name": "Avancé", 
+                        "price": "20e", 
+                        "activity_id": "3",
+                        "reccurence": "cours",
+                        "type": "cours collectif",
+                        "short_description": "Vous avez plus de 30 cours, ou 3 mois de cours et pratique régulière",
+                        "schedule": {
+                            "sub_group_id": "sg1",
+                            "id": "sc10",
+                            "lundi": ["20:00-21:30"],
+                            "mardi": ["19:30 - 20:30"],
+                            "samedi": ["16:00 - 17:00"]
+                        }
+                    }
+                    
+                ]
+            } 
         ]
     }
 ]

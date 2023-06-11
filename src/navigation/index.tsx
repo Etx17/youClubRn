@@ -10,6 +10,7 @@ import { Image } from 'expo-image';
 import * as Linking from 'expo-linking';
 import React from 'react'
 import ActivityDetailsScreen from '../screens/ActivityDetailsScreen/ActivityDetailsScreen';
+import ClubBottomTabNavigator from './ClubBottomTabNavigator';
 
 const prefix = Linking.createURL('/');
 
@@ -31,7 +32,7 @@ const Navigation = () => {
     };
     // const {user} = useAuthContext();
     // const user = {
-    //     role: "user",
+    //     role: "club",
     //     id: 1
     // }
     const user = false

@@ -11,7 +11,7 @@ interface SubGroupsProps {
 }
 // For now activities are just strings, but they are meant to be objects with a name and an id
 const SubGroupsSection = ({ subGroups}:SubGroupsProps) => {
-  const role = 'owner' // mocking role
+  const role = 'club' // mocking role
   return (
     <View>
       <Text style={{ color: colors.grayDark, fontWeight: 'bold', marginTop: 10 }}>Sous-groupes:</Text>
@@ -23,7 +23,7 @@ const SubGroupsSection = ({ subGroups}:SubGroupsProps) => {
               </Text>
             </LinearGradient>
         ))}
-        {role === 'owner' && (
+        {role === 'club' && (
           <Pressable onPress={() => Alert.alert("Redirigera vers CreateSubGroupScreen en passant l'id de l'activité parente")} style={styles.addActivityButton}>
               <Text style={{fontSize: 24, color: colors.primary,}}> + </Text>
           </Pressable>

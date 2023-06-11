@@ -1,82 +1,70 @@
-import React, {useState} from 'react'
-import { LinearGradient } from 'expo-linear-gradient'
-import { View, Text, StyleSheet, Pressable, ScrollView, Linking } from 'react-native'
-import {Image} from 'expo-image'
-import Ionicons from '@expo/vector-icons/Ionicons'
-import { RouteProp, useNavigation, useRoute } from '@react-navigation/native'
-import colors from '../../themes/colors'
-import { Alert } from 'react-native'
-import { StatusBar } from 'expo-status-bar'
+import { View, Text, ScrollView, Alert, StyleSheet, Pressable } from 'react-native'
+import React, { useState } from 'react'
+import clubs from '../../assets/data/clubs'
 import DetailsCarousel from '../../components/DetailsCarousel'
-import ActivitiesSection from '../../components/ActivitiesSection'
-import AssociationLink from '../../components/AssociationLink'
-import AddressDetails from '../../components/AddressDetails'
-import InscriptionButton from '../../components/InscriptionButton'
-import DescriptionSection from '../../components/DescriptionSection'
 import TitleSection from '../../components/TitleSection'
+import AddressDetails from '../../components/AddressDetails'
+import AssociationLink from '../../components/AssociationLink'
+import ActivitiesSection from '../../components/ActivitiesSection'
+import DescriptionSection from '../../components/DescriptionSection'
+import InscriptionButton from '../../components/InscriptionButton'
+import colors from '../../themes/colors'
+import { StatusBar } from 'expo-status-bar'
+import { LinearGradient } from 'expo-linear-gradient'
+import { useNavigation } from '@react-navigation/native'
 
-interface ClubDetailsParams {
-  clubData: {
-    id: string;
-    titre: string;
-    objet: string;
-    adresse_actuelle: string;
-    codepostal_actuel: string;
-    domaine_activite_libelle_categorise: string;
-  };
-  images: string[];
-  darkTheme?: boolean; 
-}
-
-type ClubDetailsRoute = RouteProp<Record<string, ClubDetailsParams>, string>;
-
-const ClubDetailsScreen = () => {
+const OwnerClubDetailsScreen = () => {
   const navigation = useNavigation()
-  const route = useRoute<ClubDetailsRoute>();
-  const { titre, objet, adresse_actuelle, codepostal_actuel, domaine_activite_libelle_categorise } = route?.params?.clubData
-  const {images, darkTheme} = route?.params
-
-  const formattedObject = objet.split(';').map(sentence => sentence.trim().charAt(0).toUpperCase() + sentence.trim().slice(1)).join('. \n\n')
-
+  const { title, objet, address, actual_zipcode, subcategory, images, activities } = clubs[0]
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
-
+  const darkTheme = false
   const changeImage = (direction: String) => {
     if (direction === 'left') {
-      setCurrentImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length)
+    setCurrentImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length)
 
     } else {
-      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length)
+    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length)
 
     }
   }
 
-  return (
-    <ScrollView>
+    return (
+      <ScrollView>
       {/* IMAGE CAROUSEL */}
       <DetailsCarousel images={images} currentImageIndex={currentImageIndex} changeImage={changeImage} />
 
       <View style={styles.contentContainer}>
 
-        <TitleSection title={titre} onButtonPress={() => navigation.goBack()} />
+        <TitleSection title={title} />
 
-        <AddressDetails address={adresse_actuelle} postalCode={codepostal_actuel} />
+        <AddressDetails address={address} postalCode={actual_zipcode} />
 
-        <AssociationLink />
+        {/* <ActivitiesSection activities={["Activités", "Bientot", "Disponibles", "Activités bientôt disponibles"]} /> */}
+        <View>
+          <Text style={{ color: colors.grayDark, fontWeight: 'bold', marginTop: 10 }}>ACTIVITÉS:</Text>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
+            {activities.map((activity, index) => (
+              <LinearGradient start={[0, 0]} end={[1, 0]} colors={[colors.secondary, colors.primary] } style={styles.tag}> 
+                <Pressable onPress={()=> navigation.navigate('ActivityDetails', {activityData: activity})}>
+                  <Text key={index}>
+                    {activity.title}
+                  </Text>
+                </Pressable>
+              </LinearGradient>
+            ))}
+          </View>
+        </View>
 
-        <ActivitiesSection activities={["Activités", "Bientot", "Disponibles", "Activités bientôt disponibles"]} />
-
-        <DescriptionSection description={formattedObject} />
-
-        <InscriptionButton onPress={() => Alert.alert("Bientôt disponible", "Lorsque cette association aura récupéré son profil, elle pourra mettre en place l'inscription")} />
+        <DescriptionSection description={objet} />
 
       </View>
 
-      <LinearGradient colors={[darkTheme === true ? colors.dark : 'transparent', 'transparent']} style={{ position: 'absolute', left: 0, right: 0, top: 0, height: 120, }} />
+      <LinearGradient colors={[darkTheme ? colors.dark : 'transparent', 'transparent']} style={{ position: 'absolute', left: 0, right: 0, top: 0, height: 120, }} />
       
-      <StatusBar style={darkTheme === true ? "light" : 'auto'} />
+      <StatusBar style={darkTheme ? "light" : 'auto'} />
 
     </ScrollView>
-  )
+    )
 }
 
 const buttonWidth = 45;
@@ -215,4 +203,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default ClubDetailsScreen
+export default OwnerClubDetailsScreen

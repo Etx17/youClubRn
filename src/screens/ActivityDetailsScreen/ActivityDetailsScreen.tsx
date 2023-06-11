@@ -14,41 +14,42 @@ import SubGroupsSection from '../../components/SubGroupsSection'
 import SubGroupCardItem from '../../components/SubGroupCardItem'
 
 interface ActivityDetailsParams {
-    activityData: {
-      id: string;
-      title: string;
-      objet: string;
-      address: string;
-      club_name: string;
-      type: string;
-      full_description: string;
-      actual_zipcode: string;
-      domaine_activite_libelle_categorise: string;
-      sub_groups: [ { 
-        id: string, 
-        name: string, 
-        short_description: string, 
-        address: string, 
-        schedule: {}, 
-        price: string, 
-        reccurence: string,
-        start_date: string,
-        end_date: string,
-        start_time: string,
-        end_time: string,
-      } ];
+    // activityData: {
+    //   id: string;
+    //   title: string;
+    //   objet: string;
+    //   address: string;
+    //   club_name: string;
+    //   type: string;
+    //   full_description: string;
+    //   actual_zipcode: string;
+    //   domaine_activite_libelle_categorise: string;
+    //   sub_groups: [ { 
+    //     id: string, 
+    //     name: string, 
+    //     short_description: string, 
+    //     address: string, 
+    //     schedule: {}, 
+    //     price: string, 
+    //     reccurence: string,
+    //     start_date: string,
+    //     end_date: string,
+    //     start_time: string,
+    //     end_time: string,
+    //   } ];
 
-    };
-    images: string[];
-    darkTheme?: boolean; 
+    // };
+    // images: string[];
+    // darkTheme?: boolean; 
   }
   
   type ActivityDetailsRoute = RouteProp<Record<string, ActivityDetailsParams>, string>;
-const ActivityDetailsScreen = () => {
+const ActivityDetailsScreen = (activityData) => {
     // const { role } = useUserContext();
     const role = 'club' // mocking role
     const navigation = useNavigation()
     const route = useRoute<ActivityDetailsRoute>();
+    console.log(route, 'this is route')
     const { title, address, actual_zipcode, full_description, club_name, sub_groups } = route?.params?.activityData
     const {images, darkTheme} = route?.params
     const scrollViewRef = useRef<ScrollView>(null);  
@@ -71,11 +72,11 @@ const ActivityDetailsScreen = () => {
     return (
       <ScrollView ref={scrollViewRef}>
         {/* IMAGE CAROUSEL */}
-        <DetailsCarousel images={images} currentImageIndex={currentImageIndex} changeImage={changeImage} />
+        <DetailsCarousel images={images ? images : route?.params?.activityData.images } currentImageIndex={currentImageIndex} changeImage={changeImage} />
   
         <View style={styles.contentContainer}>
   
-          <TitleSection title={title} onBackPress={() => navigation.goBack()} />
+          <TitleSection title={title} onButtonPress={() => navigation.goBack()} />
   
           <AddressDetails address={address} postalCode={actual_zipcode} />
           <Text style={{color: colors.primary}}>{club_name}</Text>
