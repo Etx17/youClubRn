@@ -12,41 +12,43 @@ import DescriptionSection from '../../components/DescriptionSection'
 import TitleSection from '../../components/TitleSection'
 import SubGroupsSection from '../../components/SubGroupsSection'
 import SubGroupCardItem from '../../components/SubGroupCardItem'
+import { useAuthContext } from '../../contexts/AuthContext'
+import Ionicons from '@expo/vector-icons/Ionicons';
+
 
 interface ActivityDetailsParams {
-    // activityData: {
-    //   id: string;
-    //   title: string;
-    //   objet: string;
-    //   address: string;
-    //   club_name: string;
-    //   type: string;
-    //   full_description: string;
-    //   actual_zipcode: string;
-    //   domaine_activite_libelle_categorise: string;
-    //   sub_groups: [ { 
-    //     id: string, 
-    //     name: string, 
-    //     short_description: string, 
-    //     address: string, 
-    //     schedule: {}, 
-    //     price: string, 
-    //     reccurence: string,
-    //     start_date: string,
-    //     end_date: string,
-    //     start_time: string,
-    //     end_time: string,
-    //   } ];
+    activityData: {
+      id: string;
+      title: string;
+      objet: string;
+      address: string;
+      club_name: string;
+      type: string;
+      full_description: string;
+      actual_zipcode: string;
+      domaine_activite_libelle_categorise: string;
+      sub_groups: [ { 
+        id: string, 
+        name: string, 
+        short_description: string, 
+        address: string, 
+        schedule: {}, 
+        price: string, 
+        reccurence: string,
+        start_date: string,
+        end_date: string,
+        start_time: string,
+        end_time: string,
+      } ];
 
-    // };
-    // images: string[];
-    // darkTheme?: boolean; 
+    };
+    images: string[];
+    darkTheme?: boolean; 
   }
   
   type ActivityDetailsRoute = RouteProp<Record<string, ActivityDetailsParams>, string>;
 const ActivityDetailsScreen = (activityData) => {
-    // const { role } = useUserContext();
-    const role = 'club' // mocking role
+    const { user } = useAuthContext();
     const navigation = useNavigation()
     const route = useRoute<ActivityDetailsRoute>();
     console.log(route, 'this is route')
@@ -74,15 +76,17 @@ const ActivityDetailsScreen = (activityData) => {
         {/* IMAGE CAROUSEL */}
         <DetailsCarousel images={images ? images : route?.params?.activityData.images } currentImageIndex={currentImageIndex} changeImage={changeImage} />
   
+          
         <View style={styles.contentContainer}>
-  
-          <TitleSection title={title} onButtonPress={() => navigation.goBack()} />
+          {/* Bouton de retourn qui est fixé contre le bas du DetailsCarousel */}
+          
+          <TitleSection title={title} onButtonPress={() => navigation.goBack()} onEditButtonPress={()=> navigation.navigate('EditActivityDetails')} isEditButtonPresent={user.role === "club"} />
   
           <AddressDetails address={address} postalCode={actual_zipcode} />
           <Text style={{color: colors.primary}}>{club_name}</Text>
 
           <Pressable onPress={handleScrollToEnd}>
-            <SubGroupsSection subGroups={sub_groups.map(u => u.name)} />
+            <SubGroupsSection subGroups={sub_groups.map(u => u.name)} activityId={"1"} />
           </Pressable>
 
           {/* Call the number when pressing here */}
@@ -103,7 +107,7 @@ const ActivityDetailsScreen = (activityData) => {
         <LinearGradient colors={[darkTheme === true ? colors.dark : 'transparent', 'transparent']} style={{ position: 'absolute', left: 0, right: 0, top: 0, height: 120, }} />
         
         <StatusBar style={darkTheme === true ? "light" : 'auto'} />
-  
+        
       </ScrollView>
     )
   }

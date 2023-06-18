@@ -7,22 +7,39 @@ import EditSubGroupScreen from '../screens/EditSubGroupScreen/EditSubGroupScreen
 import NewSubGroupScheduleScreen from '../screens/NewSubGroupScheduleScreen/NewSubGroupScheduleScreen';
 import EditSubGroupScheduleScreen from '../screens/EditSubGroupScheduleScreen/EditSubGroupScheduleScreen';
 import OwnerClubDetailsScreen from '../screens/OwnerClubDetailsScreen/OwnerClubDetailsScreen';
+import EditClubScreen from '../screens/EditClubScreen/EditClubScreen';
+import NewActivityScreen from '../screens/NewActivityScreen/NewActivityScreen';
 
 const Stack = createNativeStackNavigator()
 
 const ClubActivitiesNavigator = () => {
 
     return(
-        <Stack.Navigator screenOptions={{headerShown: false}} >
+        <Stack.Navigator screenOptions={{
+            statusBarColor: 'black', 
+            headerBlurEffect: 'dark',
+            headerStyle: {
+                backgroundColor: 'black',
+            },
+            headerTintColor: 'white',
+        }}>
             <>  
                 <Stack.Screen 
                     name="OwnerClubDetails" 
                     component={OwnerClubDetailsScreen} 
+                    options={{
+                        headerShown: false,
+                    }}
                 />
-                {/* <Stack.Screen 
-                    name="NewActivityStack"
-                    component={NewActivityStackNavigator}
-                /> */}
+                <Stack.Screen 
+                    name="NewActivity"
+                    component={NewActivityScreen}
+                />
+                 <Stack.Screen 
+                    name="EditClub" 
+                    component={EditClubScreen} 
+                    
+                />
                 <Stack.Screen 
                     name="ActivityDetails" 
                     component={ActivityDetailsScreen} 

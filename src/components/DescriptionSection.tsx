@@ -8,7 +8,7 @@ interface DescriptionSectionProps {
 }
 
 const DescriptionSection= ({ description }:DescriptionSectionProps) => {
-  const role = 'club' // mocking role
+
   return (
     <>
       <Text style={styles.title}>DESCRIPTION</Text>

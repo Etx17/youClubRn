@@ -15,9 +15,8 @@ const AddressDetails = ({ address, postalCode }:AddressDetailsProps) => {
   
     return (
       <View style={styles.container}>
-        <Text style={styles.address} onPress={handlePress}>
-          <Ionicons name="location-sharp" size={14} color={colors.primary} /> {address.substring(0, 30)}{address.length > 30 ? '...' : ''}
-          <Text style={styles.seeMore}> Voir</Text>
+        <Text style={styles.seeMore} onPress={handlePress}>
+          <Ionicons name="location-sharp" size={14} color={colors.primary} /> {address.substring(0, 30)}{address.length > 30 ? `...` : ''}
         </Text>
         <Text style={styles.postalCode}>{postalCode}</Text>
       </View>
@@ -36,7 +35,6 @@ const AddressDetails = ({ address, postalCode }:AddressDetailsProps) => {
     },
     seeMore: {
       color: colors.info,
-      fontWeight: 'bold',
     },
     postalCode: {
       color: 'white',

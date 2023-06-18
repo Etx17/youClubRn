@@ -19,6 +19,11 @@ const ClubBottomTabNavigator = () => {
                 tabBarInactiveTintColor: colors.dark,
                 tabBarActiveBackgroundColor: colors.black,
                 tabBarInactiveBackgroundColor: colors.black,
+                tabBarStyle: {
+                    borderTopWidth: 1,
+                    borderTopColor: colors.primary,
+                    height: 50,
+                },
             }}
         >
             <Tab.Screen

@@ -27,16 +27,21 @@ const CustomHeader = () => {
     )
 }
 
+// const CustomClubHeader = () => {
+//     return (
+//         <View style={styles.clubHeader}>          
+//         <Text style={{color: colors.white}}>Votre club</Text>
+//         </View>
+//       )
+//     }
+
+
+
 const Navigation = () => {
     const linking = {
       prefixes: [prefix],
     };
     const {user} = useAuthContext();
-    // const user = {
-    //     role: "club",
-    //     id: 1
-    // }
-    // const user = false
 
         return(
             <NavigationContainer linking={linking} fallback={<Text>Loading...</Text>}>
@@ -71,7 +76,8 @@ const Navigation = () => {
                             name="ClubHome"
                             component={ClubBottomTabNavigator}
                             options={{
-                            header: () => <CustomHeader />,
+                            // header: () => <CustomClubHeader />,
+                            headerShown: false,
                             headerTitleAlign: 'center',
                             }}
                         />
@@ -82,7 +88,7 @@ const Navigation = () => {
 
             </Stack.Navigator>
         </NavigationContainer>
-        )
+        )  
 }
 const styles = StyleSheet.create({
     header: {
@@ -90,9 +96,20 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: colors.white,
-        marginTop: Platform.OS === 'ios' ? 25 : 15,
+        marginTop: Platform.OS === 'ios' ? 25 : 0,
         paddingHorizontal: 10,
-        height: 50,
+        height: 40,
+        color: colors.grayDarkest
+    },
+    clubHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: colors.black,
+        marginTop: Platform.OS === 'ios' ? 25 : 0,
+        paddingHorizontal: 10,
+        height: 60,
+        color: colors.grayDarkest
     },
     title: {
         fontSize: 20,

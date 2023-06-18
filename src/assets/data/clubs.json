@@ -34,8 +34,8 @@
                 "short_description": "Enfin un cours de salsa traditionnel près de chez moi",
                 "full_description": "La salsa chez Dancenter, c'est comme la coriandre dans un sandwich. On adore ou on déteste. Chez Dancenter, vous pouvez essayer nos cours de salsa gratuitement. Nous enseignons d'autres danses, venez voir sur le profil de notre club!",
                 "images": [
-                    "https://source.unsplash.com/random/?karate",
-                    "https://source.unsplash.com/random/?boxing"
+                    "https://source.unsplash.com/random/?salsa",
+                    "https://source.unsplash.com/random/?bachata"
                 ],
                 "activity_price_recurrence": "semester",
                 "sub_groups": [

@@ -1,11 +1,11 @@
 import { View, Text, ScrollView, Alert, StyleSheet, Pressable } from 'react-native'
 import React, { useState } from 'react'
 import clubs from '../../assets/data/clubs'
+import Ionicons from '@expo/vector-icons/Ionicons';
 import DetailsCarousel from '../../components/DetailsCarousel'
 import TitleSection from '../../components/TitleSection'
 import AddressDetails from '../../components/AddressDetails'
-import AssociationLink from '../../components/AssociationLink'
-import ActivitiesSection from '../../components/ActivitiesSection'
+import { Entypo } from '@expo/vector-icons'; 
 import DescriptionSection from '../../components/DescriptionSection'
 import InscriptionButton from '../../components/InscriptionButton'
 import colors from '../../themes/colors'
@@ -35,11 +35,13 @@ const OwnerClubDetailsScreen = () => {
 
       <View style={styles.contentContainer}>
 
-        <TitleSection title={title} />
+        <Pressable onPress={() => navigation.navigate('EditClub')} style={styles.stickyButton}>
+          <Entypo name="edit" size={20} color="black" />
+        </Pressable>
+        <TitleSection title={title} noBackButton />
 
         <AddressDetails address={address} postalCode={actual_zipcode} />
 
-        {/* <ActivitiesSection activities={["Activités", "Bientot", "Disponibles", "Activités bientôt disponibles"]} /> */}
         <View>
           <Text style={{ color: colors.grayDark, fontWeight: 'bold', marginTop: 10 }}>ACTIVITÉS:</Text>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
@@ -52,6 +54,10 @@ const OwnerClubDetailsScreen = () => {
                 </Pressable>
               </LinearGradient>
             ))}
+            <Pressable onPress={() => navigation.navigate('NewActivity', {clubId: '1'})} style={styles.addActivityButton}>
+                <Ionicons name='add-outline' size={20} color={colors.primary} />
+            </Pressable>
+            
           </View>
         </View>
 
@@ -61,7 +67,11 @@ const OwnerClubDetailsScreen = () => {
 
       <LinearGradient colors={[darkTheme ? colors.dark : 'transparent', 'transparent']} style={{ position: 'absolute', left: 0, right: 0, top: 0, height: 120, }} />
       
-      <StatusBar style={darkTheme ? "light" : 'auto'} />
+      <StatusBar style={'light'} />
+
+    
+
+      
 
     </ScrollView>
     )
@@ -114,18 +124,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     paddingHorizontal: 5,
     overflow: 'hidden',
-  },
-  goBackButton: {
-    backgroundColor: colors.primary,
-    borderRadius: buttonWidth/2,
-    width: buttonWidth,
-    borderColor: 'black',
-    borderWidth: 1,
-    overflow: 'hidden',
-    elevation: 8,
-    position: 'absolute', //Here is the trick
-    right: 10,
-    bottom: 10,
   },
   titleContainer: {
     flexDirection: 'row',
@@ -189,17 +187,32 @@ const styles = StyleSheet.create({
   },
   stickyButton: {
     position: 'absolute', 
-    top: 70,  
-    left: 10,  
+    top: -20,  
+    right: 20,  
     backgroundColor: colors.primary,  
     borderRadius: 25,  
     padding: 10,
     zIndex: 2,
     elevation: 8,
+    borderWidth: 0.8,
   },
-  stickyButtonText: {
-    color: 'black',  
-    fontWeight: 'bold',
+  addActivityButton: {
+    marginTop: 10,
+    fontSize: 14,
+    paddingVertical: 0,
+    alignSelf: 'flex-start',
+    paddingHorizontal: 10,
+    alignItems: 'center',
+    textAlign: 'center',
+    borderRadius: 20,
+    overflow: 'hidden',
+    borderColor: colors.primary,
+    borderWidth: 1,
+    marginHorizontal: 4,
+    height: 30,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
 })
 

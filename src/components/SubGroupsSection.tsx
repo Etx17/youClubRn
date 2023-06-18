@@ -1,17 +1,18 @@
 import React from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import colors from '../themes/colors';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Alert } from 'react-native';
+import { useAuthContext } from '../contexts/AuthContext';
+import { useNavigation } from '@react-navigation/native';
 
 interface SubGroupsProps {
   subGroups: string[];
-
+  activityId: string;
 }
 // For now activities are just strings, but they are meant to be objects with a name and an id
-const SubGroupsSection = ({ subGroups}:SubGroupsProps) => {
-  const role = 'club' // mocking role
+const SubGroupsSection = ({ subGroups, activityId}:SubGroupsProps) => {
+  const navigation = useNavigation();
+  const { user } = useAuthContext();
   return (
     <View>
       <Text style={{ color: colors.grayDark, fontWeight: 'bold', marginTop: 10 }}>Sous-groupes:</Text>
@@ -23,8 +24,8 @@ const SubGroupsSection = ({ subGroups}:SubGroupsProps) => {
               </Text>
             </LinearGradient>
         ))}
-        {role === 'club' && (
-          <Pressable onPress={() => Alert.alert("Redirigera vers CreateSubGroupScreen en passant l'id de l'activité parente")} style={styles.addActivityButton}>
+        {user.role === 'club' && (
+          <Pressable onPress={() => navigation.navigate('NewSubGroup', {activityId: activityId})} style={styles.addActivityButton}>
               <Text style={{fontSize: 24, color: colors.primary,}}> + </Text>
           </Pressable>
         )}

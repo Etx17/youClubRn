@@ -3,32 +3,37 @@ import { View, Text, StyleSheet, Pressable } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import colors from '../themes/colors';
 import Entypo from '@expo/vector-icons/Entypo';
+import { useAuthContext } from '../contexts/AuthContext';
 interface TitleSectionProps {
   title: string;
   onButtonPress?: () => void;
+  noBackButton?: boolean;
+  isEditButtonPresent?: boolean;
+  onEditButtonPress?: () => void;
 }
 
-const TitleSection = ({ title, onButtonPress }:TitleSectionProps) => {
-  const role = 'club' // mocking role
-  // const role = false 
+const TitleSection = ({ title, onButtonPress, noBackButton, isEditButtonPresent, onEditButtonPress }:TitleSectionProps) => {
+  const { user } = useAuthContext();
   return (
     <View style={styles.container}>
-        <Text style={styles.title} numberOfLines={3}> {title ? title : 'Erreur lors de la récupération du titre'}  </Text> 
-      {role != 'club' && (
-      <Pressable onPress={onButtonPress} style={styles.goBackButtonContainer}>
+      <Text style={styles.title} numberOfLines={3}> {title ? title : 'Erreur lors de la récupération du titre'}  </Text> 
+      {!noBackButton && (
+        <Pressable onPress={onButtonPress} style={styles.goBackButtonContainer}>
         <Ionicons name="chevron-back-outline" size={40} color="black" style={styles.goBackButton} />
       </Pressable>
       )}
-      {role === 'club' && (
-      <Pressable onPress={onButtonPress} style={styles.goBackButtonContainer}>
-        <Entypo name="new-message" size={40} color="black" style={styles.editButton} />
+
+      
+      {isEditButtonPresent && user.role === 'club' && (
+      <Pressable onPress={onEditButtonPress}>
+        <Entypo name="edit" size={24} color="black" style={styles.editButton} />
       </Pressable>
       )}
+      
     </View>
   );
 };
 const buttonWidth = 45;
-const buttonWidth2 = 60;
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
@@ -59,17 +64,17 @@ const styles = StyleSheet.create({
   },
   editButton: {
     backgroundColor: colors.primary,
-    borderRadius: buttonWidth2/2,
-    width: buttonWidth2,
-    height: buttonWidth2,
+    borderRadius: buttonWidth/2,
+    width: buttonWidth,
+    height: buttonWidth,
+    borderWidth: 1,
+    borderColor: 'black',
     textAlign: 'center',
     textAlignVertical: 'center',
-    borderColor: 'black',
-    borderWidth: 0,
     overflow: 'hidden',
     elevation: 8,
     position: 'absolute', //Here is the trick
-    right: 10,
+    right: 0,
     bottom: 20,
     padding: 2,
   },
