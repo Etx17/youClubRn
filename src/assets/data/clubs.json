@@ -1,15 +1,14 @@
 [
     {
         "id": "1",
-        "title": "Dancenter",
+        "name": "Dancenter",
         "rna_number":"W752269012",
         "geo_point": "48.853260, 2.348832",
         "category": "Culture, pratiques d’activités artistiques, culturelles",
         "address": "4 rue de la Paix",
         "actual_zipcode":"75017",
         "subcategory": "Danse",
-        "siteweb": "https://dancenter.com/",
-        "object": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic repellendus unde blanditiis. Eos fugiat dolorem ea fugit aut sapiente corrupti autem dolores deleniti architecto, omnis, amet unde dignissimos quam minima?",
+        "website": "https://dancenter.com/",
         "images": [
             "https://source.unsplash.com/random/?dance/300x100/",
             "https://source.unsplash.com/random/?dance/300x100/"
@@ -19,7 +18,7 @@
         [
             {
                 "id": "3",
-                "title": "Salsa",
+                "name": "Salsa",
                 "clubId":"3",
                 "club_name": "Dancenter",
                 "geo_point": "48.853260, 2.348832",
@@ -111,7 +110,7 @@
             },
             {
                 "id": "4",
-                "title": "Bachata",
+                "name": "Bachata",
                 "clubId":"3",
                 "club_name": "Dancenter",
                 "geo_point": "48.853260, 2.348832",

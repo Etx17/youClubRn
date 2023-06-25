@@ -8,18 +8,18 @@ import {MD3LightTheme as DefaultTheme, PaperProvider } from 'react-native-paper'
 import AuthContextProvider from './src/contexts/AuthContext';
 import colors from './src/themes/colors';
 export default function App() {
-  const theme = {
-    ...DefaultTheme,
-    colors: {
-      ...DefaultTheme.colors,
-      primary: colors.primary,
-      secondary: colors.secondary,
-    },
-  };
+  // const theme = {
+  //   ...DefaultTheme,
+  //   colors: {
+  //     ...DefaultTheme.colors,
+  //     primary: colors.primary,
+  //     secondary: 'tomato',
+  //   },
+  // };
 
    return (
   // Ne wrapper le location context provider que autour du topTabNavigator là ou j'en ai besoin
-      <PaperProvider theme={theme}>
+      <PaperProvider>
         <SafeAreaProvider>
           <AuthContextProvider>
             <LocationContextProvider>

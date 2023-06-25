@@ -15,7 +15,7 @@ import { useNavigation } from '@react-navigation/native'
 
 const OwnerClubDetailsScreen = () => {
   const navigation = useNavigation()
-  const { title, objet, address, actual_zipcode, subcategory, images, activities } = clubs[0]
+  const { name, objet, address, actual_zipcode, subcategory, images, activities } = clubs[0]
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const darkTheme = false
   const changeImage = (direction: String) => {
@@ -38,7 +38,7 @@ const OwnerClubDetailsScreen = () => {
         <Pressable onPress={() => navigation.navigate('EditClub')} style={styles.stickyButton}>
           <Entypo name="edit" size={20} color="black" />
         </Pressable>
-        <TitleSection title={title} noBackButton />
+        <TitleSection title={name} noBackButton />
 
         <AddressDetails address={address} postalCode={actual_zipcode} />
 
@@ -49,7 +49,7 @@ const OwnerClubDetailsScreen = () => {
               <LinearGradient start={[0, 0]} end={[1, 0]} colors={[colors.secondary, colors.primary] } style={styles.tag}> 
                 <Pressable onPress={()=> navigation.navigate('ActivityDetails', {activityData: activity})}>
                   <Text key={index}>
-                    {activity.title}
+                    {activity.name}
                   </Text>
                 </Pressable>
               </LinearGradient>

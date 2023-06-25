@@ -1,7 +1,7 @@
 [
     {
         "id": "1",
-        "title": "Karaté",
+        "name": "Karaté",
         "clubId":"2",
         "club_name": "Katan'art",
         "geo_point": "48.853260, 2.348832",
@@ -100,7 +100,7 @@
     },
     {
         "id": "2",
-        "title": "Yoga",
+        "name": "Yoga",
         "clubId":"3",
         "club_name": "Centre de Yoga Sivananda Paris 10e",
         "geo_point": "48.853260, 2.348832",
@@ -229,7 +229,7 @@
     },
     {
         "id": "3",
-        "title": "Salsa",
+        "name": "Salsa",
         "clubId":"3",
         "club_name": "Dancenter",
         "geo_point": "48.853260, 2.348832",
@@ -313,7 +313,7 @@
     },
     {
         "id": "4",
-        "title": "Bachata",
+        "name": "Bachata",
         "clubId":"3",
         "club_name": "Dancenter",
         "geo_point": "48.853260, 2.348832",

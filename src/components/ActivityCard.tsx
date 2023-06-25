@@ -111,7 +111,7 @@ const activityCard = ({data}: IActivityCardProps) => {
               numberOfLines={1} 
               onPress={navigateToactivityDetails}
             >
-              { data?.title }
+              { data?.name }
             </Text>
             <Pressable onPress={navigateToactivityDetails}>
               <Ionicons name="md-information-circle-sharp" size={36} color={colors.primary} style={styles.profileIcon} />

@@ -19,7 +19,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 interface ActivityDetailsParams {
     activityData: {
       id: string;
-      title: string;
+      name: string;
       objet: string;
       address: string;
       club_name: string;
@@ -52,7 +52,7 @@ const ActivityDetailsScreen = (activityData) => {
     const navigation = useNavigation()
     const route = useRoute<ActivityDetailsRoute>();
     console.log(route, 'this is route')
-    const { title, address, actual_zipcode, full_description, club_name, sub_groups } = route?.params?.activityData
+    const { name, address, actual_zipcode, full_description, club_name, sub_groups } = route?.params?.activityData
     const {images, darkTheme} = route?.params
     const scrollViewRef = useRef<ScrollView>(null);  
     const [currentImageIndex, setCurrentImageIndex] = useState(0)
@@ -80,7 +80,7 @@ const ActivityDetailsScreen = (activityData) => {
         <View style={styles.contentContainer}>
           {/* Bouton de retourn qui est fixé contre le bas du DetailsCarousel */}
           
-          <TitleSection title={title} onButtonPress={() => navigation.goBack()} onEditButtonPress={()=> navigation.navigate('EditActivityDetails')} isEditButtonPresent={user.role === "club"} />
+          <TitleSection title={name} onButtonPress={() => navigation.goBack()} onEditButtonPress={()=> navigation.navigate('EditActivityDetails')} isEditButtonPresent={user.role === "club"} />
   
           <AddressDetails address={address} postalCode={actual_zipcode} />
           <Text style={{color: colors.primary}}>{club_name}</Text>
