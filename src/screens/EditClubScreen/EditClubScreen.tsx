@@ -72,7 +72,8 @@ export default function EditClubScreen() {
 
   const uploadMedia = async (uri: string) => {
     try {
-      
+      // Convert image into blob
+      // Send blob to rails server 
       const response = await fetch(uri);
       const blob = await response.blob();
 
