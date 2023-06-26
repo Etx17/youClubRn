@@ -10,6 +10,7 @@ import { useNavigation } from '@react-navigation/native';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ClubSchema, Club } from '../../schema/club.schema';
 import ControlledInput from '../../components/ControlledInput';
+import { useAuthContext } from '../../contexts/AuthContext';
 export default function EditClubScreen() {
   // Pour le composant de selection d'image,
   // Il me faut en entrée l'array d'images actuel du club. Je vais le hardcoder ici mais iu faudra le récupérer de l'API
@@ -25,7 +26,7 @@ export default function EditClubScreen() {
   // --------------------------------------------------------------------------------------
   // END--------------------------MOCKING FETCHING DATA FROM API--------------------------
   // --------------------------------------------------------------------------------------
-
+ 
 
   const { control, handleSubmit, setValue, formState: { errors } } = useForm<Club>({
     resolver: zodResolver(ClubSchema),
@@ -35,9 +36,14 @@ export default function EditClubScreen() {
   const [selectedImages, setSelectedImages] = useState([]);
   const numRows = selectedImages.length < 3 ? 1 : 2;
   const navigation = useNavigation()
+  const { user } = useAuthContext();
   useEffect(() => { setSelectedImages(actualImagesFromClub) }, [])
 
   const saveAndGoBack = (data) => {
+    // Donner tout l'array d'images ( uris déja existant + //files) mais n'Upload que les selectedImages qui ne sont pas déja des uris (mais qui sont des files//) et obtenir l'array d'uris en retour.
+    // Remplacer l'ancien array d'images la ou il y avait les //files par leurs nouvelles uris
+    // Ensuite, faire un fetch pour mettre à jour le club avec les nouvelles uris, la nouvelle description si il y en a une, le nouveau nom si il y en a un, le nouveau site web si il y en a un.
+    // Navigation go back
     console.log(data, 'form fields:', data)
     console.log(selectedImages, 'images in the saveandGoBack')
     navigation.goBack()
@@ -63,6 +69,28 @@ export default function EditClubScreen() {
       alert('You did not select any image.');
     }
   };
+
+  const uploadMedia = async (uri: string) => {
+    try {
+      
+      const response = await fetch(uri);
+      const blob = await response.blob();
+
+      const timestamp = new Date().getTime();
+      const randomNum = Math.floor(Math.random() * 1000000);
+
+      const uriParts = uri.split('.');
+      const extension = uriParts[uriParts.length - 1];
+      
+      const uniqueName = `${user.id}-${timestamp}-${randomNum}.${extension}`;
+   
+      const s3Response = await Storage.put(uniqueName, blob)
+
+      return s3Response.key;
+    } catch(e) {
+      Alert.alert('Error uploading the file', (e as Error).message)
+    }
+  } 
  
   return (
     <ScrollView style={{ padding: 15, flex: 1}}>
@@ -94,7 +122,7 @@ export default function EditClubScreen() {
                     </View>
                   )}
                 />
-                <Text onPress={pickImageAsync} style={{fontSize: 14, color: colors.grayDarkest, margin: 10}}>{selectedImages.length} images séléctionnées (Touchez pour éditer)</Text>
+                <Text onPress={pickImageAsync} style={{fontSize: 14, color: colors.grayDarkest, margin: 10}}>{selectedImages.length} images séléctionnées <Text style={{color: colors.danger}}>(Ajouter)</Text></Text>
               </View>
 
             ) : (
