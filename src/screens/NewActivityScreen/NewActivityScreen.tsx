@@ -11,12 +11,16 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { ActivitySchema, Activity } from '../../schema/activity.schema';
 import ControlledInput from '../../components/ControlledInput';
 import { useAuthContext } from '../../contexts/AuthContext';
+import Dropdown from '../../components/Dropdown';
+import SubCategoryDropdown from '../../components/SubCategoryDropdown';
 
 const NewActivityScreen = (clubId: string) => {
   const { control, handleSubmit, setValue, formState: { errors } } = useForm<Activity>({
     resolver: zodResolver(ActivitySchema),
   });
   console.log(errors);
+  const [dropdownValue, setDropdownValue] = useState("Sports, activités de plein air");
+  const [subCategoryDropdownValue, setSubCategoryDropdownValue] = useState("all");
   const navigation = useNavigation()
   const [selectedImages, setSelectedImages] = useState([]);
   const numRows = selectedImages.length < 3 ? 1 : 2;
@@ -33,6 +37,17 @@ const NewActivityScreen = (clubId: string) => {
     customPackages: false,
     other: false,
   });
+  const handleDropdownValueChange = (valuecat: string) => {
+    console.log('valuecat', valuecat);
+    setDropdownValue(valuecat);
+  };
+
+  const handleSubCategoryDropdownValueChange = (valuesub: string) => {
+      setSubCategoryDropdownValue(valuesub);
+      console.log('valuesub', valuesub);
+  };
+   
+      // Check if subcategories of a club include valuesub
 
   const handleCheck = (itemKey, onChange) => {
     // setCheckedItems({ ...checkedItems, [itemKey]: !checkedItems[itemKey] });
@@ -47,6 +62,7 @@ const NewActivityScreen = (clubId: string) => {
     console.log(data, 'form fields:', data)
     console.log(hasFreeTrial, '<= this is has freeTrial')
     console.log(checkedItems, '<= these are the checked items')
+    console.log(dropdownValue, subCategoryDropdownValue, '<= these are the dropdown values')
     Alert.alert('Votre activité a été créée avec succès !', 'Vous pouvez maintenant la retrouver dans la liste des activités de votre club. Vous pouvez la modifier à tout moment en cliquant dessus.')
     navigation.goBack()
   }
@@ -111,7 +127,21 @@ const NewActivityScreen = (clubId: string) => {
               </Button>
             )}
             {/* End of image component input */}
-
+            
+            <Card.Title title="Catégorie et sous-catégorie"/>
+            <View style={styles.dropdownContainer}>
+              <Dropdown
+                style={{ flex: 1 }}
+                valuecat={dropdownValue}
+                onValueChange={handleDropdownValueChange}
+              />
+              <SubCategoryDropdown
+                style={{ flex: 1 }}
+                valuesub={subCategoryDropdownValue}
+                onValueChange={handleSubCategoryDropdownValueChange}
+                categoryName={dropdownValue || ''}
+              />
+            </View>
           <Card.Title title="Modifiez les informations de votre club"/>
           <Card.Content style={{gap: 5}}>
 
@@ -183,6 +213,12 @@ const NewActivityScreen = (clubId: string) => {
   )
 }
 const styles = StyleSheet.create({
+  dropdownContainer: {
+    zIndex: 3000, // Necessary
+    flexDirection: 'row',
+    gap: 0,
+    marginTop: 1.5,
+  },
   deleteButton: {
     position: 'absolute',
     bottom: -10,

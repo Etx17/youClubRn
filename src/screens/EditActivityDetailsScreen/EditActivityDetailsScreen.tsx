@@ -11,6 +11,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { ActivitySchema, Activity } from '../../schema/activity.schema';
 import ControlledInput from '../../components/ControlledInput';
 import { useAuthContext } from '../../contexts/AuthContext';
+import Dropdown from '../../components/Dropdown';
+import SubCategoryDropdown from '../../components/SubCategoryDropdown';
 export default function EditActivityDetailsScreen() {
   // Pour le composant de selection d'image,
   // Il me faut en entrée l'array d'images actuel du club. Je vais le hardcoder ici mais iu faudra le récupérer de l'API
@@ -44,6 +46,8 @@ export default function EditActivityDetailsScreen() {
     resolver: zodResolver(ActivitySchema),
   });
   console.log(errors);
+  const [dropdownValue, setDropdownValue] = useState("Sports, activités de plein air");
+  const [subCategoryDropdownValue, setSubCategoryDropdownValue] = useState("all");
   const [hasFreeTrial, setHasFreeTrial] = React.useState(false);
   const [selectedImages, setSelectedImages] = useState([]);
   const numRows = selectedImages.length < 3 ? 1 : 2;
@@ -51,6 +55,16 @@ export default function EditActivityDetailsScreen() {
   const { user } = useAuthContext();
   useEffect(() => { setSelectedImages(actualImagesFromClub) }, [])
   const [checkedItems, setCheckedItems] = useState(currentPricingTypesToObject);
+
+  const handleDropdownValueChange = (valuecat: string) => {
+    console.log('valuecat', valuecat);
+    setDropdownValue(valuecat);
+  };
+
+  const handleSubCategoryDropdownValueChange = (valuesub: string) => {
+      setSubCategoryDropdownValue(valuesub);
+      console.log('valuesub', valuesub);
+  };
 
   const handleCheck = (itemKey, onChange) => {
     // setCheckedItems({ ...checkedItems, [itemKey]: !checkedItems[itemKey] });
@@ -64,6 +78,7 @@ export default function EditActivityDetailsScreen() {
   const saveAndGoBack = (data) => {
     console.log(data, 'form fields:', data)
     console.log(hasFreeTrial, '<= this is has freeTrial')
+    console.log(checkedItems, '<= this is checkedItems')
     console.log(selectedImages, 'images in the saveandGoBack')
     navigation.goBack()
   }
@@ -116,7 +131,7 @@ export default function EditActivityDetailsScreen() {
     <ScrollView style={{ padding: 15, flex: 1}}>
       <View style={{gap: 15}}>
         <Card>
-          <Card.Title title="Ajoutez ou supprimez des photos de votre club" />
+          <Card.Title title="éditez les photos de votre activité" />
             {/* Component d'input pour des photos */}
             {selectedImages.length > 0 ? (
               <View style={{borderWidth: 0, margin: 10}}>
@@ -151,8 +166,21 @@ export default function EditActivityDetailsScreen() {
               </Button>
             )}
             {/* End of image component input */}
-        </Card>
-        <Card>
+            <Card.Title title="Catégorie et sous-catégorie"/>
+            <View style={styles.dropdownContainer}>
+              <Dropdown
+                style={{ flex: 1 }}
+                valuecat={dropdownValue}
+                onValueChange={handleDropdownValueChange}
+              />
+              <SubCategoryDropdown
+                style={{ flex: 1 }}
+                valuesub={subCategoryDropdownValue}
+                onValueChange={handleSubCategoryDropdownValueChange}
+                categoryName={dropdownValue || ''}
+              />
+            </View>
+
           <Card.Title title="Modifiez les informations de votre activité"/>
           <Card.Content style={{gap: 5}}>
 
@@ -177,6 +205,14 @@ export default function EditActivityDetailsScreen() {
               label="Lien d'inscription ou site web"
               placeholder="https://www.salsaparis.com"
             />
+
+            <ControlledInput 
+              control={control}
+              name="address"
+              label="Addresse (si différente de celle du club)"
+              placeholder="https://www.salsaparis.com"
+            />
+
             <Controller 
               control={control}
               name="hasFreeTrial"
@@ -224,6 +260,12 @@ export default function EditActivityDetailsScreen() {
   )
 }
 const styles = StyleSheet.create({
+  dropdownContainer: {
+    zIndex: 3000, // Necessary
+    flexDirection: 'row',
+    gap: 0,
+    marginTop: 1.5,
+  },
   deleteButton: {
     position: 'absolute',
     bottom: -10,
