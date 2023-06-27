@@ -23,6 +23,7 @@ export default function ControlledInput({control, name, ...textInputProps}: Cont
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}
+                mode='outlined'
                 // error={invalid}
                 />
                 <HelperText type="error" visible={invalid}>

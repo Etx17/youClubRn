@@ -14,22 +14,44 @@ const SubGroupCardItem = (subgroup, activityId) => {
   const navigation = useNavigation();
   console.log(subgroup.subgroup.schedule, 'this is subgroup')
   const daysOfWeek = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'];
-
+  const possibleTypeOfActivity= ['cours collectif', 'cours particulier', 'stage', 'atelier', 'session', 'évènement', 'autre'];
+  const tarifications = ['100/mois', '1022/an', '10/heure', '100/jour', '120/carnet de 5 tickets']
     return (
       <View style={{marginVertical: 10, padding: 10, borderWidth: 1, borderColor: 'gray', borderRadius: 10, backgroundColor: colors.text }}>
         <Text style={styles.subCategoryTag}>{subgroup.subgroup.name}</Text>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: "100%"}}>
-          <Text style={styles.object}>{subgroup.subgroup.price}€/{subgroup.subgroup.reccurence} </Text>
-          <AddressDetails address={subgroup.subgroup.address} postalCode={subgroup.subgroup.postal_code}/>
-        </View>
-        <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+
+        {/* Type de cours */}
+        <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
           { subgroup.subgroup.type && <Text style={{color: colors.grayDarkest, margin: 5, textTransform: 'uppercase'}}>{subgroup.subgroup.type}</Text> }
           { subgroup.subgroup.type == "event" && (
             <Text style={{color: colors.grayDarkest}}>Le {subgroup.subgroup.start_date} à {subgroup.subgroup.start_time}</Text>
           ) }
         </View>
 
-        <Text style={{color: colors.grayDarkest, margin: 5}}>{subgroup.subgroup.short_description}</Text>
+        {/* Description */}
+        <Text style={{color: colors.grayDark, margin: 5}}>{subgroup.subgroup.short_description}</Text>
+
+        {/* Adresse et prix minimal */}
+        <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: "100%"}}>
+          <Text style={styles.small}>À partir de <Text style={styles.object}>{subgroup.subgroup.min_price}€</Text></Text>
+          <AddressDetails address={subgroup.subgroup.address} postalCode={subgroup.subgroup.postal_code}/>
+        </View>
+       
+       
+
+        {/* Tarifications */}
+        {/* <Text style={styles.title}>TARIFS</Text> */}
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start', marginBottom: 20 }}>
+        {subgroup.subgroup.tarifications.map((tarif, index) => (
+          <View style={styles.tag}> 
+            <Text key={index} style={{color: 'white'}}>
+              {tarif}
+            </Text>
+          </View>
+        ))}
+       
+      </View>
+
         <View style={{flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', flexWrap: 'wrap'}}>
           {
 
@@ -88,8 +110,14 @@ const SubGroupCardItem = (subgroup, activityId) => {
   };
   
   const styles = StyleSheet.create({
+    recurrentSubscriptionLabel:{
+      fontSize: 20,
+      color: colors.grayDark,
+      padding:5,
+      fontWeight: 'bold',
+    },
     object: {
-        fontSize: 15,
+        fontSize: 25,
         color: colors.white,
         padding: 5,
         maxWidth: "33%",
@@ -116,6 +144,32 @@ const SubGroupCardItem = (subgroup, activityId) => {
         textTransform: 'uppercase',
         fontWeight: 'bold',
       },
-  })
+      small: {
+        fontSize: 12,
+        color: colors.grayDarkest,
+        padding: 5,
+      },
+      tag: {
+        marginVertical: 5,
+        fontSize: 24,
+        paddingVertical: 4,
+        alignSelf: 'flex-start',
+        paddingHorizontal: 10,
+        borderRadius: 14,
+        overflow: 'hidden',
+        borderColor: colors.violetLighter,
+        borderWidth: 1,
+        width: "auto",
+        marginHorizontal: 4,
+      },
+      // title: {
+      //   fontSize: 25,
+      //   fontWeight: 'bold',
+      //   color: 'white',
+      //   width: "80%",
+      //   textTransform: 'uppercase',
+      //   paddingHorizontal: 5,
+      // }
+  })  
 
   export default SubGroupCardItem;
