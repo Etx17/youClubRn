@@ -6,12 +6,13 @@ import { useNavigation } from '@react-navigation/native';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ActivitySchema, Activity } from '../../schema/activity.schema';
 import ControlledInput from '../../components/ControlledInput';
+import { SubGroup, SubGroupSchema } from '../../schema/subGroup.schema';
 
 
 const NewSubGroupScreen = (activityId: string) => {
   const [tarifications, setTarifications] = useState([{ number: '', text: '' }]);
-  const { control, handleSubmit, setValue, formState: { errors } } = useForm<Activity>({
-    resolver: zodResolver(ActivitySchema),
+  const { control, handleSubmit, setValue, formState: { errors } } = useForm<SubGroup>({
+    resolver: zodResolver(SubGroupSchema),
   });
   const navigation = useNavigation()
  console.log(errors, "<--------this is errors")
@@ -32,7 +33,6 @@ const NewSubGroupScreen = (activityId: string) => {
     setTarifications(tarifications.filter((_, i) => i !== index));
   };
    
-
 
   const saveAndGoToActivity = (data) => {
 
@@ -70,6 +70,7 @@ const NewSubGroupScreen = (activityId: string) => {
               control={control}
               name="shortDescription"
               label="Description courte (300 caractères)"
+              maxLength={300}
               placeholder="Brève description de la catégorie, précisions sur les tarifs si nécessaires, etc..."
               numberOfLines={3}
               multiline
@@ -96,9 +97,6 @@ const NewSubGroupScreen = (activityId: string) => {
             <View key={index} style={{ flexDirection: 'row', gap: 10, justifyContent: 'center', alignItems: 'center' }}>
                   <Controller 
                     control={control}
-                    rules={{
-                      validate: value => /^\d+$/.test(value) || 'Veuillez entrer un nombre entier'
-                    }}
                     name={`tarifications[${index}].number`}
                     render={({ 
                       field: { onChange, onBlur, value },
