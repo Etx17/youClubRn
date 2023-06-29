@@ -18,8 +18,7 @@ const EditSubGroupScreen = () => {
     minPrice: 100,
     tarifications: [
       { number: "100", text: "jour", isNew: false },
-      // { number: "10", text: "heure", isNew: false },
-      // { number: "1000", text: "mois", isNew: false }
+      { number: "10", text: "heure", isNew: false },
     ],
   };
 
@@ -34,6 +33,10 @@ const EditSubGroupScreen = () => {
     setValue("minPrice", apiData.minPrice.toString());
     setValue("tarifications", apiData.tarifications)
   }, []);
+
+  useEffect(() => {
+    setValue("tarifications", tarifications);
+  }, [tarifications]);
   
   const { control, handleSubmit, setValue, formState: { errors }, watch } = useForm<SubGroup>({
     resolver: zodResolver(SubGroupSchema),
@@ -58,15 +61,9 @@ const EditSubGroupScreen = () => {
   const deleteTarification = (index) => {
     setTarifications(prevTarifications => prevTarifications.filter((_, i) => i !== index))
   };
-  
 
   const saveAndGoToActivity = (data) => {
     console.log(data, "before being joined and digested");
-    
-    // const finalTarifications = tarifications.map(t => `${t.number}/${t.text}`);
-    // data.tarifications = tarifications;
-    // setValue("tarifications", tarifications);
-    // console.log(data, "after being joined and digested")
     Alert.alert('Votre activité a été créée avec succès !', 'Vous pouvez maintenant la retrouver dans la liste des activités de votre club. Vous pouvez la modifier à tout moment en cliquant dessus.')
     navigation.goBack()
   }
