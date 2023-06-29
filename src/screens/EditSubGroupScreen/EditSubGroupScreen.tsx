@@ -9,12 +9,6 @@ import ControlledInput from '../../components/ControlledInput';
 import { SubGroup, SubGroupSchema } from '../../schema/subGroup.schema';
 
 const EditSubGroupScreen = () => {
-  // First fetch data from API to fill the form.
-  // Then, use the same form as NewSubGroupScreen, but with a different onSubmit function.
-  // This onSubmit function will send a PUT request to the API to update the subGroup.
-  // The PUT request will be sent to /subGroups/:id
-  // But maybe i'll use graphQL so we'll see.
-
   // Mock data from API
   const apiData = {
     name: "Existing name",
@@ -24,14 +18,13 @@ const EditSubGroupScreen = () => {
     minPrice: 100,
     tarifications: [
       { number: "100", text: "jour", isNew: false },
-      { number: "10", text: "heure", isNew: false },
-      { number: "1000", text: "mois", isNew: false }
+      // { number: "10", text: "heure", isNew: false },
+      // { number: "1000", text: "mois", isNew: false }
     ],
   };
 
   const [tarifications, setTarifications] = useState(apiData.tarifications);
-
-
+  
   useEffect(() => {
     // Set initial form values
     setValue("name", apiData.name);
@@ -39,36 +32,41 @@ const EditSubGroupScreen = () => {
     setValue("shortDescription", apiData.shortDescription);
     setValue("address", apiData.address);
     setValue("minPrice", apiData.minPrice.toString());
+    setValue("tarifications", apiData.tarifications)
   }, []);
-  // const [tarifications, setTarifications] = useState([{ number: '', text: '' }]);
-  const { control, handleSubmit, setValue, formState: { errors } } = useForm<SubGroup>({
+  
+  const { control, handleSubmit, setValue, formState: { errors }, watch } = useForm<SubGroup>({
     resolver: zodResolver(SubGroupSchema),
   });
   const navigation = useNavigation()
- console.log(errors, "<--------this is errors")
 
   const handleTarificationChange = (index, field, value) => {
     setTarifications(prevTarifications => {
       const newTarifications = [...prevTarifications];
       newTarifications[index] = { ...newTarifications[index], [field]: value };
-      return newTarifications;
+      return newTarifications
     });
   };
-  
-  const addTarification = () => {
-    setTarifications([...tarifications, { number: '', text: '', isNew: true }]);
-  };
 
-  const deleteTarification = (index) => {
-    setTarifications(tarifications.filter((_, i) => i !== index));
+  const addTarification = () => {
+    const newTarification = { number: '', text: '', isNew: true };
+    if (newTarification) {
+      setTarifications(prevTarifications => [...prevTarifications, newTarification])
+    }
   };
-   
+  // console.log(tarifications, 'tarifications')
+  const deleteTarification = (index) => {
+    setTarifications(prevTarifications => prevTarifications.filter((_, i) => i !== index))
+  };
+  
 
   const saveAndGoToActivity = (data) => {
-
-    const finalTarifications = tarifications.map(t => `${t.number}/${t.text}`);
-    data.tarifications = finalTarifications;
-    console.log(data, "after being joined and digested")
+    console.log(data, "before being joined and digested");
+    
+    // const finalTarifications = tarifications.map(t => `${t.number}/${t.text}`);
+    // data.tarifications = tarifications;
+    // setValue("tarifications", tarifications);
+    // console.log(data, "after being joined and digested")
     Alert.alert('Votre activité a été créée avec succès !', 'Vous pouvez maintenant la retrouver dans la liste des activités de votre club. Vous pouvez la modifier à tout moment en cliquant dessus.')
     navigation.goBack()
   }
@@ -145,32 +143,30 @@ const EditSubGroupScreen = () => {
                       style={{ width: 100 }}
                       error={!!error}
                     />
-           {error && <HelperText type="error">{error.message}</HelperText>}
-          </View>
-        )}
-      />
+                    {error && <HelperText type="error">{error.message}</HelperText>}
+                    </View>
+                  )}
+                />
 
-      <Controller 
-        control={control}
-        name={`tarifications[${index}].text`}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput 
-            label="Réccurence"
-            placeholder="heure, jour, semaine, mois, trimestre, semestre, saison, année, etc..."
-            value={value}
-            onChangeText={value => {
-              onChange(value);
-              handleTarificationChange(index, 'text', value);
-            }}
-            onBlur={onBlur}
-            style={{ width: 120 }}
-          />
-        )}
-      />
-   
-      <Button style={{marginBottom: 25}} onPress={() => deleteTarification(index)}>X</Button>
-   
-    </View>
+            <Controller 
+              control={control}
+              name={`tarifications[${index}].text`}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInput 
+                  label="Réccurence"
+                  placeholder="heure, jour, semaine, mois, trimestre, semestre, saison, année, etc..."
+                  value={value}
+                  onChangeText={value => {
+                    onChange(value);
+                    handleTarificationChange(index, 'text', value);
+                  }}
+                  onBlur={onBlur}
+                  style={{ width: 120 }}
+                />
+              )}
+            />
+            <Button style={{marginBottom: 25}} onPress={() => deleteTarification(index)}>X</Button>
+          </View>
   ) : (
     <View key={index} style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 10, borderWidth: 1, borderColor: '#ccc', borderRadius: 5, marginBottom: 10 }}>
       <Text>{`${tarification.number} € / ${tarification.text}`}</Text>
@@ -183,7 +179,7 @@ const EditSubGroupScreen = () => {
 
           </Card.Content>
         </Card>
-        <Button style={{marginBottom: 30}} onPress={handleSubmit(saveAndGoToActivity)}mode='elevated' textColor='black'>Enregistrer</Button>
+        <Button style={{marginBottom: 30}} onPress={handleSubmit(saveAndGoToActivity)} mode='elevated' textColor='black'>Enregistrer</Button>
       </View>
     </ScrollView>
   )

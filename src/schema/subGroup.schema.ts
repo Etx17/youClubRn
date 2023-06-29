@@ -1,5 +1,6 @@
 import {z} from 'zod';
 const tarificationSchema = z.object({
+  isNew: z.boolean().optional(),
   number: z.string()
     .min(1, 'Le numéro doit avoir au moins 1 caractère')
     .max(30, 'Le numéro ne peut pas dépasser 30 caractères')
