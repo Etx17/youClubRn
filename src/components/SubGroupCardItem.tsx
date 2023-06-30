@@ -108,7 +108,7 @@ const SubGroupCardItem = ({subgroup, onDeletePress }) => {
           }
           
           { user.role === 'club' && Object.keys(subgroup.schedule).filter(day => day !== 'id' && day !== 'sub_group_id').length < 7 && (
-            <Pressable onPress={() => navigation.navigate('NewSubGroup', {activityId: activityId})} style={{marginTop: 10, borderRadius: 25, borderWidth: 1, borderColor: '#666666',padding: 5, backgroundColor: "#333339", width: "100%" }}>
+            <Pressable onPress={() => navigation.navigate('NewSubGroupSchedule', {schedule: subgroup.schedule})} style={{marginTop: 10, borderRadius: 25, borderWidth: 1, borderColor: '#666666',padding: 5, backgroundColor: "#333339", width: "100%" }}>
                 <Text style={{fontSize: 14, color: colors.primary, textAlign: 'center'}}> Ajouter un horaire </Text>
             </Pressable>
           )}
