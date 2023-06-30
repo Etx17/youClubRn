@@ -9,40 +9,47 @@ import { Entypo } from '@expo/vector-icons';
 
 
 
-const SubGroupCardItem = (subgroup, activityId) => {
+const SubGroupCardItem = ({subgroup, onDeletePress }) => {
   const {user} = useAuthContext();
   const navigation = useNavigation();
-  console.log(subgroup.subgroup.schedule, 'this is subgroup')
   const daysOfWeek = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'];
   const possibleTypeOfActivity= ['cours collectif', 'cours particulier', 'stage', 'atelier', 'session', 'évènement', 'autre'];
-  const tarifications = ['100/mois', '1022/an', '10/heure', '100/jour', '120/carnet de 5 tickets']
-    return (
+  const handleDeletePress = () => {
+    Alert.alert(
+      "Suppimer le sous-groupe",
+      "Êtes-vous sûr de vouloir supprimer ce sous-groupe ? Cette action est irréversible.",
+      [ { text: "Cancel", style: "cancel" },
+        { text: "OK", onPress: onDeletePress }
+      ]
+    );
+  };  
+  
+  return (
       <View style={{marginVertical: 10, padding: 10, borderWidth: 1, borderColor: 'gray', borderRadius: 10, backgroundColor: colors.text }}>
-        <Text style={styles.subCategoryTag}>{subgroup.subgroup.name}</Text>
+        <Text style={styles.subCategoryTag}>{subgroup.name}</Text>
 
         {/* Type de cours */}
         <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
-          { subgroup.subgroup.type && <Text style={{color: colors.grayDarkest, margin: 5, textTransform: 'uppercase'}}>{subgroup.subgroup.type}</Text> }
-          { subgroup.subgroup.type == "event" && (
-            <Text style={{color: colors.grayDarkest}}>Le {subgroup.subgroup.start_date} à {subgroup.subgroup.start_time}</Text>
+          { subgroup.type && <Text style={{color: colors.grayDarkest, margin: 5, textTransform: 'uppercase'}}>{subgroup.type}</Text> }
+          { subgroup.type == "event" && (
+            <Text style={{color: colors.grayDarkest}}>Le {subgroup.start_date} à {subgroup.start_time}</Text>
           ) }
         </View>
 
         {/* Description */}
-        <Text style={{color: colors.grayDark, margin: 5}}>{subgroup.subgroup.short_description}</Text>
+        <Text style={{color: colors.grayDark, margin: 5}}>{subgroup.short_description}</Text>
 
         {/* Adresse et prix minimal */}
         <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: "100%"}}>
-          <Text style={styles.small}>À partir de <Text style={styles.object}>{subgroup.subgroup.min_price}€</Text></Text>
-          <AddressDetails address={subgroup.subgroup.address} postalCode={subgroup.subgroup.postal_code}/>
+          <Text style={styles.small}>À partir de <Text style={styles.object}>{subgroup.min_price}€</Text></Text>
+          <AddressDetails address={subgroup.address} postalCode={subgroup.postal_code}/>
         </View>
        
        
 
         {/* Tarifications */}
-        {/* <Text style={styles.title}>TARIFS</Text> */}
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start', marginBottom: 20 }}>
-        {subgroup.subgroup.tarifications.map((tarif, index) => (
+        {subgroup.tarifications.map((tarif, index) => (
           <View style={styles.tag}> 
             <Text key={index} style={{color: 'white'}}>
               {tarif}
@@ -55,13 +62,13 @@ const SubGroupCardItem = (subgroup, activityId) => {
         <View style={{flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', flexWrap: 'wrap'}}>
           {
 
-            Object.keys(subgroup.subgroup.schedule)
+            Object.keys(subgroup.schedule)
             .filter(day => day !== 'id' && day !== 'sub_group_id')
             .sort((a, b) => daysOfWeek.indexOf(a) - daysOfWeek.indexOf(b))
             .map((day, index) => (
               <View key={index} style={{ margin: 5, borderRadius: 14, borderTopWidth: 1, borderTopColor: '#666666', borderLeftWidth: 2, borderLeftColor: "#333333" ,padding: 10, backgroundColor: "#333339" }}>
                 <Text style={styles.dayLabel}>{day}</Text>
-                {subgroup.subgroup.schedule[day].map((time, index) => (
+                {subgroup.schedule[day].map((time, index) => (
                   <Text key={index} style={styles.timespan}>{time}</Text>
                 ))}
                 { user.role === 'club' && (
@@ -79,7 +86,7 @@ const SubGroupCardItem = (subgroup, activityId) => {
             ))
           }
           
-          { user.role === 'club' && Object.keys(subgroup.subgroup.schedule).filter(day => day !== 'id' && day !== 'sub_group_id').length < 7 && (
+          { user.role === 'club' && Object.keys(subgroup.schedule).filter(day => day !== 'id' && day !== 'sub_group_id').length < 7 && (
             <Pressable onPress={() => navigation.navigate('NewSubGroup', {activityId: activityId})} style={{marginTop: 10, borderRadius: 25, borderWidth: 1, borderColor: '#666666',padding: 5, backgroundColor: "#333339", width: "100%" }}>
                 <Text style={{fontSize: 14, color: colors.primary, textAlign: 'center'}}> Ajouter </Text>
             </Pressable>
@@ -90,7 +97,7 @@ const SubGroupCardItem = (subgroup, activityId) => {
         { user.role === 'club' && (
           // Delete button on top right of the parent view 
           <Pressable 
-            onPress={() => Alert.alert("Supprimer ? Voir projet insta", "avec la modale pour supprimer qui apparait en bas")} 
+            onPress={handleDeletePress} 
             style={{position: 'absolute', top: -8, right: -4, padding: 5, borderWidth: 1, borderRadius: 20, backgroundColor: colors.primary}}>
             <Ionicons name='close-outline' size={18} color={"black"} />
           </Pressable>
@@ -99,7 +106,7 @@ const SubGroupCardItem = (subgroup, activityId) => {
         { user.role === 'club' && (
           // Delete button on top right of the parent view 
           <Pressable 
-            onPress={() => navigation.navigate('EditSubGroup', {subgroup: subgroup.subgroup})} 
+            onPress={() => navigation.navigate('EditSubGroup', {subgroup: subgroup})} 
             style={{position: 'absolute', top: -8, right: 30, padding: 5, borderWidth: 1, borderRadius: 20, backgroundColor: colors.primary}}>
             <Entypo name="edit" size={18} color="black" />
           </Pressable>

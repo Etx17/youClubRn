@@ -1,4 +1,4 @@
-import React, {createRef, useRef, useState} from 'react'
+import React, {createRef, useEffect, useRef, useState} from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { View, Text, StyleSheet, Pressable, ScrollView, Linking } from 'react-native'
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native'
@@ -56,7 +56,14 @@ const ActivityDetailsScreen = (activityData) => {
     const {images, darkTheme} = route?.params
     const scrollViewRef = useRef<ScrollView>(null);  
     const [currentImageIndex, setCurrentImageIndex] = useState(0)
-  
+    // const [subGroups, setSubGroups] = useState(sub_groups)
+    const [subGroups, setSubGroups] = useState(sub_groups)
+    
+    useEffect(() => {
+      if (route?.params?.activityData) {
+        setSubGroups(route?.params?.activityData.sub_groups)
+      }
+    }, [route?.params?.activityData])
     const changeImage = (direction: String) => {
       if (direction === 'left') {
         setCurrentImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length)
@@ -66,11 +73,15 @@ const ActivityDetailsScreen = (activityData) => {
   
       }
     }
+   
 
     const handleScrollToEnd = () => {
       scrollViewRef.current?.scrollToEnd({animated: true});
     };
-   
+
+    const handleDeleteSubGroup = (index) => {
+      setSubGroups(prevSubGroups => prevSubGroups.filter((_, i) => i !== index))
+    }
     return (
       <ScrollView ref={scrollViewRef}>
         {/* IMAGE CAROUSEL */}
@@ -86,7 +97,7 @@ const ActivityDetailsScreen = (activityData) => {
           <Text style={{color: colors.primary}}>{club_name}</Text>
 
           <Pressable onPress={handleScrollToEnd}>
-            <SubGroupsSection subGroups={sub_groups.map(u => u.name)} activityId={"1"} />
+            <SubGroupsSection subGroups={subGroups && subGroups.map(u => u.name)} activityId={"1"} />
           </Pressable>
 
           {/* Call the number when pressing here */}
@@ -96,8 +107,14 @@ const ActivityDetailsScreen = (activityData) => {
 
           <DescriptionSection description={description} />
 
-          {sub_groups.map((subgroup, index) => (
-            <SubGroupCardItem key={index} subgroup={subgroup} />
+          {subGroups && user.role === 'club' && subGroups.map((subgroup, index) => (
+
+            <SubGroupCardItem 
+              key={index} 
+              subgroup={subgroup} 
+              onDeletePress={() => handleDeleteSubGroup(index)}
+              />
+           
           ))}
 
           <InscriptionButton onPress={() => Alert.alert("Bientôt disponible", "Lorsque cette association aura récupéré son profil, elle pourra mettre en place l'inscription")} />
