@@ -1,5 +1,5 @@
 import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import colors from "../themes/colors";
 import AddressDetails from "./AddressDetails";
 import { useNavigation } from "@react-navigation/native";
@@ -13,6 +13,7 @@ const SubGroupCardItem = ({subgroup, onDeletePress }) => {
   const {user} = useAuthContext();
   const navigation = useNavigation();
   const daysOfWeek = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'];
+  const [schedules, setSchedules] = useState(subgroup.schedule);
   const possibleTypeOfActivity= ['cours collectif', 'cours particulier', 'stage', 'atelier', 'session', 'évènement', 'autre'];
   const handleDeletePress = () => {
     Alert.alert(
@@ -23,7 +24,18 @@ const SubGroupCardItem = ({subgroup, onDeletePress }) => {
       ]
     );
   };  
-  
+  const handleDeleteSchedule = (day) => {
+    setSchedules(prevSchedules => {
+      const newSchedules = { ...prevSchedules };
+      delete newSchedules[day];
+      return newSchedules;
+    });
+  };
+
+  useEffect(() => {
+    setSchedules(subgroup.schedule);
+  }, [subgroup]);
+
   return (
       <View style={{marginVertical: 10, padding: 10, borderWidth: 1, borderColor: 'gray', borderRadius: 10, backgroundColor: colors.text }}>
         <Text style={styles.subCategoryTag}>{subgroup.name}</Text>
@@ -62,7 +74,7 @@ const SubGroupCardItem = ({subgroup, onDeletePress }) => {
         <View style={{flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', flexWrap: 'wrap'}}>
           {
 
-            Object.keys(subgroup.schedule)
+            Object.keys(schedules)
             .filter(day => day !== 'id' && day !== 'sub_group_id')
             .sort((a, b) => daysOfWeek.indexOf(a) - daysOfWeek.indexOf(b))
             .map((day, index) => (
@@ -74,7 +86,16 @@ const SubGroupCardItem = ({subgroup, onDeletePress }) => {
                 { user.role === 'club' && (
                   // Delete button on top right of the parent view 
                   <Pressable 
-                    onPress={() => Alert.alert("Voir projet insta", "avec la modale pour supprimer qui apparait en bas")} 
+                    onPress={() => {
+                      Alert.alert(
+                        "Delete Schedule",
+                        "Are you sure you want to delete this schedule?",
+                        [
+                          { text: "Cancel", style: "cancel" },
+                          { text: "OK", onPress: () => handleDeleteSchedule(day) }
+                        ]
+                      );
+                    }} 
                     style={{position: 'absolute', top: -8, right: -8, padding: 0, backgroundColor: colors.primary, borderRadius: 20}}>
                     <Ionicons name='close-outline' size={18} color={colors.black} />
                   </Pressable>
@@ -88,7 +109,7 @@ const SubGroupCardItem = ({subgroup, onDeletePress }) => {
           
           { user.role === 'club' && Object.keys(subgroup.schedule).filter(day => day !== 'id' && day !== 'sub_group_id').length < 7 && (
             <Pressable onPress={() => navigation.navigate('NewSubGroup', {activityId: activityId})} style={{marginTop: 10, borderRadius: 25, borderWidth: 1, borderColor: '#666666',padding: 5, backgroundColor: "#333339", width: "100%" }}>
-                <Text style={{fontSize: 14, color: colors.primary, textAlign: 'center'}}> Ajouter </Text>
+                <Text style={{fontSize: 14, color: colors.primary, textAlign: 'center'}}> Ajouter un horaire </Text>
             </Pressable>
           )}
 
