@@ -54,8 +54,8 @@
                         "schedule": {
                             "sub_group_id": "sg1",
                             "id": "sc7",
-                            "lundi": ["19:00-19:30"],
-                            "mardi": ["20:00 - 21:30"]
+                            "lundi": [{"endTime": "1:30", "startTime": "3:00"}, {"endTime": "21:30", "startTime": "20:00"}, {"endTime": "10:30", "startTime": "13:00"}],
+                            "mardi": [{"endTime": "1:30", "startTime": "3:00"}]
                         }
                     },
                     { 
@@ -73,158 +73,13 @@
                         "schedule": {
                             "sub_group_id": "sg1",
                             "id": "sc8",
-                            "lundi": ["19:30-20:00"],
-                            "mardi": ["20:30 - 21:30"],
-                            "samedi": ["15:00 - 16:00"]
-                        }
-                    },
-                    { 
-                        "id": "sg3", 
-                        "address": "4 rue du General Foy, 75017", 
-                        "name": "Intermédiaire", 
-                        "min_price": "19",                       
-                        "max_price": "100",
-                        "activity_id": "3",
-                        "reccurence": "cours",
-                        "type": "cours collectif",
-                        "short_description": "Vous avez entre 15 et 30 cours, ou 3 mois de cours et pratique régulière",
-                        "subscription_by_reccurence_price": "1000",
-                        "tarifications": ["100/mois", "1022/an", "10/heure", "100/jour", "120/carnet de 5 tickets"],
-                        "schedule": {
-                            "sub_group_id": "sg1",
-                            "id": "sc9",
-                            "lundi": ["20:00-21:30"],
-                            "mardi": ["19:30 - 20:30"],
-                            "samedi": ["16:00 - 17:00"]
-                        }
-                    },
-                    { 
-                        "id": "sg5", 
-                        "address": "4 rue du General Foy, 75017", 
-                        "name": "Avancé", 
-                        "min_price": "19",                       
-                        "max_price": "100",
-                        "activity_id": "3",
-                        "reccurence": "cours",
-                        "type": "cours collectif",
-                        "short_description": "Vous avez plus de 30 cours, ou 3 mois de cours et pratique régulière",
-                        "subscription_by_reccurence_price": "1000",
-                        "tarifications": ["100/mois", "1022/an", "10/heure", "100/jour", "120/carnet de 5 tickets"],
-                        "schedule": {
-                            "sub_group_id": "sg1",
-                            "id": "sc10",
-                            "lundi": ["20:00-21:30"],
-                            "mardi": ["19:30 - 20:30"],
-                            "samedi": ["16:00 - 17:00"]
+                            "lundi": [{"endTime": "1:30", "startTime": "3:00"}, {"endTime": "21:30", "startTime": "20:00"}, {"endTime": "10:30", "startTime": "13:00"}],
+                            "mardi": [{"endTime": "1:30", "startTime": "3:00"}, {"endTime": "21:30", "startTime": "20:00"}, {"endTime": "10:30", "startTime": "13:00"}],
+                            "samedi": [{"endTime": "1:30", "startTime": "3:00"}, {"endTime": "21:30", "startTime": "20:00"}, {"endTime": "10:30", "startTime": "13:00"}]
                         }
                     }
-                    
                 ]
-            },
-            {
-                "id": "4",
-                "name": "Bachata",
-                "clubId":"3",
-                "club_name": "Dancenter",
-                "geo_point": "48.853260, 2.348832",
-                "category": "Culture, pratiques d’activités artistiques, culturelles",
-                "address": "19 rue Nollet",
-                "actual_zipcode":"75017",
-                "free_trial": "true",
-                "is_looking_for_volunteer": "false",
-                "subcategories": "Danse",
-                "recurrence": "à la carte",
-                "subscription_link": "https://www.katanart.com/",
-                "short_description": "Enfin un cours de bachata traditionnel près de chez moi",
-                "description": "La bachata chez Dancenter, c'est comme la coriandre dans un sandwich. On adore ou on déteste. Chez Dancenter, vous pouvez essayer nos cours de salsa gratuitement. Nous enseignons d'autres danses, venez voir sur le profil de notre club!",
-                "images": [
-                    "https://source.unsplash.com/random/?karate",
-                    "https://source.unsplash.com/random/?boxing"
-                ],
-                "activity_price_recurrence": "semester",
-                "sub_groups": [
-                    { 
-                        "id": "sg1", 
-                        "address": "4 rue du General Foy, 75017", 
-                        "name": "Découverte", 
-                        "min_price": "19",                       
-                        "max_price": "100",
-                        "activity_id": "3",
-                        "reccurence": "mois",
-                        "type": "cours collectif",
-                        "short_description": "Le cours gratuit ne s'addresse qu'aux débutant, sans expérience. Il est obligatoire de s'inscrire ou de réserver.",
-                        "subscription_by_reccurence_price": "1000",
-                        "tarifications": ["100/mois", "1022/an", "10/heure", "100/jour", "120/carnet de 5 tickets"],
-                        "schedule": {
-                            "sub_group_id": "sg1",
-                            "id": "sc7",
-                            "lundi": ["19:00-19:30"],
-                            "mardi": ["20:00 - 21:30"]
-                        }
-                    },
-                    { 
-                        "id": "sg2", 
-                        "address": "4 rue du General Foy, 75017", 
-                        "name": "Initiation", 
-                        "min_price": "19",                       
-                        "max_price": "100",
-                        "activity_id": "3",
-                        "reccurence": "cours",
-                        "type": "cours collectif",
-                        "short_description": "Vous avez entre 5 et 15 cours, ou 2 mois de cours et pratique régulière",
-                        "subscription_by_reccurence_price": "1000",
-                        "tarifications": ["100/mois", "1022/an", "10/heure", "100/jour", "120/carnet de 5 tickets"],
-                        "schedule": {
-                            "sub_group_id": "sg1",
-                            "id": "sc8",
-                            "lundi": ["19:30-20:00"],
-                            "mardi": ["20:30 - 21:30"],
-                            "samedi": ["15:00 - 16:00"]
-                        }
-                    },
-                    { 
-                        "id": "sg3", 
-                        "address": "4 rue du General Foy, 75017", 
-                        "name": "Intermédiaire", 
-                        "min_price": "19",                       
-                        "max_price": "100",
-                        "activity_id": "3",
-                        "reccurence": "cours",
-                        "type": "cours collectif",
-                        "short_description": "Vous avez entre 15 et 30 cours, ou 3 mois de cours et pratique régulière",
-                        "subscription_by_reccurence_price": "1000",
-                        "tarifications": ["100/mois", "1022/an", "10/heure", "100/jour", "120/carnet de 5 tickets"],
-                        "schedule": {
-                            "sub_group_id": "sg1",
-                            "id": "sc9",
-                            "lundi": ["20:00-21:30"],
-                            "mardi": ["19:30 - 20:30"],
-                            "samedi": ["16:00 - 17:00"]
-                        }
-                    },
-                    { 
-                        "id": "sg5", 
-                        "address": "4 rue du General Foy, 75017", 
-                        "name": "Avancé", 
-                        "min_price": "19",                       
-                        "max_price": "100",
-                        "activity_id": "3",
-                        "reccurence": "cours",
-                        "type": "cours collectif",
-                        "short_description": "Vous avez plus de 30 cours, ou 3 mois de cours et pratique régulière",
-                        "subscription_by_reccurence_price": "1000",
-                        "tarifications": ["100/mois", "1022/an", "10/heure", "100/jour", "120/carnet de 5 tickets"],
-                        "schedule": {
-                            "sub_group_id": "sg1",
-                            "id": "sc10",
-                            "lundi": ["20:00-21:30"],
-                            "mardi": ["19:30 - 20:30"],
-                            "samedi": ["16:00 - 17:00"]
-                        }
-                    }
-                    
-                ]
-            } 
+            }
         ]
     }
 ]
