@@ -97,22 +97,28 @@ const { control, handleSubmit, getValues, setValue, formState: { errors } } = us
         {fields.map((field, index) => (
         <View key={field.id} style={{flexDirection: 'row', alignItems: 'center', gap: 15, justifyContent: 'center', marginVertical: 5}}>
           <Pressable onPress={() => { setCurrentPickerIndex(index); setCurrentPickerField('startTime'); }}>
-            <Text>
-              De {"  "} 
-              <Text style={{backgroundColor: colors.primary}}>
-              {getValues(`schedules[${index}].startTime`) ? new Date(getValues(`schedules[${index}].startTime`)).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '- -  :  - -'}
-              </Text>
+          <Text>
+            De {"  "} 
+            <Text style={{backgroundColor: colors.primary}}>
+              {(() => {
+                const value = getValues(`schedules[${index}].startTime` as any);
+                if (typeof value === 'string' || value instanceof Date) {
+                  return new Date(value).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                }
+                return '- -  :  - -';
+              })()}
             </Text>
+          </Text>
           </Pressable>
           {currentPickerIndex === index && currentPickerField === 'startTime' && (
            <Controller
             control={control}
-            name={`schedules[${index}].startTime`}
+            name={`schedules[${index}].startTime`as any}
             defaultValue={field.startTime}
             render={({ field: { onChange, value } }) => (
               <DateTimePicker
                 testID="dateTimePicker"
-                value={value}
+                value={value instanceof Date ? value : new Date()}
                 mode={'time'}
                 is24Hour={true}
                 display="default"
@@ -129,19 +135,26 @@ const { control, handleSubmit, getValues, setValue, formState: { errors } } = us
           <Text>
             à {"  "}
             <Text style={{backgroundColor: colors.primary}}>
-              {getValues(`schedules[${index}].endTime`) ? new Date(getValues(`schedules[${index}].endTime`)).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '- -  :  - -'}
+              {/* This is a IIEF immediately invoked function (function())() */}
+              {(() => {
+                const value = getValues(`schedules[${index}].endTime` as any);
+                if (typeof value === 'string' || value instanceof Date) {
+                  return new Date(value).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                }
+                return '- -  :  - -';
+              })()} 
             </Text>
           </Text>
           </Pressable>
           {currentPickerIndex === index && currentPickerField === 'endTime' && (
            <Controller
             control={control}
-            name={`schedules[${index}].endTime`}
+            name={`schedules[${index}].endTime`as any}
             defaultValue={field.endTime}
             render={({ field: { onChange, value } }) => (
               <DateTimePicker
                 testID="dateTimePicker"
-                value={value}
+                value={value instanceof Date ? value : new Date()}
                 mode={'time'}
                 is24Hour={true}
                 display="default"
