@@ -1,9 +1,12 @@
+
 export type RootNavigatorParamsList = {
     Home: undefined;
     ClubDetails: { clubId: string };
     ActivityDetails: { activityId: string };
     ClubHome: undefined;
+    EditSubGroupSchedule: { activityId: string, subGroupId: string, scheduleId: string, day: string, schedules: string[] };
 }
+
 
 export type BottomTabNavigatorParamsList = {
     HomeTab: undefined

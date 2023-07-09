@@ -54,8 +54,8 @@
                         "schedule": {
                             "sub_group_id": "sg1",
                             "id": "sc7",
-                            "lundi": [{"endTime": "1:30", "startTime": "3:00"}, {"endTime": "21:30", "startTime": "20:00"}, {"endTime": "10:30", "startTime": "13:00"}],
-                            "mardi": [{"endTime": "1:30", "startTime": "3:00"}]
+                            "lundi": [{"endTime": "01:30", "startTime": "03:00"}, {"endTime": "21:30", "startTime": "20:00"}, {"endTime": "10:30", "startTime": "13:00"}],
+                            "mardi": [{"endTime": "01:30", "startTime": "03:00"}]
                         }
                     },
                     { 
@@ -73,9 +73,9 @@
                         "schedule": {
                             "sub_group_id": "sg1",
                             "id": "sc8",
-                            "lundi": [{"endTime": "1:30", "startTime": "3:00"}, {"endTime": "21:30", "startTime": "20:00"}, {"endTime": "10:30", "startTime": "13:00"}],
-                            "mardi": [{"endTime": "1:30", "startTime": "3:00"}, {"endTime": "21:30", "startTime": "20:00"}, {"endTime": "10:30", "startTime": "13:00"}],
-                            "samedi": [{"endTime": "1:30", "startTime": "3:00"}, {"endTime": "21:30", "startTime": "20:00"}, {"endTime": "10:30", "startTime": "13:00"}]
+                            "lundi": [{"endTime": "01:30", "startTime": "03:00"}, {"endTime": "21:30", "startTime": "20:00"}, {"endTime": "10:30", "startTime": "13:00"}],
+                            "mardi": [{"endTime": "01:30", "startTime": "03:00"}, {"endTime": "21:30", "startTime": "20:00"}, {"endTime": "10:30", "startTime": "13:00"}],
+                            "samedi": [{"endTime": "01:30", "startTime": "03:00"}, {"endTime": "21:30", "startTime": "20:00"}, {"endTime": "10:30", "startTime": "13:00"}]
                         }
                     }
                 ]

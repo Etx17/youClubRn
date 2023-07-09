@@ -8,16 +8,41 @@ import ControlledInput from '../../components/ControlledInput';
 import { SubGroupSchedule, SubGroupScheduleSchema } from '../../schema/subGroupSchedule.schema';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import colors from '../../themes/colors';
-const EditSubGroupScheduleScreen = (actualSchedules: []) => {
+import { RouteProp } from '@react-navigation/native';
+import { RootNavigatorParamsList } from '../../types/navigation';
 
-  const route = useRoute();
-  const [schedules, setSchedules] = useState([{}]);
+type RouteParams = RouteProp<RootNavigatorParamsList, 'EditSubGroupSchedule'>;
+
+type Schedule = {
+  startTime: string;
+  endTime: string;
+  date?: Date;
+};
+
+
+const EditSubGroupScheduleScreen = () => {
+  const route = useRoute(); // Change this route params in navigation.ts when consuming data from API later.
+  const [schedules, setSchedules] = useState<Schedule[]>([]);
   const arrayOfSchedules = route?.params?.schedules
   const day = route?.params?.day
   const subGroupId = route?.params.subGroupId
   // console.log(subGroupId, 'this is subGroupId')
-  const parseTimeString = (timeString) => {
-    if (!timeString) return new Date();
+  const transformScheduleTimeStringToDate = (schedules: Schedule[]) => {
+    return schedules.map(schedule => {
+      const startTime = parseTimeString(schedule?.startTime);
+      const endTime = parseTimeString(schedule?.endTime);
+      return { startTime, endTime };
+    });
+  };
+
+  const parseTimeString = (timeString: string) => {
+      // Regular expression to match 'HH:mm' format
+    const timeFormat = /^([0-1][0-9]|2[0-3]):([0-5][0-9])$/;
+
+    if (!timeString || !timeString.match(timeFormat)) {
+      console.warn(`Invalid time string: ${timeString}`);
+      return new Date();
+    }
   
     const [hours, minutes] = timeString.split(':').map(Number);
     const date = new Date();
@@ -27,53 +52,37 @@ const EditSubGroupScheduleScreen = (actualSchedules: []) => {
     return date;
   };
 
-  useEffect(() => {
-  const newSchedules = arrayOfSchedules.map(schedule => {
-    const startTime = parseTimeString(schedule?.startTime);
-    const endTime = parseTimeString(schedule?.endTime);
-    return { startTime, endTime };
-  });
+ useEffect(() => {
+  const newSchedules = transformScheduleTimeStringToDate(arrayOfSchedules);
   setSchedules(newSchedules);
 }, [arrayOfSchedules]);
 
 
-  const { control, handleSubmit, getValues, setValue, formState: { errors } } = useForm<SubGroupSchedule>({
-    resolver: zodResolver(SubGroupScheduleSchema),
-    defaultValues: {
-      schedules: arrayOfSchedules.map(schedule => {
-        const startTime = parseTimeString(schedule?.startTime);
-        const endTime = parseTimeString(schedule?.endTime);
-        return { startTime, endTime };
-      }),
-      dayName: day
-    },
-  });
+const { control, handleSubmit, getValues, setValue, formState: { errors } } = useForm<SubGroupSchedule>({
+  resolver: zodResolver(SubGroupScheduleSchema),
+  defaultValues: {
+    schedules: transformScheduleTimeStringToDate(arrayOfSchedules),
+    dayName: day,
+  },
+});
 
   const { fields, append, remove } = useFieldArray({ control, name: 'schedules', });
 
   const navigation = useNavigation();
 
-  const saveAndGoToActivity = (data) => {
+  const saveAndGoToActivity = (data: any): void => {
     data.subGroupId = subGroupId
     console.log(data, 'this is data')
     navigation.goBack()
   }
-  const onChange = (selectedDate, index) => {
+  const onChange = (selectedDate: Date | null, index: number): void => {
     const newSchedules = [...schedules];
     newSchedules[index].date = selectedDate || newSchedules[index].date;
     setSchedules(newSchedules);
   };
-  const addSchedule = () => {
-    setSchedules([...schedules, 
-      { 
-        startTime: new Date(), 
-        endTime: new Date() 
-      }
-    ]);
-  };
 
-  const [currentPickerIndex, setCurrentPickerIndex] = useState(null);
-  const [currentPickerField, setCurrentPickerField] = useState(null);
+  const [currentPickerIndex, setCurrentPickerIndex] = useState<number | null>(null);
+  const [currentPickerField, setCurrentPickerField] = useState<string | null>(null);  
   console.log(errors, 'this is errors');
   
   return (
