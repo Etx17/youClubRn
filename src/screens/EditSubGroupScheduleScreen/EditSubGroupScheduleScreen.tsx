@@ -1,10 +1,9 @@
-import { View, Text, Alert, ScrollView, StyleSheet, Pressable } from 'react-native'
+import { View, Text, ScrollView, Pressable } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { Button, Card, Checkbox, HelperText, RadioButton, TextInput,  } from 'react-native-paper'
+import { Button, Card} from 'react-native-paper'
 import { useForm, Controller, Control, useFieldArray } from 'react-hook-form';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { zodResolver } from '@hookform/resolvers/zod';
-import ControlledInput from '../../components/ControlledInput';
 import { SubGroupSchedule, SubGroupScheduleSchema } from '../../schema/subGroupSchedule.schema';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import colors from '../../themes/colors';
@@ -14,20 +13,45 @@ import { RootNavigatorParamsList } from '../../types/navigation';
 type RouteParams = RouteProp<RootNavigatorParamsList, 'EditSubGroupSchedule'>;
 
 type Schedule = {
-  startTime: string;
-  endTime: string;
+  startTime: Date;
+  endTime: Date;
   date?: Date;
 };
 
 
 const EditSubGroupScheduleScreen = () => {
-  const route = useRoute(); // Change this route params in navigation.ts when consuming data from API later.
+  const route = useRoute<RouteParams>(); // Change this route params in navigation.ts when consuming data from API later.
   const [schedules, setSchedules] = useState<Schedule[]>([]);
-  const arrayOfSchedules = route?.params?.schedules
-  const day = route?.params?.day
-  const subGroupId = route?.params.subGroupId
-  // console.log(subGroupId, 'this is subGroupId')
-  const transformScheduleTimeStringToDate = (schedules: Schedule[]) => {
+  const subGroupId = route?.params?.subGroupId
+  const [currentPickerIndex, setCurrentPickerIndex] = useState<number | null>(null);
+  const [currentPickerField, setCurrentPickerField] = useState<string | null>(null);  
+  const navigation = useNavigation();
+  // Function to parse a time string or Date object and return a Date object
+  const parseTimeString = (time: string | Date): Date => {
+    let date: Date;
+    
+    if (typeof time === 'string') {
+      const timeFormat = /^([0-1][0-9]|2[0-3]):([0-5][0-9])$/;
+      
+      if (!time.match(timeFormat)) {
+        console.warn(`Invalid time string: ${time}`);
+        date = new Date();
+      } else {
+        const [hours, minutes] = time.split(':').map(Number);
+        date = new Date();
+        date.setHours(hours);
+        date.setMinutes(minutes);
+      }
+    } else if (time instanceof Date) {
+      date = time;
+    } else {
+      console.warn(`Invalid time value: ${time}`);
+      date = new Date();
+    }
+    
+    return date;
+  };
+  const transformScheduleTimeStringToDate = (schedules: string[]): Schedule[] => {
     return schedules.map(schedule => {
       const startTime = parseTimeString(schedule?.startTime);
       const endTime = parseTimeString(schedule?.endTime);
@@ -35,40 +59,23 @@ const EditSubGroupScheduleScreen = () => {
     });
   };
 
-  const parseTimeString = (timeString: string) => {
-      // Regular expression to match 'HH:mm' format
-    const timeFormat = /^([0-1][0-9]|2[0-3]):([0-5][0-9])$/;
-
-    if (!timeString || !timeString.match(timeFormat)) {
-      console.warn(`Invalid time string: ${timeString}`);
-      return new Date();
+  useEffect(() => {
+    if (route.params?.schedules) {
+      const newSchedules = transformScheduleTimeStringToDate(route.params.schedules);
+      setSchedules(newSchedules);
     }
-  
-    const [hours, minutes] = timeString.split(':').map(Number);
-    const date = new Date();
-    date.setHours(hours);
-    date.setMinutes(minutes);
-  
-    return date;
-  };
-
- useEffect(() => {
-  const newSchedules = transformScheduleTimeStringToDate(arrayOfSchedules);
-  setSchedules(newSchedules);
-}, [arrayOfSchedules]);
+  }, [route.params?.schedules]);
 
 
-const { control, handleSubmit, getValues, setValue, formState: { errors } } = useForm<SubGroupSchedule>({
-  resolver: zodResolver(SubGroupScheduleSchema),
-  defaultValues: {
-    schedules: transformScheduleTimeStringToDate(arrayOfSchedules),
-    dayName: day,
-  },
-});
+  const { control, handleSubmit, getValues, formState: { errors } } = useForm<SubGroupSchedule>({
+    resolver: zodResolver(SubGroupScheduleSchema),
+    defaultValues: {
+      schedules: transformScheduleTimeStringToDate(route.params.schedules),
+      dayName: route?.params?.day,
+    },
+  });
 
   const { fields, append, remove } = useFieldArray({ control, name: 'schedules', });
-
-  const navigation = useNavigation();
 
   const saveAndGoToActivity = (data: any): void => {
     data.subGroupId = subGroupId
@@ -80,10 +87,6 @@ const { control, handleSubmit, getValues, setValue, formState: { errors } } = us
     newSchedules[index].date = selectedDate || newSchedules[index].date;
     setSchedules(newSchedules);
   };
-
-  const [currentPickerIndex, setCurrentPickerIndex] = useState<number | null>(null);
-  const [currentPickerField, setCurrentPickerField] = useState<string | null>(null);  
-  console.log(errors, 'this is errors');
   
   return (
     <ScrollView style={{ padding: 15, flex: 1}}>
@@ -135,7 +138,7 @@ const { control, handleSubmit, getValues, setValue, formState: { errors } } = us
           <Text>
             à {"  "}
             <Text style={{backgroundColor: colors.primary}}>
-              {/* This is a IIEF immediately invoked function (function())() */}
+              {/* This is a IIEF immediately invoked function expression (function())() */}
               {(() => {
                 const value = getValues(`schedules[${index}].endTime` as any);
                 if (typeof value === 'string' || value instanceof Date) {
