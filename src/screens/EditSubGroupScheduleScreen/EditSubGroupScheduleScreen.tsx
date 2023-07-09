@@ -8,40 +8,53 @@ import ControlledInput from '../../components/ControlledInput';
 import { SubGroupSchedule, SubGroupScheduleSchema } from '../../schema/subGroupSchedule.schema';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import colors from '../../themes/colors';
-const EditSubGroupScheduleScreen = (actualSchedules: [], day: string) => {
+const EditSubGroupScheduleScreen = (actualSchedules: []) => {
 
-  // Récupérer les données l'array de string de schedules qui ressemble à "samedi": ["20:00-21:30", "20:00-21:30", "20:00-21:30"]
-  // Le transformer en array d'objets qui ressemble à [{startTime: "20:00", endTime: "21:30"}, {startTime: "20:00", endTime: "21:30"}, {startTime: "20:00", endTime: "21:30"}]
-  // Afficher les objets dans le formulaire dans les DateTimePicker
   const route = useRoute();
-  const [schedules, setSchedules] = useState([{ date: new Date() }]);
+  const [schedules, setSchedules] = useState([{}]);
   const arrayOfSchedules = route?.params?.schedules
+  const day = route?.params?.day
+  const subGroupId = route?.params.subGroupId
+  // console.log(subGroupId, 'this is subGroupId')
+  const parseTimeString = (timeString) => {
+    if (!timeString) return new Date();
   
+    const [hours, minutes] = timeString.split(':').map(Number);
+    const date = new Date();
+    date.setHours(hours);
+    date.setMinutes(minutes);
+  
+    return date;
+  };
+
   useEffect(() => {
-    const newSchedules = arrayOfSchedules.map(schedule => {
-      const [startTime, endTime] = schedule?.split('-');
-      return { startTime, endTime }
-    })
-    console.log(newSchedules, ' <===== this is newSchedules')
-    setSchedules(newSchedules)
-  }, [])
+  const newSchedules = arrayOfSchedules.map(schedule => {
+    const startTime = parseTimeString(schedule?.startTime);
+    const endTime = parseTimeString(schedule?.endTime);
+    return { startTime, endTime };
+  });
+  setSchedules(newSchedules);
+}, [arrayOfSchedules]);
 
 
   const { control, handleSubmit, getValues, setValue, formState: { errors } } = useForm<SubGroupSchedule>({
     resolver: zodResolver(SubGroupScheduleSchema),
     defaultValues: {
-      schedules: [{ startTime: new Date(), endTime: new Date() }],
+      schedules: arrayOfSchedules.map(schedule => {
+        const startTime = parseTimeString(schedule?.startTime);
+        const endTime = parseTimeString(schedule?.endTime);
+        return { startTime, endTime };
+      }),
+      dayName: day
     },
   });
 
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: 'schedules',
-  });
+  const { fields, append, remove } = useFieldArray({ control, name: 'schedules', });
 
   const navigation = useNavigation();
 
   const saveAndGoToActivity = (data) => {
+    data.subGroupId = subGroupId
     console.log(data, 'this is data')
     navigation.goBack()
   }
@@ -52,7 +65,10 @@ const EditSubGroupScheduleScreen = (actualSchedules: [], day: string) => {
   };
   const addSchedule = () => {
     setSchedules([...schedules, 
-      { date: new Date() }
+      { 
+        startTime: new Date(), 
+        endTime: new Date() 
+      }
     ]);
   };
 
@@ -60,11 +76,9 @@ const EditSubGroupScheduleScreen = (actualSchedules: [], day: string) => {
   const [currentPickerField, setCurrentPickerField] = useState(null);
   console.log(errors, 'this is errors');
   
-
   return (
     <ScrollView style={{ padding: 15, flex: 1}}>
       <Card>
-        <Card.Title title="Choisissez un jour"/>
         <Card.Content style={{gap: 5}}>
 
           <Card.Title title="Ajoutez ou supprimez des horaires"/>
@@ -75,32 +89,32 @@ const EditSubGroupScheduleScreen = (actualSchedules: [], day: string) => {
         <View key={field.id} style={{flexDirection: 'row', alignItems: 'center', gap: 15, justifyContent: 'center', marginVertical: 5}}>
           <Pressable onPress={() => { setCurrentPickerIndex(index); setCurrentPickerField('startTime'); }}>
             <Text>
-            De {"  "} 
+              De {"  "} 
               <Text style={{backgroundColor: colors.primary}}>
-                {getValues(`schedules[${index}].startTime`) ? new Date(getValues(`schedules[${index}].startTime`)).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '- -  :  - -'}
+              {getValues(`schedules[${index}].startTime`) ? new Date(getValues(`schedules[${index}].startTime`)).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '- -  :  - -'}
               </Text>
             </Text>
           </Pressable>
           {currentPickerIndex === index && currentPickerField === 'startTime' && (
-            <Controller
-              control={control}
-              name={`schedules[${index}].startTime`}
-              defaultValue={field.startTime}
-              render={({ field: { onChange, value } }) => (
-                <DateTimePicker
-                  testID="dateTimePicker"
-                  value={value}
-                  mode={'time'}
-                  is24Hour={true}
-                  display="default"
-                  onChange={(event, selectedDate) => {
-                    onChange(selectedDate);
-                    setCurrentPickerIndex(null);
-                    setCurrentPickerField(null);
-                  }}
-                />
-              )}
-            />
+           <Controller
+            control={control}
+            name={`schedules[${index}].startTime`}
+            defaultValue={field.startTime}
+            render={({ field: { onChange, value } }) => (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={value}
+                mode={'time'}
+                is24Hour={true}
+                display="default"
+                onChange={(event, selectedDate) => {
+                  onChange(selectedDate || new Date());
+                  setCurrentPickerIndex(null);
+                  setCurrentPickerField(null);
+                }}
+              />
+            )}
+          />
           )}
           <Pressable onPress={() => { setCurrentPickerIndex(index); setCurrentPickerField('endTime'); }}>
           <Text>
@@ -111,25 +125,25 @@ const EditSubGroupScheduleScreen = (actualSchedules: [], day: string) => {
           </Text>
           </Pressable>
           {currentPickerIndex === index && currentPickerField === 'endTime' && (
-            <Controller
-              control={control}
-              name={`schedules[${index}].endTime`}
-              defaultValue={field.endTime}
-              render={({ field: { onChange, value } }) => (
-                <DateTimePicker
-                  testID="dateTimePicker"
-                  value={value}
-                  mode={'time'}
-                  is24Hour={true}
-                  display="default"
-                  onChange={(event, selectedDate) => {
-                    onChange(selectedDate);
-                    setCurrentPickerIndex(null);
-                    setCurrentPickerField(null);
-                  }}
-                />
-              )}
-            />
+           <Controller
+            control={control}
+            name={`schedules[${index}].endTime`}
+            defaultValue={field.endTime}
+            render={({ field: { onChange, value } }) => (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={value}
+                mode={'time'}
+                is24Hour={true}
+                display="default"
+                onChange={(event, selectedDate) => {
+                  onChange(selectedDate || new Date());
+                  setCurrentPickerIndex(null);
+                  setCurrentPickerField(null);
+                }}
+              />
+            )}
+          />
           )}
          <Button onPress={() => remove(index)}>X</Button>
         </View>

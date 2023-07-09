@@ -81,7 +81,7 @@ const SubGroupCardItem = ({subgroup, onDeletePress }) => {
               <View key={index} style={{ margin: 5, borderRadius: 14, borderTopWidth: 1, borderTopColor: '#666666', borderLeftWidth: 2, borderLeftColor: "#333333" ,padding: 10, backgroundColor: "#333339" }}>
                 <Text style={styles.dayLabel}>{day}</Text>
                 {subgroup.schedule[day].map((time, index) => (
-                  <Text key={index} style={styles.timespan}>{time.startTime} : {time.endTime}</Text>
+                  <Text key={index} style={styles.timespan}>{time.startTime} - {time.endTime}</Text>
                 ))}
                 { user.role === 'club' && (
                   // Delete button on top right of the parent view 
@@ -103,7 +103,7 @@ const SubGroupCardItem = ({subgroup, onDeletePress }) => {
                {/* {   console.log(subgroup.schedule, day, 'this is subgroup schedule and day')}
                {   console.log(subgroup.schedule[day], 'this is subgroup schedule and day')} */}
                 { user.role === 'club' && (
-                  <Pressable onPress={() => navigation.navigate("EditSubGroupSchedule", {schedules: subgroup.schedule[day], day: day })}><Text style={{color: colors.grayDarkest, marginTop: 5, textAlign: 'center', fontSize: 12}}>Modifier</Text></Pressable>
+                  <Pressable onPress={() => navigation.navigate("EditSubGroupSchedule", {schedules: subgroup?.schedule[day], day: day, subGroupId: subgroup?.schedule.sub_group_id  })}><Text style={{color: colors.grayDarkest, marginTop: 5, textAlign: 'center', fontSize: 12}}>Modifier</Text></Pressable>
                 )}
               </View>
             ))

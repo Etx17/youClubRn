@@ -28,6 +28,9 @@ const NewSubGroupScheduleScreen = (schedule: {}) => {
   const [daysToShow, setDaysToShow] = useState(daysOfWeekToShow)
 
   const saveAndGoToActivity = (data) => {
+    // Append to the data object back the route.params.schedule id, et subgroupId
+    data.sub_group_id = route?.params?.schedule?.sub_group_id
+    data.id = route?.params?.schedule?.id
     console.log(data, 'this is data')
     navigation.goBack()
   }
