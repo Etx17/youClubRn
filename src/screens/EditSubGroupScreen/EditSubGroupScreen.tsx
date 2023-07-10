@@ -1,55 +1,58 @@
 import { View, Text, Alert, ScrollView, StyleSheet } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { Button, Card, Checkbox, HelperText, TextInput,  } from 'react-native-paper'
+import React, { useEffect, useMemo, useState } from 'react'
+import { Button, Card, HelperText, TextInput,  } from 'react-native-paper'
 import { useForm, Controller } from 'react-hook-form';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ActivitySchema, Activity } from '../../schema/activity.schema';
 import ControlledInput from '../../components/ControlledInput';
 import { SubGroup, SubGroupSchema } from '../../schema/subGroup.schema';
+type Tarification = {
+  number: string;
+  text: string;
+  isNew: boolean;
+};
 
 const EditSubGroupScreen = () => {
   // Mock data from API, receive it via props, but fetch it from the API if it's not provided.
   const route = useRoute();
   const subgroup = route?.params?.subgroup;
-  console.log(subgroup, 'this is subgroup')
-  const apiData = {
-    name: subgroup.name || "Erreur de récupération",
-    type: subgroup.type || "Erreur de récupération",
-    shortDescription: subgroup.short_description || "Erreur de récupération",
-    address: subgroup.address || "Erreur de récupération",
-    minPrice: subgroup.min_price,
-    tarifications: subgroup.tarifications 
-        ? subgroup.tarifications.map(tarif => ({
-            number: tarif.split('/')[0], // splitting by '/' to get the price
-            text: tarif.split('/')[1], // splitting by '/' to get the type (e.g. "jour", "heure")
-            isNew: false, // you might want to figure out how to determine this based on your data
+
+  const apiData = useMemo(() => ({ // A cause du map, pour économiser le recalcul au cas ou tarifications est un grand array ( mais ca ne l'est pas tant)
+    name: subgroup?.name || "Erreur de récupération",
+    type: subgroup?.type || "Erreur de récupération",
+    shortDescription: subgroup?.short_description || "Erreur de récupération",
+    address: subgroup?.address || "Erreur de récupération",
+    minPrice: subgroup?.min_price,
+    tarifications: subgroup?.tarifications 
+        ? subgroup.tarifications.map((tarif: String) => ({
+            number: tarif.split('/')[0],
+            text: tarif.split('/')[1],
+            isNew: false,
           }))
         : [],
-  };
+  }), [subgroup]);
 
-  const [tarifications, setTarifications] = useState(apiData.tarifications);
+  const [tarifications, setTarifications] = useState<Tarification[]>(apiData.tarifications);
   
   useEffect(() => {
-    // Set initial form values
     setValue("name", apiData.name);
     setValue("type", apiData.type);
     setValue("shortDescription", apiData.shortDescription);
     setValue("address", apiData.address);
     setValue("minPrice", apiData.minPrice.toString());
-    setValue("tarifications", apiData.tarifications)
-  }, []);
-
-  useEffect(() => {
     setValue("tarifications", tarifications);
   }, [tarifications]);
   
-  const { control, handleSubmit, setValue, formState: { errors }, watch } = useForm<SubGroup>({
+  const { control, handleSubmit, setValue, formState: { errors } } = useForm<SubGroup>({
     resolver: zodResolver(SubGroupSchema),
   });
   const navigation = useNavigation()
 
-  const handleTarificationChange = (index, field, value) => {
+  const handleTarificationChange = <K extends keyof Tarification>( //telling TypeScript field can be any valid key of a Tarification object.
+    index: number, 
+    field: K, 
+    value: Tarification[K]
+  ) => {
     setTarifications(prevTarifications => {
       const newTarifications = [...prevTarifications];
       newTarifications[index] = { ...newTarifications[index], [field]: value };
@@ -64,11 +67,11 @@ const EditSubGroupScreen = () => {
     }
   };
   // console.log(tarifications, 'tarifications')
-  const deleteTarification = (index) => {
-    setTarifications(prevTarifications => prevTarifications.filter((_, i) => i !== index))
+  const deleteTarification = (index: number) => {
+    setTarifications(prevTarifications => prevTarifications.filter((_: any, i: number) => i !== index))
   };
 
-  const saveAndGoToActivity = (data) => {
+  const saveAndGoToActivity = (data: {}) => {
     console.log(data, "before being joined and digested");
     Alert.alert('Votre activité a été créée avec succès !', 'Vous pouvez maintenant la retrouver dans la liste des activités de votre club. Vous pouvez la modifier à tout moment en cliquant dessus.')
     navigation.goBack()
@@ -84,21 +87,21 @@ const EditSubGroupScreen = () => {
           <Card.Content style={{gap: 5}}>
 
             <ControlledInput 
-              control={control}
+              control={control as any}
               name="name"
               label="Nom de la division"
               placeholder="Ceinture jaunes, 6-8 ans, groupe 1, etc."
             />
 
             <ControlledInput 
-              control={control}
+              control={control as any}
               name="type"
               label="Type (optionnel)"
               placeholder="Evènement, cours collectif, cours indidivuel, stage, session"
             />
 
             <ControlledInput 
-              control={control}
+              control={control as any}
               name="shortDescription"
               label="Description courte (300 caractères)"
               maxLength={300}
@@ -108,14 +111,14 @@ const EditSubGroupScreen = () => {
               />
 
             <ControlledInput 
-              control={control}
+              control={control as any}
               name="address"
               label="Addresse (optionel - si différente)"
               placeholder="Ex: 21 rue des Dames, 75017 Paris"
             />
 
             <ControlledInput 
-              control={control}
+              control={control as any}
               name="minPrice"
               label="Premier prix (nombre uniquement)" 
               multiline
@@ -124,12 +127,12 @@ const EditSubGroupScreen = () => {
 
           {/* Tarifications input */}
           <Card.Title title="Ajoutez des tarifications représentatives" />
-          {tarifications.map((tarification, index) => (
+          {tarifications.map((tarification: Tarification, index: number) => (
             tarification.isNew ? (
               <View key={index} style={{ flexDirection: 'row', gap: 10, justifyContent: 'center', alignItems: 'center' }}>
                 <Controller 
                   control={control}
-                  name={`tarifications[${index}].number`}
+                  name={`tarifications[${index}].number` as any}
                   render={({ 
                     field: { onChange, onBlur, value },
                     fieldState: { error, invalid }, }) => (
@@ -153,7 +156,7 @@ const EditSubGroupScreen = () => {
 
             <Controller 
               control={control}
-              name={`tarifications[${index}].text`}
+              name={`tarifications[${index}].text` as any}
               render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput 
                   label="Réccurence"
