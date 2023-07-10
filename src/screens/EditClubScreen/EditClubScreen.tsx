@@ -39,7 +39,7 @@ export default function EditClubScreen() {
   const { user } = useAuthContext();
   useEffect(() => { setSelectedImages(actualImagesFromClub) }, [])
 
-  const saveAndGoBack = (data) => {
+  const saveAndGoBack = (data: {}) => {
     // Donner tout l'array d'images ( uris déja existant + //files) mais n'Upload que les selectedImages qui ne sont pas déja des uris (mais qui sont des files//) et obtenir l'array d'uris en retour.
     // Remplacer l'ancien array d'images la ou il y avait les //files par leurs nouvelles uris
     // Ensuite, faire un fetch pour mettre à jour le club avec les nouvelles uris, la nouvelle description si il y en a une, le nouveau nom si il y en a un, le nouveau site web si il y en a un.

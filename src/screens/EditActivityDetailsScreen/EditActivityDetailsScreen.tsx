@@ -13,6 +13,10 @@ import ControlledInput from '../../components/ControlledInput';
 import { useAuthContext } from '../../contexts/AuthContext';
 import Dropdown from '../../components/Dropdown';
 import SubCategoryDropdown from '../../components/SubCategoryDropdown';
+type PricingTypes = {
+  [key: string]: boolean;
+}
+
 export default function EditActivityDetailsScreen() {
   // Pour le composant de selection d'image,
   // Il me faut en entrée l'array d'images actuel du club. Je vais le hardcoder ici mais iu faudra le récupérer de l'API
@@ -26,7 +30,7 @@ export default function EditActivityDetailsScreen() {
   const activityName = "Salsa"
   const activityDescription = "Une des danses latino les plus connues. Venez apprendre, tous publics. Vous pourrez participer à des soirées organisées par le club, mais aussi des stages, conférences, workshop... !"
   const currentPricingTypes = ["monthly", "yearly", "perUnit"]
-  const currentPricingTypesToObject = {
+  const currentPricingTypesToObject: PricingTypes = {
     monthly: currentPricingTypes.includes("monthly"),
     yearly: currentPricingTypes.includes("yearly"),
     semiYearly: currentPricingTypes.includes("semiYearly"),
@@ -49,12 +53,12 @@ export default function EditActivityDetailsScreen() {
   const [dropdownValue, setDropdownValue] = useState("Sports, activités de plein air");
   const [subCategoryDropdownValue, setSubCategoryDropdownValue] = useState("all");
   const [hasFreeTrial, setHasFreeTrial] = React.useState(false);
-  const [selectedImages, setSelectedImages] = useState([]);
+  const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const numRows = selectedImages.length < 3 ? 1 : 2;
   const navigation = useNavigation()
   const { user } = useAuthContext();
   useEffect(() => { setSelectedImages(actualImagesFromClub) }, [])
-  const [checkedItems, setCheckedItems] = useState(currentPricingTypesToObject);
+  const [checkedItems, setCheckedItems] = useState<PricingTypes>(currentPricingTypesToObject);
 
   const handleDropdownValueChange = (valuecat: string) => {
     console.log('valuecat', valuecat);
@@ -66,7 +70,7 @@ export default function EditActivityDetailsScreen() {
       console.log('valuesub', valuesub);
   };
 
-  const handleCheck = (itemKey, onChange) => {
+  const handleCheck = (itemKey: string, onChange: (checkedKeys: string[]) => void) => {
     // setCheckedItems({ ...checkedItems, [itemKey]: !checkedItems[itemKey] });
     const newCheckedItems = { ...checkedItems, [itemKey]: !checkedItems[itemKey] };
     setCheckedItems(newCheckedItems);
@@ -75,7 +79,7 @@ export default function EditActivityDetailsScreen() {
     onChange(checkedKeys); // Update the form control
   };
 
-  const saveAndGoBack = (data) => {
+  const saveAndGoBack = (data: {}) => {
     console.log(data, 'form fields:', data)
     console.log(hasFreeTrial, '<= this is has freeTrial')
     console.log(checkedItems, '<= this is checkedItems')
@@ -94,7 +98,7 @@ export default function EditActivityDetailsScreen() {
 
     if (!result.canceled) {
       console.log('hey, you just selected some pictures')
-      const images = []
+      const images: string[] = []
       result.assets.forEach(image => { images.push(image.uri) })
       setSelectedImages(prevImages => [...prevImages, ...images]);
       // console.log(selectedImages)
@@ -215,7 +219,7 @@ export default function EditActivityDetailsScreen() {
 
             <Controller 
               control={control}
-              name="hasFreeTrial"
+              name="hasFreeTrial" 
               render={({
                 field: { value, onChange, onBlur },
                 fieldState: { error, invalid },
