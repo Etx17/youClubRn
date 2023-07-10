@@ -2,24 +2,30 @@ import { View, Text, Alert, ScrollView, StyleSheet } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Button, Card, Checkbox, HelperText, TextInput,  } from 'react-native-paper'
 import { useForm, Controller } from 'react-hook-form';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ActivitySchema, Activity } from '../../schema/activity.schema';
 import ControlledInput from '../../components/ControlledInput';
 import { SubGroup, SubGroupSchema } from '../../schema/subGroup.schema';
 
 const EditSubGroupScreen = () => {
-  // Mock data from API
+  // Mock data from API, receive it via props, but fetch it from the API if it's not provided.
+  const route = useRoute();
+  const subgroup = route?.params?.subgroup;
+  console.log(subgroup, 'this is subgroup')
   const apiData = {
-    name: "Existing name",
-    type: "Existing type",
-    shortDescription: "Existing description",
-    address: "Existing address",
-    minPrice: 100,
-    tarifications: [
-      { number: "100", text: "jour", isNew: false },
-      { number: "10", text: "heure", isNew: false },
-    ],
+    name: subgroup.name || "Erreur de récupération",
+    type: subgroup.type || "Erreur de récupération",
+    shortDescription: subgroup.short_description || "Erreur de récupération",
+    address: subgroup.address || "Erreur de récupération",
+    minPrice: subgroup.min_price,
+    tarifications: subgroup.tarifications 
+        ? subgroup.tarifications.map(tarif => ({
+            number: tarif.split('/')[0], // splitting by '/' to get the price
+            text: tarif.split('/')[1], // splitting by '/' to get the type (e.g. "jour", "heure")
+            isNew: false, // you might want to figure out how to determine this based on your data
+          }))
+        : [],
   };
 
   const [tarifications, setTarifications] = useState(apiData.tarifications);
