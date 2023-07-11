@@ -52,7 +52,7 @@ const ActivityDetailsScreen = (activityData) => {
     const navigation = useNavigation()
     const route = useRoute<ActivityDetailsRoute>();
     console.log(route, 'this is route')
-    const { name, address, actual_zipcode, description, club_name, sub_groups } = route?.params?.activityData
+    const { name, address, actual_zipcode, full_description, club_name, sub_groups } = route?.params?.activityData
     const {images, darkTheme} = route?.params
     const scrollViewRef = useRef<ScrollView>(null);  
     const [currentImageIndex, setCurrentImageIndex] = useState(0)
@@ -105,7 +105,7 @@ const ActivityDetailsScreen = (activityData) => {
             <Ionicons name="call" size={30} color={colors.primary} style={{borderWidth: 1, borderColor: 'white', borderRadius: 20, padding: 20}} />
           </Pressable> */}
 
-          <DescriptionSection description={description} />
+          <DescriptionSection description={full_description} />
 
           {subGroups && user.role === 'club' && subGroups.map((subgroup, index) => (
 
