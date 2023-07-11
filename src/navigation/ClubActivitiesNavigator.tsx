@@ -24,46 +24,69 @@ const ClubActivitiesNavigator = () => {
             headerTintColor: 'white',
         }}>
             <>  
-                <Stack.Screen 
-                    name="OwnerClubDetails" 
-                    component={OwnerClubDetailsScreen} 
-                    options={{
-                        headerShown: false,
-                    }}
-                />
-                <Stack.Screen 
-                    name="NewActivity"
-                    component={NewActivityScreen}
-                />
-                 <Stack.Screen 
-                    name="EditClub" 
-                    component={EditClubScreen} 
-                    
-                />
-                <Stack.Screen 
-                    name="ActivityDetails" 
-                    component={ActivityDetailsScreen} 
-                />
-                <Stack.Screen
-                    name="EditActivityDetails"
-                    component={EditActivityDetailsScreen}
-                />
-                <Stack.Screen
-                    name="NewSubGroup"
-                    component={NewSubGroupScreen}
-                />
-                <Stack.Screen
-                    name="EditSubGroup"
-                    component={EditSubGroupScreen}
-                />
-                <Stack.Screen
-                    name="NewSubGroupSchedule"
-                    component={NewSubGroupScheduleScreen}
-                />
-                <Stack.Screen
-                    name="EditSubGroupSchedule"
-                    component={EditSubGroupScheduleScreen}
-                />
+            <Stack.Screen 
+                name="OwnerClubDetails" 
+                component={OwnerClubDetailsScreen} 
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen 
+                name="NewActivity"
+                component={NewActivityScreen}
+                options={{
+                    title: 'Nouvelle Activité', // French title for "New Activity"
+                }}
+            />
+            <Stack.Screen 
+                name="EditClub" 
+                component={EditClubScreen} 
+                options={{
+                    title: 'Modifier le Club', // French title for "Edit Club"
+                }}
+            />
+            <Stack.Screen 
+                name="ActivityDetails" 
+                component={ActivityDetailsScreen} 
+                options={{
+                    title: 'Détails de l\'activité', // French title for "Activity Details"
+                }}
+            />
+            <Stack.Screen
+                name="EditActivityDetails"
+                component={EditActivityDetailsScreen}
+                options={{
+                    title: 'Modifier l\'activité', // French title for "Edit Activity Details"
+                }}
+            />
+            <Stack.Screen
+                name="NewSubGroup"
+                component={NewSubGroupScreen}
+                options={{
+                    title: 'Nouveau Sous-Groupe', // French title for "New Subgroup"
+                }}
+            />
+            <Stack.Screen
+                name="EditSubGroup"
+                component={EditSubGroupScreen}
+                options={{
+                    title: 'Modifier le Sous-Groupe', // French title for "Edit Subgroup"
+                }}
+            />
+            <Stack.Screen
+                name="NewSubGroupSchedule"
+                component={NewSubGroupScheduleScreen}
+                options={{
+                    title: 'Ajouter un horaire', // French title for "New Subgroup Schedule"
+                }}
+            />
+            <Stack.Screen
+                name="EditSubGroupSchedule"
+                component={EditSubGroupScheduleScreen}
+                options={{
+                    title: 'Modifier l\'horaire de Sous-Groupe', // French title for "Edit Subgroup Schedule"
+                }}
+            />
 
                 
             </>

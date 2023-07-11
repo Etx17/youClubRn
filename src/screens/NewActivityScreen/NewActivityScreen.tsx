@@ -22,11 +22,13 @@ const NewActivityScreen = (clubId: string) => {
   const [dropdownValue, setDropdownValue] = useState("Sports, activités de plein air");
   const [subCategoryDropdownValue, setSubCategoryDropdownValue] = useState("all");
   const navigation = useNavigation()
-  const [selectedImages, setSelectedImages] = useState([]);
+  const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const numRows = selectedImages.length < 3 ? 1 : 2;
   const [hasFreeTrial, setHasFreeTrial] = React.useState(false);
   // Aller fetcher sur l'api pour savoir quelle sont les types de tarification de l'activité
-  const [checkedItems, setCheckedItems] = useState({
+  const [checkedItems, setCheckedItems] = useState<{
+  [key: string]: boolean;
+}>({
     monthly: false,
     yearly: false,
     semiYearly: false,
@@ -49,7 +51,7 @@ const NewActivityScreen = (clubId: string) => {
    
       // Check if subcategories of a club include valuesub
 
-  const handleCheck = (itemKey, onChange) => {
+  const handleCheck  = (itemKey: string, onChange: (keys: string[]) => void) => {
     // setCheckedItems({ ...checkedItems, [itemKey]: !checkedItems[itemKey] });
     const newCheckedItems = { ...checkedItems, [itemKey]: !checkedItems[itemKey] };
     setCheckedItems(newCheckedItems);
@@ -58,11 +60,11 @@ const NewActivityScreen = (clubId: string) => {
     onChange(checkedKeys); // Update the form control
   };
 
-  const saveAndGoToActivity = (data) => {
-    console.log(data, 'form fields:', data)
-    console.log(hasFreeTrial, '<= this is has freeTrial')
-    console.log(checkedItems, '<= these are the checked items')
-    console.log(dropdownValue, subCategoryDropdownValue, '<= these are the dropdown values')
+  const saveAndGoToActivity = (data: {}) => {
+    // console.log(data, 'form fields:', data)
+    // console.log(hasFreeTrial, '<= this is has freeTrial')
+    // console.log(checkedItems, '<= these are the checked items')
+    // console.log(dropdownValue, subCategoryDropdownValue, '<= these are the dropdown values')
     Alert.alert('Votre activité a été créée avec succès !', 'Vous pouvez maintenant la retrouver dans la liste des activités de votre club. Vous pouvez la modifier à tout moment en cliquant dessus.')
     navigation.goBack()
   }
@@ -78,7 +80,7 @@ const NewActivityScreen = (clubId: string) => {
 
     if (!result.canceled) {
       console.log('hey, you just selected some pictures')
-      const images = []
+      const images: string[] = []
       result.assets.forEach(image => { images.push(image.uri) })
       setSelectedImages(prevImages => [...prevImages, ...images]);
       // console.log(selectedImages)

@@ -7,7 +7,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { ActivitySchema, Activity } from '../../schema/activity.schema';
 import ControlledInput from '../../components/ControlledInput';
 import { SubGroup, SubGroupSchema } from '../../schema/subGroup.schema';
-
+type Tarification = {
+  number: string;
+  text: string;
+  isNew: boolean;
+};
 
 const NewSubGroupScreen = (activityId: string) => {
   const [tarifications, setTarifications] = useState([{ number: '', text: '' }]);
@@ -17,7 +21,11 @@ const NewSubGroupScreen = (activityId: string) => {
   const navigation = useNavigation()
  console.log(errors, "<--------this is errors")
 
-  const handleTarificationChange = (index, field, value) => {
+  const handleTarificationChange = <K extends keyof Tarification>( //telling TypeScript field can be any valid key of a Tarification object.
+  index: number, 
+  field: K, 
+  value: Tarification[K]
+) => {
     setTarifications(prevTarifications => {
       const newTarifications = [...prevTarifications];
       newTarifications[index] = { ...newTarifications[index], [field]: value };
@@ -29,12 +37,12 @@ const NewSubGroupScreen = (activityId: string) => {
     setTarifications([...tarifications, { number: '', text: '' }]);
   };
 
-  const deleteTarification = (index) => {
+  const deleteTarification = (index: number) => {
     setTarifications(tarifications.filter((_, i) => i !== index));
   };
    
 
-  const saveAndGoToActivity = (data) => {
+  const saveAndGoToActivity = (data: {}) => {
 
     const finalTarifications = tarifications.map(t => `${t.number}/${t.text}`);
     data.tarifications = finalTarifications;
@@ -53,21 +61,21 @@ const NewSubGroupScreen = (activityId: string) => {
           <Card.Content style={{gap: 5}}>
 
             <ControlledInput 
-              control={control}
+              control={control as any}
               name="name"
               label="Nom de la division"
               placeholder="Ceinture jaunes, 6-8 ans, groupe 1, etc."
             />
 
             <ControlledInput 
-              control={control}
+              control={control as any}
               name="type"
               label="Type (optionnel)"
               placeholder="Evènement, cours collectif, cours indidivuel, stage, session"
             />
 
             <ControlledInput 
-              control={control}
+              control={control as any}
               name="shortDescription"
               label="Description courte (300 caractères)"
               maxLength={300}
@@ -77,14 +85,14 @@ const NewSubGroupScreen = (activityId: string) => {
               />
 
             <ControlledInput 
-              control={control}
+              control={control as any}
               name="address"
               label="Addresse (optionel - si différente)"
               placeholder="Ex: 21 rue des Dames, 75017 Paris"
             />
 
             <ControlledInput 
-              control={control}
+              control={control as any}
               name="minPrice"
               label="Premier prix (nombre uniquement)" 
               multiline
@@ -96,7 +104,7 @@ const NewSubGroupScreen = (activityId: string) => {
           {tarifications.map((tarification, index) => (
             <View key={index} style={{ flexDirection: 'row', gap: 10, justifyContent: 'center', alignItems: 'center' }}>
                   <Controller 
-                    control={control}
+                    control={control as any}
                     name={`tarifications[${index}].number`}
                     render={({ 
                       field: { onChange, onBlur, value },
@@ -120,7 +128,7 @@ const NewSubGroupScreen = (activityId: string) => {
                   />
 
                 <Controller 
-                  control={control}
+                  control={control as any}
                   name={`tarifications[${index}].text`}
                   render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput 

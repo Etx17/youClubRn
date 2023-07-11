@@ -42,10 +42,11 @@ const OwnerClubDetailsScreen = () => {
 
         <AddressDetails address={address} postalCode={actual_zipcode} />
 
+        {/* Activity section, to export in a component later. */}
         <View>
           <Text style={{ color: colors.grayDark, fontWeight: 'bold', marginTop: 10 }}>ACTIVITÉS:</Text>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
-            {activities.map((activity, index) => (
+            {activities.map((activity, index: number) => (
               <LinearGradient start={[0, 0]} end={[1, 0]} colors={[colors.secondary, colors.primary] } style={styles.tag}> 
                 <Pressable onPress={()=> navigation.navigate('ActivityDetails', {activityData: activity})}>
                   <Text key={index}>
@@ -68,10 +69,6 @@ const OwnerClubDetailsScreen = () => {
       <LinearGradient colors={[darkTheme ? colors.dark : 'transparent', 'transparent']} style={{ position: 'absolute', left: 0, right: 0, top: 0, height: 120, }} />
       
       <StatusBar style={'light'} />
-
-    
-
-      
 
     </ScrollView>
     )

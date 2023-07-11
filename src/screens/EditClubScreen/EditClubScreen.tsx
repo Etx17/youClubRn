@@ -21,8 +21,8 @@ export default function EditClubScreen() {
   // START--------------------------MOCKING FETCHING DATA FROM API--------------------------
   // --------------------------------------------------------------------------------------
   const actualImagesFromClub = [ "https://source.unsplash.com/random/?salsa", "https://source.unsplash.com/random/?bachata" ]
-  const clubName = "Salsa Club"
-  const clubDescription = "Au cœur de la vibrante capitale française se trouve El Ritmo de la Noche, un club de salsa à Paris offrant une expérience authentique et exaltante de la danse latine. C'est bien plus qu'un simple club, c'est un sanctuaire pour les amoureux de la salsa. Chaque note de musique et chaque pas sur la piste de danse témoignent de notre passion pour cette danse envoûtante. Dès l'entrée, vous serez enveloppé par une ambiance électrisante, avec des lumières tamisées, des peintures murales inspirées des rues de La Havane et une musique live envoûtante. Nous proposons des cours de salsa adaptés à tous les niveaux, encadrés par des instructeurs expérimentés et passionnés. Laissez-vous guider avec patience et enthousiasme, libérez-vous et trouvez votre propre style sur la piste de danse. Venez vivre l'essence de Cuba au cœur de Paris !"
+  const clubName = "Salsa Club Cool"
+  const clubDescription = "Au cœur de la vibrante capitale française se trouve El Ritmo de la Noche, un club de salsa à Paris offrant"
   // --------------------------------------------------------------------------------------
   // END--------------------------MOCKING FETCHING DATA FROM API--------------------------
   // --------------------------------------------------------------------------------------
@@ -33,11 +33,15 @@ export default function EditClubScreen() {
   });
   console.log(errors);
   
-  const [selectedImages, setSelectedImages] = useState([]);
+  const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const numRows = selectedImages.length < 3 ? 1 : 2;
   const navigation = useNavigation()
   const { user } = useAuthContext();
-  useEffect(() => { setSelectedImages(actualImagesFromClub) }, [])
+  useEffect(() => { 
+    setSelectedImages(actualImagesFromClub) 
+    setValue("name", clubName);
+    setValue("objet", clubDescription);
+  }, [])
 
   const saveAndGoBack = (data: {}) => {
     // Donner tout l'array d'images ( uris déja existant + //files) mais n'Upload que les selectedImages qui ne sont pas déja des uris (mais qui sont des files//) et obtenir l'array d'uris en retour.
@@ -60,7 +64,7 @@ export default function EditClubScreen() {
 
     if (!result.canceled) {
       console.log('hey, you just selected some pictures')
-      const images = []
+      const images: string[] = []
       result.assets.forEach(image => { images.push(image.uri) })
       setSelectedImages(prevImages => [...prevImages, ...images]);
       // console.log(selectedImages)
