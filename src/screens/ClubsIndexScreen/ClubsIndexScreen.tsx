@@ -29,8 +29,10 @@ const fetchData = async (dropdownValue: string, city: string, region: string, su
   try {
     let encodedDropdownValue = encodeURIComponent(dropdownValue).replace(/'/g, dropdownValue === "culture, pratiques d'activités artistiques, culturelles" ? "%E2%80%99" : "%27");
     const encodedDropdownValueSpaceIntoPlus = encodedDropdownValue.replace(/%20/g, "+");
-    const [encodedRegion, encodedCity] = [encodeURIComponent(region), encodeURIComponent(city)];
-    const url = `${BASE_URL}&refine.domaine_activite_libelle_categorise=${encodedDropdownValueSpaceIntoPlus}&refine.localisation_facette=${(region === "California" || region === "CA") ? "%C3%8Ele-de-France" : encodedRegion }%2F${(encodedCity === "Mountain%20View" || encodedCity === "San%20Francisco") ? "Paris" : encodedCity}&exclude.objet=%22%22&exclude.domaine_activite_libelle_categorise=%22%22&`;
+    const [encodedRegion, encodedCity, encodedSubRegion] = [encodeURIComponent(region), encodeURIComponent(city), encodeURIComponent(subregion)];
+    console.log(encodedRegion, encodedCity, encodedSubRegion, 'encoded region and city and subregion')
+    const url = `${BASE_URL}&refine.domaine_activite_libelle_categorise=${encodedDropdownValueSpaceIntoPlus}&refine.localisation_facette=${(region === "California" || region === "CA") ? "%C3%8Ele-de-France" : encodedRegion }%2F${(encodedCity === "Mountain%20View" || encodedCity === "San%20Francisco" || encodedSubRegion ==='D%C3%A9partement%20de%20Paris') ? "Paris" : encodedSubRegion}&exclude.objet=%22%22&exclude.domaine_activite_libelle_categorise=%22%22&`;
+    console.log(url, 'url')
     const response = await axios.get(url);
     return response.data;
   } catch (error) {
@@ -89,7 +91,7 @@ const ClubsIndexScreen = () => {
     //   'Vous pourrez changer votre localisation dans la prochaine version de l\'application',
     // )}
 
-  }, [allowLocation, dropdownValue, region, subregion, reload]);
+  }, [allowLocation, dropdownValue,subregion, region, reload]);
 
   const handleDropdownValueChange = (valuecat: string) => {
     setDropdownValue(valuecat);
