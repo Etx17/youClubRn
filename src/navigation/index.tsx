@@ -12,17 +12,48 @@ import React from 'react'
 import ActivityDetailsScreen from '../screens/ActivityDetailsScreen/ActivityDetailsScreen';
 import ClubBottomTabNavigator from './ClubBottomTabNavigator';
 import { useAuthContext } from '../contexts/AuthContext';
+import { LocationPicker } from '../components/LocationPicker';
+import { useLocationContext, updateLocation } from '../contexts/LocationContext';
+import * as Location from 'expo-location';
+import axios from 'axios';
 
+type Location = {
+    latitude: number;
+    longitude: number;
+};
 const prefix = Linking.createURL('/');
-
 const Stack = createNativeStackNavigator<RootNavigatorParamsList>();
 
 const CustomHeader = () => {
+    const { updateLocation } = useLocationContext();
+    const [currentCity, setCurrentCity] = React.useState<string | null>('');
+    const handleLocationSelected = async (location: Location) => {
+        // updateLocation(newLocation, newCity, newRegion, newSubregion);
+        // Update the context
+        Location.reverseGeocodeAsync(location).then((response) => {
+           console.log(response[0]);
+
+            const newLocation = {
+                coords: {
+                latitude: location.latitude,
+                longitude:location.longitude
+                }
+            };
+            updateLocation(newLocation, response[0].postalCode, response[0].city, response[0].region, response[0].subregion);
+            
+            setCurrentCity(response[0].city);
+        });
+
+
+      };
+
     return (
       <View style={styles.header}>
-        {/* <Pressable><Ionicons name="location-sharp" size={24} color="transparent" /></Pressable> */}
         <Image source={require('../assets/images/logoyouclub.png')} style={{width: 100, height: 25}} />
-        <Pressable><Ionicons name="menu" size={30} color="black" /></Pressable>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Text style={{color: colors.grayDarkest}}>{currentCity}</Text>
+            <LocationPicker onLocationSelected={handleLocationSelected} />
+        </View>
       </View>
     )
 }

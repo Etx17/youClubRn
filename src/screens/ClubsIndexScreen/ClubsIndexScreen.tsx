@@ -11,6 +11,7 @@ import axios from 'axios';
 import { Pressable } from 'react-native';
 import colors from '../../themes/colors';
 
+
 interface IClub {
   fields: {
     objet: string;
@@ -25,9 +26,6 @@ interface Data {
 const BASE_URL = 'https://journal-officiel-datadila.opendatasoft.com/api/records/1.0/search/?dataset=jo_associations&q=&rows=2000&sort=dateparution&facet=lieu_declaration_facette&facet=domaine_activite_categorise&facet=domaine_activite_libelle_categorise';
 
 const fetchData = async (dropdownValue: string, city: string, region: string, subregion: string, reload: boolean) => {
-
-  console.log(region, subregion, city, '<= this are region subregion and city');
-
   try {
     let encodedDropdownValue = encodeURIComponent(dropdownValue).replace(/'/g, dropdownValue === "culture, pratiques d'activités artistiques, culturelles" ? "%E2%80%99" : "%27");
     const encodedDropdownValueSpaceIntoPlus = encodedDropdownValue.replace(/%20/g, "+");
@@ -49,7 +47,6 @@ const filterClubs = (data: Data): IClub[] => {
   });
 };
 
-
 const ClubsIndexScreen = () => {
 
   // Je dois recharger la page lorsque j'obtiens l'autorisation d'utiliser données de géolocalisation
@@ -58,11 +55,12 @@ const ClubsIndexScreen = () => {
   const [dropdownValue, setDropdownValue] = useState("Sports, activités de plein air");
   const [subCategoryDropdownValue, setSubCategoryDropdownValue] = useState("all");
   const [isFetching, setIsFetching] = useState(false);
-  const { city, region, subregion, allowLocation } = useLocationContext();
+  const { zipcode, city, region, subregion, allowLocation } = useLocationContext();
   const [reload, setReload] = useState(false);
 
   useEffect(() => {
     console.log('Fetching data...');
+    console.log('zipcode =>', zipcode, ', city =>', city, ', region =>', region, ', subregion =>', subregion, ' <= useEffect from ClubIndexScreen');
     const startTime = new Date().getTime();
 
     if ((!isFetching && city && region && subregion) || reload) {
@@ -84,7 +82,7 @@ const ClubsIndexScreen = () => {
         Alert.alert('Error fetching data');
       });
     }
-    console.log('Fetched data for', city, region, subregion);
+    // console.log('Fetched data for', city, region, subregion);
     // if(!allowLocation){
     // Alert.alert(
     //   'Localisation par défaut (Paris) activée',
