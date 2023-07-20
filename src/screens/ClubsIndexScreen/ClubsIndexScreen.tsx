@@ -25,6 +25,7 @@ interface Data {
 const BASE_URL = 'https://journal-officiel-datadila.opendatasoft.com/api/records/1.0/search/?dataset=jo_associations&q=&rows=2000&sort=dateparution&facet=lieu_declaration_facette&facet=domaine_activite_categorise&facet=domaine_activite_libelle_categorise';
 
 const fetchData = async (dropdownValue: string, city: string, region: string, subregion: string) => {
+  
   try {
     let encodedDropdownValue = encodeURIComponent(dropdownValue).replace(/'/g, dropdownValue === "culture, pratiques d'activités artistiques, culturelles" ? "%E2%80%99" : "%27");
     const encodedDropdownValueSpaceIntoPlus = encodedDropdownValue.replace(/%20/g, "+");
