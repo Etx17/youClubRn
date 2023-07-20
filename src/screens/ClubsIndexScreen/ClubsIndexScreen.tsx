@@ -11,7 +11,6 @@ import axios from 'axios';
 import { Pressable } from 'react-native';
 import colors from '../../themes/colors';
 
-
 interface IClub {
   fields: {
     objet: string;
