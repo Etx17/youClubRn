@@ -45,12 +45,12 @@ const LocationContextProvider = ({children}: {children: ReactNode}) => {
     const [subregion, setSubregion] = useState<string | null>('');
     const EXPIRATION_TIME = 15 * 24 * 60 * 60 * 1000; // 15 days in milliseconds
     const [allowLocation, setAllowLocation] = useState<boolean>(false);
-    const updateLocation = (newLocation: ILocation, newZipcode: string | null, newCity: string | null, newRegion: string | null, newSubregion: string | null) => {
-      setLocation(newLocation);
-      setZipCode(newZipcode);
-      setCity(newCity);
-      setRegion(newRegion);
-      setSubregion(newSubregion);
+    const updateLocation = async (newLocation: ILocation, newZipcode: string | null, newCity: string | null, newRegion: string | null, newSubregion: string | null) => {
+      await setLocation(newLocation);
+      await setZipCode(newZipcode);
+      await setCity(newCity);
+      await setRegion(newRegion);
+      await setSubregion(newSubregion);
     };
 
     useEffect(() => {

@@ -25,14 +25,12 @@ interface Data {
 
 const BASE_URL = 'https://journal-officiel-datadila.opendatasoft.com/api/records/1.0/search/?dataset=jo_associations&q=&rows=2000&sort=dateparution&facet=lieu_declaration_facette&facet=domaine_activite_categorise&facet=domaine_activite_libelle_categorise';
 
-const fetchData = async (dropdownValue: string, city: string, region: string, subregion: string, reload: boolean) => {
+const fetchData = async (dropdownValue: string, city: string, region: string, subregion: string) => {
   try {
     let encodedDropdownValue = encodeURIComponent(dropdownValue).replace(/'/g, dropdownValue === "culture, pratiques d'activités artistiques, culturelles" ? "%E2%80%99" : "%27");
     const encodedDropdownValueSpaceIntoPlus = encodedDropdownValue.replace(/%20/g, "+");
     const [encodedRegion, encodedCity, encodedSubRegion] = [encodeURIComponent(region), encodeURIComponent(city), encodeURIComponent(subregion)];
-    console.log(encodedRegion, encodedCity, encodedSubRegion, 'encoded region and city and subregion')
     const url = `${BASE_URL}&refine.domaine_activite_libelle_categorise=${encodedDropdownValueSpaceIntoPlus}&refine.localisation_facette=${(region === "California" || region === "CA") ? "%C3%8Ele-de-France" : encodedRegion }%2F${(encodedCity === "Mountain%20View" || encodedCity === "San%20Francisco" || encodedSubRegion ==='D%C3%A9partement%20de%20Paris') ? "Paris" : encodedSubRegion}&exclude.objet=%22%22&exclude.domaine_activite_libelle_categorise=%22%22&`;
-    console.log(url, 'url')
     const response = await axios.get(url);
     return response.data;
   } catch (error) {
@@ -62,13 +60,13 @@ const ClubsIndexScreen = () => {
 
   useEffect(() => {
     console.log('Fetching data...');
-    console.log('zipcode =>', zipcode, ', city =>', city, ', region =>', region, ', subregion =>', subregion, ' <= useEffect from ClubIndexScreen');
+    console.log('city=>', city, 'subregion =>', subregion, ' <= useEffect from ClubIndexScreen');
     const startTime = new Date().getTime();
 
-    if ((!isFetching && city && region && subregion) || reload) {
+    if ((!isFetching && city && region && subregion) || reload && subregion) {
       setReload(false);
       setIsFetching(true);
-      fetchData(dropdownValue, city, region, subregion, reload).then(data => {
+      fetchData(dropdownValue, city, region, subregion).then(data => {
         const filteredClubs = filterClubs(data);
         setClubs(filteredClubs);
         setSubCategoryClubs(filteredClubs);
@@ -84,14 +82,7 @@ const ClubsIndexScreen = () => {
         Alert.alert('Error fetching data');
       });
     }
-    // console.log('Fetched data for', city, region, subregion);
-    // if(!allowLocation){
-    // Alert.alert(
-    //   'Localisation par défaut (Paris) activée',
-    //   'Vous pourrez changer votre localisation dans la prochaine version de l\'application',
-    // )}
-
-  }, [allowLocation, dropdownValue,subregion, region, reload]);
+  }, [allowLocation, dropdownValue, subregion, reload]);
 
   const handleDropdownValueChange = (valuecat: string) => {
     setDropdownValue(valuecat);
