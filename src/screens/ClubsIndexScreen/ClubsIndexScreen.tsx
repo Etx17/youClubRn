@@ -26,8 +26,6 @@ const BASE_URL = 'https://journal-officiel-datadila.opendatasoft.com/api/records
 
 const fetchData = async (dropdownValue: string, city: string, region: string, subregion: string, reload: boolean) => {
 
-  console.log(region, subregion, city, '<= this are region subregion and city');
-
   try {
     let encodedDropdownValue = encodeURIComponent(dropdownValue).replace(/'/g, dropdownValue === "culture, pratiques d'activités artistiques, culturelles" ? "%E2%80%99" : "%27");
     const encodedDropdownValueSpaceIntoPlus = encodedDropdownValue.replace(/%20/g, "+");
