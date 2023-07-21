@@ -10,8 +10,10 @@ type LocationContextType ={
     lon: number | string ;
     city: string | null;
     region: string | null;
+    zipcode: string | null;
     subregion: string | null;
     allowLocation: boolean;
+    updateLocation: (newLocation: ILocation, zipcode: string | null, newCity: string | null, newRegion: string | null, newSubregion: string | null) => void;
 }
 
 type ILocation ={
@@ -26,8 +28,10 @@ export const LocationContext = createContext<LocationContextType>({
     lon: "",
     city: "",
     region: "",
+    zipcode: "",
     subregion: "",
     allowLocation: false,
+    updateLocation: () => {}
 })
 
 
@@ -36,10 +40,18 @@ const LocationContextProvider = ({children}: {children: ReactNode}) => {
     const [location, setLocation] = useState<ILocation>({coords: {}} as ILocation);
     const [errorMsg, setErrorMsg] = useState<string>('');
     const [city, setCity] = useState<string | null>('');
+    const [zipCode, setZipCode] = useState<string | null>('');
     const [region, setRegion] = useState<string | null>('');
     const [subregion, setSubregion] = useState<string | null>('');
     const EXPIRATION_TIME = 15 * 24 * 60 * 60 * 1000; // 15 days in milliseconds
     const [allowLocation, setAllowLocation] = useState<boolean>(false);
+    const updateLocation = async (newLocation: ILocation, newZipcode: string | null, newCity: string | null, newRegion: string | null, newSubregion: string | null) => {
+      await setLocation(newLocation);
+      await setZipCode(newZipcode);
+      await setCity(newCity);
+      await setRegion(newRegion);
+      await setSubregion(newSubregion);
+    };
 
     useEffect(() => {
       (async () => {
@@ -130,10 +142,7 @@ const LocationContextProvider = ({children}: {children: ReactNode}) => {
         } else {
           console.error('Could not geocode city');
         }
-        
-        
       })();
-      
     }, []);
 
     let text = 'Waiting..';
@@ -143,7 +152,7 @@ const LocationContextProvider = ({children}: {children: ReactNode}) => {
         text = JSON.stringify(location);
     }
     return (
-        <LocationContext.Provider value={{lat: location?.coords?.latitude, lon: location?.coords?.longitude, city: city, region: region, subregion: subregion, allowLocation: allowLocation }}>
+        <LocationContext.Provider value={{lat: location?.coords?.latitude, lon: location?.coords?.longitude, city: city, region: region, subregion: subregion, allowLocation: allowLocation, updateLocation, zipcode: zipCode }}>
             {children}
         </LocationContext.Provider>
     )

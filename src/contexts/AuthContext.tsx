@@ -13,7 +13,7 @@ export const AuthContext = createContext({
 const AuthContextProvider = ({children}: {children: ReactNode}) => {
   
     return (
-        <AuthContext.Provider value={{user: {id: '1', role: "club"}}}>
+        <AuthContext.Provider value={{user: {id: '1', role: "user"}}}>
             {children}
         </AuthContext.Provider>
     )

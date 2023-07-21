@@ -47,7 +47,13 @@ const OwnerClubDetailsScreen = () => {
           <Text style={{ color: colors.grayDark, fontWeight: 'bold', marginTop: 10 }}>ACTIVITÉS:</Text>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
             {activities.map((activity, index: number) => (
-              <LinearGradient start={[0, 0]} end={[1, 0]} colors={[colors.secondary, colors.primary] } style={styles.tag}> 
+              <LinearGradient 
+                key={`${activity.id}_${index}`}
+                start={[0, 0]} 
+                end={[1, 0]} 
+                colors={[colors.secondary, colors.primary] } 
+                style={styles.tag}
+              > 
                 <Pressable onPress={()=> navigation.navigate('ActivityDetails', {activityData: activity})}>
                   <Text key={index}>
                     {activity.name}

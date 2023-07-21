@@ -38,7 +38,7 @@ const activityCard = ({data}: IActivityCardProps) => {
     `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subcategories][0] : 'random'}/300/200`,
     `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subcategories][1] : 'random'}/300/200`,
   ];
-  console.log(data, 'this is data in activityCard')
+  // console.log(data, 'this is data in activityCard')
 
   const navigateToactivityDetails = () => {
     navigation.navigate('ActivityDetails', {activityData: data, images, darkTheme: true});

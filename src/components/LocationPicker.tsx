@@ -1,0 +1,77 @@
+import React, { useState } from 'react';
+import { Modal, Pressable, StyleSheet, Text } from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
+import Ionicons from '@expo/vector-icons/Ionicons';
+type Location = {
+  latitude: number;
+  longitude: number;
+};
+
+type LocationPickerProps = {
+  onLocationSelected: (location: Location) => void;
+};
+
+export const LocationPicker = ({ onLocationSelected }: any) => {
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState<Location | null>({
+    latitude: 42.78825,
+    longitude: 3.4324,
+  });
+
+  const handlePress = (event: any) => {
+    const { latitude, longitude } = event.nativeEvent.coordinate;
+    setSelectedLocation({ latitude, longitude });
+  };
+
+  const handleLocationSelection = () => {
+    onLocationSelected(selectedLocation);
+    setModalVisible(false);
+  };
+
+  return (
+    <>
+      <Pressable style={{marginRight: 10}} onPress={() => setModalVisible(true)}>
+        <Ionicons name="location-sharp" size={24} color="black" />
+      </Pressable>
+      <Modal
+        animationType="slide"
+        transparent={false}
+        visible={isModalVisible}
+      >
+        <Text style={styles.title}>Touchez pour choisir votre location</Text>
+        <MapView
+          style={{ flex: 1, paddingVertical: 50 }}
+          initialRegion={{
+            latitude: 42.78825,
+            longitude: 2.4324,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+          onPress={handlePress}
+        >
+          {selectedLocation && (
+            <Marker
+              coordinate={selectedLocation}
+              title="Selected Location"
+            />
+          )}
+        </MapView>
+        <Pressable style={styles.button} onPress={handleLocationSelection}>
+          <Text>OK</Text>
+        </Pressable>
+      </Modal>
+    </>
+  );
+};
+const styles = StyleSheet.create({
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  button: {
+    alignItems: 'center',
+    backgroundColor: '#DDDDDD',
+    padding: 10,
+  },
+})

@@ -29,8 +29,8 @@ const fetchData = async (dropdownValue: string, city: string, region: string, su
   try {
     let encodedDropdownValue = encodeURIComponent(dropdownValue).replace(/'/g, dropdownValue === "culture, pratiques d'activités artistiques, culturelles" ? "%E2%80%99" : "%27");
     const encodedDropdownValueSpaceIntoPlus = encodedDropdownValue.replace(/%20/g, "+");
-    const [encodedRegion, encodedCity] = [encodeURIComponent(region), encodeURIComponent(city)];
-    const url = `${BASE_URL}&refine.domaine_activite_libelle_categorise=${encodedDropdownValueSpaceIntoPlus}&refine.localisation_facette=${(region === "California" || region === "CA") ? "%C3%8Ele-de-France" : encodedRegion }%2F${(encodedCity === "Mountain%20View" || encodedCity === "San%20Francisco") ? "Paris" : encodedCity}&exclude.objet=%22%22&exclude.domaine_activite_libelle_categorise=%22%22&`;
+    const [encodedRegion, encodedCity, encodedSubRegion] = [encodeURIComponent(region), encodeURIComponent(city), encodeURIComponent(subregion)];
+    const url = `${BASE_URL}&refine.domaine_activite_libelle_categorise=${encodedDropdownValueSpaceIntoPlus}&refine.localisation_facette=${(region === "California" || region === "CA") ? "%C3%8Ele-de-France" : encodedRegion }%2F${(encodedCity === "Mountain%20View" || encodedCity === "San%20Francisco" || encodedSubRegion ==='D%C3%A9partement%20de%20Paris') ? "Paris" : encodedSubRegion}&exclude.objet=%22%22&exclude.domaine_activite_libelle_categorise=%22%22&`;
     const response = await axios.get(url);
     return response.data;
   } catch (error) {
@@ -47,7 +47,6 @@ const filterClubs = (data: Data): IClub[] => {
   });
 };
 
-
 const ClubsIndexScreen = () => {
 
   // Je dois recharger la page lorsque j'obtiens l'autorisation d'utiliser données de géolocalisation
@@ -56,17 +55,18 @@ const ClubsIndexScreen = () => {
   const [dropdownValue, setDropdownValue] = useState("Sports, activités de plein air");
   const [subCategoryDropdownValue, setSubCategoryDropdownValue] = useState("all");
   const [isFetching, setIsFetching] = useState(false);
-  const { city, region, subregion, allowLocation } = useLocationContext();
+  const { zipcode, city, region, subregion, allowLocation } = useLocationContext();
   const [reload, setReload] = useState(false);
 
   useEffect(() => {
     console.log('Fetching data...');
+    console.log('city=>', city, 'subregion =>', subregion, ' <= useEffect from ClubIndexScreen');
     const startTime = new Date().getTime();
 
-    if ((!isFetching && city && region && subregion) || reload) {
+    if ((!isFetching && city && region && subregion) || reload && subregion) {
       setReload(false);
       setIsFetching(true);
-      fetchData(dropdownValue, city, region, subregion, reload).then(data => {
+      fetchData(dropdownValue, city, region, subregion).then(data => {
         const filteredClubs = filterClubs(data);
         setClubs(filteredClubs);
         setSubCategoryClubs(filteredClubs);
@@ -82,14 +82,7 @@ const ClubsIndexScreen = () => {
         Alert.alert('Error fetching data');
       });
     }
-    console.log('Fetched data for', city, region, subregion);
-    // if(!allowLocation){
-    // Alert.alert(
-    //   'Localisation par défaut (Paris) activée',
-    //   'Vous pourrez changer votre localisation dans la prochaine version de l\'application',
-    // )}
-
-  }, [allowLocation, dropdownValue, region, subregion, reload]);
+  }, [allowLocation, dropdownValue, subregion, reload]);
 
   const handleDropdownValueChange = (valuecat: string) => {
     setDropdownValue(valuecat);
@@ -100,10 +93,7 @@ const ClubsIndexScreen = () => {
       return setSubCategoryClubs(clubs);
     } else {
       setSubCategoryDropdownValue(valuesub);
-      console.log('valuesub', valuesub);
-      console.log('clubs.length before filter =>', clubs.length);
       const newClubs = clubs.filter((club) => club?.fields?.domaine_activite_libelle_categorise.split('/')[1]?.split("###")[0] === valuesub);
-      console.log('newclubs.length after filter =>', newClubs.length);
       setSubCategoryClubs(newClubs);
     }
   };
@@ -144,12 +134,7 @@ return (
         backgroundColor={'transparent'}
         cardHorizontalMargin={5}
         onSwipedAll={()=>Alert.alert('No more clubs')}
-        renderCard={(card, cardIndex) =>
-          (
-          <ClubCard
-            data={card}
-          />
-        )}
+        renderCard={(card, cardIndex) => ( <ClubCard data={card} /> )}
       />
       ) :  (
         <View style={styles.loading}>
@@ -172,7 +157,7 @@ return (
         </View>
       )
     }
-      <StatusBar style="auto" />
+      <StatusBar style="dark" />
   </View>
 
 );}
