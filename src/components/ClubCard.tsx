@@ -28,6 +28,7 @@ const ClubCard = ({data}: IClubCardProps) => {
   const clubLon = parseFloat(data?.fields?.geo_point?.split(',')[1])
   const distance = getDistance(lat, lon, clubLat, clubLon )
   const formattedDistance = distance.toFixed(1).toString() + ' km';
+  const city = data.fields.commune_actuelle
   const titre = data?.fields?.titre || data?.fields?.titre_search || "Cette association n'a pas renseigné de titre"
   const objet = data?.fields?.objet || "Cette association n'a pas renseigné de description";
   const domaine_activite_libelle_categorise = data?.fields?.domaine_activite_libelle_categorise;
@@ -118,7 +119,7 @@ const ClubCard = ({data}: IClubCardProps) => {
           </View>
 
           <Text style={{color: 'white'}}>
-            <Ionicons name="location-sharp" size={14} color={colors.primary} style={styles.locationIcon} /> {formattedDistance ? formattedDistance : 'Non renseigné'} - {codepostal_actuel}
+            <Ionicons name="location-sharp" size={14} color={colors.primary} style={styles.locationIcon} /> {formattedDistance ? formattedDistance : 'Non renseigné'} - {city} ({codepostal_actuel})
           </Text>
 
           <LinearGradient end={{x: 0.3, y: 0.4}} start={{x: 0.8, y: 0.9}} colors={['#000000', '#222222']} style={styles.tagGradient}>

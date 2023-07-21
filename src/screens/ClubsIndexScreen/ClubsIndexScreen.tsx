@@ -93,10 +93,7 @@ const ClubsIndexScreen = () => {
       return setSubCategoryClubs(clubs);
     } else {
       setSubCategoryDropdownValue(valuesub);
-      console.log('valuesub', valuesub);
-      console.log('clubs.length before filter =>', clubs.length);
       const newClubs = clubs.filter((club) => club?.fields?.domaine_activite_libelle_categorise.split('/')[1]?.split("###")[0] === valuesub);
-      console.log('newclubs.length after filter =>', newClubs.length);
       setSubCategoryClubs(newClubs);
     }
   };
@@ -137,12 +134,7 @@ return (
         backgroundColor={'transparent'}
         cardHorizontalMargin={5}
         onSwipedAll={()=>Alert.alert('No more clubs')}
-        renderCard={(card, cardIndex) =>
-          (
-          <ClubCard
-            data={card}
-          />
-        )}
+        renderCard={(card, cardIndex) => ( <ClubCard data={card} /> )}
       />
       ) :  (
         <View style={styles.loading}>
@@ -165,7 +157,7 @@ return (
         </View>
       )
     }
-      <StatusBar style="auto" />
+      <StatusBar style="dark" />
   </View>
 
 );}

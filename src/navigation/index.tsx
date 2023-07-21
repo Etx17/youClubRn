@@ -13,9 +13,10 @@ import ActivityDetailsScreen from '../screens/ActivityDetailsScreen/ActivityDeta
 import ClubBottomTabNavigator from './ClubBottomTabNavigator';
 import { useAuthContext } from '../contexts/AuthContext';
 import { LocationPicker } from '../components/LocationPicker';
-import { useLocationContext, updateLocation } from '../contexts/LocationContext';
+import { useLocationContext } from '../contexts/LocationContext';
 import * as Location from 'expo-location';
 import axios from 'axios';
+import { StatusBar } from 'expo-status-bar';
 
 type Location = {
     latitude: number;
@@ -57,14 +58,6 @@ const CustomHeader = () => {
       </View>
     )
 }
-
-// const CustomClubHeader = () => {
-//     return (
-//         <View style={styles.clubHeader}>          
-//         <Text style={{color: colors.white}}>Votre club</Text>
-//         </View>
-//       )
-//     }
 
 
 
@@ -127,7 +120,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: colors.white,
-        marginTop: Platform.OS === 'ios' ? 25 : 0,
+        marginTop: Platform.OS === 'ios' ? 25 : 10,
         paddingHorizontal: 10,
         height: 40,
         color: colors.grayDarkest
