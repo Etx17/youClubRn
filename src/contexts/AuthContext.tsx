@@ -1,24 +1,31 @@
+
 import React, { useContext } from "react";
 import { createContext,  ReactNode, useState, SetStateAction, useEffect } from "react";
 import { Auth, Hub } from "aws-amplify";
 import { HubCallback } from "@aws-amplify/core";
 
+type User = {
+    id: string,
+    role: string,
+}
 export const AuthContext = createContext({
     user: {
         id: "",
         role: "",
-        email: "",
-        password: "",
     },
-    updateUser: (userData: any) => {},
 })
 const AuthContextProvider = ({children}: {children: ReactNode}) => {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState<User | null>(null);
     const checkUser = async () => {
         try {
             const authUser = await Auth.currentAuthenticatedUser({bypassCache: true})
             console.log(authUser.attributes.email, authUser.attributes.sub)
-            setUser(authUser)
+            
+            // TODO Fetch now the user that has this sub_id from my database (rails) and set it to the user state
+            const mockedUser = {id: '1', role: "club"}
+
+            // For now i'll set user as a dummy object
+            setUser(mockedUser)
         } catch (e) {
             setUser(null)
         }
@@ -26,7 +33,7 @@ const AuthContextProvider = ({children}: {children: ReactNode}) => {
     useEffect(() => {
         checkUser()
     }, [])
-   
+
     useEffect(() => {
         const listener: HubCallback = (data) => {
          const {event} = data.payload;
@@ -43,7 +50,7 @@ const AuthContextProvider = ({children}: {children: ReactNode}) => {
      }, [])
 
     return (
-        <AuthContext.Provider value={{user: {id: '1', role: "user"}}}>
+        <AuthContext.Provider value={ {user} }>
             {children}
         </AuthContext.Provider>
     )
