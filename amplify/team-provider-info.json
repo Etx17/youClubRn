@@ -1,0 +1,20 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-youclub-staging-201958-authRole",
+      "UnauthRoleArn": "arn:aws:iam::117680609371:role/amplify-youclub-staging-201958-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::117680609371:role/amplify-youclub-staging-201958-authRole",
+      "Region": "eu-west-3",
+      "DeploymentBucketName": "amplify-youclub-staging-201958-deployment",
+      "UnauthRoleName": "amplify-youclub-staging-201958-unauthRole",
+      "StackName": "amplify-youclub-staging-201958",
+      "StackId": "arn:aws:cloudformation:eu-west-3:117680609371:stack/amplify-youclub-staging-201958/a862dbd0-1395-11ee-a301-0e7bbf144a1a",
+      "AmplifyAppId": "d2wcxz8gtwx8tw"
+    },
+    "categories": {
+      "auth": {
+        "Youclub": {}
+      }
+    }
+  }
+}
