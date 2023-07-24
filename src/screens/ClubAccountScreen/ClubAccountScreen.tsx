@@ -5,7 +5,6 @@ import { SignOutButton } from '../../components/auth/signOutButton'
 const ClubAccountScreen = () => {
   return (
     <View>
-      <Text>ClubAccountScreen</Text>
       <SignOutButton />
     </View>
   )

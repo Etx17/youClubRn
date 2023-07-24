@@ -14,7 +14,7 @@ Amplify.configure(config);
 
 export default function App() {
 
-   return (
+  return (
     <PaperProvider>
       <SafeAreaProvider>
         <AuthContextProvider>
