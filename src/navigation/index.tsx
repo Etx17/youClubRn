@@ -41,7 +41,7 @@ const CustomHeader = () => {
                 }
             };
             updateLocation(newLocation, response[0].postalCode, response[0].city, response[0].region, response[0].subregion);
-            
+
             setCurrentCity(response[0].city);
         });
 
@@ -68,7 +68,7 @@ const Navigation = () => {
     const {user} = useAuthContext();
 
         return(
-            <NavigationContainer linking={linking} fallback={<Text>Loading...</Text>}>
+          <NavigationContainer linking={linking} fallback={<Text>Loading...</Text>}>
             <Stack.Navigator screenOptions={{headerShown: true}} >
 
                 {!user || user.role === "user" ? (
@@ -93,7 +93,7 @@ const Navigation = () => {
                       />
 
                     </>
-                   
+
                 ) : (
                     user.role === "club" && (
                         <Stack.Screen
@@ -106,13 +106,13 @@ const Navigation = () => {
                             }}
                         />
                     )
-                    
+
                 )}
 
 
             </Stack.Navigator>
-        </NavigationContainer>
-        )  
+          </NavigationContainer>
+        )
 }
 const styles = StyleSheet.create({
     header: {

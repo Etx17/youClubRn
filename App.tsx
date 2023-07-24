@@ -7,6 +7,7 @@ import {MD3LightTheme as DefaultTheme, PaperProvider } from 'react-native-paper'
 import AuthContextProvider from './src/contexts/AuthContext';
 import colors from './src/themes/colors';
 import { Amplify } from 'aws-amplify';
+import {Authenticator} from '@aws-amplify/ui-react-native';
 import config from './src/aws-exports';
 Amplify.configure(config);
 
@@ -14,15 +15,17 @@ Amplify.configure(config);
 export default function App() {
 
    return (
-      <PaperProvider>
-        <SafeAreaProvider>
-          <AuthContextProvider>
+    <PaperProvider>
+      <SafeAreaProvider>
+        <AuthContextProvider>
+          <Authenticator.Provider>
             <LocationContextProvider>
               <Navigation/>
             </LocationContextProvider>
-          </AuthContextProvider>
-        </SafeAreaProvider>
-      </PaperProvider>
+          </Authenticator.Provider>
+        </AuthContextProvider>
+      </SafeAreaProvider>
+    </PaperProvider>
   );
 }
 
