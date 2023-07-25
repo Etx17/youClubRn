@@ -132,21 +132,11 @@ const NewActivityScreen = (clubId: string) => {
           }
       });
     }
-    // console.log(imagesKeys, 'this is const imagesKeys after setImagesKeys')
-
-
-    // My array of imagesKeys will be sent to my rails API as well with other data.
-    // merge data with imagesKeys into one big object so that my rails api reads it.
-
-    // TODO: Send all data to DB
-
 
   }
 
   const uploadMedia = async(uri: string) => {
-    // fetch the image from the local uri and upload it to s3 using the Storage.put method then return the key and set it to the imagesKeys state
     try {
-      console.log(uri, '<----- this is URI to be uploaded')
       const response = await fetch(uri);
       const blob = await response.blob();
       const s3Response = await Storage.put(
@@ -154,10 +144,7 @@ const NewActivityScreen = (clubId: string) => {
         blob,
         { progressCallback(progress) { console.log(`Uploaded: ${progress.loaded}/${progress.total}`); }, }
       );
-      console.log(s3Response.key, 'this is s3Response.key after uploading')
       imagesKeys.push(s3Response.key);
-      // setImagesKeys(prevImages => [...prevImages, s3Response.key]);
-      // console.log(imagesKeys, 'this is const imagesKeys after setImagesKeys after uploading')
       return s3Response.key;
     } catch (e:any) {
       Alert.alert("Error uploading file", e.message);
@@ -201,8 +188,6 @@ const NewActivityScreen = (clubId: string) => {
 
               )
               }
-
-              {/* End of image component input */}
 
               <Card.Title title="Catégorie et sous-catégorie"/>
               <View style={styles.dropdownContainer}>
