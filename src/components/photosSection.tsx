@@ -5,21 +5,20 @@ import { Button } from 'react-native-paper';
 import colors from '../themes/colors';
 
 type IPhotosSectionProps = {
-  existingImages: string[];
   selectedImages: string[];
   numRows: number;
   pickImageAsync: () => void;
   handleImageDelete: (image: string) => void;
 };
 
-const PhotosSection = ({ existingImages, selectedImages, numRows, pickImageAsync, handleImageDelete }: IPhotosSectionProps) => {
+const PhotosSection = ({ selectedImages, numRows, pickImageAsync, handleImageDelete }: IPhotosSectionProps) => {
   return (
     <View>
       {/* Component d'input pour des photos */}
-      {selectedImages.length > 0 || existingImages && existingImages.length > 0 ? (
+      {selectedImages.length > 0 ? (
         <View style={{ borderWidth: 0, margin: 10 }}>
           <FlatList
-            data={[...existingImages, ...selectedImages]}
+            data={selectedImages}
             keyExtractor={(item) => item}
             numColumns={3}
             scrollEnabled={false}
@@ -34,7 +33,7 @@ const PhotosSection = ({ existingImages, selectedImages, numRows, pickImageAsync
             )}
           />
           <Text onPress={pickImageAsync} style={{ fontSize: 14, color: colors.grayDarkest, margin: 10 }}>
-            {selectedImages.length + existingImages.length} images sélectionnées <Text style={{ color: colors.danger }}>(Ajouter)</Text>
+            {selectedImages.length} images sélectionnées <Text style={{ color: colors.danger }}>(Ajouter)</Text>
           </Text>
         </View>
       ) : (

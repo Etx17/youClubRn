@@ -26,7 +26,6 @@ const NewActivityScreen = (clubId: string) => {
   const [subCategoryDropdownValue, setSubCategoryDropdownValue] = useState("all");
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
-  const [existingImages, setExistingImages] = useState<string[]>([]);
   const [hasFreeTrial, setHasFreeTrial] = React.useState(false);
   const navigation = useNavigation()
   const numRows = selectedImages.length < 3 ? 1 : 2;
@@ -118,12 +117,7 @@ const NewActivityScreen = (clubId: string) => {
       }).then(async (activityObj) => {
         try {
           console.log(activityObj, 'this is activityJob ready to be sent to the mutation')
-          // await doCreateRestaurant({variables: {input: restaurantObj}});
-          // alert('the restaurant has been created');
-          // setIsSubmitting(false);
-          // navigation.popToTop();
-          // // vider le formulaire des infos prérentrées.
-          // navigation.navigate('PlacesList');
+          // TODO: Appel a mon API pour créer l'activité
           Alert.alert('Votre activité a été créée avec succès !', 'Vous pouvez maintenant la retrouver dans la liste des activités de votre club. Vous pouvez la modifier à tout moment en cliquant dessus.')
           navigation.goBack();
           } catch (error) {
@@ -173,7 +167,6 @@ const NewActivityScreen = (clubId: string) => {
               ) : selectedImages.length > 0 ? (
 
                 <PhotosSection
-                  existingImages={existingImages}
                   selectedImages={selectedImages}
                   numRows={numRows} // Make sure to provide numRows as a prop
                   pickImageAsync={pickImageAsync} // Make sure to provide pickImageAsync as a prop

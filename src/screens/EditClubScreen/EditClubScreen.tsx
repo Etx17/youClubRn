@@ -1,4 +1,4 @@
-import { View, Text, Alert, ScrollView, FlatList, StyleSheet, Pressable } from 'react-native'
+import { View, Text, Alert, ScrollView, FlatList, StyleSheet, Pressable, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Button, TextInput, Card, HelperText} from 'react-native-paper'
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -11,11 +11,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { ClubSchema, Club } from '../../schema/club.schema';
 import ControlledInput from '../../components/ControlledInput';
 import { useAuthContext } from '../../contexts/AuthContext';
-export default function EditClubScreen() {
-  // Pour le composant de selection d'image,
-  // Il me faut en entrée l'array d'images actuel du club. Je vais le hardcoder ici mais iu faudra le récupérer de l'API
-  // Ensuite, je dois pouvoir ajouter ou supprimer des images de cet array.
+import PhotosSection from '../../components/photosSection';
+import { Storage } from 'aws-amplify';
 
+export default function EditClubScreen() {
 
   // --------------------------------------------------------------------------------------
   // START--------------------------MOCKING FETCHING DATA FROM API--------------------------
@@ -26,129 +25,167 @@ export default function EditClubScreen() {
   // --------------------------------------------------------------------------------------
   // END--------------------------MOCKING FETCHING DATA FROM API--------------------------
   // --------------------------------------------------------------------------------------
- 
 
   const { control, handleSubmit, setValue, formState: { errors } } = useForm<Club>({
     resolver: zodResolver(ClubSchema),
   });
   console.log(errors);
-  
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isImagePickerVisible, setImagePickerVisible] = useState(false);
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const numRows = selectedImages.length < 3 ? 1 : 2;
   const navigation = useNavigation()
   const { user } = useAuthContext();
-  useEffect(() => { 
-    setSelectedImages(actualImagesFromClub) 
+  useEffect(() => {
+    setSelectedImages(actualImagesFromClub)
     setValue("name", clubName);
     setValue("objet", clubDescription);
   }, [])
 
-  const saveAndGoBack = (data: {}) => {
-    // Donner tout l'array d'images ( uris déja existant + //files) mais n'Upload que les selectedImages qui ne sont pas déja des uris (mais qui sont des files//) et obtenir l'array d'uris en retour.
-    // Remplacer l'ancien array d'images la ou il y avait les //files par leurs nouvelles uris
-    // Ensuite, faire un fetch pour mettre à jour le club avec les nouvelles uris, la nouvelle description si il y en a une, le nouveau nom si il y en a un, le nouveau site web si il y en a un.
-    // Navigation go back
-    console.log(data, 'form fields:', data)
-    console.log(selectedImages, 'images in the saveandGoBack')
-    navigation.goBack()
+  const uploadMedia = async(uri: string) => {
+    try {
+      const response = await fetch(uri);
+      const blob = await response.blob();
+      const s3Response = await Storage.put(
+        blob._data.name,
+        blob,
+        { progressCallback(progress) { console.log(`Uploaded: ${progress.loaded}/${progress.total}`); }, }
+      );
+      imagesKeys.push(s3Response.key);
+      return s3Response.key;
+    } catch (e:any) {
+      Alert.alert("Error uploading file", e.message);
+    }
   }
 
-  const pickImageAsync = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      quality: 0.5, 
-      allowsMultipleSelection: true, 
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      // maxWidth: 450,
-      // maxHeight: 700,
-    });
+  const saveAndGoBack = async (data: {}) => {
+    if (isSubmitting) { return }
+    setIsSubmitting(true);
+    // Transform data into an object that can be sent to the rails API
+    const clubObj = { ...data, user_id: user.id }
 
-    if (!result.canceled) {
-      console.log('hey, you just selected some pictures')
-      const images: string[] = []
-      result.assets.forEach(image => { images.push(image.uri) })
-      setSelectedImages(prevImages => [...prevImages, ...images]);
-      // console.log(selectedImages)
+    try {
+      // Step 1: Identify images to delete from S3
+      const imagesToDeleteFromS3 = actualImagesFromClub.filter((image) => !selectedImages.includes(image));
+      for (const imageToDelete of imagesToDeleteFromS3) {
+        try {
+          // await Storage.remove(imageToDelete);
+          console.log('image deleted from S3', imageToDelete);
+        } catch (error) {
+          console.log(error, 'there was an error deleting the image');
+        }
+      }
 
-    } else {
-      alert('You did not select any image.');
+      // Step 2: Upload new images to S3 and get their keys
+      const newImageKeys = await Promise.all(
+        selectedImages.map(async (image) => {
+          if (!actualImagesFromClub.includes(image)) {
+            const uploadedKey = await uploadMedia(image);
+            console.log('image uploaded to S3', uploadedKey)
+            return uploadedKey;
+          }
+        })
+      );
+
+      // Now filter out any undefined elements from the newImageKeys array (caused by the if condition)
+      const filteredNewImageKeys = newImageKeys.filter((key) => key);
+
+      // Step 3: Get the final array of image keys
+      const finalImageKeys = [...actualImagesFromClub.filter((image) => selectedImages.includes(image)), ...filteredNewImageKeys];
+
+      // Add the merged keys to clubObj
+      clubObj.images = finalImageKeys;
+
+
+      // After all images are processed, proceed with saving the club object
+      // TODO: Call your API to update the club with the modified data (clubObj)
+      console.warn('Mocking club update with the following data:', clubObj);
+
+      // Finally, navigate back to the previous screen
+      navigation.goBack();
+    } catch (error) {
+      console.log(error, 'there was an error during the process');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
-  const uploadMedia = async (uri: string) => {
+
+  const pickImageAsync = async () => {
     try {
-      // Convert image into blob
-      // Send blob to rails server 
-      const response = await fetch(uri);
-      const blob = await response.blob();
+      setImagePickerVisible(true);
+      const result = await ImagePicker.launchImageLibraryAsync({
+        quality: 0.5,
+        allowsMultipleSelection: true,
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      });
 
-      const timestamp = new Date().getTime();
-      const randomNum = Math.floor(Math.random() * 1000000);
-
-      const uriParts = uri.split('.');
-      const extension = uriParts[uriParts.length - 1];
-      
-      const uniqueName = `${user.id}-${timestamp}-${randomNum}.${extension}`;
-   
-      const s3Response = await Storage.put(uniqueName, blob)
-
-      return s3Response.key;
-    } catch(e) {
-      Alert.alert('Error uploading the file', (e as Error).message)
+      if (!result.canceled) {
+        // If multiple images are selected, result will be an array of objects
+        console.log(result, "this is suppose to be an array of objects")
+        const selectedImageUris = result.assets.map((item) => item.uri);
+        setSelectedImages((prevImages) => [...prevImages, ...selectedImageUris]);
+      }
+    } catch (error) {
+      console.error('Error picking image:', error);
+      Alert.alert('Error', 'There was an error picking the image. Please try again.');
+    } finally {
+      setImagePickerVisible(false);
     }
-  } 
- 
+  };
+
+  const imagesKeys = []
+
+
+  const handleImageDelete = (imageUri: string) => {
+    setSelectedImages((prevSelectedImages) =>
+      prevSelectedImages.filter((image) => image !== imageUri)
+    );
+  }
+
   return (
     <ScrollView style={{ padding: 15, flex: 1}}>
+    { isSubmitting ? (
+      <ActivityIndicator size="large" color="blue" />
+    ) : (
       <View style={{gap: 15}}>
         <Card>
           <Card.Title title="Ajoutez ou supprimez des photos de votre club" />
-            {/* Component d'input pour des photos */}
-            {selectedImages.length > 0 ? (
-              <View style={{borderWidth: 0, margin: 10}}>
-                <FlatList
-                  data={selectedImages}
-                  keyExtractor={(item) => item}
-                  numColumns={3}
-                  style={{ maxHeight: numRows * 150 }}
-                  renderItem={({ item }) => (
-                    <View style={styles.thumbnailContainer}>
-                      <Image source={{ uri: item }} style={styles.thumbnail} />
-                      <Pressable style={styles.deleteButton}>
-                        <Ionicons
-                          onPress={ () => {
-                            const newImages = selectedImages.filter((image) => image !== item)
-                            setSelectedImages(newImages)
-                          }}
-                          name='trash-outline'
-                          size={20}
-                          color={colors.danger}
-                        />
-                      </Pressable>
-                    </View>
-                  )}
-                />
-                <Text onPress={pickImageAsync} style={{fontSize: 14, color: colors.grayDarkest, margin: 10}}>{selectedImages.length} images séléctionnées <Text style={{color: colors.danger}}>(Ajouter)</Text></Text>
-              </View>
 
-            ) : (
-              <Button onPress={pickImageAsync} style={styles.imageButton}>
-                <Text style={styles.addImageText}>+</Text>
-              </Button>
-            )}
-            {/* End of image component input */}
+              { isImagePickerVisible ? (
+
+                <ActivityIndicator size="large" color="grey" style={{ marginTop: 20 }} />
+
+              ) : selectedImages.length > 0 ? (
+
+                <PhotosSection
+                  selectedImages={selectedImages}
+                  numRows={numRows} // Make sure to provide numRows as a prop
+                  pickImageAsync={pickImageAsync} // Make sure to provide pickImageAsync as a prop
+                  handleImageDelete={handleImageDelete}
+                />
+
+              ) : (
+
+                <Button onPress={pickImageAsync} style={styles.imageButton}>
+                  <Text style={styles.addImageText}>+</Text>
+                </Button>
+
+              )
+              }
         </Card>
         <Card>
           <Card.Title title="Modifiez les informations de votre club"/>
           <Card.Content style={{gap: 5}}>
 
-            <ControlledInput 
+            <ControlledInput
               control={control}
               name="name"
               label="Nom du club"
               placeholder={clubName}
             />
 
-            <ControlledInput 
+            <ControlledInput
               control={control}
               name="objet"
               label="Description"
@@ -156,7 +193,7 @@ export default function EditClubScreen() {
               multiline
             />
 
-            <ControlledInput 
+            <ControlledInput
               control={control}
               name="website"
               label="Lien d'inscription ou site web"
@@ -167,6 +204,7 @@ export default function EditClubScreen() {
         </Card>
         <Button style={{marginBottom: 30}} onPress={handleSubmit(saveAndGoBack)}mode='elevated' textColor='black'>Enregistrer</Button>
       </View>
+    )}
     </ScrollView>
   )
 }
