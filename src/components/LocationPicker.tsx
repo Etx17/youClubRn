@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Modal, Pressable, StyleSheet, Text } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { View } from 'react-native';
 type Location = {
   latitude: number;
   longitude: number;
@@ -12,6 +14,7 @@ type LocationPickerProps = {
 };
 
 export const LocationPicker = ({ onLocationSelected }: any) => {
+  const insets = useSafeAreaInsets();
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState<Location | null>({
     latitude: 42.78825,
@@ -38,6 +41,7 @@ export const LocationPicker = ({ onLocationSelected }: any) => {
         transparent={false}
         visible={isModalVisible}
       >
+        <View style={{ flex: 1, paddingTop: insets.top, paddingBottom: insets.bottom }}>
         <Text style={styles.title}>Touchez pour choisir votre location</Text>
         <MapView
           style={{ flex: 1, paddingVertical: 50 }}
@@ -59,6 +63,7 @@ export const LocationPicker = ({ onLocationSelected }: any) => {
         <Pressable style={styles.button} onPress={handleLocationSelection}>
           <Text>OK</Text>
         </Pressable>
+        </View>
       </Modal>
     </>
   );

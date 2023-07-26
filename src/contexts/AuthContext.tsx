@@ -22,7 +22,7 @@ const AuthContextProvider = ({children}: {children: ReactNode}) => {
             console.log(authUser.attributes.email, authUser.attributes.sub)
 
             // TODO Fetch now the user that has this sub_id from my database (rails) and set it to the user state
-            const mockedUser = {id: '1', role: "club"}
+            const mockedUser = {id: '1', role: "user"}
 
             // For now i'll set user as a dummy object
             setUser(mockedUser)
