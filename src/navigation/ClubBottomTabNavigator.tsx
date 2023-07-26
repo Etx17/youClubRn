@@ -2,35 +2,38 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {ClubBottomTabNavigatorParamsList} from '../types';
 import colors from '../themes/colors';
 import React from 'react';
-import ClubDetailsScreen from '../screens/ClubDetailsScreen/ClubDetailsScreen';
-import EditClubScreen from '../screens/EditClubScreen/EditClubScreen';
-import NewActivityScreen from '../screens/NewActivityScreen/NewActivityScreen';
 import ClubActivitiesNavigator from './ClubActivitiesNavigator';
-import OwnerClubDetailsScreen from '../screens/OwnerClubDetailsScreen/OwnerClubDetailsScreen';
 import ClubAccountScreen from '../screens/ClubAccountScreen/ClubAccountScreen';
+import AntIcons from '@expo/vector-icons/AntDesign';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const Tab = createBottomTabNavigator<ClubBottomTabNavigatorParamsList>();
 const ClubBottomTabNavigator = () => {
+  const insets = useSafeAreaInsets();
     return (
         <Tab.Navigator
             screenOptions={{
-                tabBarShowLabel: true, 
-                tabBarActiveTintColor: colors.white,
+                tabBarShowLabel: false,
+                tabBarActiveTintColor: colors.primary,
                 tabBarInactiveTintColor: colors.dark,
-                tabBarActiveBackgroundColor: colors.black,
+                tabBarActiveBackgroundColor: colors.dark,
                 tabBarInactiveBackgroundColor: colors.black,
                 tabBarStyle: {
-                    borderTopWidth: 1,
-                    borderTopColor: colors.primary,
-                    height: 50,
+                    borderTopColor: 'white',
+                    height: 50 + insets.bottom,
+                    paddingBottom: insets.bottom,
+
                 },
             }}
         >
             <Tab.Screen
                 name="ClubActivitiesNavigator"
+
                 component={ClubActivitiesNavigator}
                 options={{
-                    headerShown: false,
+                  headerShown: false,
+                  tabBarIcon: ({color}) =>
+                    <AntIcons name="home" size={24} color={color}  />
                 }}
             />
             <Tab.Screen
@@ -39,7 +42,7 @@ const ClubBottomTabNavigator = () => {
             />
         </Tab.Navigator>
     );
-            
+
 
 };
 
