@@ -37,8 +37,13 @@ const ClubBottomTabNavigator = () => {
                 }}
             />
             <Tab.Screen
-                name="Account"
+                name="Votre compte"
                 component={ClubAccountScreen}
+                options={{
+                  headerShown: true,
+                  tabBarIcon: ({color}) =>
+                    <AntIcons name="user" size={24} color={color}  />
+                }}
             />
         </Tab.Navigator>
     );

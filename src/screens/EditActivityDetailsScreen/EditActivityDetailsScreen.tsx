@@ -130,6 +130,18 @@ export default function EditActivityDetailsScreen() {
     }
   };
 
+  const pricingTypes = [
+    { label: "Mensuel", key: "monthly" },
+    { label: "Annuel", key: "yearly" },
+    { label: "Semestriel", key: "semiYearly" },
+    { label: "Trimestriel", key: "quarterly" },
+    { label: "Carnet de tickets", key: "ticketBook" },
+    { label: "À l'unité", key: "perUnit" },
+    { label: "Forfaits sur mesure", key: "customPackages" },
+    { label: "Pass", key: "pass" },
+    { label: "Autre", key: "other" },
+  ];
+
 
   return (
     <ScrollView style={{ padding: 15, flex: 1}}>
@@ -245,15 +257,22 @@ export default function EditActivityDetailsScreen() {
               }) => (
                 <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
                   <Text>Types de tarification disponibles</Text>
-                  <Checkbox.Item label="Mensuelle" status={checkedItems.monthly ? 'checked' : 'unchecked'} onPress={() => handleCheck('monthly', onChange)} />
-                  <Checkbox.Item label="Annuelle" status={checkedItems.yearly ? 'checked' : 'unchecked'} onPress={() => handleCheck('yearly', onChange)} />
-                  <Checkbox.Item label="Semestrielle" status={checkedItems.semiYearly ? 'checked' : 'unchecked'} onPress={() => handleCheck('semiYearly', onChange)} />
-                  <Checkbox.Item label="Trimestrielle" status={checkedItems.quarterly ? 'checked' : 'unchecked'} onPress={() => handleCheck('quarterly', onChange)} />
-                  <Checkbox.Item label="À l'unité" status={checkedItems.perUnit ? 'checked' : 'unchecked'} onPress={() => handleCheck('perUnit', onChange)} />
-                  <Checkbox.Item label="Carnet de tickets" status={checkedItems.ticketBook ? 'checked' : 'unchecked'} onPress={() => handleCheck('ticketBook', onChange)} />
-                  <Checkbox.Item label="Pass" status={checkedItems.pass ? 'checked' : 'unchecked'} onPress={() => handleCheck('pass', onChange)} />
-                  <Checkbox.Item label="Forfaits sur mesure" status={checkedItems.customPackages ? 'checked' : 'unchecked'} onPress={() => handleCheck('customPackages', onChange)} />
-                  <Checkbox.Item label="Autre" status={checkedItems.other ? 'checked' : 'unchecked'} onPress={() => handleCheck('other', onChange)} />
+                  {pricingTypes.map(({ label, key }) => (
+                      <Checkbox.Item
+                        key={key}
+                        label={label}
+                        status={checkedItems[key] ? 'checked' : 'unchecked'}
+                        onPress={() => handleCheck(key, onChange)}
+                        style={{ padding: 0, margin: 0 }}
+                        labelStyle={{
+                          borderColor: checkedItems[key] ? colors.dark : 'gray',
+                          borderWidth: 1.5,
+                          borderRadius: 5,
+                          paddingHorizontal: 8,
+                          backgroundColor: checkedItems[key] ? colors.primary : 'lightgray',
+                        }}
+                      />
+                    ))}
                 </View>
               )}
             />

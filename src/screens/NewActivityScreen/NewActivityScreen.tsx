@@ -1,9 +1,7 @@
 import { View, Text, Alert, ScrollView, FlatList, StyleSheet, Pressable, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Button, Card, Checkbox, Switch } from 'react-native-paper'
-import Ionicons from '@expo/vector-icons/Ionicons';
 import * as ImagePicker from 'expo-image-picker';
-import { Image } from 'expo-image';
 import colors from '../../themes/colors';
 import { useForm, Controller } from 'react-hook-form';
 import { useNavigation } from '@react-navigation/native';
@@ -13,7 +11,6 @@ import ControlledInput from '../../components/ControlledInput';
 import PhotosSection from '../../components/photosSection';
 import Dropdown from '../../components/Dropdown';
 import SubCategoryDropdown from '../../components/SubCategoryDropdown';
-import { Storage } from 'aws-amplify';
 import { uploadImageToS3 } from '../../services/ImageService';
 
 const NewActivityScreen = (clubId: string) => {
@@ -32,7 +29,6 @@ const NewActivityScreen = (clubId: string) => {
     { label: "Autre", key: "other" },
   ];
   console.log(errors);
-  // const [imagesKeys, setImagesKeys] = useState<string[]>([])
   const [dropdownValue, setDropdownValue] = useState("Sports, activités de plein air");
   const [isImagePickerVisible, setImagePickerVisible] = useState(false);
   const [subCategoryDropdownValue, setSubCategoryDropdownValue] = useState("all");
@@ -42,7 +38,6 @@ const NewActivityScreen = (clubId: string) => {
   const navigation = useNavigation()
   const numRows = selectedImages.length < 3 ? 1 : 2;
   const imagesKeys = []
-  // Aller fetcher sur l'api pour savoir quelle sont les types de tarification de l'activité
   const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean; }>({
     monthly: false,
     yearly: false,
@@ -64,9 +59,7 @@ const NewActivityScreen = (clubId: string) => {
       console.log('valuesub', valuesub);
   };
 
-  // Check if subcategories of a club include valuesub
   const handleCheck  = (itemKey: string, onChange: (keys: string[]) => void) => {
-    // setCheckedItems({ ...checkedItems, [itemKey]: !checkedItems[itemKey] });
     const newCheckedItems = { ...checkedItems, [itemKey]: !checkedItems[itemKey] };
     setCheckedItems(newCheckedItems);
     // Convert the checkedItems object into an array of checked keys
@@ -163,8 +156,8 @@ const NewActivityScreen = (clubId: string) => {
 
                 <PhotosSection
                   selectedImages={selectedImages}
-                  numRows={numRows} // Make sure to provide numRows as a prop
-                  pickImageAsync={pickImageAsync} // Make sure to provide pickImageAsync as a prop
+                  numRows={numRows}
+                  pickImageAsync={pickImageAsync}
                   handleImageDelete={handleImageDelete}
                 />
 
@@ -242,22 +235,12 @@ const NewActivityScreen = (clubId: string) => {
                 }) => (
                   <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
                     <Text>Types de tarification disponibles</Text>
-                    {/* <Checkbox.Item label="Mensuel" status={checkedItems.monthly ? 'checked' : 'unchecked'} onPress={() => handleCheck('monthly', onChange)} labelStyle={{borderColor: checkedItems.monthly ? colors.dark : 'gray', borderWidth: 1.5, borderRadius: 5, paddingHorizontal: 4, backgroundColor: checkedItems.monthly ? colors.primary : 'lightgray' }}/>
-                    <Checkbox.Item label="Annuel" status={checkedItems.yearly ? 'checked' : 'unchecked'} onPress={() => handleCheck('yearly', onChange)} labelStyle={{borderColor: checkedItems.yearly ? colors.dark : 'gray', borderWidth: 1.5, borderRadius: 5, paddingHorizontal: 4, backgroundColor: checkedItems.yearly ? colors.primary : 'lightgray' }}/>
-                    <Checkbox.Item label="Semestriel" status={checkedItems.semiYearly ? 'checked' : 'unchecked'} onPress={() => handleCheck('semiYearly', onChange)} labelStyle={{borderColor: checkedItems.semiYearly ? colors.dark : 'gray', borderWidth: 1.5, borderRadius: 5, paddingHorizontal: 4, backgroundColor: checkedItems.semiYearly ? colors.primary : 'lightgray' }}/>
-                    <Checkbox.Item label="Trimestriel" status={checkedItems.quarterly ? 'checked' : 'unchecked'} onPress={() => handleCheck('quarterly', onChange)} labelStyle={{borderColor: checkedItems.quarterly ? colors.dark : 'gray', borderWidth: 1.5, borderRadius: 5, paddingHorizontal: 4, backgroundColor: checkedItems.quarterly ? colors.primary : 'lightgray' }}/>
-                    <Checkbox.Item label="Carnet de tickets" status={checkedItems.ticketBook ? 'checked' : 'unchecked'} onPress={() => handleCheck('ticketBook', onChange)} labelStyle={{borderColor: checkedItems.ticketBook ? colors.dark : 'gray', borderWidth: 1.5, borderRadius: 5, paddingHorizontal: 4, backgroundColor: checkedItems.ticketBook ? colors.primary : 'lightgray' }}/>
-                    <Checkbox.Item label="À l'unité" status={checkedItems.perUnit ? 'checked' : 'unchecked'} onPress={() => handleCheck('perUnit', onChange)} labelStyle={{borderColor: checkedItems.perUnit ? colors.dark : 'gray', borderWidth: 1.5, borderRadius: 5, paddingHorizontal: 4, backgroundColor: checkedItems.perUnit ? colors.primary : 'lightgray' }}/>
-                    <Checkbox.Item label="Forfaits sur mesure" status={checkedItems.customPackages ? 'checked' : 'unchecked'} onPress={() => handleCheck('customPackages', onChange)} labelStyle={{borderColor: checkedItems.customPackages ? colors.dark : 'gray', borderWidth: 1.5, borderRadius: 5, paddingHorizontal: 4, backgroundColor: checkedItems.customPackages ? colors.primary : 'lightgray' }}/>
-                    <Checkbox.Item label="Pass" status={checkedItems.pass ? 'checked' : 'unchecked'} onPress={() => handleCheck('pass', onChange)} labelStyle={{borderColor: checkedItems.pass ? colors.dark : 'gray', borderWidth: 1.5, borderRadius: 5, paddingHorizontal: 4, backgroundColor: checkedItems.pass ? colors.primary : 'lightgray' }}/>
-                    <Checkbox.Item label="Autre" status={checkedItems.other ? 'checked' : 'unchecked'} onPress={() => handleCheck('other', onChange)} labelStyle={{borderColor: checkedItems.other ? 'red' : 'gray', borderWidth: 1.5, borderRadius: 5, paddingHorizontal: 4, backgroundColor: checkedItems.other ? colors.primary : 'lightgray' }}/> */}
                     {pricingTypes.map(({ label, key }) => (
                       <Checkbox.Item
                         key={key}
                         label={label}
                         status={checkedItems[key] ? 'checked' : 'unchecked'}
                         onPress={() => handleCheck(key, onChange)}
-                        style={{ padding: 0, margin: 0 }}
                         labelStyle={{
                           borderColor: checkedItems[key] ? colors.dark : 'gray',
                           borderWidth: 1.5,
