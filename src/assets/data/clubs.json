@@ -15,7 +15,7 @@
             "https://source.unsplash.com/random/?dance/300x100/"
         ],
         "objet": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic repellendus unde blanditiis. Eos fugiat dolorem ea fugit aut sapiente corrupti autem dolores deleniti architecto, omnis, amet unde dignissimos quam minima?",
-        "activities": 
+        "activities":
         [
             {
                 "id": "3",
@@ -39,11 +39,11 @@
                 ],
                 "activity_price_recurrence": "semester",
                 "sub_groups": [
-                    { 
-                        "id": "sg1", 
-                        "address": "4 rue du General Foy, 75017", 
-                        "name": "Découverte", 
-                        "min_price": "19", 
+                    {
+                        "id": "sg1",
+                        "address": "4 rue du General Foy, 75017",
+                        "name": "Découverte",
+                        "min_price": "19",
                         "max_price": "100",
                         "activity_id": "3",
                         "reccurence": "mois",
@@ -51,18 +51,26 @@
                         "short_description": "Le cours gratuit ne s'addresse qu'aux débutant, sans expérience. Il est obligatoire de s'inscrire ou de réserver.",
                         "subscription_by_reccurence_price": "1000",
                         "tarifications": ["100/mois", "1022/an", "10/heure", "100/jour", "120/carnet de 5 tickets"],
-                        "schedule": {
+                        "schedule": [
+                          {
                             "sub_group_id": "sg1",
                             "id": "sc7",
-                            "lundi": [{"endTime": "01:30", "startTime": "03:00"}, {"endTime": "21:30", "startTime": "20:00"}, {"endTime": "10:30", "startTime": "13:00"}],
-                            "mardi": [{"endTime": "01:30", "startTime": "03:00"}]
-                        }
+                            "day": "lundi",
+                            "time_slots": [{"endTime": "01:30", "startTime": "03:00"}, {"endTime": "21:30", "startTime": "20:00"}, {"endTime": "10:30", "startTime": "13:00"}]
+                          },
+                          {
+                            "sub_group_id": "sg1",
+                            "id": "sc7",
+                            "day": "mardi",
+                            "time_slots": [{"endTime": "01:30", "startTime": "03:00"}]
+                          }
+                        ]
                     },
-                    { 
-                        "id": "sg2", 
-                        "address": "4 rue du General Foy, 75017", 
-                        "name": "Initiation", 
-                        "min_price": "19",                       
+                    {
+                        "id": "sg2",
+                        "address": "4 rue du General Foy, 75017",
+                        "name": "Initiation",
+                        "min_price": "19",
                         "max_price": "100",
                         "activity_id": "3",
                         "reccurence": "cours",
@@ -70,13 +78,26 @@
                         "short_description": "Vous avez entre 5 et 15 cours, ou 2 mois de cours et pratique régulière",
                         "subscription_by_reccurence_price": "1000",
                         "tarifications": ["100/mois", "1022/an", "10/heure", "100/jour", "120/carnet de 5 tickets"],
-                        "schedule": {
+                        "schedule": [
+                          {
                             "sub_group_id": "sg1",
-                            "id": "sc8",
-                            "lundi": [{"endTime": "01:30", "startTime": "03:00"}, {"endTime": "21:30", "startTime": "20:00"}, {"endTime": "10:30", "startTime": "13:00"}],
-                            "mardi": [{"endTime": "01:30", "startTime": "03:00"}, {"endTime": "21:30", "startTime": "20:00"}, {"endTime": "10:30", "startTime": "13:00"}],
-                            "samedi": [{"endTime": "01:30", "startTime": "03:00"}, {"endTime": "21:30", "startTime": "20:00"}, {"endTime": "10:30", "startTime": "13:00"}]
-                        }
+                            "id": "sc7",
+                            "day": "lundi",
+                            "time_slots": [{"endTime": "01:30", "startTime": "03:00"}, {"endTime": "21:30", "startTime": "20:00"}, {"endTime": "10:30", "startTime": "13:00"}]
+                          },
+                          {
+                            "sub_group_id": "sg1",
+                            "id": "sc7",
+                            "day": "mardi",
+                            "time_slots": [{"endTime": "01:30", "startTime": "03:00"}]
+                          },
+                          {
+                            "sub_group_id": "sg1",
+                            "id": "sc7",
+                            "day": "mardi",
+                            "time_slots": [{"endTime": "01:30", "startTime": "03:00"}]
+                          }
+                        ]
                     }
                 ]
             }
