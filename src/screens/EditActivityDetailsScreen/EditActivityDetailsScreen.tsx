@@ -38,6 +38,8 @@ export default function EditActivityDetailsScreen() {
     customPackages: currentPricingTypes.includes("customPackages"),
     other: currentPricingTypes.includes("other"),
   }
+  const category = "Sports, activités de plein air"
+  const subcategory= "Golf"
   // --------------------------------------------------------------------------------------
   // END--------------------------MOCKING FETCHING DATA FROM API--------------------------
   // --------------------------------------------------------------------------------------
@@ -177,12 +179,14 @@ export default function EditActivityDetailsScreen() {
                 style={{ flex: 1 }}
                 valuecat={dropdownValue}
                 onValueChange={handleDropdownValueChange}
+                defaultValue={category}
               />
               <SubCategoryDropdown
                 style={{ flex: 1 }}
                 valuesub={subCategoryDropdownValue}
                 onValueChange={handleSubCategoryDropdownValueChange}
                 categoryName={dropdownValue || ''}
+                defaultValue={subcategory}
               />
             </View>
 

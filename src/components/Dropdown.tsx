@@ -10,12 +10,13 @@ interface IDropdownProps {
     disabled?: boolean;
     onValueChange?: (value: any) => void;
     valuecat?: String | null;
+    defaultValue?: String | null;
 }
 
 
-const Dropdown = ({style, disabled, onValueChange, valuecat}: IDropdownProps) => {
+const Dropdown = ({style, disabled, onValueChange, valuecat, defaultValue}: IDropdownProps) => {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("sports");
+  const [value, setValue] = useState<string>( defaultValue || 'sports');
 
   return (
     <DropDownPicker

@@ -20,7 +20,7 @@ const AuthContextProvider = ({children}: {children: ReactNode}) => {
         try {
             const authUser = await Auth.currentAuthenticatedUser({bypassCache: true})
             console.log(authUser.attributes.email, authUser.attributes.sub)
-            
+
             // TODO Fetch now the user that has this sub_id from my database (rails) and set it to the user state
             const mockedUser = {id: '1', role: "club"}
 

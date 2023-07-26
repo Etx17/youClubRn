@@ -1,19 +1,17 @@
 import { View, Text, Alert, ScrollView, FlatList, StyleSheet, Pressable, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Button, TextInput, Card, HelperText} from 'react-native-paper'
-import Ionicons from '@expo/vector-icons/Ionicons';
 import * as ImagePicker from 'expo-image-picker';
-import { Image } from 'expo-image';
-import colors from '../../themes/colors';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useNavigation } from '@react-navigation/native';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ClubSchema, Club } from '../../schema/club.schema';
 import ControlledInput from '../../components/ControlledInput';
 import { useAuthContext } from '../../contexts/AuthContext';
 import PhotosSection from '../../components/photosSection';
-import { Storage } from 'aws-amplify';
 import { updateImageKeysInS3, uploadImageToS3 } from '../../services/ImageService';
+import Dropdown from '../../components/Dropdown';
+import SubCategoryDropdown from '../../components/SubCategoryDropdown';
 
 
 export default function EditClubScreen() {
@@ -23,6 +21,8 @@ export default function EditClubScreen() {
   // --------------------------------------------------------------------------------------
   const actualImagesFromClub = [ "https://source.unsplash.com/random/?salsa", "https://source.unsplash.com/random/?bachata" ]
   const clubName = "Salsa Club Cool"
+  const category = "Sports, activités de plein air"
+  const subcategory = 'Golf'
   const clubDescription = "Au cœur de la vibrante capitale française se trouve El Ritmo de la Noche, un club de salsa à Paris offrant"
   // --------------------------------------------------------------------------------------
   // END--------------------------MOCKING FETCHING DATA FROM API--------------------------
@@ -32,6 +32,8 @@ export default function EditClubScreen() {
     resolver: zodResolver(ClubSchema),
   });
   console.log(errors);
+  const [dropdownValue, setDropdownValue] = useState("Sports, activités de plein air");
+  const [subCategoryDropdownValue, setSubCategoryDropdownValue] = useState('Judo');
   const [isImagePickerVisible, setImagePickerVisible] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
@@ -42,13 +44,15 @@ export default function EditClubScreen() {
     setSelectedImages(actualImagesFromClub)
     setValue("name", clubName);
     setValue("objet", clubDescription);
+    setDropdownValue(category);
+    setSubCategoryDropdownValue(subcategory);
   }, [])
 
   const saveAndGoBack = async (data: {}) => {
     if (isSubmitting) { return }
     setIsSubmitting(true);
     // Transform data into an object that can be sent to the rails API
-    const clubObj = { ...data, user_id: user.id }
+    const clubObj = { ...data, user_id: user.id, category: dropdownValue, subcategory: subCategoryDropdownValue, images: [] };
 
     try {
       // Chekcs for images that were deleted or added and removes/add them from S3
@@ -96,14 +100,21 @@ export default function EditClubScreen() {
     }
   };
 
-  const imagesKeys = []
-
-
   const handleImageDelete = (imageUri: string) => {
     setSelectedImages((prevSelectedImages) =>
       prevSelectedImages.filter((image) => image !== imageUri)
     );
   }
+
+  const handleDropdownValueChange = (valuecat: string) => {
+    console.log('valuecat', valuecat);
+    setDropdownValue(valuecat);
+  };
+
+  const handleSubCategoryDropdownValueChange = (valuesub: string) => {
+    setSubCategoryDropdownValue(valuesub);
+    console.log('valuesub', valuesub);
+  };
 
   return (
     <ScrollView style={{ padding: 15, flex: 1}}>
@@ -137,6 +148,22 @@ export default function EditClubScreen() {
               }
         </Card>
         <Card>
+          <Card.Title title="Catégorie et sous-catégorie"/>
+            <View style={styles.dropdownContainer}>
+              <Dropdown
+                style={{ flex: 1 }}
+                valuecat={dropdownValue}
+                onValueChange={handleDropdownValueChange}
+                defaultValue={category}
+              />
+              <SubCategoryDropdown
+                style={{ flex: 1 }}
+                valuesub={subCategoryDropdownValue}
+                onValueChange={handleSubCategoryDropdownValueChange}
+                categoryName={dropdownValue || ''}
+                defaultValue={subcategory}
+              />
+            </View>
           <Card.Title title="Modifiez les informations de votre club"/>
           <Card.Content style={{gap: 5}}>
 
@@ -159,7 +186,6 @@ export default function EditClubScreen() {
               control={control}
               name="website"
               label="Lien d'inscription ou site web"
-              placeholder="https://www.salsaparis.com"
             />
 
           </Card.Content>
@@ -181,11 +207,14 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8, // iOS only
     elevation: 8, // Android only
   },
+  dropdownContainer: {
+    zIndex: 3000, // Necessary
+    flexDirection: 'row',
+    gap: 0,
+  },
   thumbnailContainer: {
     margin: 4,
     marginBottom: 10,
-    // width: 101,
-    // width: 101,
     width: "30%",
     aspectRatio: 1,
     borderRadius: 10,
