@@ -13,6 +13,8 @@ import ControlledInput from '../../components/ControlledInput';
 import { useAuthContext } from '../../contexts/AuthContext';
 import PhotosSection from '../../components/photosSection';
 import { Storage } from 'aws-amplify';
+import { updateImageKeysInS3, uploadImageToS3 } from '../../services/ImageService';
+
 
 export default function EditClubScreen() {
 
@@ -30,8 +32,8 @@ export default function EditClubScreen() {
     resolver: zodResolver(ClubSchema),
   });
   console.log(errors);
-  const [isSubmitting, setIsSubmitting] = useState(false)
   const [isImagePickerVisible, setImagePickerVisible] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const numRows = selectedImages.length < 3 ? 1 : 2;
   const navigation = useNavigation()
@@ -42,22 +44,6 @@ export default function EditClubScreen() {
     setValue("objet", clubDescription);
   }, [])
 
-  const uploadMedia = async(uri: string) => {
-    try {
-      const response = await fetch(uri);
-      const blob = await response.blob();
-      const s3Response = await Storage.put(
-        blob._data.name,
-        blob,
-        { progressCallback(progress) { console.log(`Uploaded: ${progress.loaded}/${progress.total}`); }, }
-      );
-      imagesKeys.push(s3Response.key);
-      return s3Response.key;
-    } catch (e:any) {
-      Alert.alert("Error uploading file", e.message);
-    }
-  }
-
   const saveAndGoBack = async (data: {}) => {
     if (isSubmitting) { return }
     setIsSubmitting(true);
@@ -65,37 +51,13 @@ export default function EditClubScreen() {
     const clubObj = { ...data, user_id: user.id }
 
     try {
-      // Step 1: Identify images to delete from S3
-      const imagesToDeleteFromS3 = actualImagesFromClub.filter((image) => !selectedImages.includes(image));
-      for (const imageToDelete of imagesToDeleteFromS3) {
-        try {
-          // await Storage.remove(imageToDelete);
-          console.log('image deleted from S3', imageToDelete);
-        } catch (error) {
-          console.log(error, 'there was an error deleting the image');
-        }
-      }
+      // Chekcs for images that were deleted or added and removes/add them from S3
+      const finalImageKeys = await updateImageKeysInS3(actualImagesFromClub, selectedImages);
 
-      // Step 2: Upload new images to S3 and get their keys
-      const newImageKeys = await Promise.all(
-        selectedImages.map(async (image) => {
-          if (!actualImagesFromClub.includes(image)) {
-            const uploadedKey = await uploadMedia(image);
-            console.log('image uploaded to S3', uploadedKey)
-            return uploadedKey;
-          }
-        })
-      );
-
-      // Now filter out any undefined elements from the newImageKeys array (caused by the if condition)
-      const filteredNewImageKeys = newImageKeys.filter((key) => key);
-
-      // Step 3: Get the final array of image keys
-      const finalImageKeys = [...actualImagesFromClub.filter((image) => selectedImages.includes(image)), ...filteredNewImageKeys];
-
-      // Add the merged keys to clubObj
+      // Step 2: Add the merged keys to clubObj
       clubObj.images = finalImageKeys;
 
+      console.log(clubObj.images, "this is the final image keys")
 
       // After all images are processed, proceed with saving the club object
       // TODO: Call your API to update the club with the modified data (clubObj)

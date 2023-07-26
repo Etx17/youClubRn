@@ -1,6 +1,6 @@
-import { View, Text, Alert, ScrollView, FlatList, StyleSheet, Pressable } from 'react-native'
+import { View, Text, Alert, ScrollView, FlatList, StyleSheet, Pressable, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { Button, TextInput, Card, HelperText, Switch, Checkbox} from 'react-native-paper'
+import { Button, Card, Switch, Checkbox} from 'react-native-paper'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import * as ImagePicker from 'expo-image-picker';
 import { Image } from 'expo-image';
@@ -13,15 +13,12 @@ import ControlledInput from '../../components/ControlledInput';
 import { useAuthContext } from '../../contexts/AuthContext';
 import Dropdown from '../../components/Dropdown';
 import SubCategoryDropdown from '../../components/SubCategoryDropdown';
+import { updateImageKeysInS3 } from '../../services/ImageService';
 type PricingTypes = {
   [key: string]: boolean;
 }
 
 export default function EditActivityDetailsScreen() {
-  // Pour le composant de selection d'image,
-  // Il me faut en entrée l'array d'images actuel du club. Je vais le hardcoder ici mais iu faudra le récupérer de l'API
-  // Ensuite, je dois pouvoir ajouter ou supprimer des images de cet array.
-
 
   // --------------------------------------------------------------------------------------
   // START--------------------------MOCKING FETCHING DATA FROM API--------------------------
@@ -44,7 +41,7 @@ export default function EditActivityDetailsScreen() {
   // --------------------------------------------------------------------------------------
   // END--------------------------MOCKING FETCHING DATA FROM API--------------------------
   // --------------------------------------------------------------------------------------
- 
+
 
   const { control, handleSubmit, setValue, formState: { errors } } = useForm<Activity>({
     resolver: zodResolver(ActivitySchema),
@@ -55,10 +52,16 @@ export default function EditActivityDetailsScreen() {
   const [hasFreeTrial, setHasFreeTrial] = React.useState(false);
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const numRows = selectedImages.length < 3 ? 1 : 2;
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const navigation = useNavigation()
   const { user } = useAuthContext();
-  useEffect(() => { setSelectedImages(actualImagesFromClub) }, [])
   const [checkedItems, setCheckedItems] = useState<PricingTypes>(currentPricingTypesToObject);
+  useEffect(() => {
+    setSelectedImages(actualImagesFromClub)
+    setValue('name', activityName)
+    setValue('description', activityDescription)
+    setValue('pricingTypes', currentPricingTypes)
+  }, [])
 
   const handleDropdownValueChange = (valuecat: string) => {
     console.log('valuecat', valuecat);
@@ -66,8 +69,8 @@ export default function EditActivityDetailsScreen() {
   };
 
   const handleSubCategoryDropdownValueChange = (valuesub: string) => {
-      setSubCategoryDropdownValue(valuesub);
-      console.log('valuesub', valuesub);
+    setSubCategoryDropdownValue(valuesub);
+    console.log('valuesub', valuesub);
   };
 
   const handleCheck = (itemKey: string, onChange: (checkedKeys: string[]) => void) => {
@@ -79,21 +82,39 @@ export default function EditActivityDetailsScreen() {
     onChange(checkedKeys); // Update the form control
   };
 
-  const saveAndGoBack = (data: {}) => {
-    console.log(data, 'form fields:', data)
-    console.log(hasFreeTrial, '<= this is has freeTrial')
-    console.log(checkedItems, '<= this is checkedItems')
-    console.log(selectedImages, 'images in the saveandGoBack')
-    navigation.goBack()
-  }
+  const saveAndGoBack = async (data: {}) => {
+    if (isSubmitting) { return }
+    setIsSubmitting(true);
+    // Transform data into an object that can be sent to the rails API
+    const activityObj = { ...data, club_id: 2 };
+
+    try {
+      // Chekcs for images that were deleted or added and removes/add them from S3
+      const finalImageKeys = await updateImageKeysInS3(actualImagesFromClub, selectedImages);
+
+      // Step 2: Add the merged keys to clubObj
+      activityObj.images = finalImageKeys;
+
+      console.log(activityObj.images, "this is the final image keys")
+
+      // After all images are processed, proceed with saving the club object
+      // TODO: Call your API to update the club with the modified data (clubObj)
+      console.warn('Mocking club update with the following data:', activityObj);
+
+      // Finally, navigate back to the previous screen
+      navigation.goBack();
+    } catch (error) {
+      console.log(error, 'there was an error during the process');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      quality: 0.5, 
-      allowsMultipleSelection: true, 
+      quality: 0.5,
+      allowsMultipleSelection: true,
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      // maxWidth: 450,
-      // maxHeight: 700,
     });
 
     if (!result.canceled) {
@@ -101,38 +122,18 @@ export default function EditActivityDetailsScreen() {
       const images: string[] = []
       result.assets.forEach(image => { images.push(image.uri) })
       setSelectedImages(prevImages => [...prevImages, ...images]);
-      // console.log(selectedImages)
 
     } else {
       alert('You did not select any image.');
     }
   };
 
-  const uploadMedia = async (uri: string) => {
-    try {
-      // Convert image into blob
-      // Send blob to rails server 
-      const response = await fetch(uri);
-      const blob = await response.blob();
 
-      const timestamp = new Date().getTime();
-      const randomNum = Math.floor(Math.random() * 1000000);
-
-      const uriParts = uri.split('.');
-      const extension = uriParts[uriParts.length - 1];
-      
-      const uniqueName = `${user.id}-${timestamp}-${randomNum}.${extension}`;
-   
-      const s3Response = await Storage.put(uniqueName, blob)
-
-      return s3Response.key;
-    } catch(e) {
-      Alert.alert('Error uploading the file', (e as Error).message)
-    }
-  } 
- 
   return (
     <ScrollView style={{ padding: 15, flex: 1}}>
+      { isSubmitting ? (
+        <ActivityIndicator size="large" color="gray" />
+      ) : (
       <View style={{gap: 15}}>
         <Card>
           <Card.Title title="éditez les photos de votre activité" />
@@ -188,45 +189,41 @@ export default function EditActivityDetailsScreen() {
           <Card.Title title="Modifiez les informations de votre activité"/>
           <Card.Content style={{gap: 5}}>
 
-            <ControlledInput 
+            <ControlledInput
               control={control}
               name="name"
               label="Nom de l'activité"
-              placeholder={activityName}
             />
 
-            <ControlledInput 
+            <ControlledInput
               control={control}
               name="description"
               label="Description"
-              placeholder={activityDescription}
               multiline
             />
 
-            <ControlledInput 
+            <ControlledInput
               control={control}
               name="website"
               label="Lien d'inscription ou site web"
-              placeholder="https://www.salsaparis.com"
             />
 
-            <ControlledInput 
+            <ControlledInput
               control={control}
               name="address"
               label="Addresse (si différente de celle du club)"
-              placeholder="https://www.salsaparis.com"
             />
 
-            <Controller 
+            <Controller
               control={control}
-              name="hasFreeTrial" 
+              name="hasFreeTrial"
               render={({
                 field: { value, onChange, onBlur },
                 fieldState: { error, invalid },
               }) => (
                 <View style={{ flexDirection: 'row', justifyContent: "flex-start", alignItems: 'center'}}>
-                  
-                  <Switch 
+
+                  <Switch
                     value={hasFreeTrial}
                     onValueChange={newValue => setHasFreeTrial(newValue)}
                   />
@@ -235,7 +232,7 @@ export default function EditActivityDetailsScreen() {
               )}
             />
 
-            <Controller 
+            <Controller
               control={control}
               name={"pricingTypes"}
               render={({
@@ -260,6 +257,7 @@ export default function EditActivityDetailsScreen() {
         </Card>
         <Button style={{marginBottom: 30}} onPress={handleSubmit(saveAndGoBack)}mode='elevated' textColor='black'>Enregistrer</Button>
       </View>
+      )}
     </ScrollView>
   )
 }

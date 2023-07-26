@@ -16,10 +16,6 @@ interface IDropdownProps {
 const Dropdown = ({style, disabled, onValueChange, valuecat}: IDropdownProps) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("sports");
-  // const [items, setItems] = useState([
-  //   { label: "Activités artistiques et culturelles", value: "1", icon:  () => <Text>🎨</Text> },
-  //   { label: "Sports, activités de plein air", value: "2", icon: () => <Text>🏃‍♀️</Text>},
-  // ]);
 
   return (
     <DropDownPicker
@@ -28,7 +24,7 @@ const Dropdown = ({style, disabled, onValueChange, valuecat}: IDropdownProps) =>
       items={categories}
       maxHeight={300}
       autoScroll={true}
-      placeholder="Catégories (12)"
+      placeholder={"Catégories (12)"}
       containerStyle={[style]}
       labelProps={{ numberOfLines: 1, style: styles.label }}
       setOpen={setOpen}
@@ -76,14 +72,14 @@ const Dropdown = ({style, disabled, onValueChange, valuecat}: IDropdownProps) =>
   );
 }
 const styles = StyleSheet.create({
-  label: { 
-    fontSize: 13, color: colors.dark, 
-    textTransform: 'uppercase', 
+  label: {
+    fontSize: 13, color: colors.dark,
+    textTransform: 'uppercase',
     marginLeft: 8,
     width: "80%",
-    backgroundColor: colors.primaryLight, 
-    overflow: "hidden", 
-    borderRadius: 20, 
+    backgroundColor: colors.primaryLight,
+    overflow: "hidden",
+    borderRadius: 20,
     padding: 10,
     paddingLeft: 12,
   },

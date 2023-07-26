@@ -14,6 +14,7 @@ import PhotosSection from '../../components/photosSection';
 import Dropdown from '../../components/Dropdown';
 import SubCategoryDropdown from '../../components/SubCategoryDropdown';
 import { Storage } from 'aws-amplify';
+import { uploadImageToS3 } from '../../services/ImageService';
 
 const NewActivityScreen = (clubId: string) => {
   const { control, handleSubmit, setValue, formState: { errors } } = useForm<Activity>({
@@ -103,7 +104,8 @@ const NewActivityScreen = (clubId: string) => {
       // for each image, call function uploadMedia
       const imageUploadPromises = selectedImages.map(async (image) => {
         try {
-          return await uploadMedia(image)
+          return await uploadImageToS3(image)
+
         } catch (error) {
           console.log(error, 'there was an error uploading the image')
         }
