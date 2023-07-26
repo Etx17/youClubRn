@@ -22,7 +22,7 @@ const AuthContextProvider = ({children}: {children: ReactNode}) => {
             console.log(authUser.attributes.email, authUser.attributes.sub)
 
             // TODO Fetch now the user that has this sub_id from my database (rails) and set it to the user state
-            const mockedUser = {id: '1', role: "user"}
+            const mockedUser = {id: '1', role: "club"}
 
             // For now i'll set user as a dummy object
             setUser(mockedUser)
@@ -35,19 +35,19 @@ const AuthContextProvider = ({children}: {children: ReactNode}) => {
     }, [])
 
     useEffect(() => {
-        const listener: HubCallback = (data) => {
-         const {event} = data.payload;
-         if(event === 'signOut'){
-             setUser(null)
-         }
-         if(event === 'signIn'){
-             checkUser();
-         }
+      const listener: HubCallback = (data) => {
+        const {event} = data.payload;
+        if(event === 'signOut'){
+            setUser(null)
         }
-        const hubListener = Hub.listen('auth', listener);
-     // When you return a function frm a useEffect, it will be called when the component unmounts
-         return () => hubListener();
-     }, [])
+        if(event === 'signIn'){
+            checkUser();
+        }
+      }
+      const hubListener = Hub.listen('auth', listener);
+    // When you return a function frm a useEffect, it will be called when the component unmounts
+        return () => hubListener();
+    }, [])
 
     return (
         <AuthContext.Provider value={ {user} }>
