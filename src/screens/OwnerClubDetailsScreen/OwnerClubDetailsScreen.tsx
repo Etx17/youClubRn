@@ -5,7 +5,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import DetailsCarousel from '../../components/DetailsCarousel'
 import TitleSection from '../../components/TitleSection'
 import AddressDetails from '../../components/AddressDetails'
-import { Entypo } from '@expo/vector-icons'; 
+import { Entypo } from '@expo/vector-icons';
 import DescriptionSection from '../../components/DescriptionSection'
 import InscriptionButton from '../../components/InscriptionButton'
 import colors from '../../themes/colors'
@@ -29,7 +29,7 @@ const OwnerClubDetailsScreen = () => {
   }
 
     return (
-      <ScrollView>
+      <ScrollView style={{backgroundColor: 'black'}}>
       {/* IMAGE CAROUSEL */}
       <DetailsCarousel images={images} currentImageIndex={currentImageIndex} changeImage={changeImage} />
 
@@ -47,13 +47,13 @@ const OwnerClubDetailsScreen = () => {
           <Text style={{ color: colors.grayDark, fontWeight: 'bold', marginTop: 10 }}>ACTIVITÉS:</Text>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
             {activities.map((activity, index: number) => (
-              <LinearGradient 
+              <LinearGradient
                 key={`${activity.id}_${index}`}
-                start={[0, 0]} 
-                end={[1, 0]} 
-                colors={[colors.secondary, colors.primary] } 
+                start={[0, 0]}
+                end={[1, 0]}
+                colors={[colors.secondary, colors.primary] }
                 style={styles.tag}
-              > 
+              >
                 <Pressable onPress={()=> navigation.navigate('ActivityDetails', {activityData: activity})}>
                   <Text key={index}>
                     {activity.name}
@@ -64,7 +64,7 @@ const OwnerClubDetailsScreen = () => {
             <Pressable onPress={() => navigation.navigate('NewActivity', {clubId: '1'})} style={styles.addActivityButton}>
                 <Ionicons name='add-outline' size={20} color={colors.primary} />
             </Pressable>
-            
+
           </View>
         </View>
 
@@ -73,7 +73,7 @@ const OwnerClubDetailsScreen = () => {
       </View>
 
       <LinearGradient colors={[darkTheme ? colors.dark : 'transparent', 'transparent']} style={{ position: 'absolute', left: 0, right: 0, top: 0, height: 120, }} />
-      
+
       <StatusBar style={'light'} />
 
     </ScrollView>
@@ -189,11 +189,11 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   stickyButton: {
-    position: 'absolute', 
-    top: -20,  
-    right: 20,  
-    backgroundColor: colors.primary,  
-    borderRadius: 25,  
+    position: 'absolute',
+    top: -20,
+    right: 20,
+    backgroundColor: colors.primary,
+    borderRadius: 25,
     padding: 10,
     zIndex: 2,
     elevation: 8,
