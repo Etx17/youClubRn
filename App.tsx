@@ -9,6 +9,8 @@ import colors from './src/themes/colors';
 import { Amplify } from 'aws-amplify';
 import {Authenticator} from '@aws-amplify/ui-react-native';
 import config from './src/aws-exports';
+import Client from './src/apollo/Client';
+
 Amplify.configure(config);
 
 
@@ -20,7 +22,9 @@ export default function App() {
         <AuthContextProvider>
           <Authenticator.Provider>
             <LocationContextProvider>
-              <Navigation/>
+              <Client>
+                <Navigation/>
+              </Client>
             </LocationContextProvider>
           </Authenticator.Provider>
         </AuthContextProvider>

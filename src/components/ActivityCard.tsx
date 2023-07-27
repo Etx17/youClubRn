@@ -19,25 +19,26 @@ interface IActivityCardProps {
   data: any
 }
 const activityCard = ({data}: IActivityCardProps) => {
+  console.log(data, "this is data from graphQL into the CARD")
+  const images = [
+    `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subcategories][0] : 'random'}/300/200`,
+    `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subcategories][1] : 'random'}/300/200`,
+  ];
   const [isLiked, setIsLiked] = useState(false);
   const navigation = useNavigation();
   const {lat, lon} = useLocationContext()
-  
-  const activityLat = parseFloat(data?.geo_point?.split(',')[0])
-  const activityLon = parseFloat(data?.geo_point?.split(',')[1])
+
+  const activityLat = parseFloat(data?.geoPoint?.split(',')[0])
+  const activityLon = parseFloat(data?.geoPoint?.split(',')[1])
   const distance = getDistance(lat, lon, activityLat, activityLon )
   const formattedDistance = distance.toFixed(1).toString() + ' km';
- 
+
   const category =  data?.category || 'Autre/Non renseigné';
   // console.log(category, ' <= category')
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const subcategories = data?.subcategories?.split('###')[0] || 'Autre/Non renseigné';
   // console.log(subcategories, ' <= subcategories')
   // console.log( categoryImages[category][subcategories][0], ' <= categoryImages[category][subcategories][0]')
-  const images = [
-    `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subcategories][0] : 'random'}/300/200`,
-    `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subcategories][1] : 'random'}/300/200`,
-  ];
   // console.log(data, 'this is data in activityCard')
 
   const navigateToactivityDetails = () => {
@@ -60,7 +61,7 @@ const activityCard = ({data}: IActivityCardProps) => {
           const index = likedActivities.findIndex((activity: IActivity) => activity.id === data.id);
           if(index !== -1) {
               likedActivities.splice(index, 1);
-              setIsLiked(false); 
+              setIsLiked(false);
           } else {
               likedActivities.push(data);
               setIsLiked(true);
@@ -84,18 +85,18 @@ const activityCard = ({data}: IActivityCardProps) => {
       };
       checkIfLiked();
     }, []);
-    
+
   return (
     <View style={styles.container}>
       <View style={styles.card}>
       <Image style={styles.image} source={{uri: images[currentImageIndex]}} contentFit="cover" transition={0} />
       <View style={styles.indexButtonContainer}>
-        { images.length > 1 && images.map( (_, index) => ( 
+        { images.length > 1 && images.map( (_, index) => (
           <View key={index} style={{
             width: `${80 / images.length}%`,
             height: 4,
-            backgroundColor: `${ index == currentImageIndex ? 'white' : 'darkgrey' }`, margin: 5,}} 
-          /> ) ) 
+            backgroundColor: `${ index == currentImageIndex ? 'white' : 'darkgrey' }`, margin: 5,}}
+          /> ) )
         }
       </View>
 
@@ -106,9 +107,9 @@ const activityCard = ({data}: IActivityCardProps) => {
           <Pressable style={styles.leftButton} onPress={() => changeImage('left')}/>
           <Pressable style={styles.rightButton} onPress={() => changeImage('right')}/>
           <View style={styles.titleContainer} >
-            <Text 
-              style={styles.title} 
-              numberOfLines={1} 
+            <Text
+              style={styles.title}
+              numberOfLines={1}
               onPress={navigateToactivityDetails}
             >
               { data?.name }
@@ -120,7 +121,7 @@ const activityCard = ({data}: IActivityCardProps) => {
 
           <View style={{width: "100%", display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
           <Text style={{color: colors.grayDarkest}}>
-          par { data?.club_name.substring(0, 30) }{data?.club_name.length > 30 ? '...' : ''}
+          par { data?.club.name.substring(0, 30) }{data?.club.name.length > 30 ? '...' : ''}
           </Text>
           <Text style={{color: 'white'}}>
             <Ionicons name="location-sharp" size={14} color={colors.primary} style={styles.locationIcon} /> {formattedDistance ? formattedDistance : 'Non renseigné'} - {data?.actual_zipcode}
@@ -132,8 +133,8 @@ const activityCard = ({data}: IActivityCardProps) => {
 
 
             {/* tags concernant les sous groupes  */}
-          <Text 
-            numberOfLines={1} 
+          <Text
+            numberOfLines={1}
             style={styles.subCategoryText}
             onPress={navigateToactivityDetails}
           >
@@ -143,12 +144,12 @@ const activityCard = ({data}: IActivityCardProps) => {
 
           </LinearGradient>
 
-          <Text 
-            style={styles.object} 
+          <Text
+            style={styles.object}
             numberOfLines={2}
             onPress={navigateToactivityDetails}
           >
-            {data?.short_description ? data?.short_description?.charAt(0).toUpperCase() + data?.short_description?.slice(1) : "Cette association n'a pas renseigné de description"}
+            {data?.shortDescription ? data?.shortDescription?.charAt(0).toUpperCase() + data?.shortDescription?.slice(1) : "L'activité n'a pas de description"}
           </Text>
         </View>
 
@@ -159,7 +160,7 @@ const activityCard = ({data}: IActivityCardProps) => {
           </Pressable>
         </View>
         <Text style={{color: colors.dark, position: 'absolute', bottom: 15, left: 20, fontSize: 12}} onPress={navigateToactivityDetails}>Essai gratuit</Text>
-        
+
         <View style={{display: 'flex', flexDirection: 'row',}}>
           <Text style={{color: colors.primary, position: 'absolute', bottom: 15, right: 20, fontSize: 12}} onPress={navigateToactivityDetails}><Ionicons name="checkmark-circle-outline" color={colors.primary} size={13}> Essai gratuit</Ionicons></Text>
         </View>
@@ -260,23 +261,23 @@ const styles = StyleSheet.create({
       overflow: 'hidden'
     },
     subCategoryText: {
-      color: 'white', 
-      paddingHorizontal: 10, 
-      marginVertical: 4, 
-      borderRadius: 14, 
-      backgroundColor: 'transparent', 
+      color: 'white',
+      paddingHorizontal: 10,
+      marginVertical: 4,
+      borderRadius: 14,
+      backgroundColor: 'transparent',
       overflow: 'hidden',
     },
     profileIcon: {
-      textAlign: 'center', 
-      textShadowColor: 'rgba(30, 30, 50, 0.99)', 
-      textShadowOffset: {width: 0.5, height: 0.5}, 
+      textAlign: 'center',
+      textShadowColor: 'rgba(30, 30, 50, 0.99)',
+      textShadowOffset: {width: 0.5, height: 0.5},
       textShadowRadius: 5,
     },
     tagGradient: {
-      borderRadius: 14, 
+      borderRadius: 14,
       borderWidth: 1,
-      borderColor: "#555555", 
+      borderColor: "#555555",
       marginVertical: 5
     },
   });
