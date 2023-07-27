@@ -5,7 +5,7 @@ import AddressDetails from "./AddressDetails";
 import { useNavigation } from "@react-navigation/native";
 import { useAuthContext } from "../contexts/AuthContext";
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Entypo } from '@expo/vector-icons'; 
+import { Entypo } from '@expo/vector-icons';
 
 
 
@@ -13,17 +13,17 @@ const SubGroupCardItem = ({subgroup, onDeletePress }) => {
   const {user} = useAuthContext();
   const navigation = useNavigation();
   const daysOfWeek = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'];
-  const [schedules, setSchedules] = useState(subgroup.schedule);
+  const [schedules, setSchedules] = useState(subgroup.schedules);
   const possibleTypeOfActivity= ['cours collectif', 'cours particulier', 'stage', 'atelier', 'session', 'évènement', 'autre'];
   const handleDeletePress = () => {
     Alert.alert(
-      "Suppimer le sous-groupe",
+      "Supprimer le sous-groupe",
       "Êtes-vous sûr de vouloir supprimer ce sous-groupe ? Cette action est irréversible.",
       [ { text: "Cancel", style: "cancel" },
         { text: "OK", onPress: onDeletePress }
       ]
     );
-  };  
+  };
   const handleDeleteSchedule = (day) => {
     setSchedules(prevSchedules => {
       const newSchedules = { ...prevSchedules };
@@ -33,8 +33,10 @@ const SubGroupCardItem = ({subgroup, onDeletePress }) => {
   };
 
   useEffect(() => {
-    setSchedules(subgroup.schedule);
+    setSchedules(subgroup.schedules);
   }, [subgroup]);
+
+  console.log(subgroup.schedules,'this is subgroup.schedules')
 
   return (
       <View style={{marginVertical: 10, padding: 10, borderWidth: 1, borderColor: 'gray', borderRadius: 10, backgroundColor: colors.text }}>
@@ -56,24 +58,23 @@ const SubGroupCardItem = ({subgroup, onDeletePress }) => {
           <Text style={styles.small}>À partir de <Text style={styles.object}>{subgroup.min_price}€</Text></Text>
           <AddressDetails address={subgroup.address} postalCode={subgroup.postal_code}/>
         </View>
-       
-       
+
+
 
         {/* Tarifications */}
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start', marginBottom: 20 }}>
         {subgroup.tarifications.map((tarif, index) => (
-          <View style={styles.tag}> 
+          <View style={styles.tag}>
             <Text key={index} style={{color: 'white'}}>
               {tarif}
             </Text>
           </View>
         ))}
-       
+
       </View>
 
-        <View style={{flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', flexWrap: 'wrap'}}>
+        {/* <View style={{flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', flexWrap: 'wrap'}}>
           {
-
             Object.keys(schedules)
             .filter(day => day !== 'id' && day !== 'sub_group_id')
             .sort((a, b) => daysOfWeek.indexOf(a) - daysOfWeek.indexOf(b))
@@ -84,8 +85,8 @@ const SubGroupCardItem = ({subgroup, onDeletePress }) => {
                   <Text key={index} style={styles.timespan}>{time.startTime} - {time.endTime}</Text>
                 ))}
                 { user.role === 'club' && (
-                  // Delete button on top right of the parent view 
-                  <Pressable 
+                  // Delete button on top right of the parent view
+                  <Pressable
                     onPress={() => {
                       Alert.alert(
                         "Delete Schedule",
@@ -95,50 +96,85 @@ const SubGroupCardItem = ({subgroup, onDeletePress }) => {
                           { text: "OK", onPress: () => handleDeleteSchedule(day) }
                         ]
                       );
-                    }} 
+                    }}
                     style={{position: 'absolute', top: -8, right: -8, padding: 0, backgroundColor: colors.primary, borderRadius: 20}}>
                     <Ionicons name='close-outline' size={18} color={colors.black} />
                   </Pressable>
                 )}
-               {/* {   console.log(subgroup.schedule, day, 'this is subgroup schedule and day')}
-               {   console.log(subgroup.schedule[day], 'this is subgroup schedule and day')} */}
                 { user.role === 'club' && (
                   <Pressable onPress={() => navigation.navigate("EditSubGroupSchedule", {schedules: subgroup?.schedule[day], day: day, subGroupId: subgroup?.schedule.sub_group_id  })}><Text style={{color: colors.grayDarkest, marginTop: 5, textAlign: 'center', fontSize: 12}}>Modifier</Text></Pressable>
                 )}
               </View>
             ))
           }
-          
+
           { user.role === 'club' && Object.keys(subgroup.schedule).filter(day => day !== 'id' && day !== 'sub_group_id').length < 7 && (
             <Pressable onPress={() => navigation.navigate('NewSubGroupSchedule', {schedule: subgroup.schedule})} style={{marginTop: 10, borderRadius: 25, borderWidth: 1, borderColor: '#666666',padding: 5, backgroundColor: "#333339", width: "100%" }}>
                 <Text style={{fontSize: 14, color: colors.primary, textAlign: 'center'}}> Ajouter un horaire </Text>
             </Pressable>
           )}
+        </View> */}
+        <View style={{flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', flexWrap: 'wrap'}}>
+          {
+            subgroup?.schedules?.map((schedule, index) => (
+              <View key={index} style={{ margin: 5, borderRadius: 14, borderTopWidth: 1, borderTopColor: '#666666', borderLeftWidth: 2, borderLeftColor: "#333333" ,padding: 10, backgroundColor: "#333339" }}>
+                <Text style={styles.dayLabel}>{schedule.day}</Text>
+                {schedule.time_slots.map((time, timeIndex) => (
+                  <Text key={timeIndex} style={styles.timespan}>{time.startTime} - {time.endTime}</Text>
+                ))}
+                { user.role === 'club' && (
+                  // Delete button on top right of the parent view
+                  <Pressable
+                    onPress={() => {
+                      Alert.alert(
+                        "Delete Schedule",
+                        "Are you sure you want to delete this schedule?",
+                        [
+                          { text: "Cancel", style: "cancel" },
+                          { text: "OK", onPress: () => handleDeleteSchedule(schedule.day) }
+                        ]
+                      );
+                    }}
+                    style={{position: 'absolute', top: -8, right: -8, padding: 0, backgroundColor: colors.primary, borderRadius: 20}}>
+                    <Ionicons name='close-outline' size={18} color={colors.black} />
+                  </Pressable>
+                )}
+                { user.role === 'club' && (
+                  <Pressable onPress={() => navigation.navigate("EditSubGroupSchedule", {schedules: schedule.time_slots, day: schedule.day, subGroupId: schedule.sub_group_id })}><Text style={{color: colors.grayDarkest, marginTop: 5, textAlign: 'center', fontSize: 12}}>Modifier</Text></Pressable>
+                )}
+              </View>
+            ))
+          }
 
+          { user.role === 'club' && subgroup?.schedules?.filter(schedule => schedule.day !== 'id' && schedule.day !== 'sub_group_id').length < 7 && (
+            <Pressable onPress={() => navigation.navigate('NewSubGroupSchedule', {schedule: subgroup.schedules})} style={{marginTop: 10, borderRadius: 25, borderWidth: 1, borderColor: '#666666',padding: 5, backgroundColor: "#333339", width: "100%" }}>
+                <Text style={{fontSize: 14, color: colors.primary, textAlign: 'center'}}> Ajouter un horaire </Text>
+            </Pressable>
+          )}
         </View>
 
         { user.role === 'club' && (
-          // Delete button on top right of the parent view 
-          <Pressable 
-            onPress={handleDeletePress} 
+          // Delete button on top right of the parent view
+          <Pressable
+            onPress={handleDeletePress}
             style={{position: 'absolute', top: -8, right: -4, padding: 5, borderWidth: 1, borderRadius: 20, backgroundColor: colors.primary}}>
             <Ionicons name='close-outline' size={18} color={"black"} />
           </Pressable>
         )}
 
         { user.role === 'club' && (
-          // Delete button on top right of the parent view 
-          <Pressable 
-            onPress={() => navigation.navigate('EditSubGroup', {subgroup: subgroup})} 
+          // Delete button on top right of the parent view
+          <Pressable
+            onPress={() => navigation.navigate('EditSubGroup', {subgroup: subgroup})}
             style={{position: 'absolute', top: -8, right: 30, padding: 5, borderWidth: 1, borderRadius: 20, backgroundColor: colors.primary}}>
             <Entypo name="edit" size={18} color="black" />
           </Pressable>
         )}
-      
+
       </View>
     );
   };
-  
+
   const styles = StyleSheet.create({
     recurrentSubscriptionLabel:{
       fontSize: 20,
@@ -201,6 +237,6 @@ const SubGroupCardItem = ({subgroup, onDeletePress }) => {
       //   textTransform: 'uppercase',
       //   paddingHorizontal: 5,
       // }
-  })  
+  })
 
   export default SubGroupCardItem;

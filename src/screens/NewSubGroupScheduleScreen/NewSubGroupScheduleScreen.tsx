@@ -23,7 +23,8 @@ const NewSubGroupScheduleScreen = (schedule: {}) => {
 
   const navigation = useNavigation();
   const route = useRoute();
-  const scheduleDaysPresent = Object.keys(route?.params?.schedule).filter(day => day !== 'id' && day !== 'sub_group_id')
+  // console.log(route?.params?.schedule.map(schedule => schedule.day));
+  const scheduleDaysPresent = route?.params?.schedule.map(schedule => schedule.day)
   const daysOfWeekToShow = [ 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche' ].filter(day => !scheduleDaysPresent.includes(day))
   const [daysToShow, setDaysToShow] = useState(daysOfWeekToShow)
 
@@ -41,7 +42,7 @@ const NewSubGroupScheduleScreen = (schedule: {}) => {
     setSchedules(newSchedules);
   };
   const addSchedule = () => {
-    setSchedules([...schedules, 
+    setSchedules([...schedules,
       { date: new Date() }
     ]);
   };
@@ -49,7 +50,7 @@ const NewSubGroupScheduleScreen = (schedule: {}) => {
   const [currentPickerIndex, setCurrentPickerIndex] = useState(null);
   const [currentPickerField, setCurrentPickerField] = useState(null);
   console.log(errors, 'this is errors');
-  
+
 
   return (
     <ScrollView style={{ padding: 15, flex: 1}}>
@@ -57,7 +58,7 @@ const NewSubGroupScheduleScreen = (schedule: {}) => {
         <Card.Title title="Choisissez un jour"/>
         <Card.Content style={{gap: 5}}>
 
-        <Controller 
+        <Controller
           control={control}
           name={"dayName"}
           render={({
@@ -70,7 +71,6 @@ const NewSubGroupScheduleScreen = (schedule: {}) => {
                   <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <RadioButton value={day} />
                     <Text>{day}</Text>
-                    
                   </View>
                 )
               })}
@@ -82,14 +82,14 @@ const NewSubGroupScheduleScreen = (schedule: {}) => {
           />
 
           <Card.Title title="Ajoutez des horaires"/>
-     
+
 
         <View>
         {fields.map((field, index) => (
         <View key={field.id} style={{flexDirection: 'row', alignItems: 'center', gap: 15, justifyContent: 'center', marginVertical: 5}}>
           <Pressable onPress={() => { setCurrentPickerIndex(index); setCurrentPickerField('startTime'); }}>
             <Text>
-            De {"  "} 
+            De {"  "}
               <Text style={{backgroundColor: colors.primary}}>
                 {getValues(`schedules[${index}].startTime`) ? new Date(getValues(`schedules[${index}].startTime`)).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '- -  :  - -'}
               </Text>

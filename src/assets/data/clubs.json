@@ -51,7 +51,7 @@
                         "short_description": "Le cours gratuit ne s'addresse qu'aux débutant, sans expérience. Il est obligatoire de s'inscrire ou de réserver.",
                         "subscription_by_reccurence_price": "1000",
                         "tarifications": ["100/mois", "1022/an", "10/heure", "100/jour", "120/carnet de 5 tickets"],
-                        "schedule": [
+                        "schedules": [
                           {
                             "sub_group_id": "sg1",
                             "id": "sc7",
@@ -78,7 +78,7 @@
                         "short_description": "Vous avez entre 5 et 15 cours, ou 2 mois de cours et pratique régulière",
                         "subscription_by_reccurence_price": "1000",
                         "tarifications": ["100/mois", "1022/an", "10/heure", "100/jour", "120/carnet de 5 tickets"],
-                        "schedule": [
+                        "schedules": [
                           {
                             "sub_group_id": "sg1",
                             "id": "sc7",
@@ -94,7 +94,7 @@
                           {
                             "sub_group_id": "sg1",
                             "id": "sc7",
-                            "day": "mardi",
+                            "day": "mercredi",
                             "time_slots": [{"endTime": "01:30", "startTime": "03:00"}]
                           }
                         ]
