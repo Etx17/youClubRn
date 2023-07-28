@@ -54,7 +54,6 @@ const ActivitiesIndexScreen = () => {
 
   useEffect(() => {
     if(data){
-      console.log(data.activities, 'this is data')
       setActivities(data.activities)
       setSubCategoryActivities(data.activities)
     }
@@ -70,7 +69,6 @@ const ActivitiesIndexScreen = () => {
     />
     )
   }
-  console.log('data', data)
   return (
 
   <View style={styles.container}>

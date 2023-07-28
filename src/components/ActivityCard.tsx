@@ -19,7 +19,6 @@ interface IActivityCardProps {
   data: any
 }
 const activityCard = ({data}: IActivityCardProps) => {
-  console.log(data, "this is data from graphQL into the CARD")
   const images = [
     `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subcategories][0] : 'random'}/300/200`,
     `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subcategories][1] : 'random'}/300/200`,
@@ -39,7 +38,6 @@ const activityCard = ({data}: IActivityCardProps) => {
   const subcategories = data?.subcategories?.split('###')[0] || 'Autre/Non renseigné';
   // console.log(subcategories, ' <= subcategories')
   // console.log( categoryImages[category][subcategories][0], ' <= categoryImages[category][subcategories][0]')
-  // console.log(data, 'this is data in activityCard')
 
   const navigateToactivityDetails = () => {
     navigation.navigate('ActivityDetails', {activityData: data, images, darkTheme: true});

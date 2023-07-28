@@ -10,21 +10,22 @@ interface SubGroupsProps {
   activityId: string;
 }
 // For now activities are just strings, but they are meant to be objects with a name and an id
-const SubGroupsSection = ({ subGroups, activityId}:SubGroupsProps) => {
+const SubGroupsSection = (subGroups, activityId) => {
   const navigation = useNavigation();
   const { user } = useAuthContext();
+  const subGroupsArray = subGroups.subGroups;
   return (
     <View>
       <Text style={{ color: colors.grayDark, fontWeight: 'bold', marginTop: 10 }}>Sous-groupes:</Text>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
-        {subGroups.map((subGroup, index) => (
-            <LinearGradient start={[0, 0]} end={[1, 0]} colors={[colors.secondary, colors.primary] } style={styles.tag}> 
+        {subGroupsArray && subGroupsArray?.map((subGroup, index) => (
+            <LinearGradient start={[0, 0]} end={[1, 0]} colors={[colors.secondary, colors.primary] } style={styles.tag}>
               <Text key={index}>
-                {subGroup}
+                {subGroup.name}
               </Text>
             </LinearGradient>
         ))}
-        {user.role === 'club' && (
+        {user?.role === 'club' && (
           <Pressable onPress={() => navigation.navigate('NewSubGroup', {activityId: activityId})} style={styles.addActivityButton}>
               <Text style={{fontSize: 24, color: colors.primary,}}> + </Text>
           </Pressable>
@@ -62,7 +63,6 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     borderColor: colors.primary,
     borderWidth: 1,
-    // backgroundColor: colors.primary,
     width: "100%",
     marginHorizontal: 4,
   },

@@ -13,7 +13,7 @@ const SubGroupCardItem = ({subgroup, onDeletePress }) => {
   const {user} = useAuthContext();
   const navigation = useNavigation();
   const daysOfWeek = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'];
-  const [schedules, setSchedules] = useState(subgroup.schedules);
+  const [schedules, setSchedules] = useState([]);
   const possibleTypeOfActivity= ['cours collectif', 'cours particulier', 'stage', 'atelier', 'session', 'évènement', 'autre'];
   const handleDeletePress = () => {
     Alert.alert(
@@ -33,37 +33,38 @@ const SubGroupCardItem = ({subgroup, onDeletePress }) => {
   };
 
   useEffect(() => {
+    if (!subgroup) return;
     setSchedules(subgroup.schedules);
   }, [subgroup]);
 
-  console.log(subgroup.schedules,'this is subgroup.schedules')
-
+  console.log(subgroup.schedules[0].timeSlots,'<-------=================-----------SubgroupcardItem subgroup>')
+  // console.log(subgroup.address,'<-------=================-----------SubgroupcardItem subgroup.address>')
   return (
       <View style={{marginVertical: 10, padding: 10, borderWidth: 1, borderColor: 'gray', borderRadius: 10, backgroundColor: colors.text }}>
         <Text style={styles.subCategoryTag}>{subgroup.name}</Text>
 
         {/* Type de cours */}
         <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
-          { subgroup.type && <Text style={{color: colors.grayDarkest, margin: 5, textTransform: 'uppercase'}}>{subgroup.type}</Text> }
-          { subgroup.type == "event" && (
-            <Text style={{color: colors.grayDarkest}}>Le {subgroup.start_date} à {subgroup.start_time}</Text>
+          { subgroup.classType && <Text style={{color: colors.grayDarkest, margin: 5, textTransform: 'uppercase'}}>{subgroup.classType}</Text> }
+          { subgroup.classType == "event" && (
+            <Text style={{color: colors.grayDarkest}}>Le {subgroup.startDate} à {subgroup.startTime}</Text>
           ) }
         </View>
 
         {/* Description */}
-        <Text style={{color: colors.grayDark, margin: 5}}>{subgroup.short_description}</Text>
+        <Text style={{color: colors.grayDark, margin: 5}}>{subgroup.shortDescription}</Text>
 
         {/* Adresse et prix minimal */}
         <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: "100%"}}>
-          <Text style={styles.small}>À partir de <Text style={styles.object}>{subgroup.min_price}€</Text></Text>
-          <AddressDetails address={subgroup.address} postalCode={subgroup.postal_code}/>
+          <Text style={styles.small}>À partir de <Text style={styles.object}>{subgroup.minPrice}€</Text></Text>
+          {/* <AddressDetails address={subgroup.address} postalCode={subgroup.postal_code}/> */}
         </View>
 
 
 
         {/* Tarifications */}
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start', marginBottom: 20 }}>
-        {subgroup.tarifications.map((tarif, index) => (
+        {subgroup?.tarifications.map((tarif: string, index: number) => (
           <View style={styles.tag}>
             <Text key={index} style={{color: 'white'}}>
               {tarif}
@@ -116,13 +117,16 @@ const SubGroupCardItem = ({subgroup, onDeletePress }) => {
         </View> */}
         <View style={{flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', flexWrap: 'wrap'}}>
           {
-            subgroup?.schedules?.map((schedule, index) => (
+            subgroup?.schedules && subgroup?.schedules?.map((schedule, index:number) => (
+
               <View key={index} style={{ margin: 5, borderRadius: 14, borderTopWidth: 1, borderTopColor: '#666666', borderLeftWidth: 2, borderLeftColor: "#333333" ,padding: 10, backgroundColor: "#333339" }}>
                 <Text style={styles.dayLabel}>{schedule.day}</Text>
-                {schedule.time_slots.map((time, timeIndex) => (
-                  <Text key={timeIndex} style={styles.timespan}>{time.startTime} - {time.endTime}</Text>
-                ))}
-                { user.role === 'club' && (
+                {
+                  schedule?.timeSlots && schedule?.timeSlots?.map((time, timeIndex:number) => (
+                    <Text key={timeIndex} style={styles.timespan}>{time.startTime} - {time.endTime}</Text>
+                  ))
+                }
+                { user?.role === 'club' && (
                   // Delete button on top right of the parent view
                   <Pressable
                     onPress={() => {
@@ -139,21 +143,21 @@ const SubGroupCardItem = ({subgroup, onDeletePress }) => {
                     <Ionicons name='close-outline' size={18} color={colors.black} />
                   </Pressable>
                 )}
-                { user.role === 'club' && (
+                { user?.role === 'club' && (
                   <Pressable onPress={() => navigation.navigate("EditSubGroupSchedule", {schedules: schedule.time_slots, day: schedule.day, subGroupId: schedule.sub_group_id })}><Text style={{color: colors.grayDarkest, marginTop: 5, textAlign: 'center', fontSize: 12}}>Modifier</Text></Pressable>
                 )}
               </View>
             ))
           }
 
-          { user.role === 'club' && subgroup?.schedules?.filter(schedule => schedule.day !== 'id' && schedule.day !== 'sub_group_id').length < 7 && (
+          { user?.role === 'club' && subgroup?.schedules?.filter(schedule => schedule.day !== 'id' && schedule.day !== 'sub_group_id').length < 7 && (
             <Pressable onPress={() => navigation.navigate('NewSubGroupSchedule', {schedule: subgroup.schedules})} style={{marginTop: 10, borderRadius: 25, borderWidth: 1, borderColor: '#666666',padding: 5, backgroundColor: "#333339", width: "100%" }}>
                 <Text style={{fontSize: 14, color: colors.primary, textAlign: 'center'}}> Ajouter un horaire </Text>
             </Pressable>
           )}
         </View>
 
-        { user.role === 'club' && (
+        { user?.role === 'club' && (
           // Delete button on top right of the parent view
           <Pressable
             onPress={handleDeletePress}
@@ -162,7 +166,7 @@ const SubGroupCardItem = ({subgroup, onDeletePress }) => {
           </Pressable>
         )}
 
-        { user.role === 'club' && (
+        { user?.role === 'club' && (
           // Delete button on top right of the parent view
           <Pressable
             onPress={() => navigation.navigate('EditSubGroup', {subgroup: subgroup})}

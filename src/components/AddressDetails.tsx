@@ -12,7 +12,7 @@ const AddressDetails = ({ address, postalCode }:AddressDetailsProps) => {
     const handlePress = () => {
       Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${address}`);
     };
-  
+
     return (
       <View style={styles.container}>
         <Text style={styles.seeMore} onPress={handlePress}>
@@ -22,7 +22,7 @@ const AddressDetails = ({ address, postalCode }:AddressDetailsProps) => {
       </View>
     );
   };
-  
+
   const styles = StyleSheet.create({
     container: {
       fontSize: 15,
@@ -40,5 +40,5 @@ const AddressDetails = ({ address, postalCode }:AddressDetailsProps) => {
       color: 'white',
     },
   });
-  
+
   export default AddressDetails;

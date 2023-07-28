@@ -24,15 +24,15 @@ const EditSubGroupScheduleScreen = () => {
   const [schedules, setSchedules] = useState<Schedule[]>([]);
   const subGroupId = route?.params?.subGroupId
   const [currentPickerIndex, setCurrentPickerIndex] = useState<number | null>(null);
-  const [currentPickerField, setCurrentPickerField] = useState<string | null>(null);  
+  const [currentPickerField, setCurrentPickerField] = useState<string | null>(null);
   const navigation = useNavigation();
   // Function to parse a time string or Date object and return a Date object
   const parseTimeString = (time: string | Date): Date => {
     let date: Date;
-    
+
     if (typeof time === 'string') {
       const timeFormat = /^([0-1][0-9]|2[0-3]):([0-5][0-9])$/;
-      
+
       if (!time.match(timeFormat)) {
         console.warn(`Invalid time string: ${time}`);
         date = new Date();
@@ -48,7 +48,7 @@ const EditSubGroupScheduleScreen = () => {
       console.warn(`Invalid time value: ${time}`);
       date = new Date();
     }
-    
+
     return date;
   };
   const transformScheduleTimeStringToDate = (schedules: string[]): Schedule[] => {
@@ -79,7 +79,6 @@ const EditSubGroupScheduleScreen = () => {
 
   const saveAndGoToActivity = (data: any): void => {
     data.subGroupId = subGroupId
-    console.log(data, 'this is data')
     navigation.goBack()
   }
   const onChange = (selectedDate: Date | null, index: number): void => {
@@ -87,21 +86,21 @@ const EditSubGroupScheduleScreen = () => {
     newSchedules[index].date = selectedDate || newSchedules[index].date;
     setSchedules(newSchedules);
   };
-  
+
   return (
     <ScrollView style={{ padding: 15, flex: 1}}>
       <Card>
         <Card.Content style={{gap: 5}}>
 
           <Card.Title title="Ajoutez ou supprimez des horaires"/>
-     
+
 
         <View>
         {fields.map((field, index) => (
         <View key={field.id} style={{flexDirection: 'row', alignItems: 'center', gap: 15, justifyContent: 'center', marginVertical: 5}}>
           <Pressable onPress={() => { setCurrentPickerIndex(index); setCurrentPickerField('startTime'); }}>
           <Text>
-            De {"  "} 
+            De {"  "}
             <Text style={{backgroundColor: colors.primary}}>
               {(() => {
                 const value = getValues(`schedules[${index}].startTime` as any);
@@ -145,7 +144,7 @@ const EditSubGroupScheduleScreen = () => {
                   return new Date(value).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                 }
                 return '- -  :  - -';
-              })()} 
+              })()}
             </Text>
           </Text>
           </Pressable>
