@@ -12,6 +12,7 @@ export const GET_CLUB_BY_USER_ID = gql`
       actualZipcode
       address
       objet
+      images
       activities {
         id
         name

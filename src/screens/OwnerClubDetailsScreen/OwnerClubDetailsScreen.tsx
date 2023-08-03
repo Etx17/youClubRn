@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, Alert, StyleSheet, Pressable, ActivityIndicator } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import clubs from '../../assets/data/clubs'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import DetailsCarousel from '../../components/DetailsCarousel'
@@ -16,6 +16,7 @@ import { useAuthContext } from '../../contexts/AuthContext'
 import { useQuery } from '@apollo/client';
 import { GET_CLUB_BY_USER_ID } from './queries';
 import ApiErrorMessage from '../../components/apiErrorMessage/ApiErrorMessage';
+import { Storage } from 'aws-amplify';
 
 const OwnerClubDetailsScreen = () => {
   const changeImage = (direction: String) => {
@@ -32,15 +33,33 @@ const OwnerClubDetailsScreen = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const { user } = useAuthContext();
   const {data, loading, error, refetch} = useQuery(GET_CLUB_BY_USER_ID, { variables: {userId: user.id} })
-
   // TODO : image stored in db should be then requested from Amazon.
-  const images = clubs[0].images
+  // const [images, setImages] = useState<[string]|[]>([])
+  // let images = []
   const name = data?.clubByUserId ? data?.clubByUserId.name : clubs[0].name
   const address = data?.clubByUserId ? data?.clubByUserId.address : clubs[0].address
   const actualZipcode = data?.clubByUserId ? data?.clubByUserId.actualZipcode : clubs[0].actualZipcode
   const activities = data?.clubByUserId ? data?.clubByUserId.activities : clubs[0].activities
   const objet = data?.clubByUserId ? data?.clubByUserId.objet : clubs[0].objet
+  const imageKeys = data?.clubByUserId ? data?.clubByUserId.images : []
+  const [images, setImages] = useState([]);
 
+  // For each imageKeys, Storage.get(imageKey) and push the result in an images array
+
+  useEffect(() => {
+    if (data?.clubByUserId?.images) {
+      Promise.all(
+        data.clubByUserId.images.map((imageKey) => Storage.get(imageKey))
+      )
+        .then((fetchedImages) => {
+          setImages(fetchedImages);
+        })
+        .catch((error) => {
+          console.error('Error fetching images', error);
+        });
+    }
+  }, [data]);
+  console.log(images, 'these are fetched images')
 
   if(loading){ return <ActivityIndicator/> }
   if(error){
@@ -56,7 +75,7 @@ const OwnerClubDetailsScreen = () => {
     return (
       <ScrollView style={{backgroundColor: 'black'}}>
       {/* IMAGE CAROUSEL */}
-      <DetailsCarousel images={images} currentImageIndex={currentImageIndex} changeImage={changeImage} />
+      <DetailsCarousel images={images.length > 0 ? images : ["https://source.unsplash.com/random/?wait"]} currentImageIndex={currentImageIndex} changeImage={changeImage} />
 
       <View style={styles.contentContainer}>
 

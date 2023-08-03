@@ -21,10 +21,10 @@
         ],
         "activity_price_recurrence": "semester",
         "sub_groups": [
-            { 
-                "id": "sg1", 
-                "address": "4 rue du General Foy, 75017", 
-                "name": "Enfants 6-10", 
+            {
+                "id": "sg1",
+                "address": "4 rue du General Foy, 75017",
+                "name": "Enfants 6-10",
                 "type": "course",
                 "short_description": "Pour les bambins incontrolables qui pourront se défouler ici.",
                 "schedule": {
@@ -34,12 +34,12 @@
                     "jeudi": ["11:00-12:30"],
                     "dimanche": ["15:00-16:30"]
                 },
-                "price": "30", 
+                "price": "30",
                 "reccurence": "mois"
             },
-            { 
-                "id": "sg2", 
-                "address": "4 rue du General Foy, 75017", 
+            {
+                "id": "sg2",
+                "address": "4 rue du General Foy, 75017",
                 "name": "Enfants 11-14",
                 "type": "course",
                 "short_description": "Vos pré-ados vous fatiguent avec leur crises? Venez les déposer ici, ça file droit.",
@@ -48,40 +48,40 @@
                     "lundi": ["11:00-12:30", "12:30-14:00", "15:00-16:30", "18:30 - 20:00", "20:00 - 21:30"],
                     "mardi": ["11:00-12:30", "12:30-14:00", "15:00-16:30", "18:30 - 20:00", "20:00 - 21:30"]
                 },
-                "price": "230", 
+                "price": "230",
                 "reccurence": "an"
             },
-            { 
-                "id": "sg3", 
-                "address": "4 rue du General Foy, 75017", 
+            {
+                "id": "sg3",
+                "address": "4 rue du General Foy, 75017",
                 "name": "Ados 15-18",
                 "type": "course",
-                "short_description": "Pour les ados qui ont besoin de se défouler et de se canaliser.", 
+                "short_description": "Pour les ados qui ont besoin de se défouler et de se canaliser.",
                 "schedule": {
                     "id": "sc13",
                     "lundi": ["11:00-12:30", "12:30-14:00", "15:00-16:30", "18:30 - 20:00", "20:00 - 21:30"],
                     "mardi": ["11:00-12:30", "12:30-14:00", "15:00-16:30", "18:30 - 20:00", "20:00 - 21:30"]
                 },
-                "price": "250", 
+                "price": "250",
                 "reccurence": "semestre"
             },
-            { 
-                "id": "sg4", 
-                "address": "4 rue du General Foy, 75017", 
-                "name": "Adultes toutes ceintures", 
+            {
+                "id": "sg4",
+                "address": "4 rue du General Foy, 75017",
+                "name": "Adultes toutes ceintures",
                 "type": "course",
                 "short_description": "Pour adultes célibataires ou non, qui sait vous ferez peut être une prise de judo à votre future femme",
                 "schedule": {
                     "id": "sc14",
                     "lundi": ["11:00-12:30", "12:30-14:00", "15:00-16:30", "18:30 - 20:00", "20:00 - 21:30"]
                 },
-                "price": "400", 
+                "price": "400",
                 "reccurence": "an"
             },
-            { 
-                "id": "sg5", 
-                "address": "4 rue du General Foy, 75017", 
-                "name": "Adultes ceintures noires", 
+            {
+                "id": "sg5",
+                "address": "4 rue du General Foy, 75017",
+                "name": "Adultes ceintures noires",
                 "type": "course",
                 "short_description": "Pour les élèves qui ont assimilé les bases et sont prêts à avancer dans la pratique du yoga.",
                 "schedule": {
@@ -92,9 +92,9 @@
                     "samedi": ["11:00-12:30", "15:00-16:30"],
                     "dimanche": ["15:00-16:30"]
                 },
-                "price": "300", 
+                "price": "300",
                 "reccurence": "an"
-                
+
             }
           ]
     },
@@ -120,11 +120,11 @@
         ],
         "activity_price_recurrence": "semester",
         "sub_groups": [
-            { 
-                "id": "sg1", 
-                "address": "4 rue du General Foy, 75017", 
-                "name": "Pratique intermédiaire", 
-                "price": "de 18 à 1150", 
+            {
+                "id": "sg1",
+                "address": "4 rue du General Foy, 75017",
+                "name": "Pratique intermédiaire",
+                "price": "de 18 à 1150",
                 "reccurence": "à la carte",
                 "short_description": "Pour les élèves qui ont assimilé les bases et sont prêts à avancer dans la pratique du yoga.",
                 "schedule": {
@@ -138,11 +138,11 @@
                     "dimanche": ["15:00-16:30"]
                 }
             },
-            { 
-                "id": "sg2", 
-                "address": "4 rue du General Foy, 75017", 
-                "name": "Pratique très douce", 
-                "price": "à partir de 18", 
+            {
+                "id": "sg2",
+                "address": "4 rue du General Foy, 75017",
+                "name": "Pratique très douce",
+                "price": "à partir de 18",
                 "type": "course",
                 "reccurence": "",
                 "short_description": "Pratique très douce pour les personnes âgées ou ayant des problèmes de santé",
@@ -155,11 +155,11 @@
                     "dimanche": ["15:00-16:30"]
                 }
             },
-            { 
-                "id": "sg3", 
-                "address": "4 rue du General Foy, 75017", 
-                "name": "Pratique avancée", 
-                "price": "à partir de 18", 
+            {
+                "id": "sg3",
+                "address": "4 rue du General Foy, 75017",
+                "name": "Pratique avancée",
+                "price": "à partir de 18",
                 "reccurence": "",
                 "type": "course",
                 "short_description": "Pour aller plus loin dans les postures et apprendre de nouvelles variations.",
@@ -168,11 +168,11 @@
                     "lundi": ["17:00-18:30"]
                 }
             },
-            { 
-                "id": "sg4", 
-                "address": "4 rue du General Foy, 75017", 
-                "name": "Satsang (méditation, chants, conférence) sur inscription", 
-                "price": "20€", 
+            {
+                "id": "sg4",
+                "address": "4 rue du General Foy, 75017",
+                "name": "Satsang (méditation, chants, conférence) sur inscription",
+                "price": "20€",
                 "reccurence": "annuel",
                 "type": "course",
                 "short_description": "Pour les ad:érents uniquement",
@@ -183,11 +183,11 @@
                     "dimanche": ["18:00-20:00"]
                 }
             },
-            { 
-                "id": "sg5", 
-                "address": "4 rue du General Foy, 75017", 
-                "name": "Yoga Intégral", 
-                "price": "à partir de 18", 
+            {
+                "id": "sg5",
+                "address": "4 rue du General Foy, 75017",
+                "name": "Yoga Intégral",
+                "price": "à partir de 18",
                 "reccurence": "",
                 "type": "course",
                 "short_description": "Pour les élèves qui ont assimilé les bases et sont prêts à avancer dans la pratique du yoga d’une courte méditation à la fin du cours.",
@@ -196,11 +196,11 @@
                     "jeudi": ["18:30-20:00"]
                 }
             },
-            { 
-                "id": "sg6", 
-                "address": "4 rue du General Foy, 75017", 
-                "name": "Stage de Pranayama", 
-                "price": "à partir de 18", 
+            {
+                "id": "sg6",
+                "address": "4 rue du General Foy, 75017",
+                "name": "Stage de Pranayama",
+                "price": "à partir de 18",
                 "type": "workshop",
                 "reccurence": "",
                 "short_description": "Pour les élèves qui ont assimilé les bases et sont prêts à avancer dans la pratique du yoga d’une courte méditation à la fin du cours.",
@@ -210,11 +210,11 @@
 
                 }
             },
-            { 
-                "id": "sg7", 
-                "address": "4 rue du General Foy, 75017", 
-                "name": "Journée portes ouvertes", 
-                "price": "Gratuit", 
+            {
+                "id": "sg7",
+                "address": "4 rue du General Foy, 75017",
+                "name": "Journée portes ouvertes",
+                "price": "Gratuit",
                 "type": "event",
                 "reccurence": "once",
                 "start_date": "2019-09-21",
@@ -224,7 +224,7 @@
                 }
             }
 
-           
+
           ]
     },
     {
@@ -249,11 +249,11 @@
         ],
         "activity_price_recurrence": "semester",
         "sub_groups": [
-            { 
-                "id": "sg1", 
-                "address": "4 rue du General Foy, 75017", 
-                "name": "Découverte", 
-                "price": "Gratuit", 
+            {
+                "id": "sg1",
+                "address": "4 rue du General Foy, 75017",
+                "name": "Découverte",
+                "price": "Gratuit",
                 "reccurence": "",
                 "type": "cours collectif",
                 "short_description": "Le cours gratuit ne s'addresse qu'aux débutant, sans expérience. Il est obligatoire de s'inscrire ou de réserver.",
@@ -263,11 +263,11 @@
                     "mardi": ["20:00 - 21:30"]
                 }
             },
-            { 
-                "id": "sg2", 
-                "address": "4 rue du General Foy, 75017", 
-                "name": "Initiation", 
-                "price": "20e", 
+            {
+                "id": "sg2",
+                "address": "4 rue du General Foy, 75017",
+                "name": "Initiation",
+                "price": "20e",
                 "reccurence": "cours",
                 "type": "cours collectif",
                 "short_description": "Vous avez entre 5 et 15 cours, ou 2 mois de cours et pratique régulière",
@@ -278,11 +278,11 @@
                     "samedi": ["15:00 - 16:00"]
                 }
             },
-            { 
-                "id": "sg3", 
-                "address": "4 rue du General Foy, 75017", 
-                "name": "Intermédiaire", 
-                "price": "20e", 
+            {
+                "id": "sg3",
+                "address": "4 rue du General Foy, 75017",
+                "name": "Intermédiaire",
+                "price": "20e",
                 "reccurence": "cours",
                 "type": "cours collectif",
                 "short_description": "Vous avez entre 15 et 30 cours, ou 3 mois de cours et pratique régulière",
@@ -293,11 +293,11 @@
                     "samedi": ["16:00 - 17:00"]
                 }
             },
-            { 
-                "id": "sg5", 
-                "address": "4 rue du General Foy, 75017", 
-                "name": "Avancé", 
-                "price": "20e", 
+            {
+                "id": "sg5",
+                "address": "4 rue du General Foy, 75017",
+                "name": "Avancé",
+                "price": "20e",
                 "reccurence": "cours",
                 "type": "cours collectif",
                 "short_description": "Vous avez plus de 30 cours, ou 3 mois de cours et pratique régulière",
@@ -308,7 +308,7 @@
                     "samedi": ["16:00 - 17:00"]
                 }
             }
-            
+
         ]
     },
     {
@@ -333,11 +333,11 @@
         ],
         "activity_price_recurrence": "semester",
         "sub_groups": [
-            { 
-                "id": "sg1", 
-                "address": "4 rue du General Foy, 75017", 
-                "name": "Découverte", 
-                "price": "Gratuit", 
+            {
+                "id": "sg1",
+                "address": "4 rue du General Foy, 75017",
+                "name": "Découverte",
+                "price": "Gratuit",
                 "reccurence": "",
                 "type": "cours collectif",
                 "short_description": "Le cours gratuit ne s'addresse qu'aux débutant, sans expérience. Il est obligatoire de s'inscrire ou de réserver.",
@@ -347,11 +347,11 @@
                     "mardi": ["20:00 - 21:30"]
                 }
             },
-            { 
-                "id": "sg2", 
-                "address": "4 rue du General Foy, 75017", 
-                "name": "Initiation", 
-                "price": "20e", 
+            {
+                "id": "sg2",
+                "address": "4 rue du General Foy, 75017",
+                "name": "Initiation",
+                "price": "20e",
                 "reccurence": "cours",
                 "type": "cours collectif",
                 "short_description": "Vous avez entre 5 et 15 cours, ou 2 mois de cours et pratique régulière",
@@ -362,11 +362,11 @@
                     "samedi": ["15:00 - 16:00"]
                 }
             },
-            { 
-                "id": "sg3", 
-                "address": "4 rue du General Foy, 75017", 
-                "name": "Intermédiaire", 
-                "price": "20e", 
+            {
+                "id": "sg3",
+                "address": "4 rue du General Foy, 75017",
+                "name": "Intermédiaire",
+                "price": "20e",
                 "reccurence": "cours",
                 "type": "cours collectif",
                 "short_description": "Vous avez entre 15 et 30 cours, ou 3 mois de cours et pratique régulière",
@@ -377,11 +377,11 @@
                     "samedi": ["16:00 - 17:00"]
                 }
             },
-            { 
-                "id": "sg5", 
-                "address": "4 rue du General Foy, 75017", 
-                "name": "Avancé", 
-                "price": "20e", 
+            {
+                "id": "sg5",
+                "address": "4 rue du General Foy, 75017",
+                "name": "Avancé",
+                "price": "20e",
                 "reccurence": "cours",
                 "type": "cours collectif",
                 "short_description": "Vous avez plus de 30 cours, ou 3 mois de cours et pratique régulière",
@@ -392,8 +392,8 @@
                     "samedi": ["16:00 - 17:00"]
                 }
             }
-            
+
         ]
-    }  
+    }
 
 ]
