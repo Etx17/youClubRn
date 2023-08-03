@@ -10,12 +10,11 @@ import { Amplify } from 'aws-amplify';
 import {Authenticator} from '@aws-amplify/ui-react-native';
 import config from './src/aws-exports';
 import Client from './src/apollo/Client';
-
+import * as Linking from 'expo-linking';
 Amplify.configure(config);
 
-
+const prefix = Linking.createURL('/');
 export default function App() {
-
   return (
     <PaperProvider>
       <SafeAreaProvider>

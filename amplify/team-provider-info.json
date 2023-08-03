@@ -14,6 +14,12 @@
     "categories": {
       "auth": {
         "Youclub": {}
+      },
+      "storage": {
+        "s3youclubstorage61787db0": {}
+      },
+      "function": {
+        "YouclubPostConfirmation": {}
       }
     }
   }
