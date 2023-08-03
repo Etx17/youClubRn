@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ClubDetailsScreen from '../screens/ClubDetailsScreen/ClubDetailsScreen';
 import LikedClubsIndexScreen from '../screens/LikedClubsIndexScreen/LikedClubsIndexScreen';
+import React from 'react';
 
 const Stack = createNativeStackNavigator()
 

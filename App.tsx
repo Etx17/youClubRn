@@ -1,18 +1,34 @@
-import { StatusBar } from 'expo-status-bar';
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions, Pressable } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import React from 'react'
 import Navigation from './src/navigation';
 import LocationContextProvider from './src/contexts/LocationContext';
-export default function App() {
+import {MD3LightTheme as DefaultTheme, PaperProvider } from 'react-native-paper';
+import AuthContextProvider from './src/contexts/AuthContext';
+import colors from './src/themes/colors';
+import { Amplify } from 'aws-amplify';
+import {Authenticator} from '@aws-amplify/ui-react-native';
+import config from './src/aws-exports';
+import Client from './src/apollo/Client';
+import * as Linking from 'expo-linking';
+Amplify.configure(config);
 
-   return (
-  // Ne wrapper le location context provider que autour du topTabNavigator là ou j'en ai besoin
-       <SafeAreaProvider>
-        <LocationContextProvider>
-          <Navigation/>
-        </LocationContextProvider>
+const prefix = Linking.createURL('/');
+export default function App() {
+  return (
+    <PaperProvider>
+      <SafeAreaProvider>
+              <Client>
+        <AuthContextProvider>
+          <Authenticator.Provider>
+            <LocationContextProvider>
+                <Navigation/>
+            </LocationContextProvider>
+          </Authenticator.Provider>
+        </AuthContextProvider>
+              </Client>
       </SafeAreaProvider>
+    </PaperProvider>
   );
 }
 

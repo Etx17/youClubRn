@@ -57,7 +57,7 @@ const ClubDetailsScreen = () => {
 
       <View style={styles.contentContainer}>
 
-        <TitleSection title={titre} onBackPress={() => navigation.goBack()} />
+        <TitleSection title={titre} onButtonPress={() => navigation.goBack()} />
 
         <AddressDetails address={adresse_actuelle} postalCode={codepostal_actuel} />
 

@@ -3,7 +3,7 @@ import { LikesTopTabNavigatorParamsList } from '../types/navigation';
 import colors from '../themes/colors';
 import LikedActivitiesIndexScreen from '../screens/LikedActivitesIndexScreen/LikedActivitiesIndexScreen';
 import LikedClubsNavigator from './LikedClubsNavigator';
-
+import React from 'react';
 const Tab = createMaterialTopTabNavigator<LikesTopTabNavigatorParamsList>();
 const LikesTopTabNavigator = () => {
     

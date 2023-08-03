@@ -3,7 +3,7 @@
     "name": "youclub",
     "slug": "youclub",
     "scheme": "youclub",
-    "version": "1.0.0",
+    "version": "2.2.0",
     "orientation": "portrait",
     "icon": "./assets/logo.png",
     "userInterfaceStyle": "light",
@@ -16,7 +16,12 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.etx17.youclub"
+      "bundleIdentifier": "com.etx17.youclub",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Dans le but de vous fournir une expérience optimale et de vous connecter facilement aux associations et activités locales, Youclub recueille des données sur votre position dès l'ouverture de l'application et pendant votre utilisation. Ces informations sont utilisées exclusivement pour calculer la distance entre votre position et les associations ainsi que les activités à proximité. Nous nous engageons à respecter les politiques de confidentialité d'Apple et à garantir la sécurité et la protection de vos données personnelles. Votre confidentialité est notre priorité absolue.",
+        "NSLocationAlwaysUsageDescription": "Dans le but de vous fournir une expérience optimale et de vous connecter facilement aux associations et activités locales, Youclub recueille des données sur votre position dès l'ouverture de l'application et pendant votre utilisation. Ces informations sont utilisées exclusivement pour calculer la distance entre votre position et les associations ainsi que les activités à proximité. Nous nous engageons à respecter les politiques de confidentialité d'Apple et à garantir la sécurité et la protection de vos données personnelles. Votre confidentialité est notre priorité absolue.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Dans le but de vous fournir une expérience optimale et de vous connecter facilement aux associations et activités locales, Youclub recueille des données sur votre position dès l'ouverture de l'application et pendant votre utilisation. Ces informations sont utilisées exclusivement pour calculer la distance entre votre position et les associations ainsi que les activités à proximité. Nous nous engageons à respecter les politiques de confidentialité d'Apple et à garantir la sécurité et la protection de vos données personnelles. Votre confidentialité est notre priorité absolue."
+      }
     },
     "android": {
       "adaptiveIcon": {

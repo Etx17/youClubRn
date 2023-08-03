@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   image: {
     flex: 1,
     width: '100%',
-    aspectRatio: 0.8,
+    aspectRatio: 0.9,
   },
   informationsContainer: {
     flex: 1,

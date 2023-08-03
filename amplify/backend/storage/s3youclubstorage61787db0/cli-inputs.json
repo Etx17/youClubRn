@@ -1,0 +1,14 @@
+{
+  "resourceName": "s3youclubstorage61787db0",
+  "bucketName": "youclub-storage-61787db0",
+  "policyUUID": "3e2e5f87",
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "READ"
+  ],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ]
+}
