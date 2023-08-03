@@ -18,15 +18,15 @@ export default function App() {
   return (
     <PaperProvider>
       <SafeAreaProvider>
+              <Client>
         <AuthContextProvider>
           <Authenticator.Provider>
             <LocationContextProvider>
-              <Client>
                 <Navigation/>
-              </Client>
             </LocationContextProvider>
           </Authenticator.Provider>
         </AuthContextProvider>
+              </Client>
       </SafeAreaProvider>
     </PaperProvider>
   );

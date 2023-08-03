@@ -3,6 +3,9 @@ import React, { useContext } from "react";
 import { createContext,  ReactNode, useState, SetStateAction, useEffect } from "react";
 import { Auth, Hub } from "aws-amplify";
 import { HubCallback } from "@aws-amplify/core";
+import { useQuery, gql } from '@apollo/client';
+import { ActivityIndicator } from "react-native";
+import ApiErrorMessage from "../components/apiErrorMessage/ApiErrorMessage";
 
 type User = {
     id: string,
@@ -14,22 +17,42 @@ export const AuthContext = createContext({
         role: "",
     },
 })
+
+const USER_BY_EMAIL_AND_SUB = gql`
+  query UserByEmailAndSub($email: String!, $subId: String!) {
+    userByEmailAndSub(email: $email, subId: $subId) {
+      id
+      role
+    }
+  }
+`;
+
 const AuthContextProvider = ({children}: {children: ReactNode}) => {
+    const [cognitoUser, setCognitoUser] = useState<{ email: string, sub: string}>({email: "", sub: ""});
     const [user, setUser] = useState<User | null>(null);
+    const { data, loading, error, refetch } = useQuery(USER_BY_EMAIL_AND_SUB, {
+      variables: { email: cognitoUser.email, subId: cognitoUser.sub },
+    });
     const checkUser = async () => {
         try {
             const authUser = await Auth.currentAuthenticatedUser({bypassCache: true})
-            console.log(authUser.attributes.email, authUser.attributes.sub)
-
-            // TODO Fetch now the user that has this sub_id from my database (rails) and set it to the user state
-            const mockedUser = {id: '1', role: "user"}
-
-            // For now i'll set user as a dummy object
-            setUser(mockedUser)
+              .then((user) => {
+                setCognitoUser({email: user.attributes.email, sub: user.attributes.sub});
+                console.log('COGNITO-USER ATTRIBUTES', user.attributes.email, user.attributes.sub)
+              })
         } catch (e) {
             setUser(null)
         }
     }
+
+
+    useEffect(() => {
+      if(data?.userByEmailAndSub){
+        const user = {id: data.userByEmailAndSub.id, role: data.userByEmailAndSub.role}
+        setUser(user)
+      }
+    }, [cognitoUser, data])
+
     useEffect(() => {
         checkUser()
     }, [])
