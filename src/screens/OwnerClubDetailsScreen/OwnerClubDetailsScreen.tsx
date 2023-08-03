@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Alert, StyleSheet, Pressable } from 'react-native'
+import { View, Text, ScrollView, Alert, StyleSheet, Pressable, ActivityIndicator } from 'react-native'
 import React, { useState } from 'react'
 import clubs from '../../assets/data/clubs'
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -12,12 +12,12 @@ import colors from '../../themes/colors'
 import { StatusBar } from 'expo-status-bar'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useNavigation } from '@react-navigation/native'
+import { useAuthContext } from '../../contexts/AuthContext'
+import { useQuery } from '@apollo/client';
+import { GET_CLUB_BY_USER_ID } from './queries';
+import ApiErrorMessage from '../../components/apiErrorMessage/ApiErrorMessage';
 
 const OwnerClubDetailsScreen = () => {
-  const navigation = useNavigation()
-  const { name, objet, address, actual_zipcode, subcategory, images, activities } = clubs[0]
-  const [currentImageIndex, setCurrentImageIndex] = useState(0)
-  const darkTheme = false
   const changeImage = (direction: String) => {
     if (direction === 'left') {
     setCurrentImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length)
@@ -27,6 +27,31 @@ const OwnerClubDetailsScreen = () => {
 
     }
   }
+  const darkTheme = false
+  const navigation = useNavigation()
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const { user } = useAuthContext();
+  const {data, loading, error, refetch} = useQuery(GET_CLUB_BY_USER_ID, { variables: {userId: user.id} })
+
+  // TODO : image stored in db should be then requested from Amazon.
+  const images = clubs[0].images
+  const name = data?.clubByUserId ? data?.clubByUserId.name : clubs[0].name
+  const address = data?.clubByUserId ? data?.clubByUserId.address : clubs[0].address
+  const actualZipcode = data?.clubByUserId ? data?.clubByUserId.actualZipcode : clubs[0].actualZipcode
+  const activities = data?.clubByUserId ? data?.clubByUserId.activities : clubs[0].activities
+  const objet = data?.clubByUserId ? data?.clubByUserId.objet : clubs[0].objet
+
+
+  if(loading){ return <ActivityIndicator/> }
+  if(error){
+    return (
+      <ApiErrorMessage
+        title="Error fetching the user"
+        message={error?.message || 'User not found'}
+        onRetry={()=>refetch()}
+      />
+      )
+    }
 
     return (
       <ScrollView style={{backgroundColor: 'black'}}>
@@ -40,7 +65,7 @@ const OwnerClubDetailsScreen = () => {
         </Pressable>
         <TitleSection title={name} noBackButton />
 
-        <AddressDetails address={address} postalCode={actual_zipcode} />
+        <AddressDetails address={address} postalCode={actualZipcode} />
 
         {/* Activity section, to export in a component later. */}
         <View>

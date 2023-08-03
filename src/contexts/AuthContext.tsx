@@ -38,7 +38,6 @@ const AuthContextProvider = ({children}: {children: ReactNode}) => {
             const authUser = await Auth.currentAuthenticatedUser({bypassCache: true})
               .then((user) => {
                 setCognitoUser({email: user.attributes.email, sub: user.attributes.sub});
-                console.log('COGNITO-USER ATTRIBUTES', user.attributes.email, user.attributes.sub)
               })
         } catch (e) {
             setUser(null)
