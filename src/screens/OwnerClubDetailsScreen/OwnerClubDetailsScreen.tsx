@@ -79,7 +79,7 @@ const OwnerClubDetailsScreen = () => {
 
       <View style={styles.contentContainer}>
 
-        <Pressable onPress={() => navigation.navigate('EditClub')} style={styles.stickyButton}>
+        <Pressable onPress={() => navigation.navigate('EditClub', {clubData: data?.clubByUserId, images})} style={styles.stickyButton}>
           <Entypo name="edit" size={20} color="black" />
         </Pressable>
         <TitleSection title={name} noBackButton />

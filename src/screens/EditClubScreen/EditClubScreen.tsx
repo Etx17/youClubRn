@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Button, TextInput, Card, HelperText} from 'react-native-paper'
 import * as ImagePicker from 'expo-image-picker';
 import { useForm } from 'react-hook-form';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ClubSchema, Club } from '../../schema/club.schema';
 import ControlledInput from '../../components/ControlledInput';
@@ -12,18 +12,23 @@ import PhotosSection from '../../components/photosSection';
 import { updateImageKeysInS3, uploadImageToS3 } from '../../services/ImageService';
 import Dropdown from '../../components/Dropdown';
 import SubCategoryDropdown from '../../components/SubCategoryDropdown';
+import { useMutation } from '@apollo/client';
+import { UPDATE_CLUB } from './mutations';
 
 
 export default function EditClubScreen() {
-
+  const route = useRoute();
+  const navigation = useNavigation()
+  // console.log(route.params);
+  const {clubData, images} = route.params as any;
   // --------------------------------------------------------------------------------------
   // START--------------------------MOCKING FETCHING DATA FROM API--------------------------
   // --------------------------------------------------------------------------------------
-  const actualImagesFromClub = [ "https://source.unsplash.com/random/?salsa", "https://source.unsplash.com/random/?bachata" ]
-  const clubName = "Salsa Club Cool"
-  const category = "Sports, activités de plein air"
-  const subcategory = 'Golf'
-  const clubDescription = "Au cœur de la vibrante capitale française se trouve El Ritmo de la Noche, un club de salsa à Paris offrant"
+  const actualImagesFromClub = images
+  const clubName = clubData.name
+  const category = clubData.category
+  const subcategory = clubData.subcategory
+  const clubDescription = clubData.objet
   // --------------------------------------------------------------------------------------
   // END--------------------------MOCKING FETCHING DATA FROM API--------------------------
   // --------------------------------------------------------------------------------------
@@ -31,15 +36,17 @@ export default function EditClubScreen() {
   const { control, handleSubmit, setValue, formState: { errors } } = useForm<Club>({
     resolver: zodResolver(ClubSchema),
   });
-  console.log(errors);
+  console.log(errors, '<== errors');
   const [dropdownValue, setDropdownValue] = useState("Sports, activités de plein air");
   const [subCategoryDropdownValue, setSubCategoryDropdownValue] = useState('Judo');
   const [isImagePickerVisible, setImagePickerVisible] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const numRows = selectedImages.length < 3 ? 1 : 2;
-  const navigation = useNavigation()
   const { user } = useAuthContext();
+
+  const [updateClub, { data, loading, error }] = useMutation(UPDATE_CLUB);
+
   useEffect(() => {
     setSelectedImages(actualImagesFromClub)
     setValue("name", clubName);
@@ -61,14 +68,26 @@ export default function EditClubScreen() {
       // Step 2: Add the merged keys to clubObj
       clubObj.images = finalImageKeys;
 
-      console.log(clubObj.images, "this is the final image keys")
+      // console.log(clubObj.images, "this is the final image keys")
 
-      // After all images are processed, proceed with saving the club object
-      // TODO: Call your API to update the club with the modified data (clubObj)
+      // Calling update in my db
+      await updateClub({variables: {
+        input: {
+          id: clubData.id,
+          name: clubObj.name,
+          objet: clubObj.objet,
+          category: clubObj.category,
+          subcategory: clubObj.subcategory,
+          images: clubObj.images,
+          website: clubObj.website,
+        }
+      }}).then(() =>
+        navigation.goBack()
+      )
       console.warn('Mocking club update with the following data:', clubObj);
 
       // Finally, navigate back to the previous screen
-      navigation.goBack();
+
     } catch (error) {
       console.log(error, 'there was an error during the process');
     } finally {
@@ -115,6 +134,7 @@ export default function EditClubScreen() {
     setSubCategoryDropdownValue(valuesub);
     console.log('valuesub', valuesub);
   };
+
 
   return (
     <ScrollView style={{ padding: 15, flex: 1}}>
