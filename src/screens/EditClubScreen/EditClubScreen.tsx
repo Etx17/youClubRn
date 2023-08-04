@@ -14,6 +14,7 @@ import Dropdown from '../../components/Dropdown';
 import SubCategoryDropdown from '../../components/SubCategoryDropdown';
 import { useMutation } from '@apollo/client';
 import { UPDATE_CLUB } from './mutations';
+import ApiErrorMessage from '../../components/apiErrorMessage/ApiErrorMessage';
 
 
 export default function EditClubScreen() {
@@ -115,6 +116,9 @@ export default function EditClubScreen() {
     setSubCategoryDropdownValue(valuesub);
     console.log('valuesub', valuesub);
   };
+
+  if(loading){ return (<ActivityIndicator/>) }
+  if(error){ return <ApiErrorMessage title='Error fetching or updating user' message={error?.message}/> }
 
 
   return (

@@ -75,7 +75,13 @@ const OwnerClubDetailsScreen = () => {
     return (
       <ScrollView style={{backgroundColor: 'black'}}>
       {/* IMAGE CAROUSEL */}
-      <DetailsCarousel images={images.length > 0 ? images : ["https://source.unsplash.com/random/?wait"]} currentImageIndex={currentImageIndex} changeImage={changeImage} />
+      <DetailsCarousel
+        key={ images.length > 0 ? images[currentImageIndex] : "wait" }
+        images={images.length > 0 ? images : []}
+        currentImageIndex={currentImageIndex}
+        changeImage={changeImage}
+      />
+
 
       <View style={styles.contentContainer}>
 
