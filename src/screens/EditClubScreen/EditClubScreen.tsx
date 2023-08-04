@@ -17,33 +17,25 @@ import { UPDATE_CLUB } from './mutations';
 
 
 export default function EditClubScreen() {
-  const route = useRoute();
-  const navigation = useNavigation()
-  // console.log(route.params);
-  const {clubData, images} = route.params as any;
-  // --------------------------------------------------------------------------------------
-  // START--------------------------MOCKING FETCHING DATA FROM API--------------------------
-  // --------------------------------------------------------------------------------------
-  const actualImagesFromClub = images
-  const clubName = clubData.name
-  const category = clubData.category
-  const subcategory = clubData.subcategory
-  const clubDescription = clubData.objet
-  // --------------------------------------------------------------------------------------
-  // END--------------------------MOCKING FETCHING DATA FROM API--------------------------
-  // --------------------------------------------------------------------------------------
-
   const { control, handleSubmit, setValue, formState: { errors } } = useForm<Club>({
     resolver: zodResolver(ClubSchema),
   });
-  console.log(errors, '<== errors');
   const [dropdownValue, setDropdownValue] = useState("Sports, activités de plein air");
   const [subCategoryDropdownValue, setSubCategoryDropdownValue] = useState('Judo');
   const [isImagePickerVisible, setImagePickerVisible] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
-  const numRows = selectedImages.length < 3 ? 1 : 2;
   const { user } = useAuthContext();
+  const navigation = useNavigation()
+  const route = useRoute();
+  const {clubData, images} = route.params as any;
+  const actualImagesFromClub = images
+
+  const clubName = clubData.name
+  const category = clubData.category
+  const subcategory = clubData.subcategory
+  const clubDescription = clubData.objet
+  const numRows = selectedImages.length < 3 ? 1 : 2;
 
   const [updateClub, { data, loading, error }] = useMutation(UPDATE_CLUB);
 
@@ -62,15 +54,8 @@ export default function EditClubScreen() {
     const clubObj = { ...data, user_id: user.id, category: dropdownValue, subcategory: subCategoryDropdownValue, images: [] };
 
     try {
-      // Chekcs for images that were deleted or added and removes/add them from S3
       const finalImageKeys = await updateImageKeysInS3(actualImagesFromClub, selectedImages);
 
-      // Step 2: Add the merged keys to clubObj
-      clubObj.images = finalImageKeys;
-
-      // console.log(clubObj.images, "this is the final image keys")
-
-      // Calling update in my db
       await updateClub({variables: {
         input: {
           id: clubData.id,
@@ -78,16 +63,12 @@ export default function EditClubScreen() {
           objet: clubObj.objet,
           category: clubObj.category,
           subcategory: clubObj.subcategory,
-          images: clubObj.images,
+          images: finalImageKeys,
           website: clubObj.website,
         }
       }}).then(() =>
         navigation.goBack()
       )
-      console.warn('Mocking club update with the following data:', clubObj);
-
-      // Finally, navigate back to the previous screen
-
     } catch (error) {
       console.log(error, 'there was an error during the process');
     } finally {
