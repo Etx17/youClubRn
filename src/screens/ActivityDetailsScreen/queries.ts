@@ -12,6 +12,7 @@ export const GET_ACTIVITY = gql`
       subcategories
       shortDescription
       fullDescription
+      images
       club {
         id
         name

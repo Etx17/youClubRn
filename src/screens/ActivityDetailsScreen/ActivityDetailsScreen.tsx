@@ -17,6 +17,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { useQuery } from '@apollo/client'
 import { GET_ACTIVITY } from './queries'
 import ApiErrorMessage from '../../components/apiErrorMessage/ApiErrorMessage'
+import { Storage } from 'aws-amplify'
 
 
 interface ActivityDetailsParams {
@@ -56,24 +57,36 @@ interface ActivityDetailsParams {
   }
 
   type ActivityDetailsRoute = RouteProp<Record<string, ActivityDetailsParams>, string>;
-const ActivityDetailsScreen = (activityData: any) => {
+const ActivityDetailsScreen = () => {
   const { user } = useAuthContext();
   console.log(user, 'this is user from authContext')
   const navigation = useNavigation()
   const route = useRoute<ActivityDetailsRoute>();
   // const { name, address, actual_zipcode, full_description, club_name, sub_groups } = route?.params?.activityData
-  const {images, darkTheme} = route?.params
+  const {darkTheme} = route?.params
+  const [images, setImages] = useState([])
   const scrollViewRef = useRef<ScrollView>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [subGroups, setSubGroups] = useState([])
 
 
   // console.log(route?.params?.activityData.id,"<-----------------activityData")
-  const activityId = route?.params?.activityData.id
+  const activityId = route?.params?.activityId || route?.params?.activityData?.id
   const {data, loading, error, refetch} = useQuery(GET_ACTIVITY, {variables: {id: activityId}})
+  const imageKeys = data?.activity ? data?.activity.images : []
+
   useEffect(() => {
-    if (data) {
+    if (data?.activity?.subGroups) {
       setSubGroups(data.activity.subGroups)
+    }
+    if(data?.activity?.images){
+      Promise.all(
+        data?.activity?.images.map((imageKey) => Storage.get(imageKey))
+      ).then((fetchedImages) => {
+          setImages(fetchedImages);
+      }).catch((error) => {
+        console.error('Error fetching images', error);
+      });
     }
   }, [data])
 
@@ -108,11 +121,11 @@ const ActivityDetailsScreen = (activityData: any) => {
     // console.log(data?.activity, "<==============================================data")
     const { id, name, address, fullDescription, actualZipcode } = data?.activity
     const ActivitySubGroups = data?.activity.subGroups
-    console.log(ActivitySubGroups, '<-------------------this is ActivitySubGroups from data.activity.subgroups')
+    console.log(data, 'activity fetched after clicking ')
     return (
       <ScrollView ref={scrollViewRef}>
         {/* IMAGE CAROUSEL */}
-        <DetailsCarousel images={images ? images : route?.params?.activityData.images } currentImageIndex={currentImageIndex} changeImage={changeImage} />
+        <DetailsCarousel images={images || []} currentImageIndex={currentImageIndex} changeImage={changeImage} />
 
 
         <View style={styles.contentContainer}>
