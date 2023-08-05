@@ -77,7 +77,7 @@ const ActivityDetailsScreen = () => {
 
   useEffect(() => {
     if (data?.activity?.subGroups) {
-      setSubGroups(data.activity.subGroups)
+      setSubGroups(data?.activity?.subGroups)
     }
     if(data?.activity?.images){
       Promise.all(
@@ -121,7 +121,9 @@ const ActivityDetailsScreen = () => {
     // console.log(data?.activity, "<==============================================data")
     const { id, name, address, fullDescription, actualZipcode } = data?.activity
     const ActivitySubGroups = data?.activity.subGroups
-    console.log(data, 'activity fetched after clicking ')
+    console.log(subGroups, 'STATE OF SUBGROUPS')
+
+
     return (
       <ScrollView ref={scrollViewRef}>
         {/* IMAGE CAROUSEL */}
