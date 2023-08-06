@@ -43,6 +43,7 @@ const OwnerClubDetailsScreen = () => {
   const objet = data?.clubByUserId ? data?.clubByUserId.objet : clubs[0].objet
   const imageKeys = data?.clubByUserId ? data?.clubByUserId.images : []
   const [images, setImages] = useState([]);
+  const clubId = data?.clubByUserId.id
 
   // For each imageKeys, Storage.get(imageKey) and push the result in an images array
 
@@ -71,7 +72,6 @@ const OwnerClubDetailsScreen = () => {
       />
       )
     }
-
     return (
       <ScrollView style={{backgroundColor: 'black'}}>
       {/* IMAGE CAROUSEL */}
@@ -111,7 +111,7 @@ const OwnerClubDetailsScreen = () => {
                 </Pressable>
               </LinearGradient>
             ))}
-            <Pressable onPress={() => navigation.navigate('NewActivity', {clubId: '1'})} style={styles.addActivityButton}>
+            <Pressable onPress={() => navigation.navigate('NewActivity', {clubId: clubId})} style={styles.addActivityButton}>
                 <Ionicons name='add-outline' size={20} color={colors.primary} />
             </Pressable>
 
