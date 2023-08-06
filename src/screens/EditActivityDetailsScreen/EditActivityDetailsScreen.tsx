@@ -6,7 +6,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { Image } from 'expo-image';
 import colors from '../../themes/colors';
 import { useForm, Controller } from 'react-hook-form';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ActivitySchema, Activity } from '../../schema/activity.schema';
 import ControlledInput from '../../components/ControlledInput';
@@ -14,6 +14,8 @@ import { useAuthContext } from '../../contexts/AuthContext';
 import Dropdown from '../../components/Dropdown';
 import SubCategoryDropdown from '../../components/SubCategoryDropdown';
 import { updateImageKeysInS3 } from '../../services/ImageService';
+import { useMutation } from '@apollo/client';
+import { UPDATE_ACTIVITY } from './mutation';
 type PricingTypes = {
   [key: string]: boolean;
 }
@@ -24,8 +26,6 @@ export default function EditActivityDetailsScreen() {
   // START--------------------------MOCKING FETCHING DATA FROM API--------------------------
   // --------------------------------------------------------------------------------------
   const actualImagesFromClub = [ "https://source.unsplash.com/random/?salsa", "https://source.unsplash.com/random/?bachata" ]
-  const activityName = "Salsa"
-  const activityDescription = "Une des danses latino les plus connues. Venez apprendre, tous publics. Vous pourrez participer à des soirées organisées par le club, mais aussi des stages, conférences, workshop... !"
   const currentPricingTypes = ["monthly", "yearly", "perUnit"]
   const currentPricingTypesToObject: PricingTypes = {
     monthly: currentPricingTypes.includes("monthly"),
@@ -38,8 +38,7 @@ export default function EditActivityDetailsScreen() {
     customPackages: currentPricingTypes.includes("customPackages"),
     other: currentPricingTypes.includes("other"),
   }
-  const category = "Sports, activités de plein air"
-  const subcategory= "Golf"
+  // const category = "Sports, activités de plein air"
   // --------------------------------------------------------------------------------------
   // END--------------------------MOCKING FETCHING DATA FROM API--------------------------
   // --------------------------------------------------------------------------------------
@@ -58,13 +57,20 @@ export default function EditActivityDetailsScreen() {
   const navigation = useNavigation()
   const { user } = useAuthContext();
   const [checkedItems, setCheckedItems] = useState<PricingTypes>(currentPricingTypesToObject);
+  const route = useRoute();
+  const { activityData, images} = route?.params as any;
   useEffect(() => {
-    setSelectedImages(actualImagesFromClub)
-    setValue('name', activityName)
-    setValue('description', activityDescription)
-    setValue('pricingTypes', currentPricingTypes)
+    // setSelectedImages(actualImagesFromClub)
+    setSelectedImages(images)
+    setValue('name', activityData.name)
+    setValue('description', activityData.fullDescription)
+    setValue('hasFreeTrial', activityData.freeTrial)
+    setValue('address', activityData.address)
+    setValue('website', activityData.website)
+    setHasFreeTrial(activityData.freeTrial)
+    setDropdownValue(activityData.category);
+    setSubCategoryDropdownValue(activityData.subcategories);
   }, [])
-
   const handleDropdownValueChange = (valuecat: string) => {
     console.log('valuecat', valuecat);
     setDropdownValue(valuecat);
@@ -83,6 +89,7 @@ export default function EditActivityDetailsScreen() {
     const checkedKeys = Object.keys(newCheckedItems).filter(key => newCheckedItems[key]);
     onChange(checkedKeys); // Update the form control
   };
+  const [updateActivity, { data, loading, error }] = useMutation(UPDATE_ACTIVITY);
 
   const saveAndGoBack = async (data: {}) => {
     if (isSubmitting) { return }
@@ -100,11 +107,24 @@ export default function EditActivityDetailsScreen() {
       console.log(activityObj.images, "this is the final image keys")
 
       // After all images are processed, proceed with saving the club object
-      // TODO: Call your API to update the club with the modified data (clubObj)
-      console.warn('Mocking club update with the following data:', activityObj);
+      console.log(activityObj, "this is the activity object")
 
-      // Finally, navigate back to the previous screen
-      navigation.goBack();
+      // TODO: Call your API to update the club with the modified data (clubObj)
+      await updateActivity({variables: {
+        input: {
+          id: activityData.id,
+          name: activityObj.name,
+          category: dropdownValue,
+          subcategories: subCategoryDropdownValue,
+          fullDescription: activityObj.description,
+          address: activityObj.address,
+          images: finalImageKeys,
+          // freeTrial: hasFreeTrial
+        }
+      }}).then(() => {
+        navigation.goBack()
+        console.warn('Mocking club update with the following data:', activityObj);
+      })
     } catch (error) {
       console.log(error, 'there was an error during the process');
     } finally {
@@ -141,6 +161,9 @@ export default function EditActivityDetailsScreen() {
     { label: "Pass", key: "pass" },
     { label: "Autre", key: "other" },
   ];
+
+
+
 
   return (
     <ScrollView style={{ padding: 15, flex: 1}}>
@@ -190,14 +213,14 @@ export default function EditActivityDetailsScreen() {
                 style={{ flex: 1 }}
                 valuecat={dropdownValue}
                 onValueChange={handleDropdownValueChange}
-                defaultValue={category}
+                defaultValue={activityData?.category}
               />
               <SubCategoryDropdown
                 style={{ flex: 1 }}
                 valuesub={subCategoryDropdownValue}
                 onValueChange={handleSubCategoryDropdownValueChange}
-                categoryName={dropdownValue || ''}
-                defaultValue={subcategory}
+                categoryName={dropdownValue || activityData?.category}
+                defaultValue={activityData?.subcategories}
               />
             </View>
 
@@ -216,17 +239,17 @@ export default function EditActivityDetailsScreen() {
               label="Description"
               multiline
             />
-
+{/*
             <ControlledInput
               control={control}
               name="website"
               label="Lien d'inscription ou site web"
-            />
+            /> */}
 
             <ControlledInput
               control={control}
               name="address"
-              label="Addresse (si différente de celle du club)"
+              label="Adresse de l'activité"
             />
 
             <Controller
@@ -242,7 +265,7 @@ export default function EditActivityDetailsScreen() {
                     value={hasFreeTrial}
                     onValueChange={newValue => setHasFreeTrial(newValue)}
                   />
-                  <Text>Essai gratuit</Text>
+                  <Text> Essai gratuit</Text>
                 </View>
               )}
             />
