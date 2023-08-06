@@ -111,7 +111,7 @@ const OwnerClubDetailsScreen = () => {
                 </Pressable>
               </LinearGradient>
             ))}
-            <Pressable onPress={() => navigation.navigate('NewActivity', {clubId: clubId})} style={styles.addActivityButton}>
+            <Pressable onPress={() => navigation.navigate('NewActivity', {refetchClubData: refetch, clubId: clubId})} style={styles.addActivityButton}>
                 <Ionicons name='add-outline' size={20} color={colors.primary} />
             </Pressable>
 

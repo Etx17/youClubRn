@@ -38,6 +38,7 @@ const NewActivityScreen = () => {
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const [hasFreeTrial, setHasFreeTrial] = React.useState(false);
   const route = useRoute();
+  const { refetchClubData } = route.params;
   const navigation = useNavigation()
   const numRows = selectedImages.length < 3 ? 1 : 2;
   const imagesKeys = []
@@ -132,6 +133,7 @@ const NewActivityScreen = () => {
             await createActivity({variables: {...activityObj } })
               .then(() => {
                 Alert.alert('Votre activité a été créée avec succès !', 'Vous pouvez maintenant la retrouver dans la liste des activités de votre club. Vous pouvez la modifier à tout moment en cliquant dessus.')
+                refetchClubData();
                 navigation.goBack()
               })
           } catch (error) {
