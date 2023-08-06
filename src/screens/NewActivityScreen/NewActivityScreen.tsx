@@ -123,8 +123,8 @@ const NewActivityScreen = () => {
       });
 
       Promise.all(imageUploadPromises)
-        .then(() => {
-          activityObj.images = imagesKeys;
+        .then((keys) => {
+          activityObj.images = keys;
           return activityObj
         }).then(async (activityObj) => {
           try {
