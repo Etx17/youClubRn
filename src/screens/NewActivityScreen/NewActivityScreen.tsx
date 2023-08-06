@@ -237,7 +237,7 @@ const NewActivityScreen = () => {
                 )}
               />
 
-              <Controller
+              {/* <Controller
                 control={control}
                 name={"pricingTypes"}
                 render={({
@@ -263,7 +263,7 @@ const NewActivityScreen = () => {
                     ))}
                   </View>
                 )}
-              />
+              /> */}
             </Card.Content>
           </Card>
           <Button style={{marginBottom: 30}} onPress={handleSubmit(saveAndGoToActivity)}mode='elevated' textColor='black'>Enregistrer</Button>

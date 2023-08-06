@@ -142,7 +142,6 @@ export default function EditActivityDetailsScreen() {
     { label: "Autre", key: "other" },
   ];
 
-
   return (
     <ScrollView style={{ padding: 15, flex: 1}}>
       { isSubmitting ? (
@@ -248,7 +247,7 @@ export default function EditActivityDetailsScreen() {
               )}
             />
 
-            <Controller
+            {/* <Controller
               control={control}
               name={"pricingTypes"}
               render={({
@@ -275,7 +274,7 @@ export default function EditActivityDetailsScreen() {
                     ))}
                 </View>
               )}
-            />
+            /> */}
           </Card.Content>
         </Card>
         <Button style={{marginBottom: 30}} onPress={handleSubmit(saveAndGoBack)}mode='elevated' textColor='black'>Enregistrer</Button>
