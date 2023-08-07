@@ -37,7 +37,7 @@ const SubGroupCardItem = ({subgroup, onDeletePress }) => {
     setSchedules(subgroup.schedules);
   }, [subgroup]);
 
-  console.log(subgroup.schedules[0].timeSlots,'<-------=================-----------SubgroupcardItem subgroup>')
+  // console.log(subgroup.schedules[0].timeSlots,'<-------=================-----------SubgroupcardItem subgroup>')
   // console.log(subgroup.address,'<-------=================-----------SubgroupcardItem subgroup.address>')
   return (
       <View style={{marginVertical: 10, padding: 10, borderWidth: 1, borderColor: 'gray', borderRadius: 10, backgroundColor: colors.text }}>

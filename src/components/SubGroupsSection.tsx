@@ -25,11 +25,11 @@ const SubGroupsSection = (subGroups, activityId) => {
               </Text>
             </LinearGradient>
         ))}
-        {user?.role === 'club' && (
-          <Pressable onPress={() => navigation.navigate('NewSubGroup', {activityId: activityId})} style={styles.addActivityButton}>
+        {/* {user?.role === 'club' && (
+          <Pressable onPress={() => navigation.navigate('NewSubGroup', {activityId: activityId, refetchClubData: refetch})} style={styles.addActivityButton}>
               <Text style={{fontSize: 24, color: colors.primary,}}> + </Text>
           </Pressable>
-        )}
+        )} */}
 
       </View>
     </View>

@@ -22,7 +22,6 @@ export const GET_ACTIVITY = gql`
         activityId
         name
         minPrice
-        maxPrice
         recurrence
         shortDescription
         classType

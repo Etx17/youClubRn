@@ -1,38 +1,41 @@
-import { View, Text, Alert, ScrollView, StyleSheet } from 'react-native'
+import { View, Alert, ScrollView, StyleSheet } from 'react-native'
 import React, { useState } from 'react'
-import { Button, Card, Checkbox, HelperText, TextInput,  } from 'react-native-paper'
+import { Button, Card, HelperText, TextInput,  } from 'react-native-paper'
 import { useForm, Controller } from 'react-hook-form';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ActivitySchema, Activity } from '../../schema/activity.schema';
 import ControlledInput from '../../components/ControlledInput';
 import { SubGroup, SubGroupSchema } from '../../schema/subGroup.schema';
+import { CREATE_SUBGROUP } from './mutations';
+import { useMutation } from '@apollo/client';
 type Tarification = {
   number: string;
   text: string;
   isNew: boolean;
 };
 
-const NewSubGroupScreen = (activityId: string) => {
+const NewSubGroupScreen = () => {
   const [tarifications, setTarifications] = useState([{ number: '', text: '' }]);
   const { control, handleSubmit, setValue, formState: { errors } } = useForm<SubGroup>({
     resolver: zodResolver(SubGroupSchema),
   });
   const navigation = useNavigation()
- console.log(errors, "<--------this is errors")
+  const route = useRoute();
+  const {activityId, refetchActivityData} = route.params as any;
+  console.log(errors, "<--------this is errors")
 
   const handleTarificationChange = <K extends keyof Tarification>( //telling TypeScript field can be any valid key of a Tarification object.
-  index: number, 
-  field: K, 
-  value: Tarification[K]
-) => {
+    index: number,
+    field: K,
+    value: Tarification[K]
+  ) => {
     setTarifications(prevTarifications => {
       const newTarifications = [...prevTarifications];
       newTarifications[index] = { ...newTarifications[index], [field]: value };
       return newTarifications;
     });
   };
-  
+
   const addTarification = () => {
     setTarifications([...tarifications, { number: '', text: '' }]);
   };
@@ -40,15 +43,29 @@ const NewSubGroupScreen = (activityId: string) => {
   const deleteTarification = (index: number) => {
     setTarifications(tarifications.filter((_, i) => i !== index));
   };
-   
+  const [createSubgroup, { data, loading, error }] = useMutation(CREATE_SUBGROUP);
 
-  const saveAndGoToActivity = (data: {}) => {
+  const saveAndGoToActivity = async (data: {}) => {
 
     const finalTarifications = tarifications.map(t => `${t.number}/${t.text}`);
-    data.tarifications = finalTarifications;
-    console.log(data, "after being joined and digested")
-    Alert.alert('Votre activité a été créée avec succès !', 'Vous pouvez maintenant la retrouver dans la liste des activités de votre club. Vous pouvez la modifier à tout moment en cliquant dessus.')
-    navigation.goBack()
+
+    console.log(data, "DATA TO CREATE THE SUBGROUPOBJ TO SEND TO MUTATION")
+    const subGroupObj = {
+      activityId: activityId,
+      name: data.name,
+      minPrice: parseFloat(data.minPrice),
+      classType: data.type,
+      shortDescription: data.shortDescription,
+      tarifications: finalTarifications
+
+    }
+    const doCreateSubGroup = await createSubgroup({variables: {...subGroupObj } })
+    .then(() => {
+      Alert.alert('Votre activité a été créée avec succès !', 'Vous pouvez maintenant la retrouver dans la liste des activités de votre club. Vous pouvez la modifier à tout moment en cliquant dessus.')
+      refetchActivityData();
+      navigation.goBack()
+    })
+    doCreateSubGroup
   }
 
 
@@ -57,24 +74,24 @@ const NewSubGroupScreen = (activityId: string) => {
       <View style={{gap: 15}}>
         <Card>
           <Card.Title title="Ajoutez les informations de la division" />
-          
+
           <Card.Content style={{gap: 5}}>
 
-            <ControlledInput 
+            <ControlledInput
               control={control as any}
               name="name"
               label="Nom de la division"
               placeholder="Ceinture jaunes, 6-8 ans, groupe 1, etc."
             />
 
-            <ControlledInput 
+            <ControlledInput
               control={control as any}
               name="type"
               label="Type (optionnel)"
               placeholder="Evènement, cours collectif, cours indidivuel, stage, session"
             />
 
-            <ControlledInput 
+            <ControlledInput
               control={control as any}
               name="shortDescription"
               label="Description courte (300 caractères)"
@@ -84,17 +101,17 @@ const NewSubGroupScreen = (activityId: string) => {
               multiline
               />
 
-            <ControlledInput 
+            <ControlledInput
               control={control as any}
               name="address"
               label="Addresse (optionel - si différente)"
               placeholder="Ex: 21 rue des Dames, 75017 Paris"
             />
 
-            <ControlledInput 
+            <ControlledInput
               control={control as any}
               name="minPrice"
-              label="Premier prix (nombre uniquement)" 
+              label="Premier prix (nombre uniquement)"
               multiline
               placeholder="Renseignez le prix de votre offre la moins chère - par exemple un cours d'essai ou a l'unité. C'est le prix minimum qu'un client potentiel pourrait dépenser chez vous"
             />
@@ -103,14 +120,14 @@ const NewSubGroupScreen = (activityId: string) => {
           <Card.Title title="Ajoutez des tarifications représentatives" />
           {tarifications.map((tarification, index) => (
             <View key={index} style={{ flexDirection: 'row', gap: 10, justifyContent: 'center', alignItems: 'center' }}>
-                  <Controller 
+                  <Controller
                     control={control as any}
                     name={`tarifications[${index}].number`}
-                    render={({ 
+                    render={({
                       field: { onChange, onBlur, value },
                       fieldState: { error, invalid }, }) => (
                       <View>
-                      <TextInput 
+                      <TextInput
                         label="Montant"
                         placeholder="100"
                         value={value}
@@ -127,11 +144,11 @@ const NewSubGroupScreen = (activityId: string) => {
                     )}
                   />
 
-                <Controller 
+                <Controller
                   control={control as any}
                   name={`tarifications[${index}].text`}
                   render={({ field: { onChange, onBlur, value } }) => (
-                    <TextInput 
+                    <TextInput
                       label="Réccurence"
                       placeholder="heure, jour, semaine, mois, trimestre, semestre, saison, année, etc..."
                       value={value}
@@ -144,9 +161,9 @@ const NewSubGroupScreen = (activityId: string) => {
                     />
                   )}
                 />
-             
+
                 <Button style={{marginBottom: 25}}onPress={() => deleteTarification(index)}>X</Button>
-             
+
             </View>
           ))}
           <Button onPress={addTarification}>Add Tarification</Button>

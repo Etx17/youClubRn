@@ -39,7 +39,6 @@ interface ActivityDetailsParams {
   type SubGroup = {
     id: string,
     activityId: string,
-    maxPrice: number,
     minPrice: number,
     name: string,
     shortDescription: string,
@@ -152,6 +151,11 @@ const ActivityDetailsScreen = () => {
               onDeletePress={() => handleDeleteSubGroup(index)}
               />
           ))}
+          {user?.role === 'club' && (
+          <Pressable onPress={() => navigation.navigate('NewSubGroup', {activityId: id, refetchActivityData: refetch})} style={styles.addActivityButton}>
+              <Text style={{fontSize: 24, color: colors.primary,}}> + </Text>
+          </Pressable>
+        )}
 
           <InscriptionButton onPress={() => Alert.alert("Bientôt disponible", "Lorsque cette association aura récupéré son profil, elle pourra mettre en place l'inscription")} />
 
@@ -223,6 +227,20 @@ const ActivityDetailsScreen = () => {
       position: 'absolute', //Here is the trick
       right: 10,
       bottom: 10,
+    },
+    addActivityButton: {
+      marginTop: 10,
+      fontSize: 24,
+      paddingVertical: 0,
+      alignSelf: 'flex-start',
+      paddingHorizontal: 10,
+      alignItems: 'center',
+      borderRadius: 14,
+      overflow: 'hidden',
+      borderColor: colors.primary,
+      borderWidth: 1,
+      width: "100%",
+      marginHorizontal: 4,
     },
     titleContainer: {
       flexDirection: 'row',

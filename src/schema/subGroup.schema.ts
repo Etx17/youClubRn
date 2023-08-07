@@ -17,13 +17,14 @@ export const SubGroupSchema = z.object({
   type: z.string().min(3, 'Le type doit comporter au moins 3 caractères').max(35, 'Le type ne peut pas dépasser 35 caractères').optional(),
   reccurence: z.string().min(3, 'La récurrence doit comporter au moins 3 caractères').max(35, 'La récurrence ne peut pas dépasser 35 caractères').optional(),
   minPrice: z.string()
-    .min(1, 'Le prix minimal doit comporter au moins 1 caractère')
-    .max(4, 'Le prix minimal ne peut pas dépasser 4 caractères')
-    .refine(value => /^\d+$/.test(value), 'Veuillez entrer un nombre entier'),
+  .refine(value => /^(\d+|\d+\.\d{1,2})$/.test(value), 'Must be a positive number with up to two decimal places')
+  .refine(value => {
+    const decimalPart = value.split('.')[1];
+    return !decimalPart || parseInt(decimalPart, 10) !== 0;
+  }, 'Should not have unnecessary trailing zeros'),
   shortDescription: z.string().min(10, 'Doit comporter au moins 10 caractères').max(500, 'Ne peut pas dépasser 500 caractères').optional(),
   address: z.string().optional(),
   tarifications: z.array(tarificationSchema).optional(),
 });
 
 export type SubGroup = z.infer<typeof SubGroupSchema>;
-
