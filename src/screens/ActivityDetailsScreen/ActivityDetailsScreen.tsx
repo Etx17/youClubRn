@@ -132,7 +132,12 @@ const ActivityDetailsScreen = () => {
         <View style={styles.contentContainer}>
           {/* Bouton de retourn qui est fixé contre le bas du DetailsCarousel */}
 
-          <TitleSection title={name} onButtonPress={() => navigation.goBack()} onEditButtonPress={()=> navigation.navigate('EditActivityDetails', { activityData: data?.activity, images: images })} isEditButtonPresent={user?.role === "club"} />
+          <TitleSection
+            title={name}
+            onButtonPress={() => navigation.goBack()}
+            onEditButtonPress={()=> navigation.navigate('EditActivityDetails', { activityData: data?.activity, images: images })}
+            isEditButtonPresent={user?.role === "club"}
+          />
 
           <AddressDetails address={address} postalCode={actualZipcode} />
           <Text style={{color: colors.primary}}>{data?.activity.club.name}</Text>

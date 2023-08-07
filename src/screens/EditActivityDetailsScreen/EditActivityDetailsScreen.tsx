@@ -104,10 +104,6 @@ export default function EditActivityDetailsScreen() {
       // Step 2: Add the merged keys to clubObj
       activityObj.images = finalImageKeys;
 
-      console.log(activityObj.images, "this is the final image keys")
-
-      // After all images are processed, proceed with saving the club object
-      console.log(activityObj, "this is the activity object")
 
       // TODO: Call your API to update the club with the modified data (clubObj)
       await updateActivity({variables: {
