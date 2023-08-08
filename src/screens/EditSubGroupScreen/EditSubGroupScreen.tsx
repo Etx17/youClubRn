@@ -18,8 +18,9 @@ const EditSubGroupScreen = () => {
   // Mock data from API, receive it via props, but fetch it from the API if it's not provided.
   const route = useRoute();
   const subgroup = route?.params?.subgroup;
-
-  const apiData = useMemo(() => ({ // A cause du map, pour économiser le recalcul au cas ou tarifications est un grand array ( mais ca ne l'est pas tant)
+  const { refetchActivityData } = route?.params;
+  console.log(subgroup, 'subgroup')
+  const apiData = {
     name: subgroup?.name || "Erreur de récupération",
     type: subgroup?.type || "Erreur de récupération",
     shortDescription: subgroup?.short_description || "Erreur de récupération",
@@ -32,16 +33,16 @@ const EditSubGroupScreen = () => {
             isNew: false,
           }))
         : [],
-  }), [subgroup]);
+  }
 
   const [tarifications, setTarifications] = useState<Tarification[]>(apiData.tarifications);
 
   useEffect(() => {
-    setValue("name", apiData.name);
-    setValue("type", apiData.type);
-    setValue("shortDescription", apiData.shortDescription);
-    setValue("address", apiData.address);
-    setValue("minPrice", apiData.minPrice.toString());
+    setValue("name", subgroup.name);
+    setValue("type", subgroup.classType);
+    setValue("shortDescription", subgroup.shortDescription);
+    setValue("address", subgroup.address);
+    setValue("minPrice", subgroup.minPrice.toString());
     setValue("tarifications", tarifications);
   }, [tarifications]);
 
@@ -80,17 +81,19 @@ const EditSubGroupScreen = () => {
     const subGroupObj = {
       id: subgroup?.id,
       name: data.name,
-      minPrice: data.minPrice,
+      minPrice: parseFloat(data.minPrice),
       classType: data.type,
       shortDescription: data.shortDescription,
       tarifications: data.tarifications.map((tarif: Tarification) => `${tarif.number}/${tarif.text}`)
     }
-    await updateSubGroup({ variables: { input: { subGroupObj }}}).then(()=> {
-       Alert.alert('Votre activité a été créée avec succès !', 'Vous pouvez maintenant la retrouver dans la liste des activités de votre club. Vous pouvez la modifier à tout moment en cliquant dessus.')
-       navigation.goBack()
-     }).catch((err) => {
-        console.log(err)
+    await updateSubGroup({ variables: { input: { ...subGroupObj }}}).then(()=> {
+      refetchActivityData().then(() => {
+        navigation.goBack()
+        Alert.alert('Votre activité a été créée avec succès !', 'Vous pouvez maintenant la retrouver dans la liste des activités de votre club. Vous pouvez la modifier à tout moment en cliquant dessus.')
       })
+    }).catch((err) => {
+      console.log(err)
+    })
   }
 
 
@@ -137,8 +140,7 @@ const EditSubGroupScreen = () => {
               control={control as any}
               name="minPrice"
               label="Premier prix (nombre uniquement)"
-              multiline
-              placeholder="Renseignez le prix de votre offre la moins chère - par exemple un cours d'essai ou a l'unité. C'est le prix minimum qu'un client potentiel pourrait dépenser chez vous"
+              placeholder="Prix de votre offre la moins chère"
             />
 
           {/* Tarifications input */}

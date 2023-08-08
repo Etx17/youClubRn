@@ -120,7 +120,6 @@ const ActivityDetailsScreen = () => {
     // console.log(data?.activity, "<==============================================data")
     const { id, name, address, fullDescription, actualZipcode } = data?.activity
     const ActivitySubGroups = data?.activity.subGroups
-    console.log(subGroups, 'STATE OF SUBGROUPS')
 
 
     return (
@@ -154,6 +153,7 @@ const ActivityDetailsScreen = () => {
               key={index}
               subgroup={subgroup}
               onDeletePress={() => handleDeleteSubGroup(index)}
+              refetchActivityData={refetch}
               />
           ))}
           {user?.role === 'club' && (
