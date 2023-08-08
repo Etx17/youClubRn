@@ -4,11 +4,13 @@ import { Button, Card, Checkbox, HelperText, RadioButton, TextInput,  } from 're
 import { useForm, Controller, Control, useFieldArray } from 'react-hook-form';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { zodResolver } from '@hookform/resolvers/zod';
-import ControlledInput from '../../components/ControlledInput';
 import { SubGroupSchedule, SubGroupScheduleSchema } from '../../schema/subGroupSchedule.schema';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import colors from '../../themes/colors';
-const NewSubGroupScheduleScreen = (schedule: {}) => {
+import { useMutation } from '@apollo/client';
+import { CREATE_SCHEDULE } from './mutations';
+
+const NewSubGroupScheduleScreen = (subgroup: {}) => {
   const { control, handleSubmit, getValues, setValue, formState: { errors } } = useForm<SubGroupSchedule>({
     resolver: zodResolver(SubGroupScheduleSchema),
     defaultValues: {
@@ -23,18 +25,40 @@ const NewSubGroupScheduleScreen = (schedule: {}) => {
 
   const navigation = useNavigation();
   const route = useRoute();
-  // console.log(route?.params?.schedule.map(schedule => schedule.day));
-  const scheduleDaysPresent = route?.params?.schedule.map(schedule => schedule.day)
+  const scheduleDaysPresent = route?.params?.subgroup.schedules.map(schedule => schedule.day)
   const daysOfWeekToShow = [ 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche' ].filter(day => !scheduleDaysPresent.includes(day))
   const [daysToShow, setDaysToShow] = useState(daysOfWeekToShow)
-
-  const saveAndGoToActivity = (data) => {
-    // Append to the data object back the route.params.schedule id, et subgroupId
-    data.sub_group_id = route?.params?.schedule?.sub_group_id
-    data.id = route?.params?.schedule?.id
-    navigation.goBack()
-  }
   const [schedules, setSchedules] = useState([{ date: new Date() }]);
+  const { refetchActivityData } = route?.params as any
+
+  const [createSchedule, { data, loading, error }] = useMutation(CREATE_SCHEDULE);
+  const saveAndGoToActivity = async (data: any) => {
+    // Append to the data object back the route.params.schedule id, et subgroupId
+    // data.sub_group_id = route?.params?.subgroupschedule?.sub_group_id
+    // data.id = route?.params?.schedule?.id
+    console.log(data, 'this is data');
+    console.log(data.schedules, 'SCHEDULES')
+    const transformedTimeSlots = data?.schedules?.map(schedule => ({
+      startTime: new Date(schedule.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      endTime: new Date(schedule.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    }));
+
+    const scheduleObj = {
+      subGroupId:  route?.params?.subgroup.id,
+      day: data.dayName,
+      timeSlots: transformedTimeSlots
+    }
+    await createSchedule({ variables: { ...scheduleObj }})
+      .then(() => {
+        Alert.alert('Succès', 'Votre horaire a bien été créé');
+        refetchActivityData()
+        navigation.goBack();
+      })
+      .catch(err => {
+        Alert.alert('Erreur', 'Une erreur s\'est produite lors de la création de l\'horaire.');
+        console.error(err);
+      });
+  }
   const onChange = (selectedDate, index) => {
     const newSchedules = [...schedules];
     newSchedules[index].date = selectedDate || newSchedules[index].date;
