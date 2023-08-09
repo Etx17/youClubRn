@@ -63,13 +63,16 @@ export default function EditClubScreen() {
   const saveAndGoBack = async (data: {}) => {
     if (isSubmitting) { return }
     setIsSubmitting(true);
-    // Transform data into an object that can be sent to the rails API
-    const clubObj = { ...data, user_id: user.id, category: dropdownValue, subcategory: subCategoryDropdownValue, images: [] };
+
+    const clubObj = {
+      ...data,
+      user_id: user.id,
+      category: dropdownValue,
+      subcategory: subCategoryDropdownValue,
+      images: []
+    };
 
     try {
-      // There is array of keys on one side, and array of images to upload on the other side
-      console.log(selectedImages)
-      // Si il y a suppression ou ajout d'image, on update les images dans la mutation
       const finalImageKeys = await updateImageKeysInS3(clubImagesUri, selectedImages);
 
       await updateClub({variables: {
