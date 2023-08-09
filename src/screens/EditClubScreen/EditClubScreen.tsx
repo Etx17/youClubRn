@@ -1,5 +1,6 @@
 import { View, Text, Alert, ScrollView, FlatList, StyleSheet, Pressable, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { Button, TextInput, Card, HelperText} from 'react-native-paper'
 import * as ImagePicker from 'expo-image-picker';
 import { useForm } from 'react-hook-form';
@@ -12,9 +13,12 @@ import PhotosSection from '../../components/photosSection';
 import { updateImageKeysInS3, uploadImageToS3 } from '../../services/ImageService';
 import Dropdown from '../../components/Dropdown';
 import SubCategoryDropdown from '../../components/SubCategoryDropdown';
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { UPDATE_CLUB } from './mutations';
 import ApiErrorMessage from '../../components/apiErrorMessage/ApiErrorMessage';
+import { GET_CLUB_BY_USER_ID } from './queries';
+import colors from '../../themes/colors';
+import { Image } from 'expo-image';
 
 
 export default function EditClubScreen() {
@@ -26,27 +30,35 @@ export default function EditClubScreen() {
   const [isImagePickerVisible, setImagePickerVisible] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  const [clubImagesUri, setClubImagesUri] = useState([])
   const { user } = useAuthContext();
   const navigation = useNavigation()
   const route = useRoute();
   const {clubData, images} = route.params as any;
-  const actualImagesFromClub = images
+  const imagesParams = images
 
   const clubName = clubData.name
   const category = clubData.category
   const subcategory = clubData.subcategory
   const clubDescription = clubData.objet
   const numRows = selectedImages.length < 3 ? 1 : 2;
+  const {data, loading, error, refetch} = useQuery(GET_CLUB_BY_USER_ID, { variables: {userId: user.id} })
 
-  const [updateClub, { data, loading, error }] = useMutation(UPDATE_CLUB);
-
+  const [updateClub, { data:dataUpdate, loading:loadingUpdate, error:errorUpdate }] = useMutation(UPDATE_CLUB);
   useEffect(() => {
-    setSelectedImages(actualImagesFromClub)
+    setSelectedImages(imagesParams)
     setValue("name", clubName);
     setValue("objet", clubDescription);
     setDropdownValue(category);
     setSubCategoryDropdownValue(subcategory);
   }, [])
+
+  useEffect(() => {
+    if(data?.clubByUserId.images)
+    setClubImagesUri(data?.clubByUserId.images)
+  }, [data])
+
+  console.log(clubImagesUri, 'CLUB IMAGES URI')
 
   const saveAndGoBack = async (data: {}) => {
     if (isSubmitting) { return }
@@ -55,7 +67,10 @@ export default function EditClubScreen() {
     const clubObj = { ...data, user_id: user.id, category: dropdownValue, subcategory: subCategoryDropdownValue, images: [] };
 
     try {
-      const finalImageKeys = await updateImageKeysInS3(actualImagesFromClub, selectedImages);
+      // There is array of keys on one side, and array of images to upload on the other side
+      console.log(selectedImages)
+      // Si il y a suppression ou ajout d'image, on update les images dans la mutation
+      const finalImageKeys = await updateImageKeysInS3(clubImagesUri, selectedImages);
 
       await updateClub({variables: {
         input: {
@@ -102,7 +117,7 @@ export default function EditClubScreen() {
   };
 
   const handleImageDelete = (imageUri: string) => {
-    setSelectedImages((prevSelectedImages) =>
+    setClubImagesUri((prevSelectedImages) =>
       prevSelectedImages.filter((image) => image !== imageUri)
     );
   }
@@ -134,7 +149,7 @@ export default function EditClubScreen() {
 
                 <ActivityIndicator size="large" color="grey" style={{ marginTop: 20 }} />
 
-              ) : selectedImages.length > 0 ? (
+              ) : clubImagesUri.length > 0 ? (
 
                 <PhotosSection
                   selectedImages={selectedImages}
@@ -142,7 +157,6 @@ export default function EditClubScreen() {
                   pickImageAsync={pickImageAsync} // Make sure to provide pickImageAsync as a prop
                   handleImageDelete={handleImageDelete}
                 />
-
               ) : (
 
                 <Button onPress={pickImageAsync} style={styles.imageButton}>

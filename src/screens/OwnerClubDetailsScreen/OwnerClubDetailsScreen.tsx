@@ -60,7 +60,6 @@ const OwnerClubDetailsScreen = () => {
         });
     }
   }, [data]);
-  console.log(images, 'these are fetched images')
 
   if(loading){ return <ActivityIndicator/> }
   if(error){
