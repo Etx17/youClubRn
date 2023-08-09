@@ -33,9 +33,6 @@ const NewSubGroupScheduleScreen = (subgroup: {}) => {
 
   const [createSchedule, { data, loading, error }] = useMutation(CREATE_SCHEDULE);
   const saveAndGoToActivity = async (data: any) => {
-    // Append to the data object back the route.params.schedule id, et subgroupId
-    // data.sub_group_id = route?.params?.subgroupschedule?.sub_group_id
-    // data.id = route?.params?.schedule?.id
     console.log(data, 'this is data');
     console.log(data.schedules, 'SCHEDULES')
     const transformedTimeSlots = data?.schedules?.map(schedule => ({

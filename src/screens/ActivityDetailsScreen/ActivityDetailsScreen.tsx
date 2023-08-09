@@ -14,10 +14,11 @@ import SubGroupsSection from '../../components/SubGroupsSection'
 import SubGroupCardItem from '../../components/SubGroupCardItem'
 import { useAuthContext } from '../../contexts/AuthContext'
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { useQuery } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import { GET_ACTIVITY } from './queries'
 import ApiErrorMessage from '../../components/apiErrorMessage/ApiErrorMessage'
 import { Storage } from 'aws-amplify'
+import { DELETE_SUB_GROUP } from './mutations'
 
 
 interface ActivityDetailsParams {
@@ -73,6 +74,12 @@ const ActivityDetailsScreen = () => {
   const activityId = route?.params?.activityId || route?.params?.activityData?.id
   const {data, loading, error, refetch} = useQuery(GET_ACTIVITY, {variables: {id: activityId}})
   const imageKeys = data?.activity ? data?.activity.images : []
+  const [deleteSubGroup, { data: deleteData, loading: deleteLoading, error: deleteError }] = useMutation(DELETE_SUB_GROUP, {
+    onCompleted: () => {
+      Alert.alert('Sous-groupe supprimé')
+      refetch()
+    }
+  });
 
   useEffect(() => {
     if (data?.activity?.subGroups) {
@@ -104,14 +111,20 @@ const ActivityDetailsScreen = () => {
     scrollViewRef.current?.scrollToEnd({animated: true});
   };
 
-  const handleDeleteSubGroup = (index: number) => {
-    setSubGroups(prevSubGroups => prevSubGroups.filter((_, i) => i !== index))
+  const handleDeleteSubGroup = async (index: number, subGroupId: any) => {
+    await deleteSubGroup({ variables: { input: { id: subGroupId } } }).then(() => {
+    setSubGroups (prevSubGroups => prevSubGroups.filter((_, i) => i !== index))
+    }).catch((error) => {
+      console.error(error)
+    })
   }
-  if(loading){ return <ActivityIndicator/> }
-  if(error){
+
+
+  if(loading || deleteLoading){ return <ActivityIndicator/> }
+  if(error || deleteError){
     return (
       <ApiErrorMessage
-      title="Error fetching the user"
+      title="Erreur, veuillez réessayer dans quelques instants"
       message={error?.message || 'User not found'}
       onRetry={()=>refetch()}
       />
@@ -152,7 +165,7 @@ const ActivityDetailsScreen = () => {
             <SubGroupCardItem
               key={index}
               subgroup={subgroup}
-              onDeletePress={() => handleDeleteSubGroup(index)}
+              onDeletePress={() => handleDeleteSubGroup(index, subgroup.id)}
               refetchActivityData={refetch}
               />
           ))}
