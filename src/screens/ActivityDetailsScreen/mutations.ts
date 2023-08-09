@@ -8,3 +8,10 @@ mutation DeleteSubGroup($input: DeleteSubGroupInput!) {
   }
 }
 `;
+export const DELETE_SCHEDULE = gql`
+  mutation DeleteSchedule($input: DeleteScheduleInput!) {
+    deleteSchedule(input: $input) {
+      id
+    }
+  }
+`;

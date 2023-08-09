@@ -6,6 +6,10 @@ import { useNavigation } from "@react-navigation/native";
 import { useAuthContext } from "../contexts/AuthContext";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Entypo } from '@expo/vector-icons';
+import { useMutation } from "@apollo/client";
+import { DELETE_SCHEDULE } from "../screens/ActivityDetailsScreen/mutations";
+import { ActivityIndicator } from "react-native-paper";
+import ApiErrorMessage from "./apiErrorMessage/ApiErrorMessage";
 
 
 
@@ -15,6 +19,12 @@ const SubGroupCardItem = ({subgroup, onDeletePress, refetchActivityData }) => {
   const daysOfWeek = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'];
   const [schedules, setSchedules] = useState([]);
   const possibleTypeOfActivity= ['cours collectif', 'cours particulier', 'stage', 'atelier', 'session', 'évènement', 'autre'];
+  const [deleteSchedule, { data, loading, error }] = useMutation(DELETE_SCHEDULE, {
+    onCompleted: () => {
+      refetchActivityData();
+    }
+  });
+
   const handleDeletePress = () => {
     Alert.alert(
       "Supprimer le sous-groupe",
@@ -24,12 +34,11 @@ const SubGroupCardItem = ({subgroup, onDeletePress, refetchActivityData }) => {
       ]
     );
   };
-  const handleDeleteSchedule = (day) => {
-    setSchedules(prevSchedules => {
-      const newSchedules = { ...prevSchedules };
-      delete newSchedules[day];
-      return newSchedules;
-    });
+  const handleDeleteSchedule = async (id: any) => {
+    await deleteSchedule({ variables: {input: { id: id } } })
+    .catch((error) => {
+      console.log(error);
+    })
   };
 
   useEffect(() => {
@@ -37,8 +46,15 @@ const SubGroupCardItem = ({subgroup, onDeletePress, refetchActivityData }) => {
     setSchedules(subgroup.schedules);
   }, [subgroup]);
 
-  // console.log(subgroup.schedules[0].timeSlots,'<-------=================-----------SubgroupcardItem subgroup>')
-  // console.log(subgroup.address,'<-------=================-----------SubgroupcardItem subgroup.address>')
+  if(loading) return (<ActivityIndicator animating={true} color={colors.primary} />);
+  if(error){
+    return (
+    <ApiErrorMessage
+      title="Une erreur est survenue"
+      message={error?.message || "Veuillez réessayer"}
+    />
+    )
+  }
   return (
       <View style={{marginVertical: 10, padding: 10, borderWidth: 1, borderColor: 'gray', borderRadius: 10, backgroundColor: colors.text }}>
         <Text style={styles.subCategoryTag}>{subgroup.name}</Text>
@@ -95,7 +111,7 @@ const SubGroupCardItem = ({subgroup, onDeletePress, refetchActivityData }) => {
                         "Are you sure you want to delete this schedule?",
                         [
                           { text: "Cancel", style: "cancel" },
-                          { text: "OK", onPress: () => handleDeleteSchedule(schedule.day) }
+                          { text: "OK", onPress: () => handleDeleteSchedule(schedule.id) }
                         ]
                       );
                     }}
