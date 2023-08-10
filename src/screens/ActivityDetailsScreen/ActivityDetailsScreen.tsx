@@ -62,15 +62,11 @@ const ActivityDetailsScreen = () => {
   console.log(user, 'this is user from authContext')
   const navigation = useNavigation()
   const route = useRoute<ActivityDetailsRoute>();
-  // const { name, address, actual_zipcode, full_description, club_name, sub_groups } = route?.params?.activityData
   const {darkTheme} = route?.params
   const [images, setImages] = useState([])
   const scrollViewRef = useRef<ScrollView>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [subGroups, setSubGroups] = useState([])
-
-
-  // console.log(route?.params?.activityData.id,"<-----------------activityData")
   const activityId = route?.params?.activityId || route?.params?.activityData?.id
   const {data, loading, error, refetch} = useQuery(GET_ACTIVITY, {variables: {id: activityId}})
   const imageKeys = data?.activity ? data?.activity.images : []

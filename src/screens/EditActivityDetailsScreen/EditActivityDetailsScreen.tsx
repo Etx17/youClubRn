@@ -13,9 +13,12 @@ import ControlledInput from '../../components/ControlledInput';
 import { useAuthContext } from '../../contexts/AuthContext';
 import Dropdown from '../../components/Dropdown';
 import SubCategoryDropdown from '../../components/SubCategoryDropdown';
-import { updateImageKeysInS3 } from '../../services/ImageService';
-import { useMutation } from '@apollo/client';
+// import { updateImageKeysInS3 } from '../../services/ImageService';
+import { GET_ACTIVITY_IMAGES } from './queries';
+import { useMutation, useQuery } from '@apollo/client';
 import { UPDATE_ACTIVITY } from './mutation';
+import { Storage } from 'aws-amplify';
+import { uploadImageToS3 } from '../../services/ImageService';
 type PricingTypes = {
   [key: string]: boolean;
 }
@@ -48,20 +51,43 @@ export default function EditActivityDetailsScreen() {
     resolver: zodResolver(ActivitySchema),
   });
   console.log(errors);
+  const [isImagePickerVisible, setImagePickerVisible] = useState(false);
   const [dropdownValue, setDropdownValue] = useState("Sports, activités de plein air");
   const [subCategoryDropdownValue, setSubCategoryDropdownValue] = useState("all");
   const [hasFreeTrial, setHasFreeTrial] = React.useState(false);
-  const [selectedImages, setSelectedImages] = useState<string[]>([]);
-  const numRows = selectedImages.length < 3 ? 1 : 2;
+  // const numRows = selectedImages.length < 3 ? 1 : 2;
   const [isSubmitting, setIsSubmitting] = useState(false)
   const navigation = useNavigation()
   const { user } = useAuthContext();
   const [checkedItems, setCheckedItems] = useState<PricingTypes>(currentPricingTypesToObject);
   const route = useRoute();
   const { activityData, images} = route?.params as any;
+  const [selectedPhoto, setSelectedPhoto] = useState<null | string >(null);
+  const [isImageLoading, setIsImageLoading] = useState(false)
+  const [currentActivityPhoto, setCurrentActivityPhoto] = useState<string | undefined>(undefined);
+
+  const [updateActivity, { data: dataUpdate, loading: loadingUpdate, error: errorUpdate }] = useMutation(UPDATE_ACTIVITY);
+
+  const { data, loading, error } = useQuery(GET_ACTIVITY_IMAGES, { variables: { id: activityData.id } });
+  console.log(data, 'this is data from GET ACTIVITY IMAGES')
+
   useEffect(() => {
-    // setSelectedImages(actualImagesFromClub)
-    setSelectedImages(images)
+    const fetchActivityPhoto = async () => {
+      // Au chargement du screen, je vais chercher l'url de l'image du club actuelle
+      if (data?.activity.images) {
+        try {
+          const url = await Storage.get(data?.activity.images[0]);
+          setCurrentActivityPhoto(url);
+        } catch (error) {
+          console.error("Error fetching club photo:", error);
+        }
+      }
+    };
+
+    fetchActivityPhoto();
+  }, [data]);
+
+  useEffect(() => {
     setValue('name', activityData.name)
     setValue('description', activityData.fullDescription)
     setValue('hasFreeTrial', activityData.freeTrial)
@@ -71,6 +97,7 @@ export default function EditActivityDetailsScreen() {
     setDropdownValue(activityData.category);
     setSubCategoryDropdownValue(activityData.subcategories);
   }, [])
+
   const handleDropdownValueChange = (valuecat: string) => {
     console.log('valuecat', valuecat);
     setDropdownValue(valuecat);
@@ -89,38 +116,47 @@ export default function EditActivityDetailsScreen() {
     const checkedKeys = Object.keys(newCheckedItems).filter(key => newCheckedItems[key]);
     onChange(checkedKeys); // Update the form control
   };
-  const [updateActivity, { data, loading, error }] = useMutation(UPDATE_ACTIVITY);
 
-  const saveAndGoBack = async (data: {}) => {
+  const saveAndGoBack = async (formData: {}) => {
     if (isSubmitting) { return }
     setIsSubmitting(true);
     // Transform data into an object that can be sent to the rails API
-    const activityObj = { ...data, club_id: 2 };
+    const activityObj = { ...formData, club_id: 2 };
 
     try {
       // Chekcs for images that were deleted or added and removes/add them from S3
-      const finalImageKeys = await updateImageKeysInS3(actualImagesFromClub, selectedImages);
+      if(!!selectedPhoto){
+        const finalImageKey = await uploadImageToS3(selectedPhoto);
+        await updateActivity({variables: {
+          input: {
+            id: activityData.id,
+            name: activityObj.name,
+            category: dropdownValue,
+            subcategories: subCategoryDropdownValue,
+            fullDescription: activityObj.description,
+            address: activityObj.address,
+            images: finalImageKey,
+          }
+        }}).then(() => {
+          Storage.remove(data?.activity.images[0]).then( () => console.log('image removed from s3') )
+          navigation.goBack()
+          }
+        )
+      } else {
 
-      // Step 2: Add the merged keys to clubObj
-      activityObj.images = finalImageKeys;
-
-
-      // TODO: Call your API to update the club with the modified data (clubObj)
-      await updateActivity({variables: {
-        input: {
-          id: activityData.id,
-          name: activityObj.name,
-          category: dropdownValue,
-          subcategories: subCategoryDropdownValue,
-          fullDescription: activityObj.description,
-          address: activityObj.address,
-          images: finalImageKeys,
-          // freeTrial: hasFreeTrial
-        }
-      }}).then(() => {
-        navigation.goBack()
-        console.warn('Mocking club update with the following data:', activityObj);
-      })
+        await updateActivity({variables: {
+          input: {
+            id: activityData.id,
+            name: activityObj.name,
+            category: dropdownValue,
+            subcategories: subCategoryDropdownValue,
+            fullDescription: activityObj.description,
+            address: activityObj.address,
+          }
+        }}).then(() => {
+          navigation.goBack()
+        })
+      }
     } catch (error) {
       console.log(error, 'there was an error during the process');
     } finally {
@@ -129,23 +165,26 @@ export default function EditActivityDetailsScreen() {
   };
 
   const pickImageAsync = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      quality: 0.5,
-      allowsMultipleSelection: true,
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-    });
+    try {
+      setImagePickerVisible(true);
+      const result = await ImagePicker.launchImageLibraryAsync({
+        quality: 0.5,
+        allowsMultipleSelection: false,
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      });
 
-    if (!result.canceled) {
-      console.log('hey, you just selected some pictures')
-      const images: string[] = []
-      result.assets.forEach(image => { images.push(image.uri) })
-      setSelectedImages(prevImages => [...prevImages, ...images]);
-
-    } else {
-      alert('You did not select any image.');
+      if (!result.canceled) {
+        // If multiple images are selected, result will be an array of objects
+        console.log(result.assets[0].uri, "this is suppose to be an array of objects")
+        setSelectedPhoto(result.assets[0].uri)
+      }
+    } catch (error) {
+      console.error('Error picking image:', error);
+      Alert.alert('Error', 'There was an error picking the image. Please try again.');
+    } finally {
+      setImagePickerVisible(false);
     }
   };
-
   const pricingTypes = [
     { label: "Mensuel", key: "monthly" },
     { label: "Annuel", key: "yearly" },
@@ -170,7 +209,7 @@ export default function EditActivityDetailsScreen() {
         <Card>
           <Card.Title title="éditez les photos de votre activité" />
             {/* Component d'input pour des photos */}
-            {selectedImages.length > 0 ? (
+            {/* {selectedImages.length > 0 ? (
               <View style={{borderWidth: 0, margin: 10}}>
                 <FlatList
                   data={selectedImages}
@@ -201,7 +240,21 @@ export default function EditActivityDetailsScreen() {
               <Button onPress={pickImageAsync} style={styles.imageButton}>
                 <Text style={styles.addImageText}>+</Text>
               </Button>
-            )}
+            )} */}
+             { isImageLoading && <ActivityIndicator /> }
+              <Image
+                source={{ uri: selectedPhoto || currentActivityPhoto }}
+                style={styles.profileImage}
+                onLoadStart={() => setIsImageLoading(true)}
+                onLoadEnd={() => setIsImageLoading(false)}
+              />
+
+              { !selectedPhoto && !currentActivityPhoto ? (
+                <Text style={styles.addImageText} onPress={pickImageAsync}> + </Text>
+              ) : (
+                <Button onPress={pickImageAsync}>Modifier</Button>
+              )
+              }
             {/* End of image component input */}
             <Card.Title title="Catégorie et sous-catégorie"/>
             <View style={styles.dropdownContainer}>
@@ -349,5 +402,11 @@ const styles = StyleSheet.create({
   addImageText: {
     fontSize: 60,
     color: "lightgrey",
+  },
+  profileImage: {
+    width: '100%',
+    aspectRatio: 1,
+    borderRadius: 10,
+    marginBottom: 10,
   },
 })

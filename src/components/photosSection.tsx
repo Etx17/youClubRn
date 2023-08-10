@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, FlatList, Image, Pressable, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, FlatList, Image, Pressable, StyleSheet, ActivityIndicator } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Button } from 'react-native-paper';
 import colors from '../themes/colors';
@@ -12,11 +12,14 @@ type IPhotosSectionProps = {
 };
 
 const PhotosSection = ({ selectedImages, numRows, pickImageAsync, handleImageDelete }: IPhotosSectionProps) => {
+  const [isImageLoading, setIsImageLoading] = useState(false)
+  console.log(selectedImages, 'selected images from Edit to PhotosSection')
   return (
     <View>
       {/* Component d'input pour des photos */}
       {selectedImages.length > 0 ? (
         <View style={{ borderWidth: 0, margin: 10 }}>
+
           <FlatList
             data={selectedImages}
             keyExtractor={(item) => item}
@@ -25,16 +28,22 @@ const PhotosSection = ({ selectedImages, numRows, pickImageAsync, handleImageDel
             style={{ maxHeight: numRows * 150 }}
             renderItem={({ item }) => (
               <View style={styles.thumbnailContainer}>
-                <Image source={{ uri: item }} style={styles.thumbnail} />
+                {isImageLoading && <ActivityIndicator style={styles.activityIndicator} />}
+                <Image
+                  source={{ uri: item }}
+                  style={styles.thumbnail}
+                  onLoadStart={() => setIsImageLoading(true)}
+                  onLoadEnd={() => setIsImageLoading(false)}
+                />
                 <Pressable style={styles.deleteButton} onPress={() => handleImageDelete(item)}>
                   <Ionicons name='trash-outline' size={20} color={colors.danger} />
                 </Pressable>
               </View>
             )}
           />
-          <Text onPress={pickImageAsync} style={{ fontSize: 14, color: colors.grayDarkest, margin: 10 }}>
+          {/* <Text onPress={pickImageAsync} style={{ fontSize: 14, color: colors.grayDarkest, margin: 10 }}>
             {selectedImages.length} images sélectionnées <Text style={{ color: colors.danger }}>(Ajouter)</Text>
-          </Text>
+          </Text> */}
         </View>
       ) : (
         <Button onPress={pickImageAsync} style={styles.imageButton}>
@@ -64,6 +73,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     borderColor: 'black'
+    },
+    activityIndicator: {
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: [{ translateX: -12 }, { translateY: -12 }],
     },
   thumbnail: {
     width: "100%",

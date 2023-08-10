@@ -39,3 +39,4 @@ export const GET_ACTIVITY = gql`
     }
   }
 `;
+
