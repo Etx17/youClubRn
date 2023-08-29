@@ -150,7 +150,7 @@ const ActivityDetailsScreen = () => {
 
 
     return (
-      <ScrollView ref={scrollViewRef}>
+      <ScrollView ref={scrollViewRef} style={{backgroundColor: 'black'}}>
         {/* IMAGE CAROUSEL */}
         <DetailsCarousel images={images || []} currentImageIndex={currentImageIndex} changeImage={changeImage} />
 
@@ -211,7 +211,7 @@ const ActivityDetailsScreen = () => {
               ]
             )
           }} style={styles.deleteActivityButton}>
-              <Text style={{fontSize: 24, color: 'red'}}> Delete activity</Text>
+              <Text style={{fontSize: 18, color: colors.danger}}> Delete activity</Text>
           </Pressable>
         )}
 
@@ -297,18 +297,14 @@ const ActivityDetailsScreen = () => {
       marginHorizontal: 4,
     },
     deleteActivityButton: {
-      marginTop: 10,
-      fontSize: 24,
-      paddingVertical: 0,
-      alignSelf: 'flex-start',
-      paddingHorizontal: 10,
+      alignSelf: 'center',
       alignItems: 'center',
       borderRadius: 14,
       overflow: 'hidden',
-      borderColor: colors.primary,
+      backgroundColor: 'black',
+      borderColor: colors.danger,
       borderWidth: 1,
-      width: "100%",
-      marginHorizontal: 4,
+      paddingHorizontal: 6
     },
     titleContainer: {
       flexDirection: 'row',
