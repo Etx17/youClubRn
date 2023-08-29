@@ -97,7 +97,13 @@ const OwnerClubDetailsScreen = () => {
                 colors={[colors.secondary, colors.primary] }
                 style={styles.tag}
               >
-                <Pressable onPress={()=> navigation.navigate('ActivityDetails', {activityId: activity.id})}>
+                <Pressable onPress={()=> navigation.navigate(
+                  'ActivityDetails', {
+                    activityId: activity.id,
+                    onActivityDeleted: () => refetch()
+                  }
+                )
+                }>
                   <Text key={index}>
                     {activity.name}
                   </Text>

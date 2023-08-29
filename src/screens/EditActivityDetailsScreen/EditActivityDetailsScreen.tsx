@@ -208,39 +208,6 @@ export default function EditActivityDetailsScreen() {
       <View style={{gap: 15}}>
         <Card>
           <Card.Title title="éditez les photos de votre activité" />
-            {/* Component d'input pour des photos */}
-            {/* {selectedImages.length > 0 ? (
-              <View style={{borderWidth: 0, margin: 10}}>
-                <FlatList
-                  data={selectedImages}
-                  keyExtractor={(item) => item}
-                  numColumns={3}
-                  style={{ maxHeight: numRows * 150 }}
-                  renderItem={({ item }) => (
-                    <View style={styles.thumbnailContainer}>
-                      <Image source={{ uri: item }} style={styles.thumbnail} />
-                      <Pressable style={styles.deleteButton}>
-                        <Ionicons
-                          onPress={ () => {
-                            const newImages = selectedImages.filter((image) => image !== item)
-                            setSelectedImages(newImages)
-                          }}
-                          name='trash-outline'
-                          size={20}
-                          color={colors.danger}
-                        />
-                      </Pressable>
-                    </View>
-                  )}
-                />
-                <Text onPress={pickImageAsync} style={{fontSize: 14, color: colors.grayDarkest, margin: 10}}>{selectedImages.length} images séléctionnées <Text style={{color: colors.danger}}>(Ajouter)</Text></Text>
-              </View>
-
-            ) : (
-              <Button onPress={pickImageAsync} style={styles.imageButton}>
-                <Text style={styles.addImageText}>+</Text>
-              </Button>
-            )} */}
              { isImageLoading && <ActivityIndicator /> }
               <Image
                 source={{ uri: selectedPhoto || currentActivityPhoto }}
@@ -256,6 +223,7 @@ export default function EditActivityDetailsScreen() {
               )
               }
             {/* End of image component input */}
+
             <Card.Title title="Catégorie et sous-catégorie"/>
             <View style={styles.dropdownContainer}>
               <Dropdown

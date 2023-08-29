@@ -18,7 +18,7 @@ import { useMutation, useQuery } from '@apollo/client'
 import { GET_ACTIVITY } from './queries'
 import ApiErrorMessage from '../../components/apiErrorMessage/ApiErrorMessage'
 import { Storage } from 'aws-amplify'
-import { DELETE_SUB_GROUP } from './mutations'
+import { DELETE_ACTIVITY, DELETE_SUB_GROUP } from './mutations'
 
 
 interface ActivityDetailsParams {
@@ -36,6 +36,7 @@ interface ActivityDetailsParams {
     };
     images: string[];
     darkTheme?: boolean;
+    onActivityDeleted?: () => void;
   }
   type SubGroup = {
     id: string,
@@ -77,6 +78,12 @@ const ActivityDetailsScreen = () => {
     }
   });
 
+  const [deleteActivity, { data: deleteActivityData, loading: deleteActivityLoading, error: deleteActivityError }] = useMutation(DELETE_ACTIVITY, {
+    onCompleted: () => {
+      Alert.alert('Activité supprimée')
+    },
+  });
+
   useEffect(() => {
     if (data?.activity?.subGroups) {
       setSubGroups(data?.activity?.subGroups)
@@ -110,6 +117,17 @@ const ActivityDetailsScreen = () => {
   const handleDeleteSubGroup = async (index: number, subGroupId: any) => {
     await deleteSubGroup({ variables: { input: { id: subGroupId } } }).then(() => {
     setSubGroups (prevSubGroups => prevSubGroups.filter((_, i) => i !== index))
+    }).catch((error) => {
+      console.error(error)
+    })
+  }
+
+  const handleDeleteActivity = async () => {
+    await deleteActivity({ variables: { input: { id: activityId } } }).then(() => {
+      if (route.params?.onActivityDeleted) {
+        route.params.onActivityDeleted();
+      }
+      navigation.goBack();
     }).catch((error) => {
       console.error(error)
     })
@@ -177,6 +195,28 @@ const ActivityDetailsScreen = () => {
 
         <LinearGradient colors={[darkTheme === true ? colors.dark : 'transparent', 'transparent']} style={{ position: 'absolute', left: 0, right: 0, top: 0, height: 120, }} />
 
+        {/* Delete activity button for club owner */}
+        {user?.role === 'club' && (
+          <Pressable onPress={() => {
+            Alert.alert(
+              "Supprimer l'activité",
+              "Êtes-vous sûr de vouloir supprimer cette activité ?",
+              [
+                {
+                  text: "Annuler",
+                  onPress: () => console.log("Cancel Pressed"),
+
+                },
+                { text: "Supprimer", onPress: () => handleDeleteActivity() }
+              ]
+            )
+          }} style={styles.deleteActivityButton}>
+              <Text style={{fontSize: 24, color: 'red'}}> Delete activity</Text>
+          </Pressable>
+        )}
+
+
+
         <StatusBar style={darkTheme === true ? "light" : 'auto'} />
 
       </ScrollView>
@@ -243,6 +283,20 @@ const ActivityDetailsScreen = () => {
       bottom: 10,
     },
     addActivityButton: {
+      marginTop: 10,
+      fontSize: 24,
+      paddingVertical: 0,
+      alignSelf: 'flex-start',
+      paddingHorizontal: 10,
+      alignItems: 'center',
+      borderRadius: 14,
+      overflow: 'hidden',
+      borderColor: colors.primary,
+      borderWidth: 1,
+      width: "100%",
+      marginHorizontal: 4,
+    },
+    deleteActivityButton: {
       marginTop: 10,
       fontSize: 24,
       paddingVertical: 0,

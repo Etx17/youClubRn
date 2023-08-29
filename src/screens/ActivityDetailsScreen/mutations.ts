@@ -15,3 +15,11 @@ export const DELETE_SCHEDULE = gql`
     }
   }
 `;
+
+export const DELETE_ACTIVITY = gql`
+  mutation DeleteActivity($input: DeleteActivityInput!) {
+    deleteActivity(input: $input) {
+      id
+    }
+  }
+`;
