@@ -5,7 +5,8 @@ interface IClient {
 }
 
 const client = new ApolloClient({
-  uri: 'http://127.0.0.1:3000/graphql',
+  // uri: 'http://127.0.0.1:3000/graphql',
+  uri: 'https://youclubstaging-42da65c4b5e7.herokuapp.com/graphql', // to develop on staging environment
   cache: new InMemoryCache(),
 });
 

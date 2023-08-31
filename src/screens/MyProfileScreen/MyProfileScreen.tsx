@@ -8,7 +8,8 @@ const MyProfileScreen = () => {
   return (
     <View>
       <Text>MyProfileScreen</Text>
-      <Text></Text>
+      {/* Signout button aws */}
+      <SignOutButton />
     </View>
   )
 }

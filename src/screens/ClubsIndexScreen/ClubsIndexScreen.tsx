@@ -59,8 +59,8 @@ const ClubsIndexScreen = () => {
   const [reload, setReload] = useState(false);
 
   useEffect(() => {
-    console.log('Fetching data...');
-    console.log('city=>', city, 'subregion =>', subregion, ' <= useEffect from ClubIndexScreen');
+    // console.log('Fetching data...');
+    // console.log('city=>', city, 'subregion =>', subregion, ' <= useEffect from ClubIndexScreen');
     const startTime = new Date().getTime();
 
     if ((!isFetching && city && region && subregion) || reload && subregion) {
@@ -74,7 +74,7 @@ const ClubsIndexScreen = () => {
 
         const endTime = new Date().getTime();
         const elapsedTime = endTime - startTime;
-        console.log('Fetched data in', elapsedTime, 'milliseconds');
+        // console.log('Fetched data in', elapsedTime, 'milliseconds');
 
       }).catch(error => {
         console.error('Error fetching data:', error);

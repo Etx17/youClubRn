@@ -4,8 +4,6 @@ import { createContext,  ReactNode, useState, SetStateAction, useEffect } from "
 import { Auth, Hub } from "aws-amplify";
 import { HubCallback } from "@aws-amplify/core";
 import { useQuery, gql } from '@apollo/client';
-import { ActivityIndicator } from "react-native";
-import ApiErrorMessage from "../components/apiErrorMessage/ApiErrorMessage";
 
 type User = {
     id: string,
@@ -28,29 +26,45 @@ const USER_BY_EMAIL_AND_SUB = gql`
 `;
 
 const AuthContextProvider = ({children}: {children: ReactNode}) => {
-    const [cognitoUser, setCognitoUser] = useState<{ email: string, sub: string}>({email: "", sub: ""});
+    const [cognitoUser, setCognitoUser] = useState<{ email: string | undefined, sub: string | undefined}>({email: undefined, sub: undefined});
     const [user, setUser] = useState<User | null>(null);
     const { data, loading, error, refetch } = useQuery(USER_BY_EMAIL_AND_SUB, {
-      variables: { email: cognitoUser.email, subId: cognitoUser.sub },
+      variables: {
+        email: cognitoUser?.email,
+        subId: cognitoUser?.sub
+      },
+      skip: !cognitoUser?.email || !cognitoUser?.sub,
     });
+    // data is null. Why.
     const checkUser = async () => {
+      console.log('checking for cognito user to set the cognitoUser state variable to be able to query DB to see if DB user exists')
         try {
-            const authUser = await Auth.currentAuthenticatedUser({bypassCache: true})
+            await Auth.currentAuthenticatedUser({bypassCache: true})
               .then((user) => {
                 setCognitoUser({email: user.attributes.email, sub: user.attributes.sub});
               })
         } catch (e) {
-            setUser(null)
+            console.warn('cognito user not found :(')
+            // setUser(null)
         }
     }
-
+    console.log(cognitoUser.email, 'cognito user email from auth context')
+    useEffect(() => {
+      // Refetch only if cognitoUser is set and data is not yet available
+      if (cognitoUser?.email && cognitoUser?.sub && !data?.userByEmailAndSub) {
+        refetch();
+      }
+    }, [cognitoUser, refetch]);
 
     useEffect(() => {
+      // Update the user state if data is available
+      console.log(data, 'this is the data from user by email and sub query')
       if(data?.userByEmailAndSub){
+        console.log(data.userByEmailAndSub, 'this is the result of user by email and sub query')
         const user = {id: data.userByEmailAndSub.id, role: data.userByEmailAndSub.role}
-        setUser(user)
+        setUser(user);
       }
-    }, [cognitoUser, data])
+    }, [data]);
 
     useEffect(() => {
         checkUser()
@@ -67,7 +81,6 @@ const AuthContextProvider = ({children}: {children: ReactNode}) => {
         }
       }
       const hubListener = Hub.listen('auth', listener);
-    // When you return a function frm a useEffect, it will be called when the component unmounts
         return () => hubListener();
     }, [])
 
