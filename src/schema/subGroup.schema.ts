@@ -15,7 +15,7 @@ const tarificationSchema = z.object({
 export const SubGroupSchema = z.object({
   name: z.string().min(3, 'Le nom doit comporter au moins 3 caractères').max(35, 'Le nom ne peut pas dépasser 35 caractères').optional(),
   type: z.string().min(3, 'Le type doit comporter au moins 3 caractères').max(35, 'Le type ne peut pas dépasser 35 caractères').optional(),
-  reccurence: z.string().min(3, 'La récurrence doit comporter au moins 3 caractères').max(35, 'La récurrence ne peut pas dépasser 35 caractères').optional(),
+  recurrence: z.string().min(3, 'La récurrence doit comporter au moins 3 caractères').max(35, 'La récurrence ne peut pas dépasser 35 caractères').optional(),
   minPrice: z.string()
   .refine(value => /^(\d+|\d+\.\d{1,2})$/.test(value), 'Must be a positive number with up to two decimal places')
   .refine(value => {

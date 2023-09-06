@@ -25,7 +25,7 @@ export const GET_ACTIVITY = gql`
         recurrence
         shortDescription
         classType
-        subscriptionByReccurencePrice
+        subscriptionByRecurrencePrice
         tarifications
         schedules {
           id
@@ -39,4 +39,3 @@ export const GET_ACTIVITY = gql`
     }
   }
 `;
-

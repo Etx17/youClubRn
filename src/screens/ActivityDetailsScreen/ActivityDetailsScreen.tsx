@@ -47,7 +47,7 @@ interface ActivityDetailsParams {
     address: string,
     schedules: [Schedule],
     price: string,
-    reccurence: string,
+    recurrence: string,
     tarifications: []
   }
 
