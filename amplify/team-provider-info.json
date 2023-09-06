@@ -22,7 +22,7 @@
       "function": {
         "YouclubPostConfirmation": {
           "deploymentBucketName": "amplify-youclub-staging-201958-deployment",
-          "s3Key": "amplify-builds/YouclubPostConfirmation-2b31614f6f3761513167-build.zip"
+          "s3Key": "amplify-builds/YouclubPostConfirmation-7953744e735538323469-build.zip"
         }
       }
     }

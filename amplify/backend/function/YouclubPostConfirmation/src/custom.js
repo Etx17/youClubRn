@@ -42,9 +42,9 @@ exports.handler = async (event, context) => {
           createUser(input: {
             email: "${userEmail}",
             password: "12345678",
-            password_confirmation: "12345678",
+            passwordConfirmation: "12345678",
             role: "user",
-            sub_id: "${userSubId}"
+            subId: "${userSubId}"
           }) {
             id
             email
