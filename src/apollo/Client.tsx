@@ -3,10 +3,10 @@ import React from 'react';
 interface IClient {
   children: React.ReactNode;
 }
-
+const apiUrl = process.env.EXPO_PUBLIC_STAGING_URL;
 const client = new ApolloClient({
-  // uri: 'http://127.0.0.1:3000/graphql',
-  uri: 'https://youclubstaging-42da65c4b5e7.herokuapp.com/graphql', // to develop on staging environment
+  // uri: 'http://127.0.0.1:3000/graphql', // to develop on local environment
+  uri: apiUrl, // to develop on staging environment
   cache: new InMemoryCache(),
 });
 
