@@ -13,12 +13,18 @@ exports.handler = async (event, context) => {
   try {
     const response = await axios.post('https://youclubstaging-42da65c4b5e7.herokuapp.com/graphql', {
       query: `
-        userByEmail(email: "${userEmail}") {
-          id
-          email
-          role
+        query {
+          userByEmail(email: "${userEmail}") {
+            id
+            email
+            role
+          }
         }
       `,
+    }, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
     });
     console.log(response, '<-- RESPOOOOONSE')
     console.log(response?.data, '<-- RESPOOOOONSE DATA')
@@ -41,7 +47,6 @@ exports.handler = async (event, context) => {
         }) {
           id
           email
-          subId
           role
         }
       `,
