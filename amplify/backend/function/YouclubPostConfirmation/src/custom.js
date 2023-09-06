@@ -38,19 +38,26 @@ exports.handler = async (event, context) => {
     // If user doesn't exist, create a new user
     const newUserResponse = await axios.post('https://youclubstaging-42da65c4b5e7.herokuapp.com/graphql', {
       query: `
-        createUser(input: {
-          email: "${userEmail}",
-          password: "12345678",
-          password_confirmation: "12345678",
-          role: "user",
-          sub_id: "${userSubId}"
-        }) {
-          id
-          email
-          role
+        mutation CreateUser {
+          createUser(input: {
+            email: "${userEmail}",
+            password: "12345678",
+            password_confirmation: "12345678",
+            role: "user",
+            sub_id: "${userSubId}"
+          }) {
+            id
+            email
+            role
+          }
         }
       `,
-    });
+    }, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+  });
+
     console.log(newUserResponse.data, '<-- NEW USER RESPONSE.data')
     return newUserResponse?.data?.data?.createUser;
   } catch (error) {
