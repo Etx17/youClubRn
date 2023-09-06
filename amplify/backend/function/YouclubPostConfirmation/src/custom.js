@@ -51,7 +51,7 @@ exports.handler = async (event, context) => {
         }
       `,
     });
-    console.log(newUserResponse, '<-- NEW USER RESPONSE')
+    console.log(newUserResponse.data, '<-- NEW USER RESPONSE.data')
     return newUserResponse?.data?.data?.createUser;
   } catch (error) {
     console.error(error);

@@ -42,24 +42,6 @@
       "service": "Lambda"
     }
   },
-  "parameters": {
-    "AMPLIFY_function_YouclubPostConfirmation_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "YouclubPostConfirmation"
-        }
-      ]
-    },
-    "AMPLIFY_function_YouclubPostConfirmation_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "YouclubPostConfirmation"
-        }
-      ]
-    }
-  },
   "storage": {
     "s3youclubstorage61787db0": {
       "dependsOn": [],
