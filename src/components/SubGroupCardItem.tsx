@@ -55,6 +55,8 @@ const SubGroupCardItem = ({subgroup, onDeletePress, refetchActivityData }) => {
     />
     )
   }
+  console.log(subgroup.schedules)
+  console.log(subgroup.schedules[0].timeSlots)
   return (
       <View style={{marginVertical: 10, padding: 10, borderWidth: 1, borderColor: 'gray', borderRadius: 10, backgroundColor: colors.text }}>
         <Text style={styles.subCategoryTag}>{subgroup.name}</Text>
@@ -122,9 +124,9 @@ const SubGroupCardItem = ({subgroup, onDeletePress, refetchActivityData }) => {
                 { user?.role === 'club' && (
                   <Pressable onPress={() => navigation.navigate(
                     "EditSubGroupSchedule",
-                    { schedules: schedule.time_slots,
+                    { schedules: schedule.timeSlots,
                       day: schedule.day,
-                      subGroupId: schedule.sub_group_id
+                      subGroupId: subgroup.id,
                   })}>
                     <Text style={{color: colors.grayDarkest, marginTop: 5, textAlign: 'center', fontSize: 12}}>
                       Modifier
