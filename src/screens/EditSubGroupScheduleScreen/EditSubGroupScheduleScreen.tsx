@@ -9,9 +9,9 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import colors from '../../themes/colors';
 import { RouteProp } from '@react-navigation/native';
 import { RootNavigatorParamsList } from '../../types/navigation';
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 // import { UPDATE_SCHEDULE } from './mutations';
-// import { GET_TIMESLOTS_BY_SCHEDULE_ID } from './queries';
+import { GET_TIMESLOTS_BY_SCHEDULE_ID } from './queries';
 type RouteParams = RouteProp<RootNavigatorParamsList, 'EditSubGroupSchedule'>;
 
 type Timeslot = {
@@ -27,12 +27,16 @@ const EditSubGroupScheduleScreen = () => {
   const route = useRoute<RouteParams>(); // Change this route params in navigation.ts when consuming data from API later.
   const [timeslots, setTimeslots] = useState<Timeslot[]>([]);
   const subGroupId = route?.params?.subGroupId
+  const scheduleId = route?.params?.scheduleId
+  // const { subGroupId, scheduleId } = route?.params as any;
   const [currentPickerIndex, setCurrentPickerIndex] = useState<number | null>(null);
   const [currentPickerField, setCurrentPickerField] = useState<string | null>(null);
   const navigation = useNavigation();
   // Function to parse a time string or Date object and return a Date object
   // const [updateSchedule, { data: updateData, loading: updateLoading, error: updateError }] = useMutation(UPDATE_SCHEDULE);
   // const { data, loading, error } =
+  const {data, loading, error, refetch} = useQuery(GET_TIMESLOTS_BY_SCHEDULE_ID, { variables: {scheduleId: scheduleId} })
+
   const parseTimeString = (time: string | Date): Date => {
     let date: Date;
 
@@ -75,27 +79,32 @@ const EditSubGroupScheduleScreen = () => {
     return timeslots?.map(timeslot => {
       const startTime = parseTimeString(timeslot?.startTime);
       const endTime = parseTimeString(timeslot?.endTime);
-      return { startTime, endTime };
+      const id = timeslot?.id;
+      return { startTime, endTime, id };
     });
   };
-  // const { data, error, loading } = await GET_TIMESLOTS_BY_SCHEDULE_ID(subGroupId);
-  useEffect(() => {
-    if (data?.getTimeslotsByScheduleId?.timeslots) {
-      const newSchedules = transformScheduleTimeStringToDate(data.getTimeslotsByScheduleId?.timeslots);
-      setTimeslots(newSchedules);
-    }
-  }, [data]);
 
-  const { control, handleSubmit, getValues, formState: { errors } } = useForm<SubGroupSchedule>({
+
+  console.log(timeslots, 'TIMESLOTS')
+
+  const { control, handleSubmit, getValues, formState: { errors }, reset} = useForm<SubGroupSchedule>({
     resolver: zodResolver(SubGroupScheduleSchema),
     defaultValues: {
-      schedules: transformScheduleTimeStringToDate(route.params.schedules),
+      timeslots: transformScheduleTimeStringToDate(data?.timeSlotsByScheduleId),
       dayName: route?.params?.day,
     },
   });
 
-  const { fields, append, remove } = useFieldArray({ control, name: 'schedules', });
+  useEffect(() => {
+    if (data?.timeSlotsByScheduleId) {
+      const timeslotsToTransform = data.timeSlotsByScheduleId
+      const transformedTimeSlots = transformScheduleTimeStringToDate(timeslotsToTransform);
+      setTimeslots(transformedTimeSlots);
+      reset({ timeslots: transformedTimeSlots }); // necessary to load the first time the default values, because it's initialized empty.
+    }
+  }, [data]);
 
+  const { fields, append, remove } = useFieldArray({ control, name: 'timeslots', });
 
   const saveAndGoToActivity = async (data: any): void => {
     if (isSubmitting) { return }
@@ -111,19 +120,18 @@ const EditSubGroupScheduleScreen = () => {
       setIsSubmitting(false);
     }
   }
-  const onChange = (selectedDate: Date | null, index: number): void => {
-    const newSchedules = [...schedules];
-    newSchedules[index].date = selectedDate || newSchedules[index].date;
-    setTimeslots(newSchedules);
-  };
+  // const onChange = (selectedDate: Date | null, index: number): void => {
+  //   const newSchedules = [...schedules];
+  //   newSchedules[index].date = selectedDate || newSchedules[index].date;
+  //   setTimeslots(newSchedules);
+  // };
 
 
+  console.log(fields, 'FIELDS')
 
   return (
+
     <ScrollView style={{ padding: 15, flex: 1}}>
-      { isSubmitting ? (
-      <ActivityIndicator size="large" color="blue" />
-      ) : <View></View>}
       <Card>
         <Card.Content style={{gap: 5}}>
 
@@ -138,7 +146,7 @@ const EditSubGroupScheduleScreen = () => {
             De {"  "}
             <Text style={{backgroundColor: colors.primary}}>
               {(() => {
-                const value = getValues(`schedules[${index}].startTime` as any);
+                const value = getValues(`timeslots[${index}].startTime` as any);
                 if (typeof value === 'string' || value instanceof Date) {
                   return new Date(value).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                 }
@@ -150,7 +158,7 @@ const EditSubGroupScheduleScreen = () => {
           {currentPickerIndex === index && currentPickerField === 'startTime' && (
            <Controller
             control={control}
-            name={`schedules[${index}].startTime`as any}
+            name={`timeslots[${index}].startTime`as any}
             defaultValue={field.startTime}
             render={({ field: { onChange, value } }) => (
               <DateTimePicker
@@ -174,7 +182,7 @@ const EditSubGroupScheduleScreen = () => {
             <Text style={{backgroundColor: colors.primary}}>
               {/* This is a IIEF immediately invoked function expression (function())() */}
               {(() => {
-                const value = getValues(`schedules[${index}].endTime` as any);
+                const value = getValues(`timeslots[${index}].endTime` as any);
                 if (typeof value === 'string' || value instanceof Date) {
                   return new Date(value).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                 }
@@ -186,7 +194,7 @@ const EditSubGroupScheduleScreen = () => {
           {currentPickerIndex === index && currentPickerField === 'endTime' && (
            <Controller
             control={control}
-            name={`schedules[${index}].endTime`as any}
+            name={`timeslots[${index}].endTime`as any}
             defaultValue={field.endTime}
             render={({ field: { onChange, value } }) => (
               <DateTimePicker

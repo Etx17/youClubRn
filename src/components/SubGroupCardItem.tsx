@@ -124,7 +124,8 @@ const SubGroupCardItem = ({subgroup, onDeletePress, refetchActivityData }) => {
                 { user?.role === 'club' && (
                   <Pressable onPress={() => navigation.navigate(
                     "EditSubGroupSchedule",
-                    { schedules: schedule.timeSlots,
+                    {
+                      scheduleId: schedule.id,
                       day: schedule.day,
                       subGroupId: subgroup.id,
                   })}>

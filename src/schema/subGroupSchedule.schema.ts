@@ -6,12 +6,12 @@ const HoursObject = z.object({
 });
 export const SubGroupScheduleSchema = z.object({
     dayName: z.string(),
-    schedules: z.array(z.object({
+    timeslots: z.array(z.object({
         startTime: z.date().nullable(),
         endTime: z.date().nullable(),
+        id: z.string().nullable(),
     })),
 
 });
 
 export type SubGroupSchedule = z.infer<typeof SubGroupScheduleSchema>;
-
