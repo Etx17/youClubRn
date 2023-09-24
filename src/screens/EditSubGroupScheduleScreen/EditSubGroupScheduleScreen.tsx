@@ -19,6 +19,7 @@ type Timeslot = {
   startTime: Date;
   endTime: Date;
   date?: Date;
+  isNew?: boolean;
 };
 
 
@@ -121,11 +122,6 @@ const EditSubGroupScheduleScreen = () => {
       setIsSubmitting(false);
     }
   }
-  // const onChange = (selectedDate: Date | null, index: number): void => {
-  //   const newSchedules = [...schedules];
-  //   newSchedules[index].date = selectedDate || newSchedules[index].date;
-  //   setTimeslots(newSchedules);
-  // };
 
 
   console.log(fields, 'FIELDS')
@@ -140,25 +136,26 @@ const EditSubGroupScheduleScreen = () => {
         <View>
         {fields.map((field, index) => (
           <View key={field.id} style={styles.dayCard}>
-            <Pressable onPress={() => {
-              if(!!field.isNew){
-                setCurrentPickerIndex(index);
-                setCurrentPickerField('startTime');
-              }
-            }}>
-            <Text>
-              De {"  "}
-              <Text style={{backgroundColor: colors.primary}}>
-                {(() => {
-                  const value = getValues(`timeslots[${index}].startTime` as any);
-                  if (typeof value === 'string' || value instanceof Date) {
-                    return new Date(value).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                  }
-                  return '- -  :  - -';
-                })()}
-              </Text>
-            </Text>
+            <Pressable onPress={() => { if(!!field.isNew){ setCurrentPickerIndex(index); setCurrentPickerField('startTime'); } }}>
+              {currentPickerIndex === index && currentPickerField === 'startTime' ? (
+                // Don't render anything if DateTimePicker is active for this field
+                <Text>De</Text>
+              ) : (
+                <Text>
+                  De {"  "}
+                  <Text style={{backgroundColor: colors.primary}}>
+                    {(() => {
+                      const value = getValues(`timeslots[${index}].startTime` as any);
+                      if (typeof value === 'string' || value instanceof Date) {
+                        return new Date(value).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                      }
+                      return '- -  :  - -';
+                    })()}
+                  </Text>
+                </Text>
+              )}
             </Pressable>
+
             {currentPickerIndex === index && currentPickerField === 'startTime' && (
             <Controller
               control={control}
@@ -186,19 +183,23 @@ const EditSubGroupScheduleScreen = () => {
                 setCurrentPickerField('endTime');
               }
             }}>
-            <Text>
-              à {"  "}
-              <Text style={{backgroundColor: colors.primary}}>
-                {/* This is a IIEF immediately invoked function expression (function())() */}
-                {(() => {
-                  const value = getValues(`timeslots[${index}].endTime` as any);
-                  if (typeof value === 'string' || value instanceof Date) {
-                    return new Date(value).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                  }
-                  return '- -  :  - -';
-                })()}
-              </Text>
-            </Text>
+              {currentPickerIndex === index && currentPickerField === 'endTime' ? (
+                // Don't render anything if DateTimePicker is active for this field
+                <Text>à</Text>
+              ) : (
+                <Text>
+                  à {"  "}
+                  <Text style={{backgroundColor: colors.primary}}>
+                    {(() => {
+                      const value = getValues(`timeslots[${index}].endTime` as any);
+                      if (typeof value === 'string' || value instanceof Date) {
+                        return new Date(value).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                      }
+                      return '- -  :  - -';
+                    })()}
+                  </Text>
+                </Text>
+              )}
             </Pressable>
             {currentPickerIndex === index && currentPickerField === 'endTime' && (
             <Controller
