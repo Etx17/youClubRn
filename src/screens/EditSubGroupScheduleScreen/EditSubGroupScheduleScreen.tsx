@@ -136,7 +136,7 @@ const EditSubGroupScheduleScreen = () => {
             <View key={field.id} style={styles.dayCard}>
               {field.isNew ? (
                 <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-                <Text>De</Text>
+                <Text style={{color: '#666666'}}>De</Text>
                 <Controller
                   control={control}
                   name={`timeslots[${index}].startTime` as any}
@@ -168,7 +168,7 @@ const EditSubGroupScheduleScreen = () => {
 
               {field.isNew ? (
                 <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-                  <Text>à</Text>
+                  <Text style={{color: '#666666'}}>à</Text>
                   <Controller
                     control={control}
                     name={`timeslots[${index}].endTime` as any}
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
   title: {
     textAlign: 'center',
     fontWeight: 'bold',
-    color: colors.grayDarkest,
+    color: '#666666',
     fontSize: 20
   },
   dayCard: {
@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     borderWidth: 2,
     backgroundColor: colors.black,
-  }
+  },
 })
 
 export default EditSubGroupScheduleScreen
