@@ -127,55 +127,19 @@ const EditSubGroupScheduleScreen = () => {
   console.log(fields, 'FIELDS')
   return (
 
-    <ScrollView style={{ padding: 15, flex: 1}}>
+    <ScrollView style={{ padding: 10, flex: 1}}>
       <Card>
-        <Card.Content style={{gap: 5}}>
-
-        <Card.Title title="Ajoutez ou supprimez des horaires"/>
-
-        <View>
-        {fields.map((field, index) => (
-          <View key={field.id} style={styles.dayCard}>
-            {field.isNew ? (
-              <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-              <Text>De</Text>
-              <Controller
-                control={control}
-                name={`timeslots[${index}].startTime` as any}
-                defaultValue={null}
-                render={({ field: { onChange, value } }) => (
-                  <DateTimePicker
-                    testID="dateTimePicker"
-                    value={value ? value : new Date()}
-                    mode={'time'}
-                    is24Hour={true}
-                    display="default"
-                    onChange={(event, selectedDate) => {
-                      onChange(selectedDate || new Date());
-                    }}
-                  />
-                )}
-              />
-              </View>
-            ) : (
-              <Pressable onPress={() => setCurrentPickerIndex(index)}>
-                <Text>
-                  De {"  "}
-                  <Text style={{backgroundColor: colors.primary}}>
-                    {new Date(field.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                  </Text>
-                </Text>
-              </Pressable>
-            )}
-
-
-
-            {field.isNew ? (
-              <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-                <Text>à</Text>
+        <Card.Content>
+          <Card.Title title="HORAIRES" titleStyle={styles.title}/>
+          <View>
+          {fields.map((field, index) => (
+            <View key={field.id} style={styles.dayCard}>
+              {field.isNew ? (
+                <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                <Text>De</Text>
                 <Controller
                   control={control}
-                  name={`timeslots[${index}].endTime` as any}
+                  name={`timeslots[${index}].startTime` as any}
                   defaultValue={null}
                   render={({ field: { onChange, value } }) => (
                     <DateTimePicker
@@ -190,37 +154,91 @@ const EditSubGroupScheduleScreen = () => {
                     />
                   )}
                 />
-              </View>
-            ) : (
-              <Pressable onPress={() => setCurrentPickerIndex(index)}>
-                <Text>
-                  à {"  "}
-                  <Text style={{backgroundColor: colors.primary}}>
-                    {new Date(field.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </View>
+              ) : (
+                <Pressable onPress={() => setCurrentPickerIndex(index)}>
+                  <Text style={{color: "#666666"}}>
+                    De {"  "}
+                    <Text style={{fontSize: 17, color: 'black'}}>
+                      {new Date(field.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </Text>
                   </Text>
-                </Text>
-              </Pressable>
-            )}
-          <Button onPress={() => remove(index)}>X</Button>
-          </View>
+                </Pressable>
+              )}
+
+              {field.isNew ? (
+                <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                  <Text>à</Text>
+                  <Controller
+                    control={control}
+                    name={`timeslots[${index}].endTime` as any}
+                    defaultValue={null}
+                    render={({ field: { onChange, value } }) => (
+                      <DateTimePicker
+                        testID="dateTimePicker"
+                        value={value ? value : new Date()}
+                        mode={'time'}
+                        is24Hour={true}
+                        display="default"
+                        onChange={(event, selectedDate) => {
+                          onChange(selectedDate || new Date());
+                        }}
+                      />
+                    )}
+                  />
+                </View>
+                ) : (
+                  <Text style={{color: "#666666"}}> à {"  "}
+                    <Text style={{fontSize: 17, color: 'black'}}>
+                      {new Date(field.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </Text>
+                  </Text>
+                )}
+              <Button onPress={() => remove(index)}>X</Button>
+            </View>
         ))}
 
         { fields.length < 10 &&
-          <Button style={{backgroundColor: colors.secondary}} onPress={() => append({ startTime: new Date(), endTime: new Date(), isNew: true })}>Ajouter un horaire</Button>
+          <Button style={styles.addTimeSlotButton} textColor='black' onPress={() => append({ startTime: new Date(), endTime: new Date(), isNew: true })}>Ajouter un horaire</Button>
         }
         </View>
 
         </Card.Content>
       </Card>
-      <Button style={{marginBottom: 30}} onPress={handleSubmit(saveAndGoToActivity)} mode='elevated' textColor='black'>Enregistrer</Button>
+      <Button style={styles.submitButton} onPress={handleSubmit(saveAndGoToActivity)} mode='elevated' textColor={colors.primary}>Enregistrer</Button>
 
     </ScrollView>
   )
 }
 
 const styles = StyleSheet.create({
-  dayCard: {flexDirection: 'row', alignItems: 'center', gap: 15, justifyContent: 'center', marginVertical: 5},
-
+  title: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    color: colors.grayDarkest,
+    fontSize: 20
+  },
+  dayCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 15,
+    justifyContent: 'space-between',
+    marginVertical: 5,
+    borderTopWidth: 1,
+    borderTopColor: colors.grayDarkest,
+    paddingTop: 8,
+  },
+  addTimeSlotButton: {
+    marginTop: 10,
+    borderWidth: 2,
+    borderColor: '#666666',
+  },
+  submitButton: {
+    marginTop: 10,
+    marginBottom: 30,
+    borderWidth: 2,
+    backgroundColor: colors.black,
+  }
 })
 
 export default EditSubGroupScheduleScreen
