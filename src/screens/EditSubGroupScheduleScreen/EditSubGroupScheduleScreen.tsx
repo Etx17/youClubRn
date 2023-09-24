@@ -136,91 +136,70 @@ const EditSubGroupScheduleScreen = () => {
         <View>
         {fields.map((field, index) => (
           <View key={field.id} style={styles.dayCard}>
-            <Pressable onPress={() => { if(!!field.isNew){ setCurrentPickerIndex(index); setCurrentPickerField('startTime'); } }}>
-              {currentPickerIndex === index && currentPickerField === 'startTime' ? (
-                // Don't render anything if DateTimePicker is active for this field
-                <Text>De</Text>
-              ) : (
+            {field.isNew ? (
+              <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+              <Text>De</Text>
+              <Controller
+                control={control}
+                name={`timeslots[${index}].startTime` as any}
+                defaultValue={null}
+                render={({ field: { onChange, value } }) => (
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    value={value ? value : new Date()}
+                    mode={'time'}
+                    is24Hour={true}
+                    display="default"
+                    onChange={(event, selectedDate) => {
+                      onChange(selectedDate || new Date());
+                    }}
+                  />
+                )}
+              />
+              </View>
+            ) : (
+              <Pressable onPress={() => setCurrentPickerIndex(index)}>
                 <Text>
                   De {"  "}
                   <Text style={{backgroundColor: colors.primary}}>
-                    {(() => {
-                      const value = getValues(`timeslots[${index}].startTime` as any);
-                      if (typeof value === 'string' || value instanceof Date) {
-                        return new Date(value).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                      }
-                      return '- -  :  - -';
-                    })()}
+                    {new Date(field.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </Text>
                 </Text>
-              )}
-            </Pressable>
-
-            {currentPickerIndex === index && currentPickerField === 'startTime' && (
-            <Controller
-              control={control}
-              name={`timeslots[${index}].startTime`as any}
-              defaultValue={field.startTime}
-              render={({ field: { onChange, value } }) => (
-                <DateTimePicker
-                  testID="dateTimePicker"
-                  value={value instanceof Date ? value : new Date()}
-                  mode={'time'}
-                  is24Hour={true}
-                  display="default"
-                  onChange={(event, selectedDate) => {
-                    onChange(selectedDate || new Date());
-                    setCurrentPickerIndex(null);
-                    setCurrentPickerField(null);
-                  }}
-                />
-              )}
-            />
+              </Pressable>
             )}
-            <Pressable onPress={() => {
-              if(!!field.isNew){
-                setCurrentPickerIndex(index);
-                setCurrentPickerField('endTime');
-              }
-            }}>
-              {currentPickerIndex === index && currentPickerField === 'endTime' ? (
-                // Don't render anything if DateTimePicker is active for this field
+
+
+
+            {field.isNew ? (
+              <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
                 <Text>à</Text>
-              ) : (
+                <Controller
+                  control={control}
+                  name={`timeslots[${index}].endTime` as any}
+                  defaultValue={null}
+                  render={({ field: { onChange, value } }) => (
+                    <DateTimePicker
+                      testID="dateTimePicker"
+                      value={value ? value : new Date()}
+                      mode={'time'}
+                      is24Hour={true}
+                      display="default"
+                      onChange={(event, selectedDate) => {
+                        onChange(selectedDate || new Date());
+                      }}
+                    />
+                  )}
+                />
+              </View>
+            ) : (
+              <Pressable onPress={() => setCurrentPickerIndex(index)}>
                 <Text>
                   à {"  "}
                   <Text style={{backgroundColor: colors.primary}}>
-                    {(() => {
-                      const value = getValues(`timeslots[${index}].endTime` as any);
-                      if (typeof value === 'string' || value instanceof Date) {
-                        return new Date(value).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                      }
-                      return '- -  :  - -';
-                    })()}
+                    {new Date(field.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </Text>
                 </Text>
-              )}
-            </Pressable>
-            {currentPickerIndex === index && currentPickerField === 'endTime' && (
-            <Controller
-              control={control}
-              name={`timeslots[${index}].endTime`as any}
-              defaultValue={field.endTime}
-              render={({ field: { onChange, value } }) => (
-                <DateTimePicker
-                  testID="dateTimePicker"
-                  value={value instanceof Date ? value : new Date()}
-                  mode={'time'}
-                  is24Hour={true}
-                  display="default"
-                  onChange={(event, selectedDate) => {
-                    onChange(selectedDate || new Date());
-                    setCurrentPickerIndex(null);
-                    setCurrentPickerField(null);
-                  }}
-                />
-              )}
-            />
+              </Pressable>
             )}
           <Button onPress={() => remove(index)}>X</Button>
           </View>
