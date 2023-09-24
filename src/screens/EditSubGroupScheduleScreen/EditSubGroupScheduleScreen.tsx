@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Pressable, ActivityIndicator } from 'react-native'
+import { View, Text, ScrollView, Pressable, ActivityIndicator, StyleSheet } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Button, Card} from 'react-native-paper'
 import { useForm, Controller, Control, useFieldArray } from 'react-hook-form';
@@ -75,12 +75,13 @@ const EditSubGroupScheduleScreen = () => {
 
     return date;
   };
+  const isNumericID = (id:string) => /^\d+$/.test(id);
+
   const transformScheduleTimeStringToDate = (timeslots: string[]): Timeslot[] => {
     return timeslots?.map(timeslot => {
       const startTime = parseTimeString(timeslot?.startTime);
       const endTime = parseTimeString(timeslot?.endTime);
-      const id = timeslot?.id;
-      return { startTime, endTime, id };
+      return { startTime, endTime };
     });
   };
 
@@ -128,97 +129,106 @@ const EditSubGroupScheduleScreen = () => {
 
 
   console.log(fields, 'FIELDS')
-
   return (
 
     <ScrollView style={{ padding: 15, flex: 1}}>
       <Card>
         <Card.Content style={{gap: 5}}>
 
-          <Card.Title title="Ajoutez ou supprimez des horaires"/>
-
+        <Card.Title title="Ajoutez ou supprimez des horaires"/>
 
         <View>
         {fields.map((field, index) => (
-        <View key={field.id} style={{flexDirection: 'row', alignItems: 'center', gap: 15, justifyContent: 'center', marginVertical: 5}}>
-          <Pressable onPress={() => { setCurrentPickerIndex(index); setCurrentPickerField('startTime'); }}>
-          <Text>
-            De {"  "}
-            <Text style={{backgroundColor: colors.primary}}>
-              {(() => {
-                const value = getValues(`timeslots[${index}].startTime` as any);
-                if (typeof value === 'string' || value instanceof Date) {
-                  return new Date(value).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                }
-                return '- -  :  - -';
-              })()}
+          <View key={field.id} style={styles.dayCard}>
+            <Pressable onPress={() => {
+              if(!!field.isNew){
+                setCurrentPickerIndex(index);
+                setCurrentPickerField('startTime');
+              }
+            }}>
+            <Text>
+              De {"  "}
+              <Text style={{backgroundColor: colors.primary}}>
+                {(() => {
+                  const value = getValues(`timeslots[${index}].startTime` as any);
+                  if (typeof value === 'string' || value instanceof Date) {
+                    return new Date(value).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                  }
+                  return '- -  :  - -';
+                })()}
+              </Text>
             </Text>
-          </Text>
-          </Pressable>
-          {currentPickerIndex === index && currentPickerField === 'startTime' && (
-           <Controller
-            control={control}
-            name={`timeslots[${index}].startTime`as any}
-            defaultValue={field.startTime}
-            render={({ field: { onChange, value } }) => (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={value instanceof Date ? value : new Date()}
-                mode={'time'}
-                is24Hour={true}
-                display="default"
-                onChange={(event, selectedDate) => {
-                  onChange(selectedDate || new Date());
-                  setCurrentPickerIndex(null);
-                  setCurrentPickerField(null);
-                }}
-              />
+            </Pressable>
+            {currentPickerIndex === index && currentPickerField === 'startTime' && (
+            <Controller
+              control={control}
+              name={`timeslots[${index}].startTime`as any}
+              defaultValue={field.startTime}
+              render={({ field: { onChange, value } }) => (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={value instanceof Date ? value : new Date()}
+                  mode={'time'}
+                  is24Hour={true}
+                  display="default"
+                  onChange={(event, selectedDate) => {
+                    onChange(selectedDate || new Date());
+                    setCurrentPickerIndex(null);
+                    setCurrentPickerField(null);
+                  }}
+                />
+              )}
+            />
             )}
-          />
-          )}
-          <Pressable onPress={() => { setCurrentPickerIndex(index); setCurrentPickerField('endTime'); }}>
-          <Text>
-            à {"  "}
-            <Text style={{backgroundColor: colors.primary}}>
-              {/* This is a IIEF immediately invoked function expression (function())() */}
-              {(() => {
-                const value = getValues(`timeslots[${index}].endTime` as any);
-                if (typeof value === 'string' || value instanceof Date) {
-                  return new Date(value).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                }
-                return '- -  :  - -';
-              })()}
+            <Pressable onPress={() => {
+              if(!!field.isNew){
+                setCurrentPickerIndex(index);
+                setCurrentPickerField('endTime');
+              }
+            }}>
+            <Text>
+              à {"  "}
+              <Text style={{backgroundColor: colors.primary}}>
+                {/* This is a IIEF immediately invoked function expression (function())() */}
+                {(() => {
+                  const value = getValues(`timeslots[${index}].endTime` as any);
+                  if (typeof value === 'string' || value instanceof Date) {
+                    return new Date(value).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                  }
+                  return '- -  :  - -';
+                })()}
+              </Text>
             </Text>
-          </Text>
-          </Pressable>
-          {currentPickerIndex === index && currentPickerField === 'endTime' && (
-           <Controller
-            control={control}
-            name={`timeslots[${index}].endTime`as any}
-            defaultValue={field.endTime}
-            render={({ field: { onChange, value } }) => (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={value instanceof Date ? value : new Date()}
-                mode={'time'}
-                is24Hour={true}
-                display="default"
-                onChange={(event, selectedDate) => {
-                  onChange(selectedDate || new Date());
-                  setCurrentPickerIndex(null);
-                  setCurrentPickerField(null);
-                }}
-              />
+            </Pressable>
+            {currentPickerIndex === index && currentPickerField === 'endTime' && (
+            <Controller
+              control={control}
+              name={`timeslots[${index}].endTime`as any}
+              defaultValue={field.endTime}
+              render={({ field: { onChange, value } }) => (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={value instanceof Date ? value : new Date()}
+                  mode={'time'}
+                  is24Hour={true}
+                  display="default"
+                  onChange={(event, selectedDate) => {
+                    onChange(selectedDate || new Date());
+                    setCurrentPickerIndex(null);
+                    setCurrentPickerField(null);
+                  }}
+                />
+              )}
+            />
             )}
-          />
-          )}
-         <Button onPress={() => remove(index)}>X</Button>
+          <Button onPress={() => remove(index)}>X</Button>
+          </View>
+        ))}
+
+        { fields.length < 10 &&
+          <Button style={{backgroundColor: colors.secondary}} onPress={() => append({ startTime: new Date(), endTime: new Date(), isNew: true })}>Ajouter un horaire</Button>
+        }
         </View>
-      ))}
-      { fields.length < 10 &&
-        <Button style={{backgroundColor: colors.secondary}} onPress={() => append({ startTime: new Date(), endTime: new Date() })}>Ajouter un horaire</Button>
-      }
-      </View>
 
         </Card.Content>
       </Card>
@@ -227,5 +237,10 @@ const EditSubGroupScheduleScreen = () => {
     </ScrollView>
   )
 }
+
+const styles = StyleSheet.create({
+  dayCard: {flexDirection: 'row', alignItems: 'center', gap: 15, justifyContent: 'center', marginVertical: 5},
+
+})
 
 export default EditSubGroupScheduleScreen
