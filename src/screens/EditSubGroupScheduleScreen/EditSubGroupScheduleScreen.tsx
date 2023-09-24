@@ -30,8 +30,6 @@ const EditSubGroupScheduleScreen = () => {
   const subGroupId = route?.params?.subGroupId
   const scheduleId = route?.params?.scheduleId
   // const { subGroupId, scheduleId } = route?.params as any;
-  const [currentPickerIndex, setCurrentPickerIndex] = useState<number | null>(null);
-  const [currentPickerField, setCurrentPickerField] = useState<string | null>(null);
   const navigation = useNavigation();
   // Function to parse a time string or Date object and return a Date object
   // const [updateSchedule, { data: updateData, loading: updateLoading, error: updateError }] = useMutation(UPDATE_SCHEDULE);
@@ -76,18 +74,15 @@ const EditSubGroupScheduleScreen = () => {
 
     return date;
   };
-  const isNumericID = (id:string) => /^\d+$/.test(id);
 
   const transformScheduleTimeStringToDate = (timeslots: string[]): Timeslot[] => {
     return timeslots?.map(timeslot => {
-      const startTime = parseTimeString(timeslot?.startTime);
-      const endTime = parseTimeString(timeslot?.endTime);
-      return { startTime, endTime };
+      const startTime = parseTimeString(timeslot.startTime);
+      const endTime = parseTimeString(timeslot.endTime);
+      const timeslotId = timeslot.id;
+      return { startTime, endTime, timeslotId };
     });
   };
-
-
-  console.log(timeslots, 'TIMESLOTS')
 
   const { control, handleSubmit, getValues, formState: { errors }, reset} = useForm<SubGroupSchedule>({
     resolver: zodResolver(SubGroupScheduleSchema),
@@ -123,7 +118,7 @@ const EditSubGroupScheduleScreen = () => {
     }
   }
 
-
+  console.log(timeslots, 'TIMESLOTS')
   console.log(fields, 'FIELDS')
   return (
 
@@ -156,14 +151,12 @@ const EditSubGroupScheduleScreen = () => {
                 />
                 </View>
               ) : (
-                <Pressable onPress={() => setCurrentPickerIndex(index)}>
-                  <Text style={{color: "#666666"}}>
-                    De {"  "}
-                    <Text style={{fontSize: 17, color: 'black'}}>
-                      {new Date(field.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                    </Text>
+                <Text style={{color: "#666666"}}>
+                  De {"  "}
+                  <Text style={{fontSize: 17, color: 'black'}}>
+                    {new Date(field.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </Text>
-                </Pressable>
+                </Text>
               )}
 
               {field.isNew ? (
@@ -194,7 +187,14 @@ const EditSubGroupScheduleScreen = () => {
                     </Text>
                   </Text>
                 )}
-              <Button onPress={() => remove(index)}>X</Button>
+              <Button onPress={() => {
+                remove(index);
+                if(!!field.isNew){
+                } else {
+                  console.warn('ID ->', field.timeslotId,)
+                  // TODO : implémenter la suppression en BDD
+                }
+              }}>X</Button>
             </View>
         ))}
 
