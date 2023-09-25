@@ -11,3 +11,11 @@ export const UPDATE_SCHEDULE = gql`
     }
   }
 `;
+
+export const DELETE_TIME_SLOT = gql`
+  mutation DeleteTimeSlot($id: ID!) {
+    deleteTimeSlot(input: {id: $id}) {
+      id
+    }
+  }
+`;

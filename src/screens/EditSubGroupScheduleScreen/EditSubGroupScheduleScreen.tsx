@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Pressable, ActivityIndicator, StyleSheet } from 'react-native'
+import { View, Text, ScrollView, Pressable, ActivityIndicator, StyleSheet, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Button, Card} from 'react-native-paper'
 import { useForm, Controller, Control, useFieldArray } from 'react-hook-form';
@@ -12,6 +12,8 @@ import { RootNavigatorParamsList } from '../../types/navigation';
 import { useMutation, useQuery } from "@apollo/client";
 // import { UPDATE_SCHEDULE } from './mutations';
 import { GET_TIMESLOTS_BY_SCHEDULE_ID } from './queries';
+import { DELETE_TIME_SLOT } from './mutations';
+
 type RouteParams = RouteProp<RootNavigatorParamsList, 'EditSubGroupSchedule'>;
 
 type Timeslot = {
@@ -29,11 +31,43 @@ const EditSubGroupScheduleScreen = () => {
   const [timeslots, setTimeslots] = useState<Timeslot[]>([]);
   const subGroupId = route?.params?.subGroupId
   const scheduleId = route?.params?.scheduleId
+  const refetchActivityData = route?.params?.refetchActivityData as any
   // const { subGroupId, scheduleId } = route?.params as any;
   const navigation = useNavigation();
   // Function to parse a time string or Date object and return a Date object
   // const [updateSchedule, { data: updateData, loading: updateLoading, error: updateError }] = useMutation(UPDATE_SCHEDULE);
   // const { data, loading, error } =
+  const [deleteTimeSlot] = useMutation(DELETE_TIME_SLOT, {
+    onCompleted: () => {
+      refetchActivityData();
+    }
+  });
+
+  const handleDeletePress = (id: string) => {
+
+    Alert.alert(
+      "Supprimer l'horaire " + id,
+      "Êtes-vous sûr de vouloir supprimer cet horaire ? Cette action est irréversible.",
+      [ { text: "Cancel", style: "cancel" },
+        { text: "OK",  onPress: () => handleDeleteTimeSlot(id) }
+      ]
+    );
+  };
+  const handleDeleteTimeSlot = async (id: any) => {
+    try {
+      // await deleteTimeSlot({ variables: {input: { id: id } } })
+      await deleteTimeSlot({ variables: { id: id } })
+      .then(() => {
+        // Alert.alert('Succès', 'Votre horaire a bien été supprimé');
+        // refetchActivityData()
+        // navigation.goBack();
+        console.warn('horaire supprimé avec succès')
+      })
+    } catch(e) {
+      console.log(id)
+      console.log(e)
+    }
+  };
   const {data, loading, error, refetch} = useQuery(GET_TIMESLOTS_BY_SCHEDULE_ID, { variables: {scheduleId: scheduleId} })
 
   const parseTimeString = (time: string | Date): Date => {
@@ -118,8 +152,8 @@ const EditSubGroupScheduleScreen = () => {
     }
   }
 
-  console.log(timeslots, 'TIMESLOTS')
-  console.log(fields, 'FIELDS')
+  // console.log(timeslots, 'TIMESLOTS')
+  // console.log(fields, 'FIELDS')
   return (
 
     <ScrollView style={{ padding: 10, flex: 1}}>
@@ -188,12 +222,14 @@ const EditSubGroupScheduleScreen = () => {
                   </Text>
                 )}
               <Button onPress={() => {
-                remove(index);
+
                 if(!!field.isNew){
                 } else {
-                  console.warn('ID ->', field.timeslotId,)
+                  // console.warn('ID ->', field.timeslotId,)
+                  handleDeletePress(field.timeslotId)
                   // TODO : implémenter la suppression en BDD
                 }
+                remove(index);
               }}>X</Button>
             </View>
         ))}
