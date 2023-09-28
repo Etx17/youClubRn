@@ -12,7 +12,8 @@ import { RootNavigatorParamsList } from '../../types/navigation';
 import { useMutation, useQuery } from "@apollo/client";
 // import { UPDATE_SCHEDULE } from './mutations';
 import { GET_TIMESLOTS_BY_SCHEDULE_ID } from './queries';
-import { DELETE_TIME_SLOT } from './mutations';
+import { CREATE_TIMESLOT, DELETE_TIME_SLOT } from './mutations';
+import { TimeSlots, TimeSlotsSchema } from '../../schema/timeSlots.schema';
 
 type RouteParams = RouteProp<RootNavigatorParamsList, 'EditSubGroupSchedule'>;
 
@@ -31,44 +32,31 @@ const EditSubGroupScheduleScreen = () => {
   const [timeslots, setTimeslots] = useState<Timeslot[]>([]);
   const subGroupId = route?.params?.subGroupId
   const scheduleId = route?.params?.scheduleId
+  // const dayName = route?.params?.day
   const refetchActivityData = route?.params?.refetchActivityData as any
   // const { subGroupId, scheduleId } = route?.params as any;
   const navigation = useNavigation();
-  // Function to parse a time string or Date object and return a Date object
-  // const [updateSchedule, { data: updateData, loading: updateLoading, error: updateError }] = useMutation(UPDATE_SCHEDULE);
-  // const { data, loading, error } =
-  const [deleteTimeSlot] = useMutation(DELETE_TIME_SLOT, {
+  const [createTimeSlot, { data: createData, loading: createLoading, error: createError  }] = useMutation(CREATE_TIMESLOT);
+
+  const [deleteTimeSlot, { data: deleteData, loading: deleteLoading, error: deleteError}] = useMutation(DELETE_TIME_SLOT, {
     onCompleted: () => {
       refetchActivityData();
+      refetch();
     }
   });
 
   const handleDeletePress = (id: string) => {
-
-    Alert.alert(
-      "Supprimer l'horaire " + id,
-      "Êtes-vous sûr de vouloir supprimer cet horaire ? Cette action est irréversible.",
-      [ { text: "Cancel", style: "cancel" },
-        { text: "OK",  onPress: () => handleDeleteTimeSlot(id) }
-      ]
-    );
+    handleDeleteTimeSlot(id)
   };
   const handleDeleteTimeSlot = async (id: any) => {
     try {
-      // await deleteTimeSlot({ variables: {input: { id: id } } })
       await deleteTimeSlot({ variables: { id: id } })
-      .then(() => {
-        // Alert.alert('Succès', 'Votre horaire a bien été supprimé');
-        // refetchActivityData()
-        // navigation.goBack();
-        console.warn('horaire supprimé avec succès')
-      })
     } catch(e) {
-      console.log(id)
       console.log(e)
     }
   };
   const {data, loading, error, refetch} = useQuery(GET_TIMESLOTS_BY_SCHEDULE_ID, { variables: {scheduleId: scheduleId} })
+
 
   const parseTimeString = (time: string | Date): Date => {
     let date: Date;
@@ -118,14 +106,12 @@ const EditSubGroupScheduleScreen = () => {
     });
   };
 
-  const { control, handleSubmit, getValues, formState: { errors }, reset} = useForm<SubGroupSchedule>({
-    resolver: zodResolver(SubGroupScheduleSchema),
+  const { control, handleSubmit, formState: { errors }, reset} = useForm<TimeSlots>({
+    resolver: zodResolver(TimeSlotsSchema),
     defaultValues: {
       timeslots: transformScheduleTimeStringToDate(data?.timeSlotsByScheduleId),
-      dayName: route?.params?.day,
     },
   });
-
   useEffect(() => {
     if (data?.timeSlotsByScheduleId) {
       const timeslotsToTransform = data.timeSlotsByScheduleId
@@ -133,27 +119,32 @@ const EditSubGroupScheduleScreen = () => {
       setTimeslots(transformedTimeSlots);
       reset({ timeslots: transformedTimeSlots }); // necessary to load the first time the default values, because it's initialized empty.
     }
-  }, [data]);
+  }, [data, createData, deleteData]);
 
   const { fields, append, remove } = useFieldArray({ control, name: 'timeslots', });
-
-  const saveAndGoToActivity = async (data: any): void => {
+  // console.log(errors, 'THIS IS errors')
+  const saveAndGoToActivity = async (data: any) => {
     if (isSubmitting) { return }
     setIsSubmitting(true);
     data.subGroupId = subGroupId
+    data.scheduleId = scheduleId
+    console.log(data, 'DATA TO SUBMIT')
 
     try {
-      // TODO FOR THE UPDATE SCHEDULE : iterate over each line of timeslots, and for each line, call the mutation of creation except for those who already have a schedule id to not duplicate them.
-      //  So i must store in the state object the id as well
+      data.timeslots.forEach(async (timeslot: any) => {
+        if (!!timeslot.isNew) {
+          await createTimeSlot({ variables: { input: { scheduleId: scheduleId, startTime: timeslot.startTime, endTime: timeslot.endTime } } })
+        }
+      })
     } catch (error) {
       console.log(error, 'there was an error during the process');
     } finally {
       setIsSubmitting(false);
+      refetchActivityData()
+      navigation.goBack();
     }
   }
 
-  // console.log(timeslots, 'TIMESLOTS')
-  // console.log(fields, 'FIELDS')
   return (
 
     <ScrollView style={{ padding: 10, flex: 1}}>
@@ -222,12 +213,9 @@ const EditSubGroupScheduleScreen = () => {
                   </Text>
                 )}
               <Button onPress={() => {
-
                 if(!!field.isNew){
                 } else {
-                  // console.warn('ID ->', field.timeslotId,)
                   handleDeletePress(field.timeslotId)
-                  // TODO : implémenter la suppression en BDD
                 }
                 remove(index);
               }}>X</Button>

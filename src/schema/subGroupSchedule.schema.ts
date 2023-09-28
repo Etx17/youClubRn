@@ -10,7 +10,6 @@ export const SubGroupScheduleSchema = z.object({
         startTime: z.date().nullable(),
         endTime: z.date().nullable(),
     })),
-
 });
 
 export type SubGroupSchedule = z.infer<typeof SubGroupScheduleSchema>;
