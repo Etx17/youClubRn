@@ -10,7 +10,7 @@ import { useMutation } from "@apollo/client";
 import { DELETE_SCHEDULE } from "../screens/ActivityDetailsScreen/mutations";
 import { ActivityIndicator } from "react-native-paper";
 import ApiErrorMessage from "./apiErrorMessage/ApiErrorMessage";
-
+import { formatDate } from "../utils/dateUtils";
 
 
 const SubGroupCardItem = ({subgroup, onDeletePress, refetchActivityData }) => {
@@ -101,7 +101,7 @@ const SubGroupCardItem = ({subgroup, onDeletePress, refetchActivityData }) => {
                 <Text style={styles.dayLabel}>{schedule.day}</Text>
                 {
                   schedule?.timeSlots && schedule?.timeSlots?.map((time, timeIndex:number) => (
-                    <Text key={timeIndex} style={styles.timespan}>{time.startTime} - {time.endTime}</Text>
+                    <Text key={timeIndex} style={styles.timespan}>{formatDate(time.startTime)} - {formatDate(time.endTime)}</Text>
                   ))
                 }
                 { user?.role === 'club' && (

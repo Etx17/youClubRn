@@ -14,6 +14,8 @@ import { useMutation, useQuery } from "@apollo/client";
 import { GET_TIMESLOTS_BY_SCHEDULE_ID } from './queries';
 import { CREATE_TIMESLOT, DELETE_TIME_SLOT } from './mutations';
 import { TimeSlots, TimeSlotsSchema } from '../../schema/timeSlots.schema';
+import { formatDate } from "../../utils/dateUtils";
+
 
 type RouteParams = RouteProp<RootNavigatorParamsList, 'EditSubGroupSchedule'>;
 
@@ -84,7 +86,7 @@ const EditSubGroupScheduleScreen = () => {
         date.setHours(hours);
         date.setMinutes(minutes);
       } else {
-        console.warn(`Invalid time string: ${time}`);
+        // console.warn(`Invalid time string: ${time}`);
         date = new Date();
       }
     } else if (time instanceof Date) {
@@ -99,8 +101,11 @@ const EditSubGroupScheduleScreen = () => {
 
   const transformScheduleTimeStringToDate = (timeslots: string[]): Timeslot[] => {
     return timeslots?.map(timeslot => {
-      const startTime = parseTimeString(timeslot.startTime);
-      const endTime = parseTimeString(timeslot.endTime);
+      console.log(timeslot, 'THIS IS TIMESLOT')
+      // const startTime = parseTimeString(timeslot.startTime);
+      // const endTime = parseTimeString(timeslot.endTime);
+      const startTime = formatDate(timeslot.startTime);
+      const endTime = formatDate(timeslot.endTime);
       const timeslotId = timeslot.id;
       return { startTime, endTime, timeslotId };
     });
@@ -128,7 +133,6 @@ const EditSubGroupScheduleScreen = () => {
     setIsSubmitting(true);
     data.subGroupId = subGroupId
     data.scheduleId = scheduleId
-    console.log(data, 'DATA TO SUBMIT')
 
     try {
       data.timeslots.forEach(async (timeslot: any) => {
@@ -179,7 +183,7 @@ const EditSubGroupScheduleScreen = () => {
                 <Text style={{color: "#666666"}}>
                   De {"  "}
                   <Text style={{fontSize: 17, color: 'black'}}>
-                    {new Date(field.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    { field.startTime}
                   </Text>
                 </Text>
               )}
@@ -208,7 +212,7 @@ const EditSubGroupScheduleScreen = () => {
                 ) : (
                   <Text style={{color: "#666666"}}> à {"  "}
                     <Text style={{fontSize: 17, color: 'black'}}>
-                      {new Date(field.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      {field.endTime}
                     </Text>
                   </Text>
                 )}
