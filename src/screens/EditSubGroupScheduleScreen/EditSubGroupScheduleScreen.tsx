@@ -299,22 +299,24 @@ const EditSubGroupScheduleScreen = () => {
 
   const saveAndGoToActivity = async () => {
     if (isSubmitting) { return }
-    setIsSubmitting(true);
+    // setIsSubmitting(true);
 
-    try {
-      timeslots.forEach(async (timeslot: any) => {
-        if (!!timeslot.isNew) {
-          await createTimeSlot({ variables: { input: { scheduleId: scheduleId, startTime: timeslot.startTime, endTime: timeslot.endTime } } })
-        }
-      });
-    } catch (error) {
-      console.log(error, 'there was an error during the process');
-    } finally {
-      setIsSubmitting(false);
-      refetchActivityData()
-      navigation.goBack();
-    }
+    console.log(timeslots, 'DATA')
+    // try {
+    //   timeslots.forEach(async (timeslot: any) => {
+    //     if (!!timeslot.isNew) {
+    //       await createTimeSlot({ variables: { input: { scheduleId: scheduleId, startTime: timeslot.startTime, endTime: timeslot.endTime } } })
+    //     }
+    //   });
+    // } catch (error) {
+    //   console.log(error, 'there was an error during the process');
+    // } finally {
+    //   setIsSubmitting(false);
+    //   refetchActivityData()
+    //   navigation.goBack();
+    // }
   };
+
 
   return (
     <ScrollView style={{ padding: 10, flex: 1 }}>
@@ -333,16 +335,24 @@ const EditSubGroupScheduleScreen = () => {
                       mode={'time'}
                        is24Hour={true}
                       display="default"
-                      // onChange = TODO
+                       onChange={(event, selectedDate) => {
+                        if (selectedDate) {
+                          field.startTime = selectedDate.toISOString()
+                        }
+                      }}
                     />
                     <Text style={{color: '#666666'}}> à</Text>
                     <DateTimePicker
                       testID="dateTimePicker"
                       value={new Date()}
                       mode={'time'}
-                       is24Hour={true}
+                      is24Hour={true}
                       display="default"
-                      // onChange = TODO
+                       onChange={(event, selectedDate) => {
+                        if (selectedDate) {
+                          field.endTime = selectedDate.toISOString()
+                        }
+                      }}
                     />
                 </View>
                 ) : (
@@ -372,7 +382,7 @@ const EditSubGroupScheduleScreen = () => {
                 textColor='black'
                 onPress={() => {
                   // Add a new time slot logic here
-                  setTimeslots(prevTimeslots => [...prevTimeslots, { startTime: "", endTime: "", isNew: true }]);
+                  setTimeslots(prevTimeslots => [...prevTimeslots, { startTime: new Date().toISOString(), endTime: new Date().toISOString(), isNew: true }]);
                 }}>
                 Ajouter un horaire
               </Button>
