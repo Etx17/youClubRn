@@ -269,7 +269,11 @@ const EditSubGroupScheduleScreen = () => {
   const scheduleId = route?.params?.scheduleId;
   const refetchActivityData = route?.params?.refetchActivityData as any;
   const navigation = useNavigation();
-  const [createTimeSlot, { data: createData, loading: createLoading, error: createError  }] = useMutation(CREATE_TIMESLOT);
+  const [createTimeSlot, { data: createData, loading: createLoading, error: createError  }] = useMutation(CREATE_TIMESLOT, {
+    onCompleted: () => {
+      refetch();
+    }
+  });
   const [deleteTimeSlot, { data: deleteData, loading: deleteLoading, error: deleteError}] = useMutation(DELETE_TIME_SLOT, {
     onCompleted: () => {
       refetchActivityData();
@@ -299,22 +303,21 @@ const EditSubGroupScheduleScreen = () => {
 
   const saveAndGoToActivity = async () => {
     if (isSubmitting) { return }
-    // setIsSubmitting(true);
+    setIsSubmitting(true);
 
-    console.log(timeslots, 'DATA')
-    // try {
-    //   timeslots.forEach(async (timeslot: any) => {
-    //     if (!!timeslot.isNew) {
-    //       await createTimeSlot({ variables: { input: { scheduleId: scheduleId, startTime: timeslot.startTime, endTime: timeslot.endTime } } })
-    //     }
-    //   });
-    // } catch (error) {
-    //   console.log(error, 'there was an error during the process');
-    // } finally {
-    //   setIsSubmitting(false);
-    //   refetchActivityData()
-    //   navigation.goBack();
-    // }
+    try {
+      timeslots.forEach(async (timeslot: any) => {
+        if (!!timeslot.isNew) {
+          await createTimeSlot({ variables: { input: { scheduleId: scheduleId, startTime: timeslot.startTime, endTime: timeslot.endTime } } })
+        }
+      });
+    } catch (error) {
+      console.log(error, 'there was an error during the process');
+    } finally {
+      setIsSubmitting(false);
+      refetchActivityData();
+      navigation.goBack();
+    }
   };
 
 
@@ -331,26 +334,34 @@ const EditSubGroupScheduleScreen = () => {
                     <Text style={{color: '#666666'}}>De</Text>
                     <DateTimePicker
                       testID="dateTimePicker"
-                      value={new Date()}
+                      value={new Date(field.startTime)}
                       mode={'time'}
                        is24Hour={true}
                       display="default"
                        onChange={(event, selectedDate) => {
                         if (selectedDate) {
-                          field.startTime = selectedDate.toISOString()
+                          setTimeslots(prevTimeslots => {
+                            const updatedTimeslots = [...prevTimeslots];
+                            updatedTimeslots[index].startTime = selectedDate.toISOString();
+                            return updatedTimeslots;
+                          });
                         }
                       }}
                     />
                     <Text style={{color: '#666666'}}> à</Text>
                     <DateTimePicker
                       testID="dateTimePicker"
-                      value={new Date()}
+                      value={new Date(field.endTime)}
                       mode={'time'}
                       is24Hour={true}
                       display="default"
                        onChange={(event, selectedDate) => {
                         if (selectedDate) {
-                          field.endTime = selectedDate.toISOString()
+                          setTimeslots(prevTimeslots => {
+                            const updatedTimeslots = [...prevTimeslots];
+                            updatedTimeslots[index].endTime = selectedDate.toISOString();
+                            return updatedTimeslots;
+                          });
                         }
                       }}
                     />
