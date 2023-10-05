@@ -138,16 +138,6 @@ const EditSubGroupScheduleScreen = () => {
                     </Text>
 
                   </View>
-                  // <Text style={{color: "#666666"}}>
-                  //   De {"  "}
-                  //   <Text style={{fontSize: 17, color: 'black'}}>
-                  //     { formatDate(field.startTime)}
-                  //   </Text>
-                  //   {"  "} à {"  "}
-                  //   <Text style={{fontSize: 17, color: 'black'}}>
-                  //     { formatDate(field.endTime)}
-                  //   </Text>
-                  // </Text>
                 )}
                 <Button onPress={() => {
                   if (!!field.isNew) {
