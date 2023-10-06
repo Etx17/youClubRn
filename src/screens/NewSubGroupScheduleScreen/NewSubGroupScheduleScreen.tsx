@@ -1,4 +1,4 @@
-import { View, Text, Alert, ScrollView, StyleSheet, Pressable } from 'react-native'
+import { View, Text, Alert, ScrollView, StyleSheet, Pressable, ActivityIndicator } from 'react-native'
 import React, { useState } from 'react'
 import { Button, Card, Checkbox, HelperText, RadioButton, TextInput,  } from 'react-native-paper'
 import { useForm, Controller, Control, useFieldArray } from 'react-hook-form';
@@ -166,7 +166,9 @@ const NewSubGroupScheduleScreen = (subgroup: {}) => {
 
         </Card.Content>
       </Card>
-      <Button style={{marginBottom: 30}} onPress={handleSubmit(saveAndGoToActivity)} mode='elevated' textColor='black'>Enregistrer</Button>
+      <Button style={{marginBottom: 30}} onPress={handleSubmit(saveAndGoToActivity)} mode='elevated' textColor='black'>
+        Enregistrer
+      </Button>
 
     </ScrollView>
   )
