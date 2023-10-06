@@ -55,8 +55,6 @@ const SubGroupCardItem = ({subgroup, onDeletePress, refetchActivityData }) => {
     />
     )
   }
-  console.log(subgroup.schedules)
-  console.log(subgroup.schedules[0].timeSlots)
   return (
       <View style={{marginVertical: 10, padding: 10, borderWidth: 1, borderColor: 'gray', borderRadius: 10, backgroundColor: colors.text }}>
         <Text style={styles.subCategoryTag}>{subgroup.name}</Text>
@@ -95,7 +93,7 @@ const SubGroupCardItem = ({subgroup, onDeletePress, refetchActivityData }) => {
           {/* Schedules */}
         <View style={{flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', flexWrap: 'wrap'}}>
           {
-            subgroup?.schedules && subgroup?.schedules?.map((schedule, index:number) => (
+            subgroup?.schedules && subgroup?.schedules.length > 0 && subgroup?.schedules?.map((schedule, index:number) => (
 
               <View key={index} style={{ margin: 5, borderRadius: 14, borderTopWidth: 1, borderTopColor: '#666666', borderLeftWidth: 2, borderLeftColor: "#333333" ,padding: 10, backgroundColor: "#333339" }}>
                 <Text style={styles.dayLabel}>{schedule.day}</Text>

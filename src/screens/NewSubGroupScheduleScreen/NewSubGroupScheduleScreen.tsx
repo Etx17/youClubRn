@@ -8,7 +8,7 @@ import { SubGroupSchedule, SubGroupScheduleSchema } from '../../schema/subGroupS
 import DateTimePicker from '@react-native-community/datetimepicker';
 import colors from '../../themes/colors';
 import { useMutation } from '@apollo/client';
-import { CREATE_SCHEDULE } from './mutations';
+import { CREATE_SCHEDULE, CREATE_TIMESLOT } from './mutations';
 import { formatDate } from "../../utils/dateUtils";
 
 
@@ -41,19 +41,26 @@ const NewSubGroupScheduleScreen = (subgroup: {}) => {
   const { refetchActivityData } = route?.params as any
   const subgroupId = route?.params?.subgroup.id
   const [createSchedule, { data, loading, error }] = useMutation(CREATE_SCHEDULE);
+  const [createTimeSlot, { data: data2, loading: loading2, error: error2 }] = useMutation(CREATE_TIMESLOT);
 
   const saveAndGoToActivity = async (data: any) => {
     console.log(subgroupId)
-    console.log(data.dayName)
-
-    // console.log(data, 'this is data');
-    // console.log(timeslots, 'TIMESLOTS')
-    // Créer un schedule avec le jour choisi, et le subgroupId
-    // récupérer son id
-    // Puis créer les timeslots avec l'id du schedule.
     await createSchedule({ variables: { subGroupId: subgroupId, day: data.dayName }})
     .then((res) => {
-      console.log(res)
+      console.log(res.data.createSchedule.id)
+      const scheduleId = res.data.createSchedule.id
+      timeslots.map(async (timeslot) => {
+        await createTimeSlot({ variables: { input: { scheduleId: scheduleId, startTime: timeslot.startTime, endTime: timeslot.endTime } } })
+        .then((res) => {
+          console.log(res)
+          refetchActivityData()
+        })
+        .catch(err => {
+          Alert.alert('Erreur', 'Une erreur s\'est produite lors de la création de l\'horaire.');
+          console.error(err);
+        });
+      })
+      navigation.goBack()
     })
     .catch(err => {
       Alert.alert('Erreur', 'Une erreur s\'est produite lors de la création de l\'horaire.');
