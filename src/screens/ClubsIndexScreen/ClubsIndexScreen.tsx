@@ -101,6 +101,7 @@ const ClubsIndexScreen = () => {
   const handleReload = () => {
     setReload(true);
   };
+
 return (
 
   <View style={styles.container}>
@@ -126,7 +127,7 @@ return (
       <Swiper
         cards={subCategoryClubs}
         infinite={true}
-        stackSize={2}
+        stackSize={1}
         cardIndex={0}
         animateOverlayLabelsOpacity
         animateCardOpacity
@@ -134,7 +135,7 @@ return (
         backgroundColor={'transparent'}
         cardHorizontalMargin={5}
         onSwipedAll={()=>Alert.alert('No more clubs')}
-        renderCard={(card, cardIndex) => ( <ClubCard data={card} /> )}
+        renderCard={(card, cardIndex) => ( <ClubCard key={cardIndex} data={card} /> )}
       />
       ) :  (
         <View style={styles.loading}>
