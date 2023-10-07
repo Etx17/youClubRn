@@ -44,7 +44,8 @@ const subcategories: ISubcategories = {
         { label: "💪 Musculation (culturisme, musculation)", value: "Musculation (culturisme, musculation)" },
         { label: "🚣 Aviron, canoë kayak (aviron, rafting, canoë kayak, joutes)", value: "Aviron, canoë kayak (aviron, rafting, canoë kayak, joutes)" },
         { label: "🤺 Escrime", value: "Escrime" },
-        { label: "🏒 Hockey sur glace, sports de glace", value: "hockey sur glace, sports de glace" }
+        { label: "🏒 Hockey sur glace, sports de glace", value: "hockey sur glace, sports de glace" },
+        { label: "💪 Haltérophilie", value: "Haltérophilie" }
     ],
     "culture, pratiques d’activités artistiques, culturelles": [
         { label: "🎤 Chant choral et musique", value: "chant choral, musique" },
