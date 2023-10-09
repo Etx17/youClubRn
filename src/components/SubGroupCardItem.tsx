@@ -81,8 +81,8 @@ const SubGroupCardItem = ({subgroup, onDeletePress, refetchActivityData }) => {
         {/* Tarifications */}
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start', marginBottom: 20 }}>
         {subgroup?.tarifications.map((tarif: string, index: number) => (
-          <View style={styles.tag}>
-            <Text key={index} style={{color: 'white'}}>
+          <View key={index} style={styles.tag}>
+            <Text style={{color: 'white'}}>
               {tarif}
             </Text>
           </View>

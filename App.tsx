@@ -5,28 +5,27 @@ import Navigation from './src/navigation';
 import LocationContextProvider from './src/contexts/LocationContext';
 import {MD3LightTheme as DefaultTheme, PaperProvider } from 'react-native-paper';
 import AuthContextProvider from './src/contexts/AuthContext';
-import colors from './src/themes/colors';
 import { Amplify } from 'aws-amplify';
-import {Authenticator} from '@aws-amplify/ui-react-native';
+import {Authenticator, withAuthenticator} from '@aws-amplify/ui-react-native';
 import config from './src/aws-exports';
 import Client from './src/apollo/Client';
 import * as Linking from 'expo-linking';
 Amplify.configure(config);
 
 const prefix = Linking.createURL('/');
-export default function App() {
+const App = () => {
   return (
     <PaperProvider>
       <SafeAreaProvider>
-              <Client>
-        <AuthContextProvider>
-          <Authenticator.Provider>
-            <LocationContextProvider>
-                <Navigation/>
-            </LocationContextProvider>
-          </Authenticator.Provider>
-        </AuthContextProvider>
-              </Client>
+        <Client>
+          <AuthContextProvider>
+            <Authenticator.Provider>
+              <LocationContextProvider>
+                  <Navigation/>
+              </LocationContextProvider>
+            </Authenticator.Provider>
+          </AuthContextProvider>
+        </Client>
       </SafeAreaProvider>
     </PaperProvider>
   );
@@ -38,3 +37,5 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+export default withAuthenticator(App);
