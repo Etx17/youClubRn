@@ -10,7 +10,7 @@ import { useMutation } from "@apollo/client";
 import { DELETE_SCHEDULE } from "../screens/ActivityDetailsScreen/mutations";
 import { ActivityIndicator } from "react-native-paper";
 import ApiErrorMessage from "./apiErrorMessage/ApiErrorMessage";
-
+import { formatDate } from "../utils/dateUtils";
 
 
 const SubGroupCardItem = ({subgroup, onDeletePress, refetchActivityData }) => {
@@ -93,13 +93,13 @@ const SubGroupCardItem = ({subgroup, onDeletePress, refetchActivityData }) => {
           {/* Schedules */}
         <View style={{flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', flexWrap: 'wrap'}}>
           {
-            subgroup?.schedules && subgroup?.schedules?.map((schedule, index:number) => (
+            subgroup?.schedules && subgroup?.schedules.length > 0 && subgroup?.schedules?.map((schedule, index:number) => (
 
               <View key={index} style={{ margin: 5, borderRadius: 14, borderTopWidth: 1, borderTopColor: '#666666', borderLeftWidth: 2, borderLeftColor: "#333333" ,padding: 10, backgroundColor: "#333339" }}>
                 <Text style={styles.dayLabel}>{schedule.day}</Text>
                 {
                   schedule?.timeSlots && schedule?.timeSlots?.map((time, timeIndex:number) => (
-                    <Text key={timeIndex} style={styles.timespan}>{time.startTime} - {time.endTime}</Text>
+                    <Text key={timeIndex} style={styles.timespan}>{formatDate(time.startTime)} - {formatDate(time.endTime)}</Text>
                   ))
                 }
                 { user?.role === 'club' && (
@@ -122,9 +122,11 @@ const SubGroupCardItem = ({subgroup, onDeletePress, refetchActivityData }) => {
                 { user?.role === 'club' && (
                   <Pressable onPress={() => navigation.navigate(
                     "EditSubGroupSchedule",
-                    { schedules: schedule.time_slots,
+                    {
+                      refetchActivityData: refetchActivityData,
+                      scheduleId: schedule.id,
                       day: schedule.day,
-                      subGroupId: schedule.sub_group_id
+                      subGroupId: subgroup.id,
                   })}>
                     <Text style={{color: colors.grayDarkest, marginTop: 5, textAlign: 'center', fontSize: 12}}>
                       Modifier

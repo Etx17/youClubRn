@@ -31,6 +31,7 @@ export const GET_ACTIVITY = gql`
           id
           day
           timeSlots {
+            id
             startTime
             endTime
           }
