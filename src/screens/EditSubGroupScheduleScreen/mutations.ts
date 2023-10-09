@@ -1,15 +1,5 @@
 import { gql } from "@apollo/client";
 
-export const CREATE_SCHEDULE = gql`
-  mutation CreateShedule($subGroupId: ID!, $day: String!) {
-    createSchedule(
-      input: { subGroupId: $subGroupId, day: $day, }
-    ){
-      id
-    }
-  }
-`;
-
 export const CREATE_TIMESLOT = gql`
   mutation CreateTimeSlot($input: CreateTimeSlotInput!) {
     createTimeSlot(input: $input) {
@@ -20,3 +10,14 @@ export const CREATE_TIMESLOT = gql`
     }
   }
 `;
+
+export const DELETE_TIME_SLOT = gql`
+  mutation DeleteTimeSlot($id: ID!) {
+    deleteTimeSlot(input: {id: $id}) {
+      id
+    }
+  }
+`;
+
+
+
