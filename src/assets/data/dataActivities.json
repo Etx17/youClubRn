@@ -1,0 +1,399 @@
+[
+    {
+        "id": "1",
+        "name": "Karaté",
+        "clubId":"2",
+        "club_name": "Katan'art",
+        "geo_point": "48.853260, 2.348832",
+        "category": "Sports, activités de plein air",
+        "address": "19 rue Nollet",
+        "actual_zipcode":"75017",
+        "free_trial": "true",
+        "is_looking_for_volunteer": "false",
+        "subcategories": "Autres arts martiaux (karaté, aïkido, taekwondo)",
+        "recurrence": "weekly",
+        "subscription_link": ":ttps://www.katanart.com/",
+        "short_description": "Vous n'aurez jamais l'air bête en kimono, c'est promis!",
+        "full_description": "Le judo est un art martial japonais qui se pratique à mains nues. Il est basé sur des techniques de projection, de contrôle au sol, d’étranglement et de clé articulaire. Le judo est un sport de combat qui permet de développer la confiance en soi, la concentration, la maîtrise de soi et la discipline. Il permet également de développer la souplesse, la coordination et la force p:ysique.",
+        "images": [
+            ":ttps://source.unsplas:.com/random/?karate",
+            ":ttps://source.unsplas:.com/random/?boxing"
+        ],
+        "activity_price_recurrence": "semester",
+        "sub_groups": [
+            {
+                "id": "sg1",
+                "address": "4 rue du General Foy, 75017",
+                "name": "Enfants 6-10",
+                "type": "course",
+                "short_description": "Pour les bambins incontrolables qui pourront se défouler ici.",
+                "schedule": {
+                    "id": "sc11",
+                    "lundi": ["11:00-12:30"],
+                    "mardi": ["11:00-12:30", "12:30-14:00"],
+                    "jeudi": ["11:00-12:30"],
+                    "dimanche": ["15:00-16:30"]
+                },
+                "price": "30",
+                "reccurence": "mois"
+            },
+            {
+                "id": "sg2",
+                "address": "4 rue du General Foy, 75017",
+                "name": "Enfants 11-14",
+                "type": "course",
+                "short_description": "Vos pré-ados vous fatiguent avec leur crises? Venez les déposer ici, ça file droit.",
+                "schedule": {
+                    "id": "sc12",
+                    "lundi": ["11:00-12:30", "12:30-14:00", "15:00-16:30", "18:30 - 20:00", "20:00 - 21:30"],
+                    "mardi": ["11:00-12:30", "12:30-14:00", "15:00-16:30", "18:30 - 20:00", "20:00 - 21:30"]
+                },
+                "price": "230",
+                "reccurence": "an"
+            },
+            {
+                "id": "sg3",
+                "address": "4 rue du General Foy, 75017",
+                "name": "Ados 15-18",
+                "type": "course",
+                "short_description": "Pour les ados qui ont besoin de se défouler et de se canaliser.",
+                "schedule": {
+                    "id": "sc13",
+                    "lundi": ["11:00-12:30", "12:30-14:00", "15:00-16:30", "18:30 - 20:00", "20:00 - 21:30"],
+                    "mardi": ["11:00-12:30", "12:30-14:00", "15:00-16:30", "18:30 - 20:00", "20:00 - 21:30"]
+                },
+                "price": "250",
+                "reccurence": "semestre"
+            },
+            {
+                "id": "sg4",
+                "address": "4 rue du General Foy, 75017",
+                "name": "Adultes toutes ceintures",
+                "type": "course",
+                "short_description": "Pour adultes célibataires ou non, qui sait vous ferez peut être une prise de judo à votre future femme",
+                "schedule": {
+                    "id": "sc14",
+                    "lundi": ["11:00-12:30", "12:30-14:00", "15:00-16:30", "18:30 - 20:00", "20:00 - 21:30"]
+                },
+                "price": "400",
+                "reccurence": "an"
+            },
+            {
+                "id": "sg5",
+                "address": "4 rue du General Foy, 75017",
+                "name": "Adultes ceintures noires",
+                "type": "course",
+                "short_description": "Pour les élèves qui ont assimilé les bases et sont prêts à avancer dans la pratique du yoga.",
+                "schedule": {
+                    "id": "sc15",
+                    "lundi": ["11:00-12:30", "12:30-14:00", "15:00-16:30", "18:30 - 20:00", "20:00 - 21:30"],
+                    "mardi": ["11:00-12:30", "12:30-14:00", "15:00-16:30", "18:30 - 20:00", "20:00 - 21:30"],
+                    "vendredi": ["11:00-12:30", "12:30-14:00", "15:00-16:30", "18:30 - 20:00", "20:00 - 21:30"],
+                    "samedi": ["11:00-12:30", "15:00-16:30"],
+                    "dimanche": ["15:00-16:30"]
+                },
+                "price": "300",
+                "reccurence": "an"
+
+            }
+          ]
+    },
+    {
+        "id": "2",
+        "name": "Yoga",
+        "clubId":"3",
+        "club_name": "Centre de Yoga Sivananda Paris 10e",
+        "geo_point": "48.853260, 2.348832",
+        "category": "Sports, activités de plein air",
+        "address": "19 rue Nollet",
+        "actual_zipcode":"75017",
+        "free_trial": "true",
+        "is_looking_for_volunteer": "false",
+        "subcategories": "Gymnastique (gymnastique, gymnastique d’entretien, éducation physique, yoga), aérobic",
+        "recurrence": "à la carte",
+        "subscription_link": ":ttps://www.katanart.com/",
+        "short_description": "Vous n'aurez jamais l'air bête en kimono, c'est promis!",
+        "full_description": "Notre Centre est une oasis de paix qui invite à l’éveil et à la découverte de soi. Le Centre Sivananda de Yoga Vedanta est une congrégation reconnue par le gouvernement français. Situé près de la Gare de l’Est à Paris, le Centre vous accueille dans ses locaux paisibles où vous pourrez rencontrer d’autres pratiquants et de faire connaissance avec les enseignants. Les membres de la congrégation suivent le mode de vie yoguique enseigné au Centre et se dédient complètement à leur pratique et à l’enseignement.",
+        "images": [
+            ":ttps://source.unsplas:.com/random/?karate",
+            ":ttps://source.unsplas:.com/random/?boxing"
+        ],
+        "activity_price_recurrence": "semester",
+        "sub_groups": [
+            {
+                "id": "sg1",
+                "address": "4 rue du General Foy, 75017",
+                "name": "Pratique intermédiaire",
+                "price": "de 18 à 1150",
+                "reccurence": "à la carte",
+                "short_description": "Pour les élèves qui ont assimilé les bases et sont prêts à avancer dans la pratique du yoga.",
+                "schedule": {
+                    "id": "sc1",
+                    "lundi": ["11:00-12:30", "12:30-14:00", "15:00-16:30", "18:30 - 20:00", "20:00 - 21:30"],
+                    "mardi": ["11:00-12:30", "12:30-14:00", "15:00-16:30", "18:30 - 20:00", "20:00 - 21:30"],
+                    "mercredi": ["11:00-12:30", "12:30-14:00", "15:00-16:30", "18:30 - 20:00", "20:00 - 21:30"],
+                    "jeudi": ["11:00-12:30", "12:30-14:00", "18:30 - 20:00", "20:00 - 21:30"],
+                    "vendredi": ["11:00-12:30", "12:30-14:00", "15:00-16:30", "18:30 - 20:00", "20:00 - 21:30"],
+                    "samedi": ["11:00-12:30", "15:00-16:30"],
+                    "dimanche": ["15:00-16:30"]
+                }
+            },
+            {
+                "id": "sg2",
+                "address": "4 rue du General Foy, 75017",
+                "name": "Pratique très douce",
+                "price": "à partir de 18",
+                "type": "course",
+                "reccurence": "",
+                "short_description": "Pratique très douce pour les personnes âgées ou ayant des problèmes de santé",
+                "schedule": {
+                    "id": "sc2",
+                    "lundi": ["11:00-12:30"],
+                    "mercredi": ["18:30 - 20:00"],
+                    "jeudi": ["18:30 - 20:00"],
+                    "samedi": [ "15:00-16:30"],
+                    "dimanche": ["15:00-16:30"]
+                }
+            },
+            {
+                "id": "sg3",
+                "address": "4 rue du General Foy, 75017",
+                "name": "Pratique avancée",
+                "price": "à partir de 18",
+                "reccurence": "",
+                "type": "course",
+                "short_description": "Pour aller plus loin dans les postures et apprendre de nouvelles variations.",
+                "schedule": {
+                    "id": "sc3",
+                    "lundi": ["17:00-18:30"]
+                }
+            },
+            {
+                "id": "sg4",
+                "address": "4 rue du General Foy, 75017",
+                "name": "Satsang (méditation, chants, conférence) sur inscription",
+                "price": "20€",
+                "reccurence": "annuel",
+                "type": "course",
+                "short_description": "Pour les ad:érents uniquement",
+                "schedule": {
+                    "id": "sc4",
+                    "mercredi": ["20:00-21:30"],
+                    "samedi": ["18:00-20:00"],
+                    "dimanche": ["18:00-20:00"]
+                }
+            },
+            {
+                "id": "sg5",
+                "address": "4 rue du General Foy, 75017",
+                "name": "Yoga Intégral",
+                "price": "à partir de 18",
+                "reccurence": "",
+                "type": "course",
+                "short_description": "Pour les élèves qui ont assimilé les bases et sont prêts à avancer dans la pratique du yoga d’une courte méditation à la fin du cours.",
+                "schedule": {
+                    "id": "sc5",
+                    "jeudi": ["18:30-20:00"]
+                }
+            },
+            {
+                "id": "sg6",
+                "address": "4 rue du General Foy, 75017",
+                "name": "Stage de Pranayama",
+                "price": "à partir de 18",
+                "type": "workshop",
+                "reccurence": "",
+                "short_description": "Pour les élèves qui ont assimilé les bases et sont prêts à avancer dans la pratique du yoga d’une courte méditation à la fin du cours.",
+                "schedule": {
+                    "id": "sc6",
+                    "jeudi": ["18:30-20:00"]
+
+                }
+            },
+            {
+                "id": "sg7",
+                "address": "4 rue du General Foy, 75017",
+                "name": "Journée portes ouvertes",
+                "price": "Gratuit",
+                "type": "event",
+                "reccurence": "once",
+                "start_date": "2019-09-21",
+                "start_time": "10:00",
+                "short_description": "Une après-midi entière de découverte du Yoga au Centre Sivananda. Sans inscription préalable. Toutes les activités sont gratuites. Apporter une tenue confortable (vestiaires disponibles), un tapis de yoga ou une grande serviette. Ne pas manger au mois 2 heures avant le cours.",
+                "schedule": {
+                }
+            }
+
+
+          ]
+    },
+    {
+        "id": "3",
+        "name": "Salsa",
+        "clubId":"3",
+        "club_name": "Dancenter",
+        "geo_point": "48.853260, 2.348832",
+        "category": "Culture, pratiques d’activités artistiques, culturelles",
+        "address": "19 rue Nollet",
+        "actual_zipcode":"75017",
+        "free_trial": "true",
+        "is_looking_for_volunteer": "false",
+        "subcategories": "Danse",
+        "recurrence": "à la carte",
+        "subscription_link": "https://www.katanart.com/",
+        "short_description": "Enfin un cours de salsa traditionnel près de chez moi",
+        "full_description": "La salsa chez Dancenter, c'est comme la coriandre dans un sandwich. On adore ou on déteste. Chez Dancenter, vous pouvez essayer nos cours de salsa gratuitement. Nous enseignons d'autres danses, venez voir sur le profil de notre club!",
+        "images": [
+            "https://source.unsplash.com/random/?karate",
+            "https://source.unsplash.com/random/?boxing"
+        ],
+        "activity_price_recurrence": "semester",
+        "sub_groups": [
+            {
+                "id": "sg1",
+                "address": "4 rue du General Foy, 75017",
+                "name": "Découverte",
+                "price": "Gratuit",
+                "reccurence": "",
+                "type": "cours collectif",
+                "short_description": "Le cours gratuit ne s'addresse qu'aux débutant, sans expérience. Il est obligatoire de s'inscrire ou de réserver.",
+                "schedule": {
+                    "id": "sc7",
+                    "lundi": ["19:00-19:30"],
+                    "mardi": ["20:00 - 21:30"]
+                }
+            },
+            {
+                "id": "sg2",
+                "address": "4 rue du General Foy, 75017",
+                "name": "Initiation",
+                "price": "20e",
+                "reccurence": "cours",
+                "type": "cours collectif",
+                "short_description": "Vous avez entre 5 et 15 cours, ou 2 mois de cours et pratique régulière",
+                "schedule": {
+                    "id": "sc8",
+                    "lundi": ["19:30-20:00"],
+                    "mardi": ["20:30 - 21:30"],
+                    "samedi": ["15:00 - 16:00"]
+                }
+            },
+            {
+                "id": "sg3",
+                "address": "4 rue du General Foy, 75017",
+                "name": "Intermédiaire",
+                "price": "20e",
+                "reccurence": "cours",
+                "type": "cours collectif",
+                "short_description": "Vous avez entre 15 et 30 cours, ou 3 mois de cours et pratique régulière",
+                "schedule": {
+                    "id": "sc9",
+                    "lundi": ["20:00-21:30"],
+                    "mardi": ["19:30 - 20:30"],
+                    "samedi": ["16:00 - 17:00"]
+                }
+            },
+            {
+                "id": "sg5",
+                "address": "4 rue du General Foy, 75017",
+                "name": "Avancé",
+                "price": "20e",
+                "reccurence": "cours",
+                "type": "cours collectif",
+                "short_description": "Vous avez plus de 30 cours, ou 3 mois de cours et pratique régulière",
+                "schedule": {
+                    "id": "sc10",
+                    "lundi": ["20:00-21:30"],
+                    "mardi": ["19:30 - 20:30"],
+                    "samedi": ["16:00 - 17:00"]
+                }
+            }
+
+        ]
+    },
+    {
+        "id": "4",
+        "name": "Bachata",
+        "clubId":"3",
+        "club_name": "Dancenter",
+        "geo_point": "48.853260, 2.348832",
+        "category": "Culture, pratiques d’activités artistiques, culturelles",
+        "address": "19 rue Nollet",
+        "actual_zipcode":"75017",
+        "free_trial": "true",
+        "is_looking_for_volunteer": "false",
+        "subcategories": "Danse",
+        "recurrence": "à la carte",
+        "subscription_link": "https://www.katanart.com/",
+        "short_description": "Enfin un cours de bachata traditionnel près de chez moi",
+        "full_description": "La bachata chez Dancenter, c'est comme la coriandre dans un sandwich. On adore ou on déteste. Chez Dancenter, vous pouvez essayer nos cours de salsa gratuitement. Nous enseignons d'autres danses, venez voir sur le profil de notre club!",
+        "images": [
+            "https://source.unsplash.com/random/?karate",
+            "https://source.unsplash.com/random/?boxing"
+        ],
+        "activity_price_recurrence": "semester",
+        "sub_groups": [
+            {
+                "id": "sg1",
+                "address": "4 rue du General Foy, 75017",
+                "name": "Découverte",
+                "price": "Gratuit",
+                "reccurence": "",
+                "type": "cours collectif",
+                "short_description": "Le cours gratuit ne s'addresse qu'aux débutant, sans expérience. Il est obligatoire de s'inscrire ou de réserver.",
+                "schedule": {
+                    "id": "sc7",
+                    "lundi": ["19:00-19:30"],
+                    "mardi": ["20:00 - 21:30"]
+                }
+            },
+            {
+                "id": "sg2",
+                "address": "4 rue du General Foy, 75017",
+                "name": "Initiation",
+                "price": "20e",
+                "reccurence": "cours",
+                "type": "cours collectif",
+                "short_description": "Vous avez entre 5 et 15 cours, ou 2 mois de cours et pratique régulière",
+                "schedule": {
+                    "id": "sc8",
+                    "lundi": ["19:30-20:00"],
+                    "mardi": ["20:30 - 21:30"],
+                    "samedi": ["15:00 - 16:00"]
+                }
+            },
+            {
+                "id": "sg3",
+                "address": "4 rue du General Foy, 75017",
+                "name": "Intermédiaire",
+                "price": "20e",
+                "reccurence": "cours",
+                "type": "cours collectif",
+                "short_description": "Vous avez entre 15 et 30 cours, ou 3 mois de cours et pratique régulière",
+                "schedule": {
+                    "id": "sc9",
+                    "lundi": ["20:00-21:30"],
+                    "mardi": ["19:30 - 20:30"],
+                    "samedi": ["16:00 - 17:00"]
+                }
+            },
+            {
+                "id": "sg5",
+                "address": "4 rue du General Foy, 75017",
+                "name": "Avancé",
+                "price": "20e",
+                "reccurence": "cours",
+                "type": "cours collectif",
+                "short_description": "Vous avez plus de 30 cours, ou 3 mois de cours et pratique régulière",
+                "schedule": {
+                    "id": "sc10",
+                    "lundi": ["20:00-21:30"],
+                    "mardi": ["19:30 - 20:30"],
+                    "samedi": ["16:00 - 17:00"]
+                }
+            }
+
+        ]
+    }
+
+]

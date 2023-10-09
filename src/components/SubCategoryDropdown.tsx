@@ -9,11 +9,12 @@ interface IDropdownProps {
     onValueChange?: (value: any) => void;
     valuesub?: String | null;
     categoryName: keyof typeof subcategories;
+    defaultValue?: String | null;
 }
 
-const SubCategoryDropdown = ({style, disabled, onValueChange, valuesub, categoryName}: IDropdownProps) => {
+const SubCategoryDropdown = ({style, disabled, onValueChange, valuesub, categoryName, defaultValue}: IDropdownProps) => {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
+  const [value, setValue] = useState<string>(defaultValue || null);
   return (
     <DropDownPicker
       open={open}
@@ -68,14 +69,14 @@ const SubCategoryDropdown = ({style, disabled, onValueChange, valuesub, category
   );
 }
 const styles = StyleSheet.create({
-  label: { 
-    fontSize: 13, 
-    color: colors.dark, 
-    textTransform: 'uppercase', 
+  label: {
+    fontSize: 13,
+    color: colors.dark,
+    textTransform: 'uppercase',
     width: "80%",
-    backgroundColor: colors.primaryLight, 
-    overflow: "hidden", 
-    borderRadius: 20, 
+    backgroundColor: colors.primaryLight,
+    overflow: "hidden",
+    borderRadius: 20,
     padding: 10,
     paddingLeft: 12,
   },

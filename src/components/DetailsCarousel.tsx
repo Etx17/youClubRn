@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Pressable, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Pressable, StyleSheet, ActivityIndicator } from 'react-native';
 import { Image } from 'expo-image';
 
 interface IDetailsCarouselProps {
@@ -8,11 +8,22 @@ interface IDetailsCarouselProps {
     changeImage: (direction: String) => void;
 }
 const DetailsCarousel = ({ images, currentImageIndex, changeImage }: IDetailsCarouselProps) => {
+  const [isLoading, setIsLoading] = useState(true);
+
     return (
     <View style={styles.informationsContainer}>
         <Pressable style={styles.leftButton} onPress={() => changeImage('left')}/>
         <Pressable style={styles.rightButton} onPress={() => changeImage('right')}/>
-        <Image style={styles.image} source={{uri: images[currentImageIndex]}} contentFit="cover" transition={0} />
+        {isLoading && <ActivityIndicator  style={styles.loader} />}
+
+        <Image
+          style={styles.image}
+          source={{uri: images[currentImageIndex]}}
+          contentFit="cover"
+          transition={0}
+          onLoadStart={() => setIsLoading(true)}
+          onLoadEnd={() => setIsLoading(false)}
+          />
         <View style={styles.indexButtonContainer}>
         { images.length > 1 && images.map((_, index) => (
             <View
@@ -24,14 +35,14 @@ const DetailsCarousel = ({ images, currentImageIndex, changeImage }: IDetailsCar
                 margin: 5,
             }}/>)) }
             </View>
-    </View>  
+    </View>
     );
 };
 const styles = StyleSheet.create({
   image: {
     flex: 1,
     width: '100%',
-    aspectRatio: 0.8,
+    aspectRatio: 0.9,
   },
   informationsContainer: {
     flex: 1,
@@ -62,5 +73,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     overflow: 'hidden',
   },
+  loader: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    zIndex: 1,
+  }
 })
 export default DetailsCarousel;

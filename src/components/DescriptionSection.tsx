@@ -1,16 +1,19 @@
 import React from 'react';
 import { Text, StyleSheet } from 'react-native';
 import colors from '../themes/colors';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 interface DescriptionSectionProps {
   description: string;
 }
 
 const DescriptionSection= ({ description }:DescriptionSectionProps) => {
+
   return (
     <>
-      <Text style={styles.title}>DESCRIPTION:</Text>
-      <Text style={styles.description}>{description}</Text>
+      <Text style={styles.title}>DESCRIPTION</Text>
+      <Text style={styles.description}>{description} </Text>
+        
     </>
   );
 };

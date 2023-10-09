@@ -24,15 +24,13 @@ interface Data {
 
 const BASE_URL = 'https://journal-officiel-datadila.opendatasoft.com/api/records/1.0/search/?dataset=jo_associations&q=&rows=2000&sort=dateparution&facet=lieu_declaration_facette&facet=domaine_activite_categorise&facet=domaine_activite_libelle_categorise';
 
-const fetchData = async (dropdownValue: string, city: string, region: string, subregion: string, reload: boolean) => {
-
-  console.log(region, subregion, city, '<= this are region subregion and city');
+const fetchData = async (dropdownValue: string, city: string, region: string, subregion: string) => {
 
   try {
     let encodedDropdownValue = encodeURIComponent(dropdownValue).replace(/'/g, dropdownValue === "culture, pratiques d'activités artistiques, culturelles" ? "%E2%80%99" : "%27");
     const encodedDropdownValueSpaceIntoPlus = encodedDropdownValue.replace(/%20/g, "+");
-    const [encodedRegion, encodedCity] = [encodeURIComponent(region), encodeURIComponent(city)];
-    const url = `${BASE_URL}&refine.domaine_activite_libelle_categorise=${encodedDropdownValueSpaceIntoPlus}&refine.localisation_facette=${(region === "California" || region === "CA") ? "%C3%8Ele-de-France" : encodedRegion }%2F${(encodedCity === "Santa%20Clara" || encodedCity === "San%20Francisco") ? "Paris" : encodedCity}&exclude.objet=%22%22&exclude.domaine_activite_libelle_categorise=%22%22&`;
+    const [encodedRegion, encodedCity, encodedSubRegion] = [encodeURIComponent(region), encodeURIComponent(city), encodeURIComponent(subregion)];
+    const url = `${BASE_URL}&refine.domaine_activite_libelle_categorise=${encodedDropdownValueSpaceIntoPlus}&refine.localisation_facette=${(region === "California" || region === "CA") ? "%C3%8Ele-de-France" : encodedRegion }%2F${(encodedCity === "Mountain%20View" || encodedCity === "San%20Francisco" || encodedSubRegion ==='D%C3%A9partement%20de%20Paris') ? "Paris" : encodedSubRegion}&exclude.objet=%22%22&exclude.domaine_activite_libelle_categorise=%22%22&`;
     const response = await axios.get(url);
     return response.data;
   } catch (error) {
@@ -49,7 +47,6 @@ const filterClubs = (data: Data): IClub[] => {
   });
 };
 
-
 const ClubsIndexScreen = () => {
 
   // Je dois recharger la page lorsque j'obtiens l'autorisation d'utiliser données de géolocalisation
@@ -58,21 +55,18 @@ const ClubsIndexScreen = () => {
   const [dropdownValue, setDropdownValue] = useState("Sports, activités de plein air");
   const [subCategoryDropdownValue, setSubCategoryDropdownValue] = useState("all");
   const [isFetching, setIsFetching] = useState(false);
-  const { city, region, subregion, allowLocation } = useLocationContext();
+  const { zipcode, city, region, subregion, allowLocation } = useLocationContext();
   const [reload, setReload] = useState(false);
 
-  console.log('city in clubIndexScreen =>', city  );
-  console.log('region in clubIndexScreen =>', region  );
-  console.log('subregion in clubIndexScreen =>', subregion  );
-  console.log('allowLocation in clubIndexScreen =>', allowLocation)
   useEffect(() => {
-    console.log('Fetching data...');
+    // console.log('Fetching data...');
+    // console.log('city=>', city, 'subregion =>', subregion, ' <= useEffect from ClubIndexScreen');
     const startTime = new Date().getTime();
 
-    if ((!isFetching && city && region && subregion && allowLocation) || reload) {
+    if ((!isFetching && city && region && subregion) || reload && subregion) {
       setReload(false);
       setIsFetching(true);
-      fetchData(dropdownValue, city, region, subregion, reload).then(data => {
+      fetchData(dropdownValue, city, region, subregion).then(data => {
         const filteredClubs = filterClubs(data);
         setClubs(filteredClubs);
         setSubCategoryClubs(filteredClubs);
@@ -80,7 +74,7 @@ const ClubsIndexScreen = () => {
 
         const endTime = new Date().getTime();
         const elapsedTime = endTime - startTime;
-        console.log('Fetched data in', elapsedTime, 'milliseconds');
+        // console.log('Fetched data in', elapsedTime, 'milliseconds');
 
       }).catch(error => {
         console.error('Error fetching data:', error);
@@ -88,9 +82,7 @@ const ClubsIndexScreen = () => {
         Alert.alert('Error fetching data');
       });
     }
-    console.log('Fetched data for', city, region, subregion);
-
-  }, [allowLocation, dropdownValue, region, subregion, reload]);
+  }, [allowLocation, dropdownValue, subregion, reload]);
 
   const handleDropdownValueChange = (valuecat: string) => {
     setDropdownValue(valuecat);
@@ -101,10 +93,7 @@ const ClubsIndexScreen = () => {
       return setSubCategoryClubs(clubs);
     } else {
       setSubCategoryDropdownValue(valuesub);
-      console.log('valuesub', valuesub);
-      console.log('clubs.length before filter =>', clubs.length);
       const newClubs = clubs.filter((club) => club?.fields?.domaine_activite_libelle_categorise.split('/')[1]?.split("###")[0] === valuesub);
-      console.log('newclubs.length after filter =>', newClubs.length);
       setSubCategoryClubs(newClubs);
     }
   };
@@ -112,6 +101,7 @@ const ClubsIndexScreen = () => {
   const handleReload = () => {
     setReload(true);
   };
+
 return (
 
   <View style={styles.container}>
@@ -137,7 +127,7 @@ return (
       <Swiper
         cards={subCategoryClubs}
         infinite={true}
-        stackSize={2}
+        stackSize={1}
         cardIndex={0}
         animateOverlayLabelsOpacity
         animateCardOpacity
@@ -145,12 +135,7 @@ return (
         backgroundColor={'transparent'}
         cardHorizontalMargin={5}
         onSwipedAll={()=>Alert.alert('No more clubs')}
-        renderCard={(card, cardIndex) =>
-          (
-          <ClubCard
-            data={card}
-          />
-        )}
+        renderCard={(card, cardIndex) => ( <ClubCard key={cardIndex} data={card} /> )}
       />
       ) :  (
         <View style={styles.loading}>
@@ -173,7 +158,7 @@ return (
         </View>
       )
     }
-      <StatusBar style="auto" />
+      <StatusBar style="dark" />
   </View>
 
 );}

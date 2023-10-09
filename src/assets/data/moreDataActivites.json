@@ -1,0 +1,291 @@
+[{
+    "id": "2",
+    "recurrence": "weekly",
+    "title": "Judo",
+    "clubId":"2",
+    "geo_point": "48.853260, 2.348832",
+    "category": "Sport et activités de plein air",
+    "address": "19 rue Nollet",
+    "actual_zipcode":"75017",
+    "free_trial": "true",
+    "annual_price_range": "150-500€",
+    "is_looking_for_volunteer": "false",
+    "subcategories": "Autres arts martiaux (karaté, aïkido, taekwondo)",
+    "inscription_link": "https://www.katanart.com/",
+    "short_description": "Vous n'aurez jamais l'air bête en kimono, c'est promis!",
+    "full_description": "Le judo est un art martial japonais qui se pratique à mains nues. Il est basé sur des techniques de projection, de contrôle au sol, d’étranglement et de clé articulaire. Le judo est un sport de combat qui permet de développer la confiance en soi, la concentration, la maîtrise de soi et la discipline. Il permet également de développer la souplesse, la coordination et la force physique.",
+    "images": [
+        "https://source.unsplash.com/random/?judo/300x100/",
+        "https://source.unsplash.com/random/?boxing/300x100/"
+    ],
+    "group_categories": [
+        {
+            "id": "gc1",
+            "name": "Enfants",
+            "min_age": 6,
+            "max_age": 12,
+            "annual_price": 150,
+            "price_per_session": "sans",
+            "sessions_per_week": 2,
+            "different_address_of_session": "19 rue Nollet",
+            "different_zipcode_of_session": "75017",
+            "different_city_of_session": "Paris",
+           
+            "planning": [
+                {
+                    "day": "Lundi",
+                    "start_time": "18h00",
+                    "end_time": "19h00"
+                },
+                {
+                    "day": "Mercredi",
+                    "start_time": "18h00",
+                    "end_time": "19h00"
+                }
+            ]
+        },
+        {
+            "id": "gc2",
+            "name": "Ados",
+            "min_age": 13,
+            "max_age": 17,
+            "annual_price": 200,
+            "price_per_session": "sans",
+            "sessions_per_week": 2,
+            "different_address_of_session": "19 rue Nollet",
+            "different_zipcode_of_session": "75017",
+            "different_city_of_session": "Paris",
+           
+            "planning": [
+                {
+                    "day": "Lundi",
+                    "start_time": "19h00",
+                    "end_time": "20h00"
+                },
+                {
+                    "day": "Mercredi",
+                    "start_time": "19h00",
+                    "end_time": "20h00"
+                }
+            ]
+        },
+        {
+            "id": "gc3",
+            "name": "Adultes",
+            "min_age": 18,
+            "max_age": 99,
+            "annual_price": 500,
+            "price_per_session": "sans",
+            "sessions_per_week": 2,
+            "different_address_of_session": "19 rue Nollet",
+            "different_zipcode_of_session": "75017",
+            "different_city_of_session": "Paris",
+           
+            "planning": [
+                {
+                    "day": "Lundi",
+                    "start_time": "20h00",
+                    "end_time": "21h00"
+                },
+                {
+                    "day": "Mercredi",
+                    "start_time": "20h00",
+                    "end_time": "21h00"
+                }
+            ]
+        }
+    ]
+},
+{
+    "id": "3",
+    "title": "Théatre d'improvisation",
+    "recurrence": "weekly",
+    "clubId":"5",
+    "clubName": "L'atelier Hoff",
+    "geo_point": "48.853260, 2.348832",
+    "category": "culture, pratiques d’activités artistiques, culturelles",
+    "address": "21 bd Haussmann",
+    "actual_zipcode":"75009",
+    "price": "gratuit",
+    "annual_membership": "50€",
+    "is_looking_for_volunteer": "false",
+    "subcategories": "Autres arts martiaux (karaté, aïkido, taekwondo)",
+    "inscription_link": "https://www.katanart.com/",
+    "full_description": "Le Karaté est un art martial japonais qui se pratique à mains nues. Il est basé sur des techniques de frappe avec les mains, les pieds, les coudes et les genoux. Le Karaté est un sport de combat qui permet de développer la confiance en soi, la concentration, la maîtrise de soi et la discipline. Il permet également de développer la souplesse, la coordination et la force physique. Le Karaté est un sport de combat qui permet de développer la confiance en soi, la concentration, la maîtrise de soi et la discipline. Il permet également de développer la souplesse, la coordination et la force physique.",
+    "short_description": "Lorem ipsum et quit dit ignitum abracadare constatum seignat est. Jac",
+    "images": [
+        "https://source.unsplash.com/random/?karate/300x100/",
+        "https://source.unsplash.com/random/?boxing/300x100/"
+    ],
+    "group_categories": [
+        {
+            "id": "gc1",
+            "name": "Débutants",
+            "min_age": 18,
+            "max_age": 99,
+            "annual_price": 150,
+            "price_per_session": "sans",
+            "sessions_per_week": 1,
+            "different_address_of_session": "22 bd Haussmann",
+            "different_zipcode_of_session": "75008",
+            "different_city_of_session": "Paris",
+           
+            "planning": [
+                {
+                    "day": "Lundi",
+                    "start_time": "18h00",
+                    "end_time": "19h00"
+                },
+                {
+                    "day": "Mercredi",
+                    "start_time": "18h00",
+                    "end_time": "19h00"
+                }
+            ]
+        },
+        {
+            "id": "gc2",
+            "name": "Piou Piou",
+            "min_age": 13,
+            "max_age": 17,
+            "annual_price": 200,
+            "price_per_session": "sans",
+            "sessions_per_week": 2,
+            "different_address_of_session": "19 rue Nollet",
+            "different_zipcode_of_session": "75017",
+            "different_city_of_session": "Paris",
+           
+            "planning": [
+                {
+                    "day": "Lundi",
+                    "start_time": "19h00",
+                    "end_time": "20h00"
+                },
+                {
+                    "day": "Mercredi",
+                    "start_time": "19h00",
+                    "end_time": "20h00"
+                }
+            ]
+        },
+        {
+            "id": "gc3",
+            "name": "Confirmés",
+            "min_age": 18,
+            "max_age": 99,
+            "annual_price": 500,
+            "price_per_session": "sans",
+            "sessions_per_week": 2,
+            "different_address_of_session": "19 rue Nollet",
+            "different_zipcode_of_session": "75017",
+            "different_city_of_session": "Paris",
+            "planning": [
+                {
+                    "day": "Lundi",
+                    "start_time": "20h00",
+                    "end_time": "21h00"
+                },
+                {
+                    "day": "Mercredi",
+                    "start_time": "20h00",
+                    "end_time": "21h00"
+                }
+            ]
+        }
+    ]
+},
+{
+    "id": "4",
+    "title": "Porte ouverte mensuelle",
+    "clubId":"9",
+    "start_date": "",
+    "recurrence": "bi-monthly",
+    "clubName": "Sea Shepherd",
+    "geo_point": "48.853260, 2.348832",
+    "category": "Environnement, cadre de vie",
+    "address": "23 rue Nollet",
+    "actual_zipcode":"75017",
+    "annual_membership": "50€",
+    "price": "gratuit",
+    "is_looking_for_volunteer": "true",
+    "subcategories": ["Protection des animaux", "Protection de l'environnement"],
+    "inscription_link": "https://www.katanart.com/",
+    "short_description": "Porte Ouvertes mensuelle pour présenter l'association autour d'une pizza et d'un verre. Venez nombreux !",
+    "full_description": "Lorem ipsum et quit dit ignitum abracadare constatum seignat est. Jac",
+    "images": [
+        "https://source.unsplash.com/random/?sea/300x100/",
+        "https://source.unsplash.com/random/?boat/300x100/"
+    ],
+    "group_categories": 
+        [{
+            "id": "gc6",
+            "name": "Default",
+            "min_age": 18,
+            "max_age": 99,
+            "annual_price": 0,
+            "price_per_session": "sans",
+            "sessions_per_month": 1,
+            "different_address_of_session": "19 rue Nollet",
+            "different_zipcode_of_session": "75017",
+            "different_city_of_session": "Paris",
+            "planning": [
+                {
+                    "day": "Premier dimanche du mois",
+                    "start_time": "20h00",
+                    "end_time": "21h00"
+                },
+                {
+                    "day": "3e dimanche du mois",
+                    "start_time": "20h00",
+                    "end_time": "21h00"
+                }
+            ]
+        }]
+},
+{
+    "id": "8",
+    "title": "Festival les Biches",
+    "clubId":"10",
+    "recurrence": "once",
+    "start_date": "2023-06-09",
+    "clubName": "Association les Biches Festival",
+    "geo_point": "48.853260, 2.348832",
+    "category": "culture, pratiques d’activités artistiques, culturelles",
+    "address": "23 rue Nollet",
+    "actual_zipcode":"75017",
+    "annual_membership": "50€",
+    "price": "gratuit",
+    "is_looking_for_volunteer": "true",
+    "subcategories": ["Chant choral et musique", "Spectacles, festivals"],
+    "inscription_link": "https://www.bichesfestival.com/",
+    "short_description": "Le festival des Biches édition 2023 est de retour ! Prenez vos billets ici",
+    "full_description": "Lorem ipsum et quit dit ignitum abracadare constatum seignat est. Jac",
+    "images": [
+        "https://source.unsplash.com/random/?festival/300x100/",
+        "https://source.unsplash.com/random/?music/300x100/"
+    ],
+    "group_categories": 
+        [{
+            "id": "gc6",
+            "name": "Default",
+            "min_age": 18,
+            "max_age": 99,
+            "price_per_session": 150, 
+            "different_address_of_session": "19 rue Nollet",
+            "different_zipcode_of_session": "75017",
+            "different_city_of_session": "Paris",
+            "planning": [
+                {
+                    "day": "Premier dimanche du mois",
+                    "start_time": "20h00",
+                    "end_time": "21h00"
+                },
+                {
+                    "day": "3e dimanche du mois",
+                    "start_time": "20h00",
+                    "end_time": "21h00"
+                }
+            ]
+        }]
+}
+]

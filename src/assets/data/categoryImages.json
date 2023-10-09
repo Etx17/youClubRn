@@ -38,7 +38,8 @@
         "Musculation (culturisme, musculation)": ["bodybuilding", "weightlifting", "fitness"],
         "Aviron, canoë kayak (aviron, rafting, canoë kayak, joutes)": ["rowing", "canoeing", "rafting"],
         "Escrime": ["fencing", "sword", "foil"],
-        "Hockey sur glace, sports de glace": ["hockey", "skating", "ice"]
+        "Hockey sur glace, sports de glace": ["hockey", "skating", "ice"],
+        "Haltérophilie": ["weightlifting", "powerlifting", "strength"]
     },
     "Culture, pratiques d’activités artistiques, culturelles": {
         "Chant choral, musique": ["choir", "music", "performance"],

@@ -4,6 +4,7 @@ import ActivitiesIndexScreen from '../screens/ActivitiesIndexScreen/ActivitiesIn
 import { TopTabNavigatorParamsList } from '../types/navigation';
 import colors from '../themes/colors';
 import { Text } from 'react-native';
+import React from 'react'
 
 
 const Tab = createMaterialTopTabNavigator<TopTabNavigatorParamsList>();
