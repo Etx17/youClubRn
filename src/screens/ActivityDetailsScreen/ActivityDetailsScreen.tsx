@@ -94,6 +94,7 @@ const ActivityDetailsScreen = () => {
       ).then((fetchedImages) => {
           setImages(fetchedImages);
       }).catch((error) => {
+        setImages(['https://source.unsplash.com/random/nature'])
         console.error('Error fetching images', error);
       });
     }

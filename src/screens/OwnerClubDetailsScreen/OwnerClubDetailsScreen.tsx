@@ -51,6 +51,7 @@ const OwnerClubDetailsScreen = () => {
         })
         .catch((error) => {
           console.error('Error fetching images', error);
+          setImages(['https://source.unsplash.com/random'])
         });
     }
   }, [data]);
