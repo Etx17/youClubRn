@@ -19,8 +19,8 @@ const SubGroupsSection = (subGroups, activityId) => {
       <Text style={{ color: colors.grayDark, fontWeight: 'bold', marginTop: 10 }}>Sous-groupes:</Text>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
         {subGroupsArray && subGroupsArray?.map((subGroup, index) => (
-            <LinearGradient start={[0, 0]} end={[1, 0]} colors={[colors.secondary, colors.primary] } style={styles.tag}>
-              <Text key={index}>
+            <LinearGradient key={index} start={[0, 0]} end={[1, 0]} colors={[colors.secondary, colors.primary] } style={styles.tag}>
+              <Text>
                 {subGroup.name}
               </Text>
             </LinearGradient>
