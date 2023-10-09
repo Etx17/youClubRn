@@ -14,4 +14,4 @@ const MyProfileScreen = () => {
   )
 }
 
-export default withAuthenticator(MyProfileScreen);
+export default MyProfileScreen;
