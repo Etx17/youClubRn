@@ -18,6 +18,7 @@ type Timeslot = {
 };
 
 const EditSubGroupScheduleScreen = () => {
+  const [showPicker, setShowPicker] = useState<{index: number, type: 'start' | 'end'} | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const route = useRoute<RouteParams>();
   const [timeslots, setTimeslots] = useState<Timeslot[]>([]);
@@ -87,14 +88,19 @@ const EditSubGroupScheduleScreen = () => {
               <View key={field.id} style={styles.dayCard}>
                 {field.isNew ? (
                   <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', flex: 1}}>
-                    <Text style={{color: '#666666'}}>De</Text>
+                    <Text  style={{color: '#666666'}}>De</Text>
+                    <Text onPress={() => setShowPicker({index, type: 'start'})} style={styles.newTimeSlotPill}>
+                      { formatDate(field.startTime)}
+                    </Text>
+                    {showPicker && showPicker.index === index && showPicker.type === 'start' && (
                     <DateTimePicker
                       testID="dateTimePicker"
                       value={new Date(field.startTime)}
                       mode={'time'}
                        is24Hour={true}
-                      display="default"
+                      display="clock"
                        onChange={(event, selectedDate) => {
+                        setShowPicker(null);
                         if (selectedDate) {
                           setTimeslots(prevTimeslots => {
                             const updatedTimeslots = [...prevTimeslots];
@@ -103,8 +109,12 @@ const EditSubGroupScheduleScreen = () => {
                           });
                         }
                       }}
-                    />
-                    <Text style={{color: '#666666'}}> à</Text>
+                    /> )}
+                   <Text style={{color: '#666666'}}> à</Text>
+                   <Text onPress={() => setShowPicker({index, type: 'end'})} style={styles.newTimeSlotPill}>
+                      { formatDate(field.endTime)}
+                    </Text>
+                    {showPicker && showPicker.index === index && showPicker.type === 'end' && (
                     <DateTimePicker
                       testID="dateTimePicker"
                       value={new Date(field.endTime)}
@@ -112,6 +122,7 @@ const EditSubGroupScheduleScreen = () => {
                       is24Hour={true}
                       display="default"
                        onChange={(event, selectedDate) => {
+                        setShowPicker(null);
                         if (selectedDate) {
                           setTimeslots(prevTimeslots => {
                             const updatedTimeslots = [...prevTimeslots];
@@ -120,7 +131,8 @@ const EditSubGroupScheduleScreen = () => {
                           });
                         }
                       }}
-                    />
+                    /> 
+                    )}
                 </View>
                 ) : (
                   <View style={{flexDirection: 'row', justifyContent: 'space-between', flex: 1}}>
@@ -198,5 +210,13 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     backgroundColor: colors.black,
   },
+  newTimeSlotPill: {
+    fontSize: 17, 
+    color: 'black', 
+    backgroundColor: 'lightgrey', 
+    paddingHorizontal: 8, 
+    paddingVertical: 4, 
+    borderRadius: 8
+  }
 })
 export default EditSubGroupScheduleScreen;
