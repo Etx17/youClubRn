@@ -6,14 +6,19 @@ import * as ImagePicker from 'expo-image-picker';
 import { Image } from 'expo-image';
 import colors from '../../themes/colors';
 import { useForm, Controller } from 'react-hook-form';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ActivitySchema, Activity } from '../../schema/activity.schema';
 import ControlledInput from '../../components/ControlledInput';
 import { useAuthContext } from '../../contexts/AuthContext';
 import Dropdown from '../../components/Dropdown';
 import SubCategoryDropdown from '../../components/SubCategoryDropdown';
-import { updateImageKeysInS3 } from '../../services/ImageService';
+// import { updateImageKeysInS3 } from '../../services/ImageService';
+import { GET_ACTIVITY_IMAGES } from './queries';
+import { useMutation, useQuery } from '@apollo/client';
+import { UPDATE_ACTIVITY } from './mutation';
+import { Storage } from 'aws-amplify';
+import { uploadImageToS3 } from '../../services/ImageService';
 type PricingTypes = {
   [key: string]: boolean;
 }
@@ -24,8 +29,6 @@ export default function EditActivityDetailsScreen() {
   // START--------------------------MOCKING FETCHING DATA FROM API--------------------------
   // --------------------------------------------------------------------------------------
   const actualImagesFromClub = [ "https://source.unsplash.com/random/?salsa", "https://source.unsplash.com/random/?bachata" ]
-  const activityName = "Salsa"
-  const activityDescription = "Une des danses latino les plus connues. Venez apprendre, tous publics. Vous pourrez participer à des soirées organisées par le club, mais aussi des stages, conférences, workshop... !"
   const currentPricingTypes = ["monthly", "yearly", "perUnit"]
   const currentPricingTypesToObject: PricingTypes = {
     monthly: currentPricingTypes.includes("monthly"),
@@ -38,8 +41,7 @@ export default function EditActivityDetailsScreen() {
     customPackages: currentPricingTypes.includes("customPackages"),
     other: currentPricingTypes.includes("other"),
   }
-  const category = "Sports, activités de plein air"
-  const subcategory= "Golf"
+  // const category = "Sports, activités de plein air"
   // --------------------------------------------------------------------------------------
   // END--------------------------MOCKING FETCHING DATA FROM API--------------------------
   // --------------------------------------------------------------------------------------
@@ -49,20 +51,51 @@ export default function EditActivityDetailsScreen() {
     resolver: zodResolver(ActivitySchema),
   });
   console.log(errors);
+  const [isImagePickerVisible, setImagePickerVisible] = useState(false);
   const [dropdownValue, setDropdownValue] = useState("Sports, activités de plein air");
   const [subCategoryDropdownValue, setSubCategoryDropdownValue] = useState("all");
   const [hasFreeTrial, setHasFreeTrial] = React.useState(false);
-  const [selectedImages, setSelectedImages] = useState<string[]>([]);
-  const numRows = selectedImages.length < 3 ? 1 : 2;
+  // const numRows = selectedImages.length < 3 ? 1 : 2;
   const [isSubmitting, setIsSubmitting] = useState(false)
   const navigation = useNavigation()
   const { user } = useAuthContext();
   const [checkedItems, setCheckedItems] = useState<PricingTypes>(currentPricingTypesToObject);
+  const route = useRoute();
+  const { activityData, images} = route?.params as any;
+  const [selectedPhoto, setSelectedPhoto] = useState<null | string >(null);
+  const [isImageLoading, setIsImageLoading] = useState(false)
+  const [currentActivityPhoto, setCurrentActivityPhoto] = useState<string | undefined>(undefined);
+
+  const [updateActivity, { data: dataUpdate, loading: loadingUpdate, error: errorUpdate }] = useMutation(UPDATE_ACTIVITY);
+
+  const { data, loading, error } = useQuery(GET_ACTIVITY_IMAGES, { variables: { id: activityData.id } });
+  console.log(data, 'this is data from GET ACTIVITY IMAGES')
+
   useEffect(() => {
-    setSelectedImages(actualImagesFromClub)
-    setValue('name', activityName)
-    setValue('description', activityDescription)
-    setValue('pricingTypes', currentPricingTypes)
+    const fetchActivityPhoto = async () => {
+      // Au chargement du screen, je vais chercher l'url de l'image du club actuelle
+      if (data?.activity.images) {
+        try {
+          const url = await Storage.get(data?.activity.images[0]);
+          setCurrentActivityPhoto(url);
+        } catch (error) {
+          console.error("Error fetching club photo:", error);
+        }
+      }
+    };
+
+    fetchActivityPhoto();
+  }, [data]);
+
+  useEffect(() => {
+    setValue('name', activityData.name)
+    setValue('description', activityData.fullDescription)
+    setValue('hasFreeTrial', activityData.freeTrial)
+    setValue('address', activityData.address)
+    setValue('website', activityData.website)
+    setHasFreeTrial(activityData.freeTrial)
+    setDropdownValue(activityData.category);
+    setSubCategoryDropdownValue(activityData.subcategories);
   }, [])
 
   const handleDropdownValueChange = (valuecat: string) => {
@@ -84,27 +117,46 @@ export default function EditActivityDetailsScreen() {
     onChange(checkedKeys); // Update the form control
   };
 
-  const saveAndGoBack = async (data: {}) => {
+  const saveAndGoBack = async (formData: {}) => {
     if (isSubmitting) { return }
     setIsSubmitting(true);
     // Transform data into an object that can be sent to the rails API
-    const activityObj = { ...data, club_id: 2 };
+    const activityObj = { ...formData, club_id: 2 };
 
     try {
       // Chekcs for images that were deleted or added and removes/add them from S3
-      const finalImageKeys = await updateImageKeysInS3(actualImagesFromClub, selectedImages);
+      if(!!selectedPhoto){
+        const finalImageKey = await uploadImageToS3(selectedPhoto);
+        await updateActivity({variables: {
+          input: {
+            id: activityData.id,
+            name: activityObj.name,
+            category: dropdownValue,
+            subcategories: subCategoryDropdownValue,
+            fullDescription: activityObj.description,
+            address: activityObj.address,
+            images: finalImageKey,
+          }
+        }}).then(() => {
+          Storage.remove(data?.activity.images[0]).then( () => console.log('image removed from s3') )
+          navigation.goBack()
+          }
+        )
+      } else {
 
-      // Step 2: Add the merged keys to clubObj
-      activityObj.images = finalImageKeys;
-
-      console.log(activityObj.images, "this is the final image keys")
-
-      // After all images are processed, proceed with saving the club object
-      // TODO: Call your API to update the club with the modified data (clubObj)
-      console.warn('Mocking club update with the following data:', activityObj);
-
-      // Finally, navigate back to the previous screen
-      navigation.goBack();
+        await updateActivity({variables: {
+          input: {
+            id: activityData.id,
+            name: activityObj.name,
+            category: dropdownValue,
+            subcategories: subCategoryDropdownValue,
+            fullDescription: activityObj.description,
+            address: activityObj.address,
+          }
+        }}).then(() => {
+          navigation.goBack()
+        })
+      }
     } catch (error) {
       console.log(error, 'there was an error during the process');
     } finally {
@@ -113,23 +165,26 @@ export default function EditActivityDetailsScreen() {
   };
 
   const pickImageAsync = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      quality: 0.5,
-      allowsMultipleSelection: true,
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-    });
+    try {
+      setImagePickerVisible(true);
+      const result = await ImagePicker.launchImageLibraryAsync({
+        quality: 0.5,
+        allowsMultipleSelection: false,
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      });
 
-    if (!result.canceled) {
-      console.log('hey, you just selected some pictures')
-      const images: string[] = []
-      result.assets.forEach(image => { images.push(image.uri) })
-      setSelectedImages(prevImages => [...prevImages, ...images]);
-
-    } else {
-      alert('You did not select any image.');
+      if (!result.canceled) {
+        // If multiple images are selected, result will be an array of objects
+        console.log(result.assets[0].uri, "this is suppose to be an array of objects")
+        setSelectedPhoto(result.assets[0].uri)
+      }
+    } catch (error) {
+      console.error('Error picking image:', error);
+      Alert.alert('Error', 'There was an error picking the image. Please try again.');
+    } finally {
+      setImagePickerVisible(false);
     }
   };
-
   const pricingTypes = [
     { label: "Mensuel", key: "monthly" },
     { label: "Annuel", key: "yearly" },
@@ -143,6 +198,8 @@ export default function EditActivityDetailsScreen() {
   ];
 
 
+
+
   return (
     <ScrollView style={{ padding: 15, flex: 1}}>
       { isSubmitting ? (
@@ -151,54 +208,36 @@ export default function EditActivityDetailsScreen() {
       <View style={{gap: 15}}>
         <Card>
           <Card.Title title="éditez les photos de votre activité" />
-            {/* Component d'input pour des photos */}
-            {selectedImages.length > 0 ? (
-              <View style={{borderWidth: 0, margin: 10}}>
-                <FlatList
-                  data={selectedImages}
-                  keyExtractor={(item) => item}
-                  numColumns={3}
-                  style={{ maxHeight: numRows * 150 }}
-                  renderItem={({ item }) => (
-                    <View style={styles.thumbnailContainer}>
-                      <Image source={{ uri: item }} style={styles.thumbnail} />
-                      <Pressable style={styles.deleteButton}>
-                        <Ionicons
-                          onPress={ () => {
-                            const newImages = selectedImages.filter((image) => image !== item)
-                            setSelectedImages(newImages)
-                          }}
-                          name='trash-outline'
-                          size={20}
-                          color={colors.danger}
-                        />
-                      </Pressable>
-                    </View>
-                  )}
-                />
-                <Text onPress={pickImageAsync} style={{fontSize: 14, color: colors.grayDarkest, margin: 10}}>{selectedImages.length} images séléctionnées <Text style={{color: colors.danger}}>(Ajouter)</Text></Text>
-              </View>
+             { isImageLoading && <ActivityIndicator /> }
+              <Image
+                source={{ uri: selectedPhoto || currentActivityPhoto }}
+                style={styles.profileImage}
+                onLoadStart={() => setIsImageLoading(true)}
+                onLoadEnd={() => setIsImageLoading(false)}
+              />
 
-            ) : (
-              <Button onPress={pickImageAsync} style={styles.imageButton}>
-                <Text style={styles.addImageText}>+</Text>
-              </Button>
-            )}
+              { !selectedPhoto && !currentActivityPhoto ? (
+                <Text style={styles.addImageText} onPress={pickImageAsync}> + </Text>
+              ) : (
+                <Button onPress={pickImageAsync}>Modifier</Button>
+              )
+              }
             {/* End of image component input */}
+
             <Card.Title title="Catégorie et sous-catégorie"/>
             <View style={styles.dropdownContainer}>
               <Dropdown
                 style={{ flex: 1 }}
                 valuecat={dropdownValue}
                 onValueChange={handleDropdownValueChange}
-                defaultValue={category}
+                defaultValue={activityData?.category}
               />
               <SubCategoryDropdown
                 style={{ flex: 1 }}
                 valuesub={subCategoryDropdownValue}
                 onValueChange={handleSubCategoryDropdownValueChange}
-                categoryName={dropdownValue || ''}
-                defaultValue={subcategory}
+                categoryName={dropdownValue || activityData?.category}
+                defaultValue={activityData?.subcategories}
               />
             </View>
 
@@ -217,17 +256,17 @@ export default function EditActivityDetailsScreen() {
               label="Description"
               multiline
             />
-
+{/*
             <ControlledInput
               control={control}
               name="website"
               label="Lien d'inscription ou site web"
-            />
+            /> */}
 
             <ControlledInput
               control={control}
               name="address"
-              label="Addresse (si différente de celle du club)"
+              label="Adresse de l'activité"
             />
 
             <Controller
@@ -243,12 +282,12 @@ export default function EditActivityDetailsScreen() {
                     value={hasFreeTrial}
                     onValueChange={newValue => setHasFreeTrial(newValue)}
                   />
-                  <Text>Essai gratuit</Text>
+                  <Text> Essai gratuit</Text>
                 </View>
               )}
             />
 
-            <Controller
+            {/* <Controller
               control={control}
               name={"pricingTypes"}
               render={({
@@ -275,7 +314,7 @@ export default function EditActivityDetailsScreen() {
                     ))}
                 </View>
               )}
-            />
+            /> */}
           </Card.Content>
         </Card>
         <Button style={{marginBottom: 30}} onPress={handleSubmit(saveAndGoBack)}mode='elevated' textColor='black'>Enregistrer</Button>
@@ -331,5 +370,11 @@ const styles = StyleSheet.create({
   addImageText: {
     fontSize: 60,
     color: "lightgrey",
+  },
+  profileImage: {
+    width: '100%',
+    aspectRatio: 1,
+    borderRadius: 10,
+    marginBottom: 10,
   },
 })

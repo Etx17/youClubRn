@@ -21,6 +21,7 @@ interface IClubCardProps {
   data: any
 }
 const ClubCard = ({data}: IClubCardProps) => {
+  // console.log(data, 'data from club card')
   const [isLiked, setIsLiked] = useState(false);
   const navigation = useNavigation();
   const {lat, lon} = useLocationContext()
@@ -28,7 +29,7 @@ const ClubCard = ({data}: IClubCardProps) => {
   const clubLon = parseFloat(data?.fields?.geo_point?.split(',')[1])
   const distance = getDistance(lat, lon, clubLat, clubLon )
   const formattedDistance = distance.toFixed(1).toString() + ' km';
-  const city = data.fields.commune_actuelle
+  const city = data?.fields?.commune_actuelle
   const titre = data?.fields?.titre || data?.fields?.titre_search || "Cette association n'a pas renseigné de titre"
   const objet = data?.fields?.objet || "Cette association n'a pas renseigné de description";
   const domaine_activite_libelle_categorise = data?.fields?.domaine_activite_libelle_categorise;
@@ -36,13 +37,15 @@ const ClubCard = ({data}: IClubCardProps) => {
   const subCategory = domaine_activite_libelle_categorise ? domaine_activite_libelle_categorise.split('/')[1].split('###')[0].charAt(0).toUpperCase() + domaine_activite_libelle_categorise.split('/')[1].split('###')[0].slice(1) : 'Autre/Non renseigné';
   const category = domaine_activite_libelle_categorise ? domaine_activite_libelle_categorise.split('/')[0].split('###')[0].charAt(0).toUpperCase() + domaine_activite_libelle_categorise.split('/')[0].split('###')[0].slice(1) : 'Autre/Non renseigné';
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  console.log(category, subCategory)
   const images = [
     `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subCategory][0] : 'random'}/300/200`,
     `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subCategory][1] : 'random'}/300/200`,
   ];
+  // console.log(images)
 
   const navigateToClubDetails = () => {
-    navigation.navigate('ClubDetails', {clubData: data.fields, images, darkTheme: true});
+    navigation.navigate('ClubDetails', {clubData: data?.fields, images, darkTheme: true});
   }
 
     const changeImage = (direction: String) => {
@@ -84,20 +87,19 @@ const ClubCard = ({data}: IClubCardProps) => {
       };
       checkIfLiked();
     }, []);
-    
   return (
     <View style={styles.container}>
       <View style={styles.card}>
-      <Image style={styles.image} source={{uri: images[currentImageIndex]}} contentFit="cover" transition={0} />
-      <View style={styles.indexButtonContainer}>
-        { images.length > 1 && images.map( (_, index) => ( 
-          <View key={index} style={{
-            width: `${80 / images.length}%`,
-            height: 4,
-            backgroundColor: `${ index == currentImageIndex ? 'white' : 'darkgrey' }`, margin: 5,}} 
-          /> ) ) 
-        }
-      </View>
+        <Image style={styles.image} source={{uri: images[currentImageIndex]}} contentFit="cover" transition={0} />
+        <View style={styles.indexButtonContainer}>
+          { images.length > 1 && images.map( (_, index) => ( 
+            <View key={index} style={{
+              width: `${80 / images.length}%`,
+              height: 4,
+              backgroundColor: `${ index == currentImageIndex ? 'white' : 'darkgrey' }`, margin: 5,}} 
+            /> ) ) 
+          }
+        </View>
 
       <LinearGradient end={{x: 0, y: 0.4}} start={{x: 0, y: 1}} colors={['rgba(0,0,0,4)','transparent']} style={{height: '100%', width: '100%', opacity: 1, position: 'absolute', bottom: 0}} >
 

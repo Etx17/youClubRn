@@ -6,6 +6,8 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { zodResolver } from '@hookform/resolvers/zod';
 import ControlledInput from '../../components/ControlledInput';
 import { SubGroup, SubGroupSchema } from '../../schema/subGroup.schema';
+import { UPDATE_SUB_GROUP } from './mutations';
+import { useMutation } from '@apollo/client';
 type Tarification = {
   number: string;
   text: string;
@@ -16,41 +18,42 @@ const EditSubGroupScreen = () => {
   // Mock data from API, receive it via props, but fetch it from the API if it's not provided.
   const route = useRoute();
   const subgroup = route?.params?.subgroup;
-
-  const apiData = useMemo(() => ({ // A cause du map, pour économiser le recalcul au cas ou tarifications est un grand array ( mais ca ne l'est pas tant)
+  const { refetchActivityData } = route?.params;
+  console.log(subgroup, 'subgroup')
+  const apiData = {
     name: subgroup?.name || "Erreur de récupération",
     type: subgroup?.type || "Erreur de récupération",
     shortDescription: subgroup?.short_description || "Erreur de récupération",
     address: subgroup?.address || "Erreur de récupération",
     minPrice: subgroup?.min_price,
-    tarifications: subgroup?.tarifications 
+    tarifications: subgroup?.tarifications
         ? subgroup.tarifications.map((tarif: String) => ({
             number: tarif.split('/')[0],
             text: tarif.split('/')[1],
             isNew: false,
           }))
         : [],
-  }), [subgroup]);
+  }
 
   const [tarifications, setTarifications] = useState<Tarification[]>(apiData.tarifications);
-  
+
   useEffect(() => {
-    setValue("name", apiData.name);
-    setValue("type", apiData.type);
-    setValue("shortDescription", apiData.shortDescription);
-    setValue("address", apiData.address);
-    setValue("minPrice", apiData.minPrice.toString());
+    setValue("name", subgroup.name);
+    setValue("type", subgroup.classType);
+    setValue("shortDescription", subgroup.shortDescription);
+    setValue("address", subgroup.address);
+    setValue("minPrice", subgroup.minPrice.toString());
     setValue("tarifications", tarifications);
   }, [tarifications]);
-  
+
   const { control, handleSubmit, setValue, formState: { errors } } = useForm<SubGroup>({
     resolver: zodResolver(SubGroupSchema),
   });
   const navigation = useNavigation()
 
   const handleTarificationChange = <K extends keyof Tarification>( //telling TypeScript field can be any valid key of a Tarification object.
-    index: number, 
-    field: K, 
+    index: number,
+    field: K,
     value: Tarification[K]
   ) => {
     setTarifications(prevTarifications => {
@@ -71,10 +74,26 @@ const EditSubGroupScreen = () => {
     setTarifications(prevTarifications => prevTarifications.filter((_: any, i: number) => i !== index))
   };
 
-  const saveAndGoToActivity = (data: {}) => {
+  const [updateSubGroup, { data, loading, error }] = useMutation(UPDATE_SUB_GROUP);
+
+  const saveAndGoToActivity = async (data: {}) => {
     console.log(data, "before being joined and digested");
-    Alert.alert('Votre activité a été créée avec succès !', 'Vous pouvez maintenant la retrouver dans la liste des activités de votre club. Vous pouvez la modifier à tout moment en cliquant dessus.')
-    navigation.goBack()
+    const subGroupObj = {
+      id: subgroup?.id,
+      name: data.name,
+      minPrice: parseFloat(data.minPrice),
+      classType: data.type,
+      shortDescription: data.shortDescription,
+      tarifications: data.tarifications.map((tarif: Tarification) => `${tarif.number}/${tarif.text}`)
+    }
+    await updateSubGroup({ variables: { input: { ...subGroupObj }}}).then(()=> {
+      refetchActivityData().then(() => {
+        navigation.goBack()
+        Alert.alert('Votre activité a été créée avec succès !', 'Vous pouvez maintenant la retrouver dans la liste des activités de votre club. Vous pouvez la modifier à tout moment en cliquant dessus.')
+      })
+    }).catch((err) => {
+      console.log(err)
+    })
   }
 
 
@@ -83,24 +102,24 @@ const EditSubGroupScreen = () => {
       <View style={{gap: 15}}>
         <Card>
           <Card.Title title="Ajoutez les informations de la division" />
-          
+
           <Card.Content style={{gap: 5}}>
 
-            <ControlledInput 
+            <ControlledInput
               control={control as any}
               name="name"
               label="Nom de la division"
               placeholder="Ceinture jaunes, 6-8 ans, groupe 1, etc."
             />
 
-            <ControlledInput 
+            <ControlledInput
               control={control as any}
               name="type"
               label="Type (optionnel)"
               placeholder="Evènement, cours collectif, cours indidivuel, stage, session"
             />
 
-            <ControlledInput 
+            <ControlledInput
               control={control as any}
               name="shortDescription"
               label="Description courte (300 caractères)"
@@ -110,19 +129,18 @@ const EditSubGroupScreen = () => {
               multiline
               />
 
-            <ControlledInput 
+            <ControlledInput
               control={control as any}
               name="address"
               label="Addresse (optionel - si différente)"
               placeholder="Ex: 21 rue des Dames, 75017 Paris"
             />
 
-            <ControlledInput 
+            <ControlledInput
               control={control as any}
               name="minPrice"
-              label="Premier prix (nombre uniquement)" 
-              multiline
-              placeholder="Renseignez le prix de votre offre la moins chère - par exemple un cours d'essai ou a l'unité. C'est le prix minimum qu'un client potentiel pourrait dépenser chez vous"
+              label="Premier prix (nombre uniquement)"
+              placeholder="Prix de votre offre la moins chère"
             />
 
           {/* Tarifications input */}
@@ -130,14 +148,14 @@ const EditSubGroupScreen = () => {
           {tarifications.map((tarification: Tarification, index: number) => (
             tarification.isNew ? (
               <View key={index} style={{ flexDirection: 'row', gap: 10, justifyContent: 'center', alignItems: 'center' }}>
-                <Controller 
+                <Controller
                   control={control}
                   name={`tarifications[${index}].number` as any}
-                  render={({ 
+                  render={({
                     field: { onChange, onBlur, value },
                     fieldState: { error, invalid }, }) => (
                     <View>
-                    <TextInput 
+                    <TextInput
                       label="Montant"
                       placeholder="100"
                       value={value}
@@ -154,11 +172,11 @@ const EditSubGroupScreen = () => {
                   )}
                 />
 
-            <Controller 
+            <Controller
               control={control}
               name={`tarifications[${index}].text` as any}
               render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput 
+                <TextInput
                   label="Réccurence"
                   placeholder="heure, jour, semaine, mois, trimestre, semestre, saison, année, etc..."
                   value={value}

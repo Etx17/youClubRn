@@ -25,7 +25,7 @@ interface ClubDetailsParams {
     domaine_activite_libelle_categorise: string;
   };
   images: string[];
-  darkTheme?: boolean; 
+  darkTheme?: boolean;
 }
 
 type ClubDetailsRoute = RouteProp<Record<string, ClubDetailsParams>, string>;
@@ -72,7 +72,7 @@ const ClubDetailsScreen = () => {
       </View>
 
       <LinearGradient colors={[darkTheme === true ? colors.dark : 'transparent', 'transparent']} style={{ position: 'absolute', left: 0, right: 0, top: 0, height: 120, }} />
-      
+
       <StatusBar style={darkTheme === true ? "light" : 'auto'} />
 
     </ScrollView>
@@ -200,17 +200,17 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   stickyButton: {
-    position: 'absolute', 
-    top: 70,  
-    left: 10,  
-    backgroundColor: colors.primary,  
-    borderRadius: 25,  
+    position: 'absolute',
+    top: 70,
+    left: 10,
+    backgroundColor: colors.primary,
+    borderRadius: 25,
     padding: 10,
     zIndex: 2,
     elevation: 8,
   },
   stickyButtonText: {
-    color: 'black',  
+    color: 'black',
     fontWeight: 'bold',
   },
 })

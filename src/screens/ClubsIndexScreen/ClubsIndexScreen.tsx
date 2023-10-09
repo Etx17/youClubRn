@@ -59,8 +59,8 @@ const ClubsIndexScreen = () => {
   const [reload, setReload] = useState(false);
 
   useEffect(() => {
-    console.log('Fetching data...');
-    console.log('city=>', city, 'subregion =>', subregion, ' <= useEffect from ClubIndexScreen');
+    // console.log('Fetching data...');
+    // console.log('city=>', city, 'subregion =>', subregion, ' <= useEffect from ClubIndexScreen');
     const startTime = new Date().getTime();
 
     if ((!isFetching && city && region && subregion) || reload && subregion) {
@@ -74,7 +74,7 @@ const ClubsIndexScreen = () => {
 
         const endTime = new Date().getTime();
         const elapsedTime = endTime - startTime;
-        console.log('Fetched data in', elapsedTime, 'milliseconds');
+        // console.log('Fetched data in', elapsedTime, 'milliseconds');
 
       }).catch(error => {
         console.error('Error fetching data:', error);
@@ -101,6 +101,7 @@ const ClubsIndexScreen = () => {
   const handleReload = () => {
     setReload(true);
   };
+
 return (
 
   <View style={styles.container}>
@@ -126,7 +127,7 @@ return (
       <Swiper
         cards={subCategoryClubs}
         infinite={true}
-        stackSize={2}
+        stackSize={1}
         cardIndex={0}
         animateOverlayLabelsOpacity
         animateCardOpacity
@@ -134,7 +135,7 @@ return (
         backgroundColor={'transparent'}
         cardHorizontalMargin={5}
         onSwipedAll={()=>Alert.alert('No more clubs')}
-        renderCard={(card, cardIndex) => ( <ClubCard data={card} /> )}
+        renderCard={(card, cardIndex) => ( <ClubCard key={cardIndex} data={card} /> )}
       />
       ) :  (
         <View style={styles.loading}>

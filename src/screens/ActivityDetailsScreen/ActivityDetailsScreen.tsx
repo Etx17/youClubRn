@@ -14,9 +14,11 @@ import SubGroupsSection from '../../components/SubGroupsSection'
 import SubGroupCardItem from '../../components/SubGroupCardItem'
 import { useAuthContext } from '../../contexts/AuthContext'
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { useQuery } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import { GET_ACTIVITY } from './queries'
 import ApiErrorMessage from '../../components/apiErrorMessage/ApiErrorMessage'
+import { Storage } from 'aws-amplify'
+import { DELETE_ACTIVITY, DELETE_SUB_GROUP } from './mutations'
 
 
 interface ActivityDetailsParams {
@@ -34,18 +36,18 @@ interface ActivityDetailsParams {
     };
     images: string[];
     darkTheme?: boolean;
+    onActivityDeleted?: () => void;
   }
   type SubGroup = {
     id: string,
     activityId: string,
-    maxPrice: number,
     minPrice: number,
     name: string,
     shortDescription: string,
     address: string,
     schedules: [Schedule],
     price: string,
-    reccurence: string,
+    recurrence: string,
     tarifications: []
   }
 
@@ -56,23 +58,44 @@ interface ActivityDetailsParams {
   }
 
   type ActivityDetailsRoute = RouteProp<Record<string, ActivityDetailsParams>, string>;
-const ActivityDetailsScreen = (activityData: any) => {
+const ActivityDetailsScreen = () => {
   const { user } = useAuthContext();
+  console.log(user, 'this is user from authContext')
   const navigation = useNavigation()
   const route = useRoute<ActivityDetailsRoute>();
-  // const { name, address, actual_zipcode, full_description, club_name, sub_groups } = route?.params?.activityData
-  const {images, darkTheme} = route?.params
+  const {darkTheme} = route?.params
+  const [images, setImages] = useState([])
   const scrollViewRef = useRef<ScrollView>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [subGroups, setSubGroups] = useState([])
-
-
-  // console.log(route?.params?.activityData.id,"<-----------------activityData")
-  const activityId = route?.params?.activityData.id
+  const activityId = route?.params?.activityId || route?.params?.activityData?.id
   const {data, loading, error, refetch} = useQuery(GET_ACTIVITY, {variables: {id: activityId}})
+  const imageKeys = data?.activity ? data?.activity.images : []
+  const [deleteSubGroup, { data: deleteData, loading: deleteLoading, error: deleteError }] = useMutation(DELETE_SUB_GROUP, {
+    onCompleted: () => {
+      Alert.alert('Sous-groupe supprimé')
+      refetch()
+    }
+  });
+
+  const [deleteActivity, { data: deleteActivityData, loading: deleteActivityLoading, error: deleteActivityError }] = useMutation(DELETE_ACTIVITY, {
+    onCompleted: () => {
+      Alert.alert('Activité supprimée')
+    },
+  });
+
   useEffect(() => {
-    if (data) {
-      setSubGroups(data.activity.subGroups)
+    if (data?.activity?.subGroups) {
+      setSubGroups(data?.activity?.subGroups)
+    }
+    if(data?.activity?.images){
+      Promise.all(
+        data?.activity?.images.map((imageKey) => Storage.get(imageKey))
+      ).then((fetchedImages) => {
+          setImages(fetchedImages);
+      }).catch((error) => {
+        console.error('Error fetching images', error);
+      });
     }
   }, [data])
 
@@ -91,14 +114,31 @@ const ActivityDetailsScreen = (activityData: any) => {
     scrollViewRef.current?.scrollToEnd({animated: true});
   };
 
-  const handleDeleteSubGroup = (index: number) => {
-    setSubGroups(prevSubGroups => prevSubGroups.filter((_, i) => i !== index))
+  const handleDeleteSubGroup = async (index: number, subGroupId: any) => {
+    await deleteSubGroup({ variables: { input: { id: subGroupId } } }).then(() => {
+    setSubGroups (prevSubGroups => prevSubGroups.filter((_, i) => i !== index))
+    }).catch((error) => {
+      console.error(error)
+    })
   }
-  if(loading){ return <ActivityIndicator/> }
-  if(error){
+
+  const handleDeleteActivity = async () => {
+    await deleteActivity({ variables: { input: { id: activityId } } }).then(() => {
+      if (route.params?.onActivityDeleted) {
+        route.params.onActivityDeleted();
+      }
+      navigation.goBack();
+    }).catch((error) => {
+      console.error(error)
+    })
+  }
+
+
+  if(loading || deleteLoading){ return <ActivityIndicator/> }
+  if(error || deleteError){
     return (
       <ApiErrorMessage
-      title="Error fetching the user"
+      title="Erreur, veuillez réessayer dans quelques instants"
       message={error?.message || 'User not found'}
       onRetry={()=>refetch()}
       />
@@ -107,17 +147,23 @@ const ActivityDetailsScreen = (activityData: any) => {
     // console.log(data?.activity, "<==============================================data")
     const { id, name, address, fullDescription, actualZipcode } = data?.activity
     const ActivitySubGroups = data?.activity.subGroups
-    console.log(ActivitySubGroups, '<-------------------this is ActivitySubGroups from data.activity.subgroups')
+
+
     return (
-      <ScrollView ref={scrollViewRef}>
+      <ScrollView ref={scrollViewRef} style={{backgroundColor: 'black'}}>
         {/* IMAGE CAROUSEL */}
-        <DetailsCarousel images={images ? images : route?.params?.activityData.images } currentImageIndex={currentImageIndex} changeImage={changeImage} />
+        <DetailsCarousel images={images || []} currentImageIndex={currentImageIndex} changeImage={changeImage} />
 
 
         <View style={styles.contentContainer}>
           {/* Bouton de retourn qui est fixé contre le bas du DetailsCarousel */}
 
-          <TitleSection title={name} onButtonPress={() => navigation.goBack()} onEditButtonPress={()=> navigation.navigate('EditActivityDetails')} isEditButtonPresent={user?.role === "club"} />
+          <TitleSection
+            title={name}
+            onButtonPress={() => navigation.goBack()}
+            onEditButtonPress={()=> navigation.navigate('EditActivityDetails', { activityData: data?.activity, images: images })}
+            isEditButtonPresent={user?.role === "club"}
+          />
 
           <AddressDetails address={address} postalCode={actualZipcode} />
           <Text style={{color: colors.primary}}>{data?.activity.club.name}</Text>
@@ -133,15 +179,43 @@ const ActivityDetailsScreen = (activityData: any) => {
             <SubGroupCardItem
               key={index}
               subgroup={subgroup}
-              onDeletePress={() => handleDeleteSubGroup(index)}
+              onDeletePress={() => handleDeleteSubGroup(index, subgroup.id)}
+              refetchActivityData={refetch}
               />
           ))}
+          {user?.role === 'club' && (
+          <Pressable onPress={() => navigation.navigate('NewSubGroup', {activityId: id, refetchActivityData: refetch})} style={styles.addActivityButton}>
+              <Text style={{fontSize: 24, color: colors.primary,}}> + </Text>
+          </Pressable>
+        )}
 
           <InscriptionButton onPress={() => Alert.alert("Bientôt disponible", "Lorsque cette association aura récupéré son profil, elle pourra mettre en place l'inscription")} />
 
         </View>
 
         <LinearGradient colors={[darkTheme === true ? colors.dark : 'transparent', 'transparent']} style={{ position: 'absolute', left: 0, right: 0, top: 0, height: 120, }} />
+
+        {/* Delete activity button for club owner */}
+        {user?.role === 'club' && (
+          <Pressable onPress={() => {
+            Alert.alert(
+              "Supprimer l'activité",
+              "Êtes-vous sûr de vouloir supprimer cette activité ?",
+              [
+                {
+                  text: "Annuler",
+                  onPress: () => console.log("Cancel Pressed"),
+
+                },
+                { text: "Supprimer", onPress: () => handleDeleteActivity() }
+              ]
+            )
+          }} style={styles.deleteActivityButton}>
+              <Text style={{fontSize: 18, color: colors.danger}}> Delete activity</Text>
+          </Pressable>
+        )}
+
+
 
         <StatusBar style={darkTheme === true ? "light" : 'auto'} />
 
@@ -207,6 +281,30 @@ const ActivityDetailsScreen = (activityData: any) => {
       position: 'absolute', //Here is the trick
       right: 10,
       bottom: 10,
+    },
+    addActivityButton: {
+      marginTop: 10,
+      fontSize: 24,
+      paddingVertical: 0,
+      alignSelf: 'flex-start',
+      paddingHorizontal: 10,
+      alignItems: 'center',
+      borderRadius: 14,
+      overflow: 'hidden',
+      borderColor: colors.primary,
+      borderWidth: 1,
+      width: "100%",
+      marginHorizontal: 4,
+    },
+    deleteActivityButton: {
+      alignSelf: 'center',
+      alignItems: 'center',
+      borderRadius: 14,
+      overflow: 'hidden',
+      backgroundColor: 'black',
+      borderColor: colors.danger,
+      borderWidth: 1,
+      paddingHorizontal: 6
     },
     titleContainer: {
       flexDirection: 'row',

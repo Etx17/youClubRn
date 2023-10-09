@@ -4,7 +4,7 @@ import { Button, Card, Checkbox, Switch } from 'react-native-paper'
 import * as ImagePicker from 'expo-image-picker';
 import colors from '../../themes/colors';
 import { useForm, Controller } from 'react-hook-form';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ActivitySchema, Activity } from '../../schema/activity.schema';
 import ControlledInput from '../../components/ControlledInput';
@@ -12,8 +12,10 @@ import PhotosSection from '../../components/photosSection';
 import Dropdown from '../../components/Dropdown';
 import SubCategoryDropdown from '../../components/SubCategoryDropdown';
 import { uploadImageToS3 } from '../../services/ImageService';
+import { CREATE_ACTIVITY } from './mutations';
+import { useMutation, useQuery } from '@apollo/client';
 
-const NewActivityScreen = (clubId: string) => {
+const NewActivityScreen = () => {
   const { control, handleSubmit, setValue, formState: { errors } } = useForm<Activity>({
     resolver: zodResolver(ActivitySchema),
   });
@@ -35,6 +37,8 @@ const NewActivityScreen = (clubId: string) => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const [hasFreeTrial, setHasFreeTrial] = React.useState(false);
+  const route = useRoute();
+  const { refetchClubData } = route.params;
   const navigation = useNavigation()
   const numRows = selectedImages.length < 3 ? 1 : 2;
   const imagesKeys = []
@@ -49,6 +53,9 @@ const NewActivityScreen = (clubId: string) => {
     customPackages: false,
     other: false,
   });
+
+  const [createActivity, { data, loading, error }] = useMutation(CREATE_ACTIVITY);
+
   const handleDropdownValueChange = (valuecat: string) => {
     console.log('valuecat', valuecat);
     setDropdownValue(valuecat);
@@ -88,48 +95,52 @@ const NewActivityScreen = (clubId: string) => {
       setImagePickerVisible(false);
     }
   };
-  const saveAndGoToActivity = (data: {}) => {
-    if (isSubmitting) {
-      return
-    }
+
+  const clubId = route?.params?.clubId
+  const saveAndGoToActivity = (data: any) => {
+    if (isSubmitting) { return }
     setIsSubmitting(true);
-    // Transform data into an object that can be sent to the rails API
+
     const activityObj = {
-      ...data,
-      club_id: clubId,
+      clubId: clubId,
       category: dropdownValue,
-      sub_category: subCategoryDropdownValue,
-      pricing: checkedItems,
-      has_free_trial: hasFreeTrial,
+      name: data.name,
+      subcategories: subCategoryDropdownValue,
+      freeTrial: hasFreeTrial,
+      shortDescription: 'TO DO remove work in progress',
+      fullDescription: data.description,
       images: imagesKeys,
     }
+    console.log(activityObj, 'this is activityJob ready to be sent to the mutation')
     if (selectedImages) {
       // for each image, call function uploadMedia
       const imageUploadPromises = selectedImages.map(async (image) => {
         try {
           return await uploadImageToS3(image)
-
         } catch (error) {
           console.log(error, 'there was an error uploading the image')
         }
       });
 
       Promise.all(imageUploadPromises)
-      .then(() => {
-        activityObj.images = imagesKeys;
-        console.log(activityObj.images, 'this is the object with images ready to be sent to the mutation')
-        return activityObj
-      }).then(async (activityObj) => {
-        try {
-          console.log(activityObj, 'this is activityJob ready to be sent to the mutation')
-          // TODO: Appel a mon API pour créer l'activité
-          Alert.alert('Votre activité a été créée avec succès !', 'Vous pouvez maintenant la retrouver dans la liste des activités de votre club. Vous pouvez la modifier à tout moment en cliquant dessus.')
-          navigation.goBack();
+        .then((keys) => {
+          activityObj.images = keys;
+          return activityObj
+        }).then(async (activityObj) => {
+          try {
+            console.log(activityObj, 'this is activityJob ready to be sent to the mutation')
+            // TODO: Appel a mon API pour créer l'activité
+            await createActivity({variables: {...activityObj } })
+              .then(() => {
+                Alert.alert('Votre activité a été créée avec succès !', 'Vous pouvez maintenant la retrouver dans la liste des activités de votre club. Vous pouvez la modifier à tout moment en cliquant dessus.')
+                refetchClubData();
+                navigation.goBack()
+              })
           } catch (error) {
-            console.log(error, 'there was an error creating the restaurant');
-          setIsSubmitting(false);
+            console.log(error, 'Error creating the activity');
+            setIsSubmitting(false);
           }
-      });
+        });
     }
 
   }
@@ -226,7 +237,7 @@ const NewActivityScreen = (clubId: string) => {
                 )}
               />
 
-              <Controller
+              {/* <Controller
                 control={control}
                 name={"pricingTypes"}
                 render={({
@@ -252,7 +263,7 @@ const NewActivityScreen = (clubId: string) => {
                     ))}
                   </View>
                 )}
-              />
+              /> */}
             </Card.Content>
           </Card>
           <Button style={{marginBottom: 30}} onPress={handleSubmit(saveAndGoToActivity)}mode='elevated' textColor='black'>Enregistrer</Button>

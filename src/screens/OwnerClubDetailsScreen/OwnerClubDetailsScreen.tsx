@@ -1,5 +1,5 @@
-import { View, Text, ScrollView, Alert, StyleSheet, Pressable } from 'react-native'
-import React, { useState } from 'react'
+import { View, Text, ScrollView, Alert, StyleSheet, Pressable, ActivityIndicator } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import clubs from '../../assets/data/clubs'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import DetailsCarousel from '../../components/DetailsCarousel'
@@ -12,12 +12,13 @@ import colors from '../../themes/colors'
 import { StatusBar } from 'expo-status-bar'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useNavigation } from '@react-navigation/native'
+import { useAuthContext } from '../../contexts/AuthContext'
+import { useQuery } from '@apollo/client';
+import { GET_CLUB_BY_USER_ID } from './queries';
+import ApiErrorMessage from '../../components/apiErrorMessage/ApiErrorMessage';
+import { Storage } from 'aws-amplify';
 
 const OwnerClubDetailsScreen = () => {
-  const navigation = useNavigation()
-  const { name, objet, address, actual_zipcode, subcategory, images, activities } = clubs[0]
-  const [currentImageIndex, setCurrentImageIndex] = useState(0)
-  const darkTheme = false
   const changeImage = (direction: String) => {
     if (direction === 'left') {
     setCurrentImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length)
@@ -27,20 +28,61 @@ const OwnerClubDetailsScreen = () => {
 
     }
   }
+  const darkTheme = false
+  const navigation = useNavigation()
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const { user } = useAuthContext();
+  const {data, loading, error, refetch} = useQuery(GET_CLUB_BY_USER_ID, { variables: {userId: user.id} })
+  const name = data?.clubByUserId ? data?.clubByUserId.name : clubs[0].name
+  const address = data?.clubByUserId ? data?.clubByUserId.address : clubs[0].address
+  const actualZipcode = data?.clubByUserId ? data?.clubByUserId.actualZipcode : clubs[0].actualZipcode
+  const activities = data?.clubByUserId ? data?.clubByUserId.activities : clubs[0].activities
+  const objet = data?.clubByUserId ? data?.clubByUserId.objet : clubs[0].objet
+  const [images, setImages] = useState([]);
+  const clubId = data?.clubByUserId.id
 
+  useEffect(() => {
+    if (data?.clubByUserId?.images) {
+      Promise.all(
+        data.clubByUserId.images.map((imageKey) => Storage.get(imageKey))
+      )
+        .then((fetchedImages) => {
+          setImages(fetchedImages);
+        })
+        .catch((error) => {
+          console.error('Error fetching images', error);
+        });
+    }
+  }, [data]);
+
+  if(loading){ return <ActivityIndicator/> }
+  if(error){
+    return (
+      <ApiErrorMessage
+        title="Error fetching the user"
+        message={error?.message || 'User not found'}
+        onRetry={()=>refetch()}
+      />
+      )
+    }
     return (
       <ScrollView style={{backgroundColor: 'black'}}>
       {/* IMAGE CAROUSEL */}
-      <DetailsCarousel images={images} currentImageIndex={currentImageIndex} changeImage={changeImage} />
+      <DetailsCarousel
+        key={ images.length > 0 ? images[currentImageIndex] : "wait" }
+        images={images.length > 0 ? images : []}
+        currentImageIndex={currentImageIndex}
+        changeImage={changeImage}
+      />
+
 
       <View style={styles.contentContainer}>
-
-        <Pressable onPress={() => navigation.navigate('EditClub')} style={styles.stickyButton}>
+        <Pressable onPress={() => navigation.navigate('EditClub', {clubData: data?.clubByUserId, images})} style={styles.stickyButton}>
           <Entypo name="edit" size={20} color="black" />
         </Pressable>
         <TitleSection title={name} noBackButton />
 
-        <AddressDetails address={address} postalCode={actual_zipcode} />
+        <AddressDetails address={address} postalCode={actualZipcode} />
 
         {/* Activity section, to export in a component later. */}
         <View>
@@ -54,14 +96,20 @@ const OwnerClubDetailsScreen = () => {
                 colors={[colors.secondary, colors.primary] }
                 style={styles.tag}
               >
-                <Pressable onPress={()=> navigation.navigate('ActivityDetails', {activityData: activity})}>
+                <Pressable onPress={()=> navigation.navigate(
+                  'ActivityDetails', {
+                    activityId: activity.id,
+                    onActivityDeleted: () => refetch()
+                  }
+                )
+                }>
                   <Text key={index}>
                     {activity.name}
                   </Text>
                 </Pressable>
               </LinearGradient>
             ))}
-            <Pressable onPress={() => navigation.navigate('NewActivity', {clubId: '1'})} style={styles.addActivityButton}>
+            <Pressable onPress={() => navigation.navigate('NewActivity', {refetchClubData: refetch, clubId: clubId})} style={styles.addActivityButton}>
                 <Ionicons name='add-outline' size={20} color={colors.primary} />
             </Pressable>
 

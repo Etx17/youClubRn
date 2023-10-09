@@ -12,6 +12,7 @@ export const GET_ACTIVITY = gql`
       subcategories
       shortDescription
       fullDescription
+      images
       club {
         id
         name
@@ -21,16 +22,16 @@ export const GET_ACTIVITY = gql`
         activityId
         name
         minPrice
-        maxPrice
         recurrence
         shortDescription
         classType
-        subscriptionByReccurencePrice
+        subscriptionByRecurrencePrice
         tarifications
         schedules {
           id
           day
           timeSlots {
+            id
             startTime
             endTime
           }

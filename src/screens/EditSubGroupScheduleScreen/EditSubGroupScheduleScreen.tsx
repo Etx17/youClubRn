@@ -1,188 +1,261 @@
-import { View, Text, ScrollView, Pressable } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { Button, Card} from 'react-native-paper'
-import { useForm, Controller, Control, useFieldArray } from 'react-hook-form';
+import React, { useEffect, useState } from 'react';
+import { View, Text, ScrollView, ActivityIndicator, StyleSheet, Platform } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { SubGroupSchedule, SubGroupScheduleSchema } from '../../schema/subGroupSchedule.schema';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import colors from '../../themes/colors';
-import { RouteProp } from '@react-navigation/native';
-import { RootNavigatorParamsList } from '../../types/navigation';
+import { useMutation, useQuery } from "@apollo/client";
+import { GET_TIMESLOTS_BY_SCHEDULE_ID } from './queries';
+import { CREATE_TIMESLOT, DELETE_TIME_SLOT } from './mutations';
+import { formatDate } from "../../utils/dateUtils";
+import { Card, Button } from 'react-native-paper';
 
-type RouteParams = RouteProp<RootNavigatorParamsList, 'EditSubGroupSchedule'>;
-
-type Schedule = {
-  startTime: Date;
-  endTime: Date;
+type Timeslot = {
+  id?: string;
+  startTime: string; // Change the type to string
+  endTime: string; // Change the type to string
   date?: Date;
+  isNew?: boolean;
 };
 
-
 const EditSubGroupScheduleScreen = () => {
-  const route = useRoute<RouteParams>(); // Change this route params in navigation.ts when consuming data from API later.
-  const [schedules, setSchedules] = useState<Schedule[]>([]);
-  const subGroupId = route?.params?.subGroupId
-  const [currentPickerIndex, setCurrentPickerIndex] = useState<number | null>(null);
-  const [currentPickerField, setCurrentPickerField] = useState<string | null>(null);
+  const [showPicker, setShowPicker] = useState<{index: number, type: 'start' | 'end'} | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const route = useRoute<RouteParams>();
+  const [timeslots, setTimeslots] = useState<Timeslot[]>([]);
+  const subGroupId = route?.params?.subGroupId;
+  const scheduleId = route?.params?.scheduleId;
+  const refetchActivityData = route?.params?.refetchActivityData as any;
   const navigation = useNavigation();
-  // Function to parse a time string or Date object and return a Date object
-  const parseTimeString = (time: string | Date): Date => {
-    let date: Date;
-
-    if (typeof time === 'string') {
-      const timeFormat = /^([0-1][0-9]|2[0-3]):([0-5][0-9])$/;
-
-      if (!time.match(timeFormat)) {
-        console.warn(`Invalid time string: ${time}`);
-        date = new Date();
-      } else {
-        const [hours, minutes] = time.split(':').map(Number);
-        date = new Date();
-        date.setHours(hours);
-        date.setMinutes(minutes);
-      }
-    } else if (time instanceof Date) {
-      date = time;
-    } else {
-      console.warn(`Invalid time value: ${time}`);
-      date = new Date();
+  const [createTimeSlot, { data: createData, loading: createLoading, error: createError  }] = useMutation(CREATE_TIMESLOT, {
+    onCompleted: () => {
+      refetch();
     }
-
-    return date;
-  };
-  const transformScheduleTimeStringToDate = (schedules: string[]): Schedule[] => {
-    return schedules.map(schedule => {
-      const startTime = parseTimeString(schedule?.startTime);
-      const endTime = parseTimeString(schedule?.endTime);
-      return { startTime, endTime };
-    });
-  };
-
-  useEffect(() => {
-    if (route.params?.schedules) {
-      const newSchedules = transformScheduleTimeStringToDate(route.params.schedules);
-      setSchedules(newSchedules);
+  });
+  const [deleteTimeSlot, { data: deleteData, loading: deleteLoading, error: deleteError}] = useMutation(DELETE_TIME_SLOT, {
+    onCompleted: () => {
+      refetchActivityData();
+      refetch();
     }
-  }, [route.params?.schedules]);
-
-
-  const { control, handleSubmit, getValues, formState: { errors } } = useForm<SubGroupSchedule>({
-    resolver: zodResolver(SubGroupScheduleSchema),
-    defaultValues: {
-      schedules: transformScheduleTimeStringToDate(route.params.schedules),
-      dayName: route?.params?.day,
-    },
   });
 
-  const { fields, append, remove } = useFieldArray({ control, name: 'schedules', });
-
-  const saveAndGoToActivity = (data: any): void => {
-    data.subGroupId = subGroupId
-    navigation.goBack()
-  }
-  const onChange = (selectedDate: Date | null, index: number): void => {
-    const newSchedules = [...schedules];
-    newSchedules[index].date = selectedDate || newSchedules[index].date;
-    setSchedules(newSchedules);
+  const handleDeletePress = (id: string) => {
+    handleDeleteTimeSlot(id);
   };
 
+  const handleDeleteTimeSlot = async (id: any) => {
+    try {
+      await deleteTimeSlot({ variables: { id: id } })
+    } catch(e) {
+      console.log(e)
+    }
+  };
+
+  const { data, loading, error, refetch } = useQuery(GET_TIMESLOTS_BY_SCHEDULE_ID, { variables: { scheduleId: scheduleId } });
+
+  useEffect(() => {
+    if (data?.timeSlotsByScheduleId) {
+      setTimeslots(data.timeSlotsByScheduleId); // Directly use the provided time strings
+    }
+  }, [data, createData, deleteData]);
+
+  const saveAndGoToActivity = async () => {
+    if (isSubmitting) { return }
+    setIsSubmitting(true);
+
+    try {
+      timeslots.forEach(async (timeslot: any) => {
+        if (!!timeslot.isNew) {
+          await createTimeSlot({ variables: { input: { scheduleId: scheduleId, startTime: timeslot.startTime, endTime: timeslot.endTime } } })
+        }
+      });
+    } catch (error) {
+      console.log(error, 'there was an error during the process');
+    } finally {
+      setIsSubmitting(false);
+      refetchActivityData();
+      navigation.goBack();
+    }
+  };
+
+
   return (
-    <ScrollView style={{ padding: 15, flex: 1}}>
+    <ScrollView style={{ padding: 10, flex: 1 }}>
       <Card>
-        <Card.Content style={{gap: 5}}>
+        <Card.Content>
+          <Card.Title title="HORAIRES" titleStyle={styles.title} />
+          <View>
+            {timeslots.map((field, index) => (
+              <View key={field.id} style={styles.dayCard}>
+                {field.isNew ? (
+                  <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', flex: 1}}>
+                    <Text  style={{color: '#666666'}}>De</Text>
 
-          <Card.Title title="Ajoutez ou supprimez des horaires"/>
+                    {Platform.OS === 'android' && (
+                      <Text onPress={() => setShowPicker({ index, type: 'start' })} style={styles.newTimeSlotPill}>
+                        { formatDate(field.startTime) }
+                      </Text>
+                    )}
+                    { Platform.OS === 'android' && showPicker && showPicker.index === index && showPicker.type === 'start' ? (
+                    <DateTimePicker
+                      testID="dateTimePicker"
+                      value={new Date(field.startTime)}
+                      mode={'time'}
+                       is24Hour={true}
+                      display="clock"
+                       onChange={(event, selectedDate) => {
+                        setShowPicker(null);
+                        if (selectedDate) {
+                          setTimeslots(prevTimeslots => {
+                            const updatedTimeslots = [...prevTimeslots];
+                            updatedTimeslots[index].startTime = selectedDate.toISOString();
+                            return updatedTimeslots;
+                          });
+                        }
+                      }}
+                    /> ) : (
+                      <DateTimePicker
+                        testID="dateTimePicker"
+                        value={new Date(field.startTime)}
+                        mode={'time'}
+                        is24Hour={true}
+                        display="default"
+                        onChange={(event, selectedDate) => {
+                        if (selectedDate) {
+                          setTimeslots(prevTimeslots => {
+                            const updatedTimeslots = [...prevTimeslots];
+                            updatedTimeslots[index].startTime = selectedDate.toISOString();
+                            return updatedTimeslots;
+                          });
+                        }
+                      }}
+                    />
+                    )}
+                   <Text style={{color: '#666666'}}> à</Text>
+                   {Platform.OS === 'android' && (
+                      <Text onPress={() => setShowPicker({ index, type: 'end' })} style={styles.newTimeSlotPill}>
+                        { formatDate(field.endTime) }
+                      </Text>
+                    )}
+                    { Platform.OS === 'android' && showPicker && showPicker.index === index && showPicker.type === 'end' ? (
+                    <DateTimePicker
+                      testID="dateTimePicker"
+                      value={new Date(field.endTime)}
+                      mode={'time'}
+                      is24Hour={true}
+                      display="default"
+                       onChange={(event, selectedDate) => {
+                        setShowPicker(null);
+                        if (selectedDate) {
+                          setTimeslots(prevTimeslots => {
+                            const updatedTimeslots = [...prevTimeslots];
+                            updatedTimeslots[index].endTime = selectedDate.toISOString();
+                            return updatedTimeslots;
+                          });
+                        }
+                      }}
+                    />
+                    ) : (
+                      <DateTimePicker
+                      testID="dateTimePicker"
+                      value={new Date(field.endTime)}
+                      mode={'time'}
+                      is24Hour={true}
+                      display="default"
+                       onChange={(event, selectedDate) => {
+                        if (selectedDate) {
+                          setTimeslots(prevTimeslots => {
+                            const updatedTimeslots = [...prevTimeslots];
+                            updatedTimeslots[index].endTime = selectedDate.toISOString();
+                            return updatedTimeslots;
+                          });
+                        }
+                      }}
+                    />
+                    )}
+                </View>
+                ) : (
+                  <View style={{flexDirection: 'row', justifyContent: 'space-between', flex: 1}}>
+                    <Text style={{color: "#666666"}}>
+                    De {"  "}
+                    </Text>
+                    <Text style={{fontSize: 17, color: 'black'}}>
+                      { formatDate(field.startTime)}
+                    </Text>
+                    <Text style={{color: "#666666"}}>
+                    {"  "} à {"  "}
+                    </Text>
+                    <Text style={{fontSize: 17, color: 'black'}}>
+                      { formatDate(field.endTime)}
+                    </Text>
 
-
-        <View>
-        {fields.map((field, index) => (
-        <View key={field.id} style={{flexDirection: 'row', alignItems: 'center', gap: 15, justifyContent: 'center', marginVertical: 5}}>
-          <Pressable onPress={() => { setCurrentPickerIndex(index); setCurrentPickerField('startTime'); }}>
-          <Text>
-            De {"  "}
-            <Text style={{backgroundColor: colors.primary}}>
-              {(() => {
-                const value = getValues(`schedules[${index}].startTime` as any);
-                if (typeof value === 'string' || value instanceof Date) {
-                  return new Date(value).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                }
-                return '- -  :  - -';
-              })()}
-            </Text>
-          </Text>
-          </Pressable>
-          {currentPickerIndex === index && currentPickerField === 'startTime' && (
-           <Controller
-            control={control}
-            name={`schedules[${index}].startTime`as any}
-            defaultValue={field.startTime}
-            render={({ field: { onChange, value } }) => (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={value instanceof Date ? value : new Date()}
-                mode={'time'}
-                is24Hour={true}
-                display="default"
-                onChange={(event, selectedDate) => {
-                  onChange(selectedDate || new Date());
-                  setCurrentPickerIndex(null);
-                  setCurrentPickerField(null);
-                }}
-              />
+                  </View>
+                )}
+                <Button onPress={() => {
+                  if (!!field.isNew) {
+                  } else {
+                    handleDeletePress(field.id); // Assuming `id` is the correct identifier
+                  }
+                }}>X</Button>
+              </View>
+            ))}
+            {timeslots.length < 10 && (
+              <Button
+                style={styles.addTimeSlotButton}
+                textColor='black'
+                onPress={() => {
+                  // Add a new time slot logic here
+                  setTimeslots(prevTimeslots => [...prevTimeslots, { startTime: new Date().toISOString(), endTime: new Date().toISOString(), isNew: true }]);
+                }}>
+                Ajouter un horaire
+              </Button>
             )}
-          />
-          )}
-          <Pressable onPress={() => { setCurrentPickerIndex(index); setCurrentPickerField('endTime'); }}>
-          <Text>
-            à {"  "}
-            <Text style={{backgroundColor: colors.primary}}>
-              {/* This is a IIEF immediately invoked function expression (function())() */}
-              {(() => {
-                const value = getValues(`schedules[${index}].endTime` as any);
-                if (typeof value === 'string' || value instanceof Date) {
-                  return new Date(value).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                }
-                return '- -  :  - -';
-              })()}
-            </Text>
-          </Text>
-          </Pressable>
-          {currentPickerIndex === index && currentPickerField === 'endTime' && (
-           <Controller
-            control={control}
-            name={`schedules[${index}].endTime`as any}
-            defaultValue={field.endTime}
-            render={({ field: { onChange, value } }) => (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={value instanceof Date ? value : new Date()}
-                mode={'time'}
-                is24Hour={true}
-                display="default"
-                onChange={(event, selectedDate) => {
-                  onChange(selectedDate || new Date());
-                  setCurrentPickerIndex(null);
-                  setCurrentPickerField(null);
-                }}
-              />
-            )}
-          />
-          )}
-         <Button onPress={() => remove(index)}>X</Button>
-        </View>
-      ))}
-      { fields.length < 10 &&
-        <Button style={{backgroundColor: colors.secondary}} onPress={() => append({ startTime: new Date(), endTime: new Date() })}>Ajouter un horaire</Button>
-      }
-      </View>
-
+          </View>
         </Card.Content>
       </Card>
-      <Button style={{marginBottom: 30}} onPress={handleSubmit(saveAndGoToActivity)} mode='elevated' textColor='black'>Enregistrer</Button>
-
+      <Button
+        style={styles.submitButton}
+        onPress={saveAndGoToActivity}
+        mode='elevated'
+        textColor={colors.primary}>
+        Enregistrer
+      </Button>
     </ScrollView>
   )
 }
-
-export default EditSubGroupScheduleScreen
+const styles = StyleSheet.create({
+  title: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    color: '#666666',
+    fontSize: 20
+  },
+  dayCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 15,
+    marginVertical: 5,
+    borderTopWidth: 1,
+    borderTopColor: colors.grayDarkest,
+    paddingTop: 8,
+  },
+  addTimeSlotButton: {
+    marginTop: 10,
+    borderWidth: 2,
+    borderColor: '#666666',
+  },
+  submitButton: {
+    marginTop: 10,
+    marginBottom: 30,
+    borderWidth: 2,
+    backgroundColor: colors.black,
+  },
+  newTimeSlotPill: {
+    fontSize: 17,
+    color: 'black',
+    backgroundColor: 'lightgrey',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 8
+  }
+})
+export default EditSubGroupScheduleScreen;
