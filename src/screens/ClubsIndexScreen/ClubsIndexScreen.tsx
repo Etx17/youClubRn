@@ -31,7 +31,7 @@ const ClubsIndexScreen = () => {
   const [dropdownValue, setDropdownValue] = useState("Sports, activités de plein air");
   const [subCategoryDropdownValue, setSubCategoryDropdownValue] = useState("all");
   const [isFetching, setIsFetching] = useState(false);
-  const { zipcode, city, region, subregion, allowLocation } = useLocationContext();
+  const { zipcode, city, allowLocation } = useLocationContext();
 
   const { data, loading, error } = useQuery(GET_CLUBS_BY_ZIPCODE, {
     variables: { actualZipcode: zipcode },

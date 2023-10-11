@@ -21,7 +21,6 @@ interface IActivityCardProps {
 const activityCard = ({data}: IActivityCardProps) => {
   const images = [
     `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subcategories][0] : 'random'}/300/200`,
-    `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subcategories][1] : 'random'}/300/200`,
   ];
   const [isLiked, setIsLiked] = useState(false);
   const navigation = useNavigation();
