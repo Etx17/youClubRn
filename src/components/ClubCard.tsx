@@ -36,8 +36,6 @@ const ClubCard = ({data}: IClubCardProps) => {
   const subCategory = data["subcategory"]
   const category = data["category"]
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  console.log(category, subCategory)
-  console.log(categoryImages[category][subCategory])
   const images = [
     `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subCategory][0] : 'random'}/300/200`
   ];

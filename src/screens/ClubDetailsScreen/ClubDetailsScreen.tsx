@@ -1,6 +1,6 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
-import { View, Text, StyleSheet, Pressable, ScrollView, Linking } from 'react-native'
+import { View, Text, StyleSheet, Pressable, ScrollView, Linking, ActivityIndicator } from 'react-native'
 import {Image} from 'expo-image'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native'
@@ -14,6 +14,8 @@ import AddressDetails from '../../components/AddressDetails'
 import InscriptionButton from '../../components/InscriptionButton'
 import DescriptionSection from '../../components/DescriptionSection'
 import TitleSection from '../../components/TitleSection'
+import { useQuery } from '@apollo/client'
+import { GET_ACTIVITIES_BY_CLUB_ID } from './queries'
 
 interface ClubDetailsParams {
   clubData: {
@@ -28,17 +30,32 @@ interface ClubDetailsParams {
   darkTheme?: boolean;
 }
 
+type Activity = {
+  name: string;
+  id: string;
+}
+
 type ClubDetailsRoute = RouteProp<Record<string, ClubDetailsParams>, string>;
 
 const ClubDetailsScreen = () => {
   const navigation = useNavigation()
   const route = useRoute<ClubDetailsRoute>();
-  const { name, objet, address, actualZipcode, domaine_activite_libelle_categorise } = route?.params?.clubData
+  const { name, objet, address, actualZipcode, id } = route?.params?.clubData
   const {images, darkTheme} = route?.params
-
+  const [activities, setActivities] = useState<[Activity]>([{name: '', id: ''}])
   const formattedObject = objet.split(';').map(sentence => sentence.trim().charAt(0).toUpperCase() + sentence.trim().slice(1)).join('. \n\n')
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const { data, loading, error } = useQuery(GET_ACTIVITIES_BY_CLUB_ID, {
+    variables: { clubId: id },
+    skip: !id
+  });
+
+  useEffect(()=> {
+    if(data?.activitiesByClubId) {
+      setActivities(data.activitiesByClubId)
+    }
+  }, [data])
 
   const changeImage = (direction: String) => {
     if (direction === 'left') {
@@ -49,6 +66,12 @@ const ClubDetailsScreen = () => {
 
     }
   }
+
+
+  // useEffect(()  => {
+  //   if(route?.params?.clubData)
+
+  // }, [data])
 
   return (
     <ScrollView>
@@ -63,7 +86,9 @@ const ClubDetailsScreen = () => {
 
         <AssociationLink />
 
-        <ActivitiesSection activities={["Activités", "Bientot", "Disponibles", "Activités bientôt disponibles"]} />
+        { loading ? (
+          <ActivityIndicator size="small" color="#0000ff" />
+        ) : (<ActivitiesSection activities={activities} />)}
 
         <DescriptionSection description={formattedObject} />
 

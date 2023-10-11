@@ -1,27 +1,32 @@
 import React from 'react';
-import { View, Text, StyleSheet, Pressable, Alert } from 'react-native';
+import { View, Text, StyleSheet, Pressable, Alert, ActivityIndicator, TouchableHighlight, TouchableOpacity } from 'react-native';
 import colors from '../themes/colors';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAuthContext } from '../contexts/AuthContext';
+import { useNavigation } from '@react-navigation/native';
+import { Button } from 'react-native-paper';
 
 interface ActivitiesSectionProps {
-  activities: [];
+  activities: [{id: string, name: string}];
 }
 // For now activities are just strings, but they are meant to be objects with a name and an id
 const ActivitiesSection = ({ activities }:ActivitiesSectionProps) => {
-  // const {user} = useAuthContext();
-  // console.log(user?.role)
+  const navigation = useNavigation()
   return (
     <View>
       <Text style={{ color: colors.grayDark, fontWeight: 'bold', marginTop: 10 }}>ACTIVITÉS:</Text>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
-        {activities.map((activity, index) => (
-          <LinearGradient start={[0, 0]} end={[1, 0]} colors={[colors.secondary, colors.primary] } style={styles.tag}>
-            <Text key={index}>
-              {activity}
+        { activities.length > 0 ? (
+          activities.map((activity, index) => (
+          <TouchableOpacity key={index} style={styles.tag} onPress={()=> {navigation.navigate('ActivityDetails', {activityId: activity.id})}}>
+            <Text >
+              {activity.name}
             </Text>
-          </LinearGradient>
-        ))}
+          </TouchableOpacity>
+          ))) : (
+            <Text style={{ color: colors.grayDark, marginTop: 10 }}>Ce club n'a pas encore renseigné d'activité</Text>
+          )
+        }
 
       </View>
     </View>

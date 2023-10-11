@@ -60,7 +60,6 @@ interface ActivityDetailsParams {
   type ActivityDetailsRoute = RouteProp<Record<string, ActivityDetailsParams>, string>;
 const ActivityDetailsScreen = () => {
   const { user } = useAuthContext();
-  console.log(user, 'this is user from authContext')
   const navigation = useNavigation()
   const route = useRoute<ActivityDetailsRoute>();
   const {darkTheme} = route?.params
@@ -144,7 +143,6 @@ const ActivityDetailsScreen = () => {
       />
       )
     }
-    // console.log(data?.activity, "<==============================================data")
     const { id, name, address, fullDescription, actualZipcode } = data?.activity
     const ActivitySubGroups = data?.activity.subGroups
 
