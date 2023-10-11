@@ -43,7 +43,7 @@ const ClubCard = ({data}: IClubCardProps) => {
   ];
 
   const navigateToClubDetails = () => {
-    navigation.navigate('ClubDetails', {clubData: data?.fields, images, darkTheme: true});
+    navigation.navigate('ClubDetails', {clubData: data, images, darkTheme: true});
   }
 
     const changeImage = (direction: String) => {

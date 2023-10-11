@@ -18,10 +18,10 @@ import TitleSection from '../../components/TitleSection'
 interface ClubDetailsParams {
   clubData: {
     id: string;
-    titre: string;
+    name: string;
     objet: string;
-    adresse_actuelle: string;
-    codepostal_actuel: string;
+    address: string;
+    actualZipcode: string;
     domaine_activite_libelle_categorise: string;
   };
   images: string[];
@@ -33,7 +33,7 @@ type ClubDetailsRoute = RouteProp<Record<string, ClubDetailsParams>, string>;
 const ClubDetailsScreen = () => {
   const navigation = useNavigation()
   const route = useRoute<ClubDetailsRoute>();
-  const { titre, objet, adresse_actuelle, codepostal_actuel, domaine_activite_libelle_categorise } = route?.params?.clubData
+  const { name, objet, address, actualZipcode, domaine_activite_libelle_categorise } = route?.params?.clubData
   const {images, darkTheme} = route?.params
 
   const formattedObject = objet.split(';').map(sentence => sentence.trim().charAt(0).toUpperCase() + sentence.trim().slice(1)).join('. \n\n')
@@ -57,9 +57,9 @@ const ClubDetailsScreen = () => {
 
       <View style={styles.contentContainer}>
 
-        <TitleSection title={titre} onButtonPress={() => navigation.goBack()} />
+        <TitleSection title={name} onButtonPress={() => navigation.goBack()} />
 
-        <AddressDetails address={adresse_actuelle} postalCode={codepostal_actuel} />
+        <AddressDetails address={address} postalCode={actualZipcode} />
 
         <AssociationLink />
 
