@@ -25,24 +25,22 @@ const ClubCard = ({data}: IClubCardProps) => {
   const [isLiked, setIsLiked] = useState(false);
   const navigation = useNavigation();
   const {lat, lon} = useLocationContext()
-  const clubLat = parseFloat(data?.fields?.geo_point?.split(',')[0])
-  const clubLon = parseFloat(data?.fields?.geo_point?.split(',')[1])
+  const clubLat = parseFloat(data["geoPoint"]?.split(',')[0])
+  const clubLon = parseFloat(data["geoPoint"].split(',')[1])
   const distance = getDistance(lat, lon, clubLat, clubLon )
   const formattedDistance = distance.toFixed(1).toString() + ' km';
-  const city = data?.fields?.commune_actuelle
-  const titre = data?.fields?.titre || data?.fields?.titre_search || "Cette association n'a pas renseigné de titre"
-  const objet = data?.fields?.objet || "Cette association n'a pas renseigné de description";
-  const domaine_activite_libelle_categorise = data?.fields?.domaine_activite_libelle_categorise;
-  const codepostal_actuel = data?.fields?.codepostal_actuel;
-  const subCategory = domaine_activite_libelle_categorise ? domaine_activite_libelle_categorise.split('/')[1].split('###')[0].charAt(0).toUpperCase() + domaine_activite_libelle_categorise.split('/')[1].split('###')[0].slice(1) : 'Autre/Non renseigné';
-  const category = domaine_activite_libelle_categorise ? domaine_activite_libelle_categorise.split('/')[0].split('###')[0].charAt(0).toUpperCase() + domaine_activite_libelle_categorise.split('/')[0].split('###')[0].slice(1) : 'Autre/Non renseigné';
+  // const city = data["city"]
+  const titre = data["name"]
+  const objet = data["objet"]
+  const codepostal_actuel = data["actualZipcode"];
+  const subCategory = data["subcategory"]
+  const category = data["category"]
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   console.log(category, subCategory)
+  console.log(categoryImages[category][subCategory])
   const images = [
-    `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subCategory][0] : 'random'}/300/200`,
-    `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subCategory][1] : 'random'}/300/200`,
+    `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subCategory][0] : 'random'}/300/200`
   ];
-  // console.log(images)
 
   const navigateToClubDetails = () => {
     navigation.navigate('ClubDetails', {clubData: data?.fields, images, darkTheme: true});
@@ -63,7 +61,7 @@ const ClubCard = ({data}: IClubCardProps) => {
           const index = likedClubs.findIndex((club: IClub) => club.fields.id === data.fields.id);
           if(index !== -1) {
               likedClubs.splice(index, 1);
-              setIsLiked(false); 
+              setIsLiked(false);
           } else {
               likedClubs.push(data);
               setIsLiked(true);
@@ -92,12 +90,12 @@ const ClubCard = ({data}: IClubCardProps) => {
       <View style={styles.card}>
         <Image style={styles.image} source={{uri: images[currentImageIndex]}} contentFit="cover" transition={0} />
         <View style={styles.indexButtonContainer}>
-          { images.length > 1 && images.map( (_, index) => ( 
+          { images.length > 1 && images.map( (_, index) => (
             <View key={index} style={{
               width: `${80 / images.length}%`,
               height: 4,
-              backgroundColor: `${ index == currentImageIndex ? 'white' : 'darkgrey' }`, margin: 5,}} 
-            /> ) ) 
+              backgroundColor: `${ index == currentImageIndex ? 'white' : 'darkgrey' }`, margin: 5,}}
+            /> ) )
           }
         </View>
 
@@ -108,9 +106,9 @@ const ClubCard = ({data}: IClubCardProps) => {
           <Pressable style={styles.leftButton} onPress={() => changeImage('left')}/>
           <Pressable style={styles.rightButton} onPress={() => changeImage('right')}/>
           <View style={styles.titleContainer} >
-            <Text 
-              style={styles.title} 
-              numberOfLines={3} 
+            <Text
+              style={styles.title}
+              numberOfLines={3}
               onPress={navigateToClubDetails}
             >
               { titre ? titre.toUpperCase() : "Non renseigné" }
@@ -121,12 +119,12 @@ const ClubCard = ({data}: IClubCardProps) => {
           </View>
 
           <Text style={{color: 'white'}}>
-            <Ionicons name="location-sharp" size={14} color={colors.primary} style={styles.locationIcon} /> {formattedDistance ? formattedDistance : 'Non renseigné'} - {city} ({codepostal_actuel})
+            <Ionicons name="location-sharp" size={14} color={colors.primary} style={styles.locationIcon} /> {formattedDistance ? formattedDistance : 'Non renseigné'} - ({codepostal_actuel})
           </Text>
 
           <LinearGradient end={{x: 0.3, y: 0.4}} start={{x: 0.8, y: 0.9}} colors={['#000000', '#222222']} style={styles.tagGradient}>
-          <Text 
-            numberOfLines={1} 
+          <Text
+            numberOfLines={1}
             style={styles.subCategoryText}
             onPress={navigateToClubDetails}
           >
@@ -134,8 +132,8 @@ const ClubCard = ({data}: IClubCardProps) => {
           </Text>
           </LinearGradient>
 
-          <Text 
-            style={styles.object} 
+          <Text
+            style={styles.object}
             numberOfLines={3}
             onPress={navigateToClubDetails}
           >
@@ -248,23 +246,23 @@ const styles = StyleSheet.create({
       overflow: 'hidden'
     },
     subCategoryText: {
-      color: 'white', 
-      paddingHorizontal: 10, 
-      marginVertical: 4, 
-      borderRadius: 14, 
-      backgroundColor: 'transparent', 
+      color: 'white',
+      paddingHorizontal: 10,
+      marginVertical: 4,
+      borderRadius: 14,
+      backgroundColor: 'transparent',
       overflow: 'hidden',
     },
     profileIcon: {
-      textAlign: 'center', 
-      textShadowColor: 'rgba(30, 30, 50, 0.99)', 
-      textShadowOffset: {width: 0.5, height: 0.5}, 
+      textAlign: 'center',
+      textShadowColor: 'rgba(30, 30, 50, 0.99)',
+      textShadowOffset: {width: 0.5, height: 0.5},
       textShadowRadius: 5,
     },
     tagGradient: {
-      borderRadius: 14, 
+      borderRadius: 14,
       borderWidth: 1,
-      borderColor: "#555555", 
+      borderColor: "#555555",
       marginVertical: 5
     },
   });

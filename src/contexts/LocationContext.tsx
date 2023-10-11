@@ -10,10 +10,10 @@ type LocationContextType ={
     lon: number | string ;
     city: string | null;
     region: string | null;
-    zipcode: string | null;
+    zipcode: string ;
     subregion: string | null;
     allowLocation: boolean;
-    updateLocation: (newLocation: ILocation, zipcode: string | null, newCity: string | null, newRegion: string | null, newSubregion: string | null) => void;
+    updateLocation: (newLocation: ILocation, newZipcode: string, newCity: string | null, newRegion: string | null, newSubregion: string | null) => void;
 }
 
 type ILocation ={
@@ -57,22 +57,12 @@ const LocationContextProvider = ({children}: {children: ReactNode}) => {
       (async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
        if (status !== 'granted') {
-          // Alert.alert(
-          //   'Localisation par défaut activée',
-          //   'Vous pourrez changer votre localisation dans la prochaine version de l\'application',
-          //   [
-          //     {
-          //       text: 'OK',
-          //       onPress: () => console.log('OK Pressed'),
-          //       style: 'cancel'
-          //     },
-          //     { text: 'Activer la localisation', onPress: () => Linking.openSettings() }
-          //   ],
-          // )
+          // Si pas authorisé, on définit des valeurs par défaut
           setLocation({ coords: {latitude: 48.8566, longitude: 2.3522}});  // Example: Paris
           setCity('Paris');
           setRegion('Île-de-France');
           setSubregion('Paris');
+          setZipCode('75017');
           setAllowLocation(false);
           return;
         } else {
@@ -80,32 +70,35 @@ const LocationContextProvider = ({children}: {children: ReactNode}) => {
           setLocation(location);
           setAllowLocation(true);
         }
-        
+
 
 
         const storedLocation = JSON.parse(await AsyncStorage.getItem('lastLocation') || 'null');
-    
+
         const storedCity = await AsyncStorage.getItem('lastGeocodedCity');
 
         const storedRegion = await AsyncStorage.getItem('lastGeocodedRegion');
 
         const storedSubregion = await AsyncStorage.getItem('lastGeocodedSubregion');
-    
-        if (storedLocation && storedCity && storedRegion && storedSubregion) {
+
+        const storedZipcode = await AsyncStorage.getItem('lastGeocodedZipcode')
+
+        if (storedLocation && storedCity && storedRegion && storedSubregion && storedZipcode) {
           const storedTimestamp = JSON.parse(await AsyncStorage.getItem('lastLocationTimestamp') || 'null');
           const currentTime = new Date().getTime();
-    
+
           // Check if the stored data is within the expiration time
           if (storedTimestamp && currentTime - storedTimestamp <= EXPIRATION_TIME ) {
-              console.log('Using stored location as it is within the expiration time for again : number of seconds: ', (currentTime - storedTimestamp) / 1000 );
+            console.log('Using stored location as it is within the expiration time for again : number of seconds: ', (currentTime - storedTimestamp) / 1000 );
             setLocation({ coords: storedLocation });
             setCity(storedCity);
             setRegion(storedRegion);
             setSubregion(storedSubregion);
-            return; 
+            setZipCode(storedZipcode);
+            return;
           }
         }
-    
+
         console.log('Getting current position as storage info about location was not complete...');
         let deviceLocation = await Location.getLastKnownPositionAsync({}); // Use getLastKnownPositionAsync()
         if (!deviceLocation) {
@@ -125,9 +118,11 @@ const LocationContextProvider = ({children}: {children: ReactNode}) => {
           const currentCity = geocodeData[0].city;
           const currentRegion = geocodeData[0].region;
           const currentSubregion = geocodeData[0].subregion;
+          const currentZipCode = geocodeData[0].postalCode;
           setCity(currentCity);
           setRegion(currentRegion);
           setSubregion(currentSubregion);
+          setZipCode(currentZipCode);
           if (currentRegion !== null) {
           AsyncStorage.setItem('lastGeocodedRegion', currentRegion);
           }
@@ -137,6 +132,9 @@ const LocationContextProvider = ({children}: {children: ReactNode}) => {
           if (currentSubregion !== null){
               AsyncStorage.setItem('lastGeocodedSubregion', currentSubregion);
           }
+          if (currentZipCode !== null){
+            AsyncStorage.setItem('lastGeocodedZipcode', currentZipCode);
+        }
           AsyncStorage.setItem('lastLocation', JSON.stringify(locationObject));
           AsyncStorage.setItem('lastLocationTimestamp', JSON.stringify(new Date().getTime()));
         } else {

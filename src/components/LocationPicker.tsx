@@ -17,8 +17,8 @@ export const LocationPicker = ({ onLocationSelected }: any) => {
   const insets = useSafeAreaInsets();
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState<Location | null>({
-    latitude: 42.78825,
-    longitude: 3.4324,
+    latitude: 48.856614,
+    longitude: 2.3522219,
   });
 
   const handlePress = (event: any) => {
@@ -46,8 +46,8 @@ export const LocationPicker = ({ onLocationSelected }: any) => {
         <MapView
           style={{ flex: 1, paddingVertical: 50 }}
           initialRegion={{
-            latitude: 42.78825,
-            longitude: 2.4324,
+            latitude: 48.856614,
+            longitude: 2.3522219,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }}

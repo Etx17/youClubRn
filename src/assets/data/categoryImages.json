@@ -14,7 +14,7 @@
         "Activités de plein air (dont saut à l’élastique)": ["outdoor", "adventure", "extreme"],
         "Tir (tir à l’arc, tir à balle, ball trap), javelot": ["archery", "shooting", "javelin"],
         "Associations multisports scolaires ou universitaires": ["school", "college", "university"],
-        "Rugby (rugby à 13, à 15)": ["rugby", "football", "scrum"],
+        "Rugby (rugby à 13, à 15)": ["rugby", "football", "melee"],
         "Danse sportive (danse sportive, hip hop, claquettes)": ["dancing", "hip hop", "tap"],
         "Tennis (tennis, longue paume)": ["tennis", "racquet", "court"],
         "Athlétisme (triathlon, pentathlon, footing, jogging)": ["athletics", "jump", "footing"],
@@ -22,7 +22,7 @@
         "Basket-ball": ["basketball", "hoops", "court"],
         "Nautisme, glisse sur eau (ski nautique, surf, char à voile)": ["sailing", "water", "surfing"],
         "Voile (voile, dériveur, planche à voile)": ["sailing", "sailboat", "windsurfing"],
-        "Natation - Baignade (natation, plongée)": ["swimming", "diving", "pool"],
+        "Natation - baignade (natation, plongée)": ["swimming", "diving", "pool"],
         "Judo": ["judo", "martial", "defense"],
         "Sports de neige (ski alpin, ski de fond, snowboard), montagne": ["skiing", "snowboarding", "mountains"],
         "Handball": ["handball", "team", "indoor"],
@@ -319,5 +319,4 @@
         "Accès aux droits dans les tribunaux, assistance juridique": ["access", "legal", "support"],
         "Maisons du droit, accès au droit": ["access", "legal", "support"]
     }
-}  
-    
+}
