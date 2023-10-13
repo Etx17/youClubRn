@@ -7,6 +7,7 @@ interface ISubcategories {
 const subcategories: ISubcategories = {
     "Sports, activités de plein air": [
         // { label: "🏎️ Sports mécaniques (sport automobile, moto, trial)", value: "Sports mécaniques (sport automobile, moto, trial)" },
+        { label: "Toutes", value: "all" },
         { label: "⚽ Football (football, futsal)", value: "Football (football, futsal)" },
         { label: "🤸 Gymnastique (gymnastique, gymnastique d’entretien, éducation physique, yoga), aérobic", value: "Gymnastique (gymnastique, gymnastique d’entretien, éducation physique, yoga), aérobic" },
         { label: "🥋 Autres arts martiaux (karaté, aïkido, taekwondo)", value: "Autres arts martiaux (karaté, aïkido, taekwondo)" },
@@ -219,7 +220,7 @@ const subcategories: ISubcategories = {
     //     { label: "📻 Radios privées", value: "Radios privées" },
     //     { label: "👂 Auditeurs, consommateurs d’outils d’information et de communication", value: "Auditeurs, consommateurs d’outils d’information et de communication" },
     //     { label: "📊 Professionnels de l’information et de communication", value: "Professionnels de l’information et de communication" }
-    // ],        
+    // ],
     // "Aide à l’emploi, développement local, promotion de solidarités économiques, vie locale":[
     //     { label: "🏠 Comités de défense et d’animation de quartier, association locale ou municipale", value: "Comités de défense et d’animation de quartier, association locale ou municipale" },
     //     { label: "🌍 Promotion d’initiatives de développement durable", value: "Promotion d’initiatives de développement durable" },
@@ -264,7 +265,7 @@ const subcategories: ISubcategories = {
         { label: "🏠 Action politique locale", value: "action politique locale" },
         { label: "🤝 Associations à caractère politique général", value: "associations à caractère politique général" },
         { label: "🌎 Action politique globale", value: "action politique globale" },
-        { label: "🇪🇺 Activités citoyennes européennes", value: "activités citoyennes européennes" }    
+        { label: "🇪🇺 Activités citoyennes européennes", value: "activités citoyennes européennes" }
     ],
     "clubs, cercles de réflexion": [
         { label: "🤔 Clubs de réflexion", value: "clubs de réflexion" },
@@ -298,7 +299,7 @@ const subcategories: ISubcategories = {
         { label: "🎭 Recherche sur la culture", value: "recherche sur la culture" },
         { label: "🏫 Recherche sur l'éducation et la formation", value: "recherche sur l'éducation et la formation" },
         { label: "🌍 Recherche sur la vie sociale et politique", value: "recherche sur la vie sociale et politique" },
-        { label: "🌳 Recherche sur l'environnement et le climat", value: "recherche sur l'environnement et le climat" }    
+        { label: "🌳 Recherche sur l'environnement et le climat", value: "recherche sur l'environnement et le climat" }
     ],
     "Armée (dont préparation militaire, médailles)":[
         { label: "🎖️ Anciens combattants", value: "Anciens combattants" },
@@ -326,6 +327,5 @@ const subcategories: ISubcategories = {
         { label: "🏛️ Maisons du droit, accès au droit", value: "maisons du droit, accès au droit" }
     ]
 };
-  
-export default subcategories;
 
+export default subcategories;
