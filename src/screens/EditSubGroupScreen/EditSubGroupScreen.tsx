@@ -27,7 +27,7 @@ const EditSubGroupScreen = () => {
     address: subgroup?.address || "Erreur de récupération",
     minPrice: subgroup?.min_price,
     tarifications: subgroup?.tarifications
-        ? subgroup.tarifications.map((tarif: String) => ({
+        ? subgroup.tarifications?.map((tarif: String) => ({
             number: tarif.split('/')[0],
             text: tarif.split('/')[1],
             isNew: false,
@@ -84,7 +84,7 @@ const EditSubGroupScreen = () => {
       minPrice: parseFloat(data.minPrice),
       classType: data.type,
       shortDescription: data.shortDescription,
-      tarifications: data.tarifications.map((tarif: Tarification) => `${tarif.number}/${tarif.text}`)
+      tarifications: data?.tarifications?.map((tarif: Tarification) => `${tarif.number}/${tarif.text}`)
     }
     await updateSubGroup({ variables: { input: { ...subGroupObj }}}).then(()=> {
       refetchActivityData().then(() => {
@@ -145,7 +145,7 @@ const EditSubGroupScreen = () => {
 
           {/* Tarifications input */}
           <Card.Title title="Ajoutez des tarifications représentatives" />
-          {tarifications.map((tarification: Tarification, index: number) => (
+          {tarifications?.map((tarification: Tarification, index: number) => (
             tarification.isNew ? (
               <View key={index} style={{ flexDirection: 'row', gap: 10, justifyContent: 'center', alignItems: 'center' }}>
                 <Controller
