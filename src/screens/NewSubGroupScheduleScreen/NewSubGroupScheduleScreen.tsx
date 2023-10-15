@@ -20,6 +20,12 @@ type Timeslot = {
   isNew?: boolean;
 };
 
+const getNoonDate = () => {
+  let date = new Date();
+  date.setHours(12, 0, 0, 0);
+  return date.toISOString();
+};
+
 const NewSubGroupScheduleScreen = (subgroup: {}) => {
   const [timeslots, setTimeslots] = useState<Timeslot[]>([]);
   const { control, handleSubmit, getValues, setValue, formState: { errors } } = useForm<SubGroupSchedule>({
@@ -118,6 +124,7 @@ const NewSubGroupScheduleScreen = (subgroup: {}) => {
                   mode={'time'}
                   is24Hour={true}
                   display="default"
+                  minuteInterval={5}
                     onChange={(event, selectedDate) => {
                     if (selectedDate) {
                       setTimeslots(prevTimeslots => {
@@ -135,6 +142,7 @@ const NewSubGroupScheduleScreen = (subgroup: {}) => {
                   mode={'time'}
                   is24Hour={true}
                   display="default"
+                  minuteInterval={5}
                   onChange={(event, selectedDate) => {
                   if (selectedDate) {
                     setTimeslots(prevTimeslots => {
@@ -157,7 +165,12 @@ const NewSubGroupScheduleScreen = (subgroup: {}) => {
             style={styles.addTimeSlotButton}
             textColor='black'
             onPress={() => {
-              setTimeslots(prevTimeslots => [...prevTimeslots, { startTime: new Date().toISOString(), endTime: new Date().toISOString() }]);
+              setTimeslots(prevTimeslots => [...prevTimeslots,
+                {
+                  startTime: getNoonDate(),
+                  endTime: getNoonDate()
+                }
+              ]);
             }}>
             Ajouter un horaire
           </Button>

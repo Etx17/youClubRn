@@ -61,7 +61,9 @@ export default function EditClubScreen() {
       // Au chargement du screen, je vais chercher l'url de l'image du club actuelle
       if (data?.clubByUserId.images) {
         try {
+          console.log('start sending image to s3')
           const url = await Storage.get(data?.clubByUserId.images[0]);
+          console.log('ok')
           setCurrentClubPhoto(url);
         } catch (error) {
           console.error("Error fetching club photo:", error);

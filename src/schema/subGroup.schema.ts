@@ -15,7 +15,7 @@ const tarificationSchema = z.object({
 export const SubGroupSchema = z.object({
   name: z.string().min(3, 'Le nom doit comporter au moins 3 caractères').max(35, 'Le nom ne peut pas dépasser 35 caractères').optional(),
   type: z.string().min(3, 'Le type doit comporter au moins 3 caractères').max(35, 'Le type ne peut pas dépasser 35 caractères').optional(),
-  recurrence: z.string().min(3, 'La récurrence doit comporter au moins 3 caractères').max(35, 'La récurrence ne peut pas dépasser 35 caractères').optional(),
+  recurrence: z.string().min(2, 'La récurrence doit comporter au moins 3 caractères').max(35, 'La récurrence ne peut pas dépasser 35 caractères').optional(),
   minPrice: z.string()
   .refine(value => /^(\d+|\d+\.\d{1,2})$/.test(value), 'Must be a positive number with up to two decimal places')
   .refine(value => {
@@ -24,7 +24,7 @@ export const SubGroupSchema = z.object({
   }, 'Should not have unnecessary trailing zeros'),
   shortDescription: z.string().min(10, 'Doit comporter au moins 10 caractères').max(500, 'Ne peut pas dépasser 500 caractères').optional(),
   address: z.string().optional(),
-  tarifications: z.array(tarificationSchema).optional(),
+  // tarifications: z.array(tarificationSchema).optional(),
 });
 
 export type SubGroup = z.infer<typeof SubGroupSchema>;
