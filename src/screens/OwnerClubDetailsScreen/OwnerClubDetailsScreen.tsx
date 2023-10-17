@@ -17,7 +17,7 @@ import { useQuery } from '@apollo/client';
 import { GET_CLUB_BY_USER_ID } from './queries';
 import ApiErrorMessage from '../../components/apiErrorMessage/ApiErrorMessage';
 import { Storage } from 'aws-amplify';
-
+import categoryImages from '../../assets/data/categoryImages';
 const OwnerClubDetailsScreen = () => {
   const changeImage = (direction: String) => {
     if (direction === 'left') {
@@ -40,6 +40,14 @@ const OwnerClubDetailsScreen = () => {
   const objet = data?.clubByUserId ? data?.clubByUserId.objet : clubs[0].objet
   const [images, setImages] = useState([]);
   const clubId = data?.clubByUserId.id
+
+  const category = data?.clubByUserId ? data?.clubByUserId.category : clubs[0].category
+  const subcategory = data?.clubByUserId ? data?.clubByUserId.subcategory : clubs[0].subcategory
+  const categoryImage = categoryImages[category] ? categoryImages[category][subcategory][0] : 'random'
+
+  const default_image = [
+    `https://source.unsplash.com/random/?${categoryImage}/300/200`
+  ];
 
   useEffect(() => {
     if (data?.clubByUserId?.images) {
@@ -69,9 +77,9 @@ const OwnerClubDetailsScreen = () => {
       <ScrollView style={{backgroundColor: 'black'}}>
       {/* IMAGE CAROUSEL */}
       <DetailsCarousel
-        key={ images.length > 0 ? images[currentImageIndex] : "wait" }
-        images={images.length > 0 ? images : []}
-        currentImageIndex={currentImageIndex}
+        key={ images.length > 0 ? images[currentImageIndex] : 0 }
+        images={images.length > 0 ? images : default_image}
+        currentImageIndex={images.length > 0 ? images[currentImageIndex] : 0}
         changeImage={changeImage}
       />
 

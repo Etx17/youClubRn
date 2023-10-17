@@ -9,7 +9,6 @@ interface IDetailsCarouselProps {
 }
 const DetailsCarousel = ({ images, currentImageIndex, changeImage }: IDetailsCarouselProps) => {
   const [isLoading, setIsLoading] = useState(true);
-
     return (
     <View style={styles.informationsContainer}>
         <Pressable style={styles.leftButton} onPress={() => changeImage('left')}/>

@@ -70,6 +70,8 @@ const ActivityDetailsScreen = () => {
   const activityId = route?.params?.activityId || route?.params?.activityData?.id
   const {data, loading, error, refetch} = useQuery(GET_ACTIVITY, {variables: {id: activityId}})
   const imageKeys = data?.activity ? data?.activity.images : []
+
+
   const [deleteSubGroup, { data: deleteData, loading: deleteLoading, error: deleteError }] = useMutation(DELETE_SUB_GROUP, {
     onCompleted: () => {
       Alert.alert('Sous-groupe supprimé')
@@ -146,11 +148,15 @@ const ActivityDetailsScreen = () => {
     const { id, name, address, fullDescription, actualZipcode } = data?.activity
     const ActivitySubGroups = data?.activity.subGroups
 
-
+    const default_image = [ `https://source.unsplash.com/random/?/300/200` ];
     return (
       <ScrollView ref={scrollViewRef} style={{backgroundColor: 'black'}}>
         {/* IMAGE CAROUSEL */}
-        <DetailsCarousel images={images || []} currentImageIndex={currentImageIndex} changeImage={changeImage} />
+        <DetailsCarousel
+        images={images.length > 0 ? images : default_image}
+        currentImageIndex={currentImageIndex}
+        changeImage={changeImage}
+        />
 
 
         <View style={styles.contentContainer}>

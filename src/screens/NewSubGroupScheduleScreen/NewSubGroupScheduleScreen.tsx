@@ -95,9 +95,9 @@ const NewSubGroupScheduleScreen = (subgroup: {}) => {
             fieldState: { error, invalid },
           }) => (
             <RadioButton.Group onValueChange={onChange} value={value}>
-              { daysToShow?.map(day => {
+              { daysToShow?.map((day, index) => {
                 return (
-                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <View style={{flexDirection: 'row', alignItems: 'center'}} key={index}>
                     <RadioButton value={day} />
                     <Text>{day}</Text>
                   </View>

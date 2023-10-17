@@ -74,7 +74,7 @@ const ClubDetailsScreen = () => {
   // }, [data])
 
   return (
-    <ScrollView>
+    <ScrollView style={{backgroundColor: 'black'}}>
       {/* IMAGE CAROUSEL */}
       <DetailsCarousel images={images} currentImageIndex={currentImageIndex} changeImage={changeImage} />
 

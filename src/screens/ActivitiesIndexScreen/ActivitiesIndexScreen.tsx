@@ -102,10 +102,10 @@ const ActivitiesIndexScreen = () => {
         backgroundColor={'transparent'}
         cardHorizontalMargin={5}
         onSwipedAll={()=>Alert.alert('No more activities')}
-        renderCard={(card) =>
+        renderCard={(card, index) =>
           (
           <ActivityCard
-            data={card}
+            data={card} key={index}
           />
         )}
       />
