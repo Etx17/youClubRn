@@ -38,5 +38,5 @@ const styles = StyleSheet.create({
   },
 });
 
-// export default withAuthenticator(App); for staging
-export default App;
+export default withAuthenticator(App); //for staging
+// export default App;

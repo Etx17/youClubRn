@@ -12,6 +12,7 @@ export const GET_CLUBS_BY_ZIPCODE = gql`
       geoPoint
       address
       actualZipcode
+      images
     }
   }
 `;

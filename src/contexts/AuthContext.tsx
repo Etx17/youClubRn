@@ -85,8 +85,8 @@ const AuthContextProvider = ({children}: {children: ReactNode}) => {
     }, [])
 
     return (
-        // <AuthContext.Provider value={ {user} }> this is the original for youclubstaging heroku app
-        <AuthContext.Provider value={ { user: {id: "2208", role: "user"}}}>
+        <AuthContext.Provider value={ {user} }>
+        {/* // <AuthContext.Provider value={ { user: {id: "2208", role: "user"}}}> */}
             {children}
         </AuthContext.Provider>
     )

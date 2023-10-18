@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { View, Text, StyleSheet, Pressable, ActivityIndicator } from 'react-native';
 import colors from '../themes/colors';
 import {Image} from 'expo-image';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -11,6 +11,7 @@ import categoryImages from '../assets/data/categoryImages';
 import { useLocationContext } from '../contexts/LocationContext';
 import { getDistance } from '../services/GeoServices';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Storage } from 'aws-amplify';
 
 interface IClub {
   fields: {
@@ -21,7 +22,10 @@ interface IClubCardProps {
   data: any
 }
 const ClubCard = ({data}: IClubCardProps) => {
-  // console.log(data, 'data from club card')
+  const blurhash =
+  '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
+
+  const [images, setImages] = useState([]);
   const [isLiked, setIsLiked] = useState(false);
   const navigation = useNavigation();
   const {lat, lon} = useLocationContext()
@@ -29,64 +33,92 @@ const ClubCard = ({data}: IClubCardProps) => {
   const clubLon = parseFloat(data["geoPoint"].split(',')[1])
   const distance = getDistance(lat, lon, clubLat, clubLon )
   const formattedDistance = distance.toFixed(1).toString() + ' km';
-  // const city = data["city"]
   const titre = data["name"]
   const objet = data["objet"]
   const codepostal_actuel = data["actualZipcode"];
   const subCategory = data["subcategory"]
   const category = data["category"]
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const images = [
-    `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subCategory][0] : 'random'}/300/200`
-  ];
+  const default_image = `https://source.unsplash.com/random/?${categoryImages[category][subCategory][0]}/300x100/`
+  const [imageIsLoading, setImageIsLoading] = useState(false);
+  useEffect(() => {
+    if (data?.images.length > 0 ) {
+      setImageIsLoading(true);
+      Promise.all(
+        data.images.map((imageKey) => Storage.get(imageKey, {level: 'public'}))
+      )
+        .then((fetchedImages) => {
+          setImages(fetchedImages);
+        })
+        .catch((error) => {
+          console.error('Error fetching images', error);
+        });
+      setImageIsLoading(false);
+    } else {
+      setImages([default_image])
+    }
+  }, [data]);
+
 
   const navigateToClubDetails = () => {
     navigation.navigate('ClubDetails', {clubData: data, images, darkTheme: true});
   }
 
-    const changeImage = (direction: String) => {
-      if (direction === 'left') {
-        setCurrentImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
-      } else {
-        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-      }
-    };
-
-    const handleLike = async () => {
-      try {
-          const likedClubsString = await AsyncStorage.getItem('likedClubs');
-          let likedClubs = likedClubsString == null ? [] : JSON.parse(likedClubsString);
-          const index = likedClubs.findIndex((club: IClub) => club.fields.id === data.fields.id);
-          if(index !== -1) {
-              likedClubs.splice(index, 1);
-              setIsLiked(false);
-          } else {
-              likedClubs.push(data);
-              setIsLiked(true);
-          }
-          await AsyncStorage.setItem('likedClubs', JSON.stringify(likedClubs));
-      } catch (error) {
-          console.error(error);
-      }
+  const changeImage = (direction: String) => {
+    if (direction === 'left') {
+      setCurrentImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+    } else {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
     }
+  };
 
-    useEffect(() => {
-      const checkIfLiked = async () => {
-          try {
-              const likedClubsString = await AsyncStorage.getItem('likedClubs');
-              let likedClubs = likedClubsString == null ? [] : JSON.parse(likedClubsString);
-              const index = likedClubs?.findIndex((club: IClub) => club.fields.id === data.fields.id);
-              setIsLiked(index !== -1); // If index is not found, its value is -1, so the club is not liked since it would be false
-          } catch (error) {
-              console.error(error);
-          }
-      };
-      checkIfLiked();
-    }, []);
+  const handleLike = async () => {
+    try {
+        const likedClubsString = await AsyncStorage.getItem('likedClubs');
+        let likedClubs = likedClubsString == null ? [] : JSON.parse(likedClubsString);
+        const index = likedClubs.findIndex((club: IClub) => club.fields.id === data.fields.id);
+        if(index !== -1) {
+            likedClubs.splice(index, 1);
+            setIsLiked(false);
+        } else {
+            likedClubs.push(data);
+            setIsLiked(true);
+        }
+        await AsyncStorage.setItem('likedClubs', JSON.stringify(likedClubs));
+    } catch (error) {
+        console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    const checkIfLiked = async () => {
+        try {
+            const likedClubsString = await AsyncStorage.getItem('likedClubs');
+            let likedClubs = likedClubsString == null ? [] : JSON.parse(likedClubsString);
+            const index = likedClubs?.findIndex((club: IClub) => club.fields.id === data.fields.id);
+            setIsLiked(index !== -1); // If index is not found, its value is -1, so the club is not liked since it would be false
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    checkIfLiked();
+  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.card}>
-        <Image style={styles.image} source={{uri: images[currentImageIndex]}} contentFit="cover" transition={0} />
+        {imageIsLoading ? (
+          <ActivityIndicator size="large" color="#0000ff" />
+        ) : (
+          <Image
+            style={styles.image}
+            source={{uri: images[0]}}
+            contentFit="cover"
+            transition={0}
+            placeholder={blurhash}
+          />
+        )
+        }
+
         <View style={styles.indexButtonContainer}>
           { images.length > 1 && images.map( (_, index) => (
             <View key={index} style={{
