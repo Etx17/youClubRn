@@ -76,10 +76,10 @@ const OwnerClubDetailsScreen = () => {
     return (
       <ScrollView style={{backgroundColor: 'black'}}>
       {/* IMAGE CAROUSEL */}
+
       <DetailsCarousel
-        key={ images.length > 0 ? images[currentImageIndex] : 0 }
         images={images.length > 0 ? images : default_image}
-        currentImageIndex={images.length > 0 ? images[currentImageIndex] : 0}
+        currentImageIndex={currentImageIndex}
         changeImage={changeImage}
       />
 

@@ -149,13 +149,14 @@ const ActivityDetailsScreen = () => {
     const ActivitySubGroups = data?.activity.subGroups
 
     const default_image = [ `https://source.unsplash.com/random/?/300/200` ];
+
     return (
       <ScrollView ref={scrollViewRef} style={{backgroundColor: 'black'}}>
         {/* IMAGE CAROUSEL */}
         <DetailsCarousel
-        images={images.length > 0 ? images : default_image}
-        currentImageIndex={currentImageIndex}
-        changeImage={changeImage}
+          images={images.length > 0 ? images : default_image}
+          currentImageIndex={currentImageIndex}
+          changeImage={changeImage}
         />
 
 
@@ -176,6 +177,11 @@ const ActivityDetailsScreen = () => {
               <SubGroupsSection subGroups={data?.activity.subGroups} activityId={id} />
             </Pressable>
           }
+          {user?.role === 'club' && (
+          <Pressable onPress={() => navigation.navigate('NewSubGroup', {activityId: id, refetchActivityData: refetch})} style={styles.addActivityButton}>
+              <Text style={{fontSize: 16, color: colors.primary, paddingVertical: 4}}> + Nouveau </Text>
+          </Pressable>
+        )}
 
           <DescriptionSection description={fullDescription} />
 
@@ -187,11 +193,7 @@ const ActivityDetailsScreen = () => {
               refetchActivityData={refetch}
               />
           ))}
-          {user?.role === 'club' && (
-          <Pressable onPress={() => navigation.navigate('NewSubGroup', {activityId: id, refetchActivityData: refetch})} style={styles.addActivityButton}>
-              <Text style={{fontSize: 24, color: colors.primary,}}> + </Text>
-          </Pressable>
-        )}
+
 
           <InscriptionButton onPress={() => Alert.alert("Bientôt disponible", "Lorsque cette association aura récupéré son profil, elle pourra mettre en place l'inscription")} />
 
@@ -297,7 +299,7 @@ const ActivityDetailsScreen = () => {
       overflow: 'hidden',
       borderColor: colors.primary,
       borderWidth: 1,
-      width: "100%",
+      width: "auto",
       marginHorizontal: 4,
     },
     deleteActivityButton: {

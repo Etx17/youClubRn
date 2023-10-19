@@ -21,11 +21,6 @@ const ActivitiesIndexScreen = () => {
   const [isFetching, setIsFetching] = useState(false);
   const { city, region, subregion, allowLocation, zipcode } = useLocationContext();
   const [reload, setReload] = useState(false);
-  // useEffect(() => {
-  //   setActivities(dataActivities)
-  //   setSubCategoryActivities(activities)
-
-  // }, [allowLocation, dropdownValue, region, subregion, reload]);
 
   const handleDropdownValueChange = (valuecat: string) => {
     setDropdownValue(valuecat);
@@ -50,14 +45,17 @@ const ActivitiesIndexScreen = () => {
     setReload(true);
   };
 
-  const {data, loading, error, refetch} = useQuery(GET_ACTIVITIES, {variables: {zipcode: "75017"}})
+  const {data, loading, error, refetch} = useQuery(GET_ACTIVITIES,{
+    variables: {zipcode: zipcode},
+    skip: !zipcode
+  })
 
   useEffect(() => {
     if(data){
       setActivities(data.activities)
       setSubCategoryActivities(data.activities)
     }
-  }, [data, allowLocation, dropdownValue, region, subregion])
+  }, [data, allowLocation, dropdownValue])
 
   if(loading){ return <ActivityIndicator/> }
   if(error){

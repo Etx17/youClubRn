@@ -11,6 +11,7 @@ import categoryImages from '../assets/data/categoryImages';
 import { useLocationContext } from '../contexts/LocationContext';
 import { getDistance } from '../services/GeoServices';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Storage } from 'aws-amplify';
 
 interface IActivity {
   id: string,
@@ -19,9 +20,8 @@ interface IActivityCardProps {
   data: any
 }
 const activityCard = ({data}: IActivityCardProps) => {
-  const images = [
-    `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subcategories][0] : 'random'}/300/200`,
-  ];
+
+  const [images, setImages] = useState([]);
   const [isLiked, setIsLiked] = useState(false);
   const navigation = useNavigation();
   const {lat, lon} = useLocationContext()
@@ -32,61 +32,84 @@ const activityCard = ({data}: IActivityCardProps) => {
   const formattedDistance = distance.toFixed(1).toString() + ' km';
 
   const category =  data?.category || 'Autre/Non renseigné';
-  // console.log(category, ' <= category')
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const subcategories = data?.subcategories?.split('###')[0] || 'Autre/Non renseigné';
-  // console.log(subcategories, ' <= subcategories')
-  // console.log( categoryImages[category][subcategories][0], ' <= categoryImages[category][subcategories][0]')
 
-  const navigateToactivityDetails = () => {
+  const default_images = [
+    `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subcategories][0] : 'random'}/300/200`,
+  ];
+  const blurhash = '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
+
+  const navigateToActivityDetails = () => {
     navigation.navigate('ActivityDetails', {activityData: data, images, darkTheme: true});
     // Alert.alert('Désolé, cette fonctionnalité n\'est pas encore disponible')
   }
 
-    const changeImage = (direction: String) => {
-      if (direction === 'left') {
-        setCurrentImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
-      } else {
-        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-      }
-    };
-
-    const handleLike = async () => {
-      try {
-          const likedActivitiesString = await AsyncStorage.getItem('likedActivities');
-          let likedActivities = likedActivitiesString == null ? [] : JSON.parse(likedActivitiesString);
-          const index = likedActivities.findIndex((activity: IActivity) => activity.id === data.id);
-          if(index !== -1) {
-              likedActivities.splice(index, 1);
-              setIsLiked(false);
-          } else {
-              likedActivities.push(data);
-              setIsLiked(true);
-          }
-          await AsyncStorage.setItem('likedActivities', JSON.stringify(likedActivities));
-      } catch (error) {
-          console.error(error);
-      }
+  const changeImage = (direction: String) => {
+    if (direction === 'left') {
+      setCurrentImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+    } else {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
     }
+  };
 
-    useEffect(() => {
-      const checkIfLiked = async () => {
-          try {
-              const likedActivitiesString = await AsyncStorage.getItem('likedActivities');
-              let likedActivities = likedActivitiesString == null ? [] : JSON.parse(likedActivitiesString);
-              const index = likedActivities?.findIndex((activity: IActivity) => activity.id === data.id);
-              setIsLiked(index !== -1); // If index is not found, its value is -1, so the activity is not liked since it would be false
-          } catch (error) {
-              console.error(error);
-          }
-      };
-      checkIfLiked();
-    }, []);
+  const handleLike = async () => {
+    try {
+        const likedActivitiesString = await AsyncStorage.getItem('likedActivities');
+        let likedActivities = likedActivitiesString == null ? [] : JSON.parse(likedActivitiesString);
+        const index = likedActivities.findIndex((activity: IActivity) => activity.id === data.id);
+        if(index !== -1) {
+            likedActivities.splice(index, 1);
+            setIsLiked(false);
+        } else {
+            likedActivities.push(data);
+            setIsLiked(true);
+        }
+        await AsyncStorage.setItem('likedActivities', JSON.stringify(likedActivities));
+    } catch (error) {
+        console.error(error);
+    }
+  }
 
+  useEffect(() => {
+    const checkIfLiked = async () => {
+        try {
+            const likedActivitiesString = await AsyncStorage.getItem('likedActivities');
+            let likedActivities = likedActivitiesString == null ? [] : JSON.parse(likedActivitiesString);
+            const index = likedActivities?.findIndex((activity: IActivity) => activity.id === data.id);
+            setIsLiked(index !== -1); // If index is not found, its value is -1, so the activity is not liked since it would be false
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    checkIfLiked();
+  }, []);
+
+  useEffect(() => {
+    if (data?.images.length > 0 ) {
+      Promise.all(
+        data.images.map((imageKey) => Storage.get(imageKey, {level: 'public'}))
+      )
+        .then((fetchedImages) => {
+          setImages(fetchedImages);
+        })
+        .catch((error) => {
+          console.error('Error fetching images', error);
+        });
+    } else {
+      setImages(default_images)
+    }
+  }, [data]);
   return (
     <View style={styles.container}>
       <View style={styles.card}>
-      <Image style={styles.image} source={{uri: images[currentImageIndex]}} contentFit="cover" transition={0} />
+      <Image
+        style={styles.image}
+        source={{uri: images[0]}}
+        contentFit="cover"
+        transition={0}
+        placeholder={blurhash}
+      />
       <View style={styles.indexButtonContainer}>
         { images.length > 1 && images.map( (_, index) => (
           <View key={index} style={{
@@ -107,11 +130,11 @@ const activityCard = ({data}: IActivityCardProps) => {
             <Text
               style={styles.title}
               numberOfLines={1}
-              onPress={navigateToactivityDetails}
+              onPress={navigateToActivityDetails}
             >
               { data?.name }
             </Text>
-            <Pressable onPress={navigateToactivityDetails}>
+            <Pressable onPress={navigateToActivityDetails}>
               <Ionicons name="md-information-circle-sharp" size={36} color={colors.primary} style={styles.profileIcon} />
             </Pressable>
           </View>
@@ -133,7 +156,7 @@ const activityCard = ({data}: IActivityCardProps) => {
           <Text
             numberOfLines={1}
             style={styles.subCategoryText}
-            onPress={navigateToactivityDetails}
+            onPress={navigateToActivityDetails}
           >
             {data?.subcategories!= "" ? data?.subcategories : 'Autre/Non renseigné'}
           </Text>
@@ -144,7 +167,7 @@ const activityCard = ({data}: IActivityCardProps) => {
           <Text
             style={styles.object}
             numberOfLines={2}
-            onPress={navigateToactivityDetails}
+            onPress={navigateToActivityDetails}
           >
             {data?.shortDescription ? data?.shortDescription?.charAt(0).toUpperCase() + data?.shortDescription?.slice(1) : "L'activité n'a pas de description"}
           </Text>
@@ -156,10 +179,10 @@ const activityCard = ({data}: IActivityCardProps) => {
             <AntIcons name={isLiked ? "heart" : "hearto"} size={25} color={colors.primary} style={{textAlign: 'center', paddingBottom: 15}} />
           </Pressable>
         </View>
-        <Text style={{color: colors.dark, position: 'absolute', bottom: 15, left: 20, fontSize: 12}} onPress={navigateToactivityDetails}>Essai gratuit</Text>
+        <Text style={{color: colors.dark, position: 'absolute', bottom: 15, left: 20, fontSize: 12}} onPress={navigateToActivityDetails}>Essai gratuit</Text>
 
         <View style={{display: 'flex', flexDirection: 'row',}}>
-          <Text style={{color: colors.primary, position: 'absolute', bottom: 15, right: 20, fontSize: 12}} onPress={navigateToactivityDetails}><Ionicons name="checkmark-circle-outline" color={colors.primary} size={13}> Essai gratuit</Ionicons></Text>
+          <Text style={{color: colors.primary, position: 'absolute', bottom: 15, right: 20, fontSize: 12}} onPress={navigateToActivityDetails}><Ionicons name="checkmark-circle-outline" color={colors.primary} size={13}> Essai gratuit</Ionicons></Text>
         </View>
       </LinearGradient>
     </View>

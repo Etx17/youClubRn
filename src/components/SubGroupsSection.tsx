@@ -26,8 +26,8 @@ const SubGroupsSection = (subGroups, activityId) => {
             </LinearGradient>
         ))}
         {/* {user?.role === 'club' && (
-          <Pressable onPress={() => navigation.navigate('NewSubGroup', {activityId: activityId, refetchClubData: refetch})} style={styles.addActivityButton}>
-              <Text style={{fontSize: 24, color: colors.primary,}}> + </Text>
+          <Pressable onPress={() => navigation.navigate('NewSubGroup', {activityId: activityId, refetchActivityData: refetchActivityData()})} style={styles.addActivityButton}>
+              <Text style={{fontSize: 17, color: colors.primary}}> + Ajouter</Text>
           </Pressable>
         )} */}
 
@@ -54,8 +54,8 @@ const styles = StyleSheet.create({
   },
   addActivityButton: {
     marginTop: 10,
-    fontSize: 24,
-    paddingVertical: 0,
+    fontSize: 14,
+    paddingVertical: 3,
     alignSelf: 'flex-start',
     paddingHorizontal: 10,
     alignItems: 'center',
@@ -63,8 +63,9 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     borderColor: colors.primary,
     borderWidth: 1,
-    width: "100%",
+    width: "auto",
     marginHorizontal: 4,
+    paddingEnd: 16,
   },
 });
 
