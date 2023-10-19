@@ -8,6 +8,7 @@ export const ActivitySchema = z.object({
     // category: z.string(),
     // subcategory: z.string(),
     description: z.string().min(10).max(500).optional(),
+    shortDescription: z.string().min(5).max(100).optional(),
     images: z.array(z.string()).optional(),
     // email: z.string(),
     // phone: z.string(),
@@ -24,8 +25,7 @@ export const ActivitySchema = z.object({
     // created_at: z.string(),
     // updated_at: z.string(),
     // deleted_at: z.string(),
-    
+
 });
 
 export type Activity = z.infer<typeof ActivitySchema>;
-

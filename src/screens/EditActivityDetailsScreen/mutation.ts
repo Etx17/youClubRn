@@ -8,6 +8,7 @@ export const UPDATE_ACTIVITY = gql`
       category
       subcategories
       fullDescription
+      shortDescription
       freeTrial
       address
       images

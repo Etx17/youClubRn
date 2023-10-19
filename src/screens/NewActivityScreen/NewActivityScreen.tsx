@@ -19,17 +19,8 @@ const NewActivityScreen = () => {
   const { control, handleSubmit, setValue, formState: { errors } } = useForm<Activity>({
     resolver: zodResolver(ActivitySchema),
   });
-  const pricingTypes = [
-    { label: "Mensuel", key: "monthly" },
-    { label: "Annuel", key: "yearly" },
-    { label: "Semestriel", key: "semiYearly" },
-    { label: "Trimestriel", key: "quarterly" },
-    { label: "Carnet de tickets", key: "ticketBook" },
-    { label: "À l'unité", key: "perUnit" },
-    { label: "Forfaits sur mesure", key: "customPackages" },
-    { label: "Pass", key: "pass" },
-    { label: "Autre", key: "other" },
-  ];
+
+  
   console.log(errors);
   const [dropdownValue, setDropdownValue] = useState("Sports, activités de plein air");
   const [isImagePickerVisible, setImagePickerVisible] = useState(false);
@@ -100,14 +91,14 @@ const NewActivityScreen = () => {
   const saveAndGoToActivity = (data: any) => {
     if (isSubmitting) { return }
     setIsSubmitting(true);
-
+    console.log(data.shortDescription)
     const activityObj = {
       clubId: clubId,
       category: dropdownValue,
       name: data.name,
       subcategories: subCategoryDropdownValue,
       freeTrial: hasFreeTrial,
-      shortDescription: 'TO DO remove work in progress',
+      shortDescription: data.shortDescription,
       fullDescription: data.description,
       images: imagesKeys,
     }
@@ -210,6 +201,14 @@ const NewActivityScreen = () => {
                 name="description"
                 label="Description"
                 placeholder="Description de l'activité"
+                multiline
+              />
+
+              <ControlledInput
+                control={control}
+                name="shortDescription"
+                label="Courte Description"
+                placeholder="Pour le profil de l'activité"
                 multiline
               />
 

@@ -90,6 +90,7 @@ export default function EditActivityDetailsScreen() {
   useEffect(() => {
     setValue('name', activityData.name)
     setValue('description', activityData.fullDescription)
+    setValue('shortDescription', activityData.shortDescription)
     setValue('hasFreeTrial', activityData.freeTrial)
     setValue('address', activityData.address)
     setValue('website', activityData.website)
@@ -256,6 +257,13 @@ export default function EditActivityDetailsScreen() {
               label="Description"
               multiline
             />
+
+            <ControlledInput
+              control={control}
+              name="shortDescription"
+              label="Courte Description"
+              multiline
+            />
 {/*
             <ControlledInput
               control={control}
@@ -287,34 +295,7 @@ export default function EditActivityDetailsScreen() {
               )}
             />
 
-            {/* <Controller
-              control={control}
-              name={"pricingTypes"}
-              render={({
-                field: { value, onChange, onBlur },
-                fieldState: { error, invalid },
-              }) => (
-                <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
-                  <Text>Types de tarification disponibles</Text>
-                  {pricingTypes.map(({ label, key }) => (
-                      <Checkbox.Item
-                        key={key}
-                        label={label}
-                        status={checkedItems[key] ? 'checked' : 'unchecked'}
-                        onPress={() => handleCheck(key, onChange)}
-                        style={{ padding: 0, margin: 0 }}
-                        labelStyle={{
-                          borderColor: checkedItems[key] ? colors.dark : 'gray',
-                          borderWidth: 1.5,
-                          borderRadius: 5,
-                          paddingHorizontal: 8,
-                          backgroundColor: checkedItems[key] ? colors.primary : 'lightgray',
-                        }}
-                      />
-                    ))}
-                </View>
-              )}
-            /> */}
+
           </Card.Content>
         </Card>
         <Button style={{marginBottom: 30}} onPress={handleSubmit(saveAndGoBack)}mode='elevated' textColor='black'>Enregistrer</Button>
