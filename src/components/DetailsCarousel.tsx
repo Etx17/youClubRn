@@ -19,6 +19,7 @@ const DetailsCarousel = ({ images, currentImageIndex, changeImage }: IDetailsCar
           style={styles.image}
           source={{uri: images[currentImageIndex]}}
           contentFit="cover"
+          cachePolicy="memory-disk"
           transition={0}
           onLoadStart={() => setIsLoading(true)}
           onLoadEnd={() => setIsLoading(false)}

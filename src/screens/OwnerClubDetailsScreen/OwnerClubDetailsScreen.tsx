@@ -83,6 +83,8 @@ const OwnerClubDetailsScreen = () => {
         changeImage={changeImage}
       />
 
+      
+
 
       <View style={styles.contentContainer}>
         <Pressable onPress={() => navigation.navigate('EditClub', {clubData: data?.clubByUserId, images})} style={styles.stickyButton}>
