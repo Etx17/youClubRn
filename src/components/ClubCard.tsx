@@ -39,9 +39,13 @@ const ClubCard = ({data}: IClubCardProps) => {
   const subCategory = data["subcategory"]
   const category = data["category"]
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const default_image = `https://source.unsplash.com/random/?${categoryImages[category][subCategory][0]}/300x100/`
+  const default_image = `https://source.unsplash.com/random/?random/300x100/`
   const [imageIsLoading, setImageIsLoading] = useState(false);
   useEffect(() => {
+    if(data?.images?.length > 0 && data?.images[0].startsWith('https://')){
+      setImages(data.images)
+      return
+    }
     if (data?.images.length > 0 ) {
       setImageIsLoading(true);
       Promise.all(
