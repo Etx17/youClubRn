@@ -43,6 +43,7 @@ const EditSubGroupScheduleScreen = () => {
   };
 
   const handleDeleteTimeSlot = async (id: any) => {
+    console.log('delete timeslot')
     try {
       await deleteTimeSlot({ variables: { id: id } })
     } catch(e) {
@@ -192,6 +193,10 @@ const EditSubGroupScheduleScreen = () => {
                 )}
                 <Button onPress={() => {
                   if (!!field.isNew) {
+                    // delete the field from the state array of timeslots
+                    console.log(field),
+                    console.log(timeslots)
+                    setTimeslots(timeslots.filter(timeslot => timeslot !== field))
                   } else {
                     handleDeletePress(field.id); // Assuming `id` is the correct identifier
                   }
