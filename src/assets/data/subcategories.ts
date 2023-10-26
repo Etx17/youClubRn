@@ -6,7 +6,6 @@ interface ISubcategories {
   }
 const subcategories: ISubcategories = {
     "Sports, activités de plein air": [
-        // { label: "🏎️ Sports mécaniques (sport automobile, moto, trial)", value: "Sports mécaniques (sport automobile, moto, trial)" },
         { label: "Toutes", value: "all" },
         { label: "⚽ Football (football, futsal)", value: "Football (football, futsal)" },
         { label: "🤸 Gymnastique (gymnastique, gymnastique d’entretien, éducation physique, yoga), aérobic", value: "Gymnastique (gymnastique, gymnastique d’entretien, éducation physique, yoga), aérobic" },
@@ -46,7 +45,9 @@ const subcategories: ISubcategories = {
         { label: "🚣 Aviron, canoë kayak (aviron, rafting, canoë kayak, joutes)", value: "Aviron, canoë kayak (aviron, rafting, canoë kayak, joutes)" },
         { label: "🤺 Escrime", value: "Escrime" },
         { label: "🏒 Hockey sur glace, sports de glace", value: "hockey sur glace, sports de glace" },
-        { label: "💪 Haltérophilie", value: "Haltérophilie" }
+        { label: "💪 Haltérophilie", value: "Haltérophilie" },
+        { label: "🏸 Badminton (badminton, squash, pelote basque)", value: "Badminton (badminton, squash, pelote basque)" },
+        { label: "Non categorisé", value: "Non categorisé" }
     ],
     "culture, pratiques d’activités artistiques, culturelles": [
         { label: "🎤 Chant choral et musique", value: "chant choral, musique" },
