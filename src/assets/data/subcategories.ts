@@ -7,6 +7,7 @@ interface ISubcategories {
 const subcategories: ISubcategories = {
     "Sports, activités de plein air": [
         { label: "Toutes", value: "all" },
+        { label: "Non catégorisé", value: "all" },
         { label: "⚽ Football (football, futsal)", value: "Football (football, futsal)" },
         { label: "🤸 Gymnastique (gymnastique, gymnastique d’entretien, éducation physique, yoga), aérobic", value: "Gymnastique (gymnastique, gymnastique d’entretien, éducation physique, yoga), aérobic" },
         { label: "🥋 Autres arts martiaux (karaté, aïkido, taekwondo)", value: "Autres arts martiaux (karaté, aïkido, taekwondo)" },

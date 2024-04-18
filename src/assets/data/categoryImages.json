@@ -1,5 +1,6 @@
 {
     "Sports, activités de plein air": {
+        "Non catégorisé": ["sport", "exercise", "training"],
         "Sports mécaniques (sport automobile, moto, trial)": ["driving", "car", "circuit"],
         "Badminton (badminton, squash, pelote basque)": ["shuttlecock", "squash", "racket"],
         "Football (football, futsal)": ["soccer", "football", "indoor"],
@@ -43,6 +44,7 @@
         "Haltérophilie": ["weightlifting", "powerlifting", "strength"]
     },
     "Culture, pratiques d’activités artistiques, culturelles": {
+        "Non catégorisé": ["random", "random", "random"],
         "Chant choral, musique": ["choir", "music", "performance"],
         "Promotion de l’art et des artistes": ["promotion", "art", "artist"],
         "Théâtre, marionnettes, cirque, spectacles de variété": ["theater", "puppetry", "circus"],
@@ -58,6 +60,7 @@
         "Arts de la rue": ["artist", "juggler", "performance"]
     },
     "Amicales, groupements affinitaires, groupes d’entraide (hors défense de droits fondamentaux": {
+        "Non catégorisé": ["random", "random", "random"],
         "Groupements d’entraide et de solidarité": "support",
         "Amicale de personnes originaires d’un même pays (hors défense des droits des étrangers)": "ethnic",
         "Organisation de professions (hors caractère syndical)": "professional",
@@ -87,6 +90,7 @@
         "Maisons familiales rurales": ["rural", "education", "support"]
     },
     "Clubs de loisirs, relations": {
+        "Non catégorisé": ["random", "random", "random"],
         "Échanges locaux, réseaux d'échanges": ["exchange", "sharing", "community"],
         "Activités festives (soirées…)": ["parties", "celebration", "entertainment"],
         "Relaxation, sophrologie": ["relaxation", "mindfulness", "meditation"],
@@ -105,6 +109,7 @@
         "Radioamateurs": ["radio", "amateur radio", "communication"]
     },
     "Environnement, cadre de vie": {
+        "Non catégorisé": ["random", "random", "random"],
         "Défense et amélioration du cadre de vie": ["protection", "renovation", "community"],
         "Actions de sensibilisation et d'éducation à l'environnement et au développement durable": ["education", "sustainability", "awareness"],
         "Protection des animaux": ["animals", "wildlife", "preservation"],
@@ -149,6 +154,7 @@
         "Développement du bénévolat": ["volunteering", "service", "community"]
     },
     "Santé": {
+        "Non catégorisé": ["random", "random", "random"],
         "Accompagnement, aide aux malades": ["support", "care", "companionship"],
         "Organisation de professions médicales ou paramédicales": ["medicine", "healthcare", "services"],
         "Recherche médicale": ["research", "study", "analysis"],

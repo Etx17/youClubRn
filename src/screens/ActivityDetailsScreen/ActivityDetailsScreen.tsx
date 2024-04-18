@@ -57,7 +57,8 @@ interface ActivityDetailsParams {
     timeSlots: [{ start_time: string, end_time: string}]
   }
 
-  type ActivityDetailsRoute = RouteProp<Record<string, ActivityDetailsParams>, string>;
+type ActivityDetailsRoute = RouteProp<Record<string, ActivityDetailsParams>, string>;
+
 const ActivityDetailsScreen = () => {
   const { user } = useAuthContext();
   const navigation = useNavigation()

@@ -25,24 +25,39 @@ const activityCard = ({data}: IActivityCardProps) => {
   const [isLiked, setIsLiked] = useState(false);
   const navigation = useNavigation();
   const {lat, lon} = useLocationContext()
+  console.log(data["geoPoint"], data.geoPoint)
 
   const activityLat = parseFloat(data?.geoPoint?.split(',')[0])
   const activityLon = parseFloat(data?.geoPoint?.split(',')[1])
   const distance = getDistance(lat, lon, activityLat, activityLon )
+  console.log(distance)
   const formattedDistance = distance.toFixed(1).toString() + ' km';
 
   const category =  data?.category || 'Autre/Non renseigné';
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const subcategories = data?.subcategories?.split('###')[0] || 'Autre/Non renseigné';
+  console.log(data.subcategories)
+  let subcategories;
+  try {
+    // Attempt to parse the subcategories if it's a string that looks like an array
+    subcategories = typeof data?.subcategories === 'string' ? JSON.parse(data.subcategories) : data?.subcategories;
+  } catch (e) {
+    // If parsing fails, set a default value
+    subcategories = ['Autre/Non renseigné'];
+  }
 
+  // Log to see what subcategories are after parsing/attempts to parse
+  console.log(subcategories, "Parsed subcategories");
+
+  console.log(categoryImages[category][subcategories], "this is the potential undefined")
   const default_images = [
     `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subcategories][0] : 'random'}/300/200`,
   ];
-  const blurhash = '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
 
+
+  const blurhash = '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
   const navigateToActivityDetails = () => {
     navigation.navigate('ActivityDetails', {activityData: data, images, darkTheme: true});
-    // Alert.alert('Désolé, cette fonctionnalité n\'est pas encore disponible')
+    Alert.alert('Désolé, cette fonctionnalité n\'est pas encore disponible')
   }
 
   const changeImage = (direction: String) => {

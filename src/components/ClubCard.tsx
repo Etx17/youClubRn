@@ -29,6 +29,7 @@ const ClubCard = ({data}: IClubCardProps) => {
   const [isLiked, setIsLiked] = useState(false);
   const navigation = useNavigation();
   const {lat, lon} = useLocationContext()
+  console.log(data["geoPoint"], "data geopoint")
   const clubLat = parseFloat(data["geoPoint"]?.split(',')[0])
   const clubLon = parseFloat(data["geoPoint"].split(',')[1])
   const distance = getDistance(lat, lon, clubLat, clubLon )

@@ -6,7 +6,7 @@ export const GET_CLUBS_BY_ZIPCODE = gql`
       name
       objet
       category
-      subcategory
+      subcategories
       categoryNumber
       subcategoryNumber
       geoPoint
