@@ -100,6 +100,7 @@ const ActivityDetailsScreen = () => {
       });
     }
   }, [data])
+  console.log(data)
 
   const changeImage = (direction: String) => {
     if (direction === 'left') {

@@ -30,9 +30,12 @@ const ClubCard = ({data}: IClubCardProps) => {
   const navigation = useNavigation();
   const {lat, lon} = useLocationContext()
   console.log(data["geoPoint"], "data geopoint")
-  const clubLat = parseFloat(data["geoPoint"]?.split(',')[0])
-  const clubLon = parseFloat(data["geoPoint"].split(',')[1])
+  const geoPoints = data["geoPoint"] ? data["geoPoint"].split(',') : [];
+  const clubLat = parseFloat(geoPoints[0]) || 0; // Fallback to 0 if parsing fails or is NaN
+  const clubLon = parseFloat(geoPoints[1]) || 0;
   const distance = getDistance(lat, lon, clubLat, clubLon )
+  console.log(distance);
+
   const formattedDistance = distance.toFixed(1).toString() + ' km';
   const titre = data["name"]
   const objet = data["objet"]

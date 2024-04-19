@@ -20,22 +20,19 @@ interface IActivityCardProps {
   data: any
 }
 const activityCard = ({data}: IActivityCardProps) => {
-
+  console.log(data)
   const [images, setImages] = useState([]);
   const [isLiked, setIsLiked] = useState(false);
   const navigation = useNavigation();
   const {lat, lon} = useLocationContext()
-  console.log(data["geoPoint"], data.geoPoint)
 
   const activityLat = parseFloat(data?.geoPoint?.split(',')[0])
   const activityLon = parseFloat(data?.geoPoint?.split(',')[1])
   const distance = getDistance(lat, lon, activityLat, activityLon )
-  console.log(distance)
   const formattedDistance = distance.toFixed(1).toString() + ' km';
 
   const category =  data?.category || 'Autre/Non renseigné';
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  console.log(data.subcategories)
   let subcategories;
   try {
     // Attempt to parse the subcategories if it's a string that looks like an array

@@ -80,15 +80,14 @@ const SubGroupCardItem = ({subgroup, onDeletePress, refetchActivityData }) => {
 
         {/* Tarifications */}
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start', marginBottom: 20 }}>
-        {subgroup?.tarifications.map((tarif: string, index: number) => (
-          <View key={index} style={styles.tag}>
-            <Text style={{color: 'white'}}>
-              {tarif}
-            </Text>
-          </View>
-        ))}
-
-      </View>
+          {subgroup?.tarifications.map((tarification: any, index: number) => (
+            <View key={index} style={styles.tag}>
+              <Text style={{color: 'white'}}>
+                {tarification.amount}€ / {tarification.recurrence}  {/* Accessing amount property of tarification object */}
+              </Text>
+            </View>
+          ))}
+        </View>
 
           {/* Schedules */}
         <View style={{flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', flexWrap: 'wrap'}}>
