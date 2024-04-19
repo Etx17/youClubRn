@@ -1,6 +1,7 @@
 export const formatDate = (isoString: string): string => {
-  const date = new Date(isoString);
-  const hours = String(date.getHours()).padStart(2, '0');
-  const minutes = String(date.getMinutes()).padStart(2, '0');
-  return `${hours}:${minutes}`;
+  // Extract the time part before the " UTC" suffix
+  const timePart = isoString.split(' ')[1]; // Splits the string by spaces and picks the second element, which is the time
+  const [hours, minutes] = timePart.split(':'); // Further splits the time part to get hours and minutes
+
+  return `${hours}:${minutes}`; // Returns the formatted time in HH:MM format
 }

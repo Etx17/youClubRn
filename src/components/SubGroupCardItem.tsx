@@ -55,6 +55,7 @@ const SubGroupCardItem = ({subgroup, onDeletePress, refetchActivityData }) => {
     />
     )
   }
+  console.log(subgroup?.schedules[0], '<--- SUBGROUP.SCHEDULES[0]')
   return (
       <View style={{marginVertical: 10, padding: 10, borderWidth: 1, borderColor: 'gray', borderRadius: 10, backgroundColor: colors.text }}>
         <Text style={styles.subCategoryTag}>{subgroup.name}</Text>

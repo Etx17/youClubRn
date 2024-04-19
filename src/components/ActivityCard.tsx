@@ -45,9 +45,18 @@ const activityCard = ({data}: IActivityCardProps) => {
   // Log to see what subcategories are after parsing/attempts to parse
   console.log(subcategories, "Parsed subcategories");
 
-  console.log(categoryImages[category][subcategories], "this is the potential undefined")
+  const getCategoryImage = (category:string, subcategories:string) => {
+    try {
+      if (categoryImages[category] && categoryImages[category][subcategories]) {
+        return categoryImages[category][subcategories][0];
+      }
+    } catch (error) {
+      console.warn("Error accessing category image:", error);
+    }
+    return 'random';
+  };
   const default_images = [
-    `https://source.unsplash.com/random/?${categoryImages[category] ? categoryImages[category][subcategories][0] : 'random'}/300/200`,
+    `https://source.unsplash.com/random/?${getCategoryImage(category, subcategories)}/300/200`
   ];
 
 
