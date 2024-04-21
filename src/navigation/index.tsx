@@ -15,8 +15,6 @@ import { useAuthContext } from '../contexts/AuthContext';
 import { LocationPicker } from '../components/LocationPicker';
 import { useLocationContext } from '../contexts/LocationContext';
 import * as Location from 'expo-location';
-import axios from 'axios';
-import { StatusBar } from 'expo-status-bar';
 
 type Location = {
     latitude: number;
@@ -29,8 +27,6 @@ const CustomHeader = () => {
     const { updateLocation } = useLocationContext();
     const [currentCity, setCurrentCity] = React.useState<string | null>('');
     const handleLocationSelected = async (location: Location) => {
-        // updateLocation(newLocation, newCity, newRegion, newSubregion);
-        // Update the context
         Location.reverseGeocodeAsync(location).then((response) => {
            console.log(response[0]);
 
@@ -53,7 +49,7 @@ const CustomHeader = () => {
         <Image source={require('../assets/images/logoyouclub.png')} style={{width: 100, height: 25}} />
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Text style={{color: colors.grayDarkest}}>{currentCity}</Text>
-            <LocationPicker onLocationSelected={handleLocationSelected} />
+            <LocationPicker onLocationSelected={handleLocationSelected} size={22} />
         </View>
       </View>
     )

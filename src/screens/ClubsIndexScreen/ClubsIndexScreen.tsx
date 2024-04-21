@@ -12,7 +12,13 @@ import { Pressable } from 'react-native';
 import colors from '../../themes/colors';
 import { useQuery } from '@apollo/client';
 import { GET_CLUBS_BY_ZIPCODE } from './queries';
+import { LocationPicker } from '../../components/LocationPicker';
+import * as Location from 'expo-location';
 
+type Location = {
+  latitude: number;
+  longitude: number;
+};
 interface IClub {
 
   objet: string;
@@ -50,7 +56,7 @@ const ClubsIndexScreen = () => {
     if (error) {
       console.error("GraphQL Error:", error);
     }
-  }, [data, error])
+  }, [data, error, reload])
 
 
   const handleDropdownValueChange = (valuecat: string) => {
@@ -67,9 +73,19 @@ const ClubsIndexScreen = () => {
     }
   };
 
-  const handleReload = () => {
-    setReload(true);
-  };
+
+  const { updateLocation } = useLocationContext();
+  const handleLocationSelected = async (location: Location) => {
+    Location.reverseGeocodeAsync(location).then((response) => {
+        const newLocation = {
+            coords: {
+            latitude: location.latitude,
+            longitude:location.longitude
+            }
+        };
+        updateLocation(newLocation, response[0].postalCode, response[0].city, response[0].region, response[0].subregion);
+      });
+    };
 
 return (
 
@@ -110,18 +126,15 @@ return (
         <View style={styles.loading}>
 
         { city ? (
-          <View>
-          <Text >Aucun club trouvé.</Text>
-          <Pressable style={styles.reloadButton} onPress={handleReload}>
-          <Text style={styles.reloadButtonText}>Reload</Text>
-          </Pressable>
+          <View style={{display: 'flex', justifyContent: 'center', alignItems: "center", gap: 10}}>
+            <Text style={{color: 'gray'}}>Aucun club trouvé à {city} 🥲</Text>
+            <Text style={{color: 'gray'}}>Touchez pour choisir votre location</Text>
+
+            <LocationPicker onLocationSelected={handleLocationSelected} size={40} />
           </View>
         ) : (
           <View>
-          <ActivityIndicator size="large" color="#0000ff" />
-          <Pressable style={styles.reloadButton} onPress={handleReload}>
-          <Text style={styles.reloadButtonText}>Reload</Text>
-          </Pressable>
+            <ActivityIndicator size="large" color="#0000ff" />
           </View>
         )}
         </View>

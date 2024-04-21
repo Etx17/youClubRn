@@ -44,7 +44,7 @@ const AuthContextProvider = ({children}: {children: ReactNode}) => {
                 setCognitoUser({email: user.attributes.email, sub: user.attributes.sub});
               })
         } catch (e) {
-            console.warn('cognito user not found :(')
+            // console.warn('cognito user not found :(')
             // setUser(null)
         }
     }

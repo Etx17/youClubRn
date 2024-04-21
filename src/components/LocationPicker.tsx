@@ -13,7 +13,7 @@ type LocationPickerProps = {
   onLocationSelected: (location: Location) => void;
 };
 
-export const LocationPicker = ({ onLocationSelected }: any) => {
+export const LocationPicker = ({ onLocationSelected, size }: any) => {
   const insets = useSafeAreaInsets();
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState<Location | null>({
@@ -34,7 +34,7 @@ export const LocationPicker = ({ onLocationSelected }: any) => {
   return (
     <>
       <Pressable style={{marginRight: 10}} onPress={() => setModalVisible(true)}>
-        <Ionicons name="location-sharp" size={24} color="black" />
+        <Ionicons name="location-sharp" size={size} color="black" />
       </Pressable>
       <Modal
         animationType="slide"
